@@ -1,0 +1,25 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Form\FormViewModel;
+use Yireo\LokiComponents\Util\Block\BlockRenderer;
+use Yireo\LokiComponents\Util\Block\ChildRenderer;
+
+/** @var Template $block */
+/** @var FormViewModel $viewModel */
+/** @var BlockRenderer $blockRenderer */
+/** @var ChildRenderer $childRenderer */
+?>
+<div class="loki-form form">
+    <?= $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
+
+    <div class="page-columns">
+        <div class="main-col">
+            <?= $blockRenderer->html($block, 'loki-admin.form.spinner') ?>
+            <?= $blockRenderer->html($block, 'loki-admin.form.inner') ?>
+            <?= $childRenderer->html($block, 'inner') ?>
+        </div>
+    </div>
+</div>
+

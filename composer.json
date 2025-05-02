@@ -1,0 +1,21 @@
+{
+  "name": "yireo/magento2-loki-admin-components",
+  "version": "0.0.1",
+  "description": "N/A",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "yireo/magento2-loki-components": "^1.0"
+  },
+  "license": [
+    "Open Software License (OSL)"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Yireo\\LokiAdminComponents\\": ""
+    }
+  }
+}

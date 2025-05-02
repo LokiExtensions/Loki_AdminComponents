@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Catalog\Api\Data\ProductInterface;
+use Yireo\LokiAdminComponents\ViewModel\ProductImage;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+
+/** @var Magento\Framework\View\Element\Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var ProductImage $productImage */
+/** @var ProductInterface $item */
+
+$productImage = $viewModelFactory->create(ProductImage::class);
+$item = $block->getItem();
+?>
+<span class="thumbnail-container" x-data="LokiModal">
+    <span class="thumbnail-wrapper">
+        <img @click="toggleModal" class="admin__control-thumbnail" src="<?= $productImage->getThumbnailUrl($item) ?>"
+             loading="lazy" alt="<?= $item->getName() ?>"/>
+    </span>
+
+    <dialog x-ref="modal" @click="toggleModal">
+    <span class="">
+        <h2><?= $item->getName() ?></h2>
+        <img src="<?= $productImage->getImageUrl($item) ?>" loading="lazy" alt="<?= $item->getName() ?>"/>
+    </span>
+    </dialog>
+</span>

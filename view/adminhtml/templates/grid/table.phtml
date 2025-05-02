@@ -1,0 +1,68 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+/** @var TemplateRenderer $templateRenderer */
+
+$viewModel = $block->getViewModel();
+$cellTemplates = $viewModel->getCellTemplates();
+?>
+<div class="admin__data-grid-wrap" data-role="grid-wrapper">
+    <table class="data-grid" data-role="grid">
+        <thead>
+        <tr>
+            <?php
+            foreach ($viewModel->getColumns() as $code => $label): ?>
+                <th class="data-grid-th">
+                    <span class="data-grid-cell-content"><?= __($label) ?></span>
+                </th>
+            <?php
+            endforeach; ?>
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content"><?= __('Actions') ?></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $i = 0; ?>
+        <?php foreach ($viewModel->getItems() as $item): ?>
+            <?php $cellActions = $viewModel->getCellActions($item); ?>
+            <?php $trClass = ($i % 2 === 1) ? '_odd-row' : '_even-row'; ?>
+            <tr class="data-row <?= $trClass ?>">
+                <?php foreach ($viewModel->getColumns() as $propertyName => $label): ?>
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
+                            <?php $value = $viewModel->getValueFromItem($item, $propertyName); ?>
+                            <?php if (isset($cellTemplates[$propertyName])): ?>
+                                <?= $templateRenderer->html($block, $cellTemplates[$propertyName], [
+                                    'item' => $item,
+                                    'value' => $value
+                                ]) ?>
+                            <?php else: ?>
+                                <?= $value ?>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                <?php endforeach; ?>
+                <td class="data-grid-cell">
+                    <div class="data-grid-cell-content">
+                        <ul>
+                            <?php foreach ($cellActions as $cellAction): ?>
+                                <li>
+                                    <a href="<?= $cellAction->getUrl() ?>"><?= $cellAction->getLabel() ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <?php $i++; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

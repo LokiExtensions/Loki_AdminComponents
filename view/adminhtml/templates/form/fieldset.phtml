@@ -1,0 +1,17 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+?>
+<div class="entry-edit form-inline">
+    <div class="fieldset-wrapper">
+        <h1><?= $block->getLabel() ?></h1>
+        <div class="admin__fieldset-wrapper-content">
+            <fieldset class="admin__fieldset">
+                <?= $block->getChildHtml() ?>
+            </fieldset>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+$viewModel = $block->getViewModel();
+
+$limits = [5, 10, 20, 30, 50, 100, 200]; // @todo: Move this into a viewModel
+$totalPages = $viewModel->getTotalPages();
+$page = $viewModel->getPage();
+?>
+<div style="display: inline-block">
+    <div class="selectmenu">
+        <div class="selectmenu-value">
+            <input :value="limit" @change="changeLimit" type="text" aria-labelledby="per-page-text"
+                   id="product_listing.product_listing.listing_top.listing_paging_sizes">
+        </div>
+
+        <button @click="toggleLimitOptions" class="selectmenu-toggle" type="button"
+                aria-labelledby="per-page-text select-button-text">
+            <span id="select-button-text"><?= __('Select') ?></span>
+        </button>
+
+        <div x-cloak x-show="showLimitOptions" class="selectmenu-items">
+            <ul>
+                <?php foreach ($limits as $limit): ?>
+                    <li>
+                        <div class="selectmenu-item">
+                            <button
+                                @click="setLimitFromElement"
+                                data-limit="<?= $limit ?>"
+                                class="selectmenu-item-action"
+                                type="button">
+                                <?= $limit ?>
+                            </button>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <label class="admin__control-support-text" id="per-page-text"
+           for="product_listing.product_listing.listing_top.listing_paging_sizes"><?= __('per page') ?></label>
+
+    <style>
+        .loki-grid .selectmenu-items {
+            display: block;
+        }
+    </style>
+</div>

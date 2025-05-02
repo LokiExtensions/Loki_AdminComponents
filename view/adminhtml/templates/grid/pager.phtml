@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+use Yireo\LokiComponents\Util\Block\ChildRenderer;
+
+/** @var Template $block */
+/** @var ChildRenderer $childRenderer */
+/** @var GridViewModel $viewModel */
+$viewModel = $block->getViewModel();
+?>
+<div class="admin__data-grid-pager-wrap">
+    <?= $childRenderer->html($block, 'limit') ?>
+    <?= $childRenderer->html($block, 'pagination') ?>
+</div>

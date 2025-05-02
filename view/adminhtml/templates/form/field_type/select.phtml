@@ -1,0 +1,33 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Fieldset\Field;
+use Yireo\LokiAdminComponents\Form\Fieldset\FieldType\Select;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Select $fieldType */
+/** @var OptionSourceInterface $options */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$parentBlock = $field->getBlock();
+$options = $parentBlock->getOptions();
+$fieldType = $field->getFieldType();
+?>
+<select
+    aria-label="<?= $field->getLabel() ?>"
+    class="admin__control-select"
+    name="<?= $field->getCode() ?>"
+    <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>
+    <?php if ($parentBlock->getSize()) : ?>size="<?= $parentBlock->getSize() ?>"<?php endif; ?>
+    :value="item.<?= $field->getCode() ?>"
+    @change="setValue"
+>
+    <?php foreach ($options->toOptionArray() as $option) : ?>
+        <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+    <?php endforeach; ?>
+</select>

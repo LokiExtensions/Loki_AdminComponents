@@ -1,0 +1,68 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Form\FormViewModel;
+use Yireo\LokiAdminComponents\Form\Fieldset\Field;
+use Yireo\LokiComponents\Util\Block\ChildRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var FormViewModel $viewModel */
+/** @var ChildRenderer $childRenderer */
+
+$viewModel = $block->getViewModel();
+$formActions = $viewModel->getFormActions();
+
+
+$mainSaveAction = false;
+$otherSaveActions = [];
+?>
+<div class="page-main-actions">
+    <div class="page-actions-placeholder"></div>
+    <div class="page-actions">
+        <div class="page-actions-inner">
+            <div class="page-actions-buttons">
+                <?php foreach ($formActions as $formAction) : ?>
+                    <?php $subActions = $formAction->getSubActions(); ?>
+                    <button
+                        @click="<?= $formAction->getAlpineMethod() ?>"
+                        title="<?= __($formAction->getLabel()) ?>"
+                        type="button"
+                        class="action- scalable <?= $formAction->getCssClass() ?>">
+                        <span><?= __($formAction->getLabel()) ?></span>
+                    </button>
+                <?php endforeach; ?>
+
+                <?php if (!empty($otherSaveActions)) : ?>
+                    <div title="Save and Continue" class="actions-split save primary">
+                        <button @click="saveAndContinueAction" title="Save and Continue" class="action-default primary">
+                            <span>Save and Continue</span>
+                        </button>
+
+                        <button @click="toggleOtherActions" title="Save and Continue"
+                                class="action-toggle primary save">
+                            <span>Select</span>
+                        </button>
+
+                        <ul class="dropdown-menu" x-cloak x-show="showOtherActions">
+                            <?php foreach ($otherSaveActions as $otherSaveAction): ?>
+                                <li>
+                            <span @click="saveAndDuplicateAction" title="Save &amp; Duplicate" class="item">
+                                Save &amp; Duplicate
+                            </span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .loki-form .dropdown-menu {
+            display: block;
+        }
+    </style>
+</div>

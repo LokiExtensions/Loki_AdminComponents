@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <update handle="loki_components"/>
+
+    <body>
+        <block
+            name="loki-admin.grid.table"
+            template="Yireo_LokiAdminComponents::grid/table.phtml"/>
+
+        <block
+            name="loki-admin.grid.actions"
+            template="Yireo_LokiAdminComponents::grid/actions.phtml">
+        </block>
+
+        <block
+            name="loki-admin.grid.search"
+            template="Yireo_LokiAdminComponents::grid/search.phtml">
+        </block>
+
+        <block
+            name="loki-admin.grid.spinner"
+            template="Yireo_LokiAdminComponents::grid/spinner.phtml">
+        </block>
+
+        <block
+            name="loki-admin.grid.pager"
+            template="Yireo_LokiAdminComponents::grid/pager.phtml">
+            <block
+                name="loki-admin.grid.pager.limit" as="limit"
+                template="Yireo_LokiAdminComponents::grid/pager/limit.phtml">
+            </block>
+
+            <block
+                name="loki-admin.grid.pager.pagination" as="pagination"
+                template="Yireo_LokiAdminComponents::grid/pager/pagination.phtml">
+            </block>
+        </block>
+
+        <block
+            name="loki-admin.grid.records"
+            template="Yireo_LokiAdminComponents::grid/records.phtml">
+        </block>
+
+        <referenceContainer name="loki-component-types">
+            <block
+                name="loki-admin.script.component.grid-component-type" as="grid"
+                template="Yireo_LokiAdminComponents::script/component-type/grid-component-type.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="loki-components">
+            <block
+                name="loki-admin.script.component.grid-component" as="grid"
+                template="Yireo_LokiAdminComponents::script/component/grid-component.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

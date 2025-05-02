@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+?>
+<div class="page-main-actions">
+    <div class="page-actions">
+        <div class="page-actions-inner">
+            <div class="page-actions-buttons">
+                <?= $block->getChildHtml() ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Fieldset\Field;
+use Yireo\LokiAdminComponents\ViewModel\FieldViewModel;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var TemplateRenderer $templateRenderer */
+/** @var ViewModelFactory $viewModelFactory */
+
+$fieldViewModel = $viewModelFactory->create(FieldViewModel::class);
+$field = $fieldViewModel->getField($block);
+?>
+<div class="admin__field">
+    <div class="admin__field-label">
+        <label for="<?= $field->getCode() ?>">
+            <span><?= $field->getLabel() ?></span>
+        </label>
+    </div>
+
+    <div class="admin__field-control">
+        <?= $templateRenderer->html(
+            $block,
+            $field->getFieldType()->getTemplate(),
+            ['field' => $field]
+        ) ?>
+    </div>
+</div>

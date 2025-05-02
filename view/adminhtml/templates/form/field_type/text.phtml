@@ -1,0 +1,25 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Fieldset\Field;
+use Yireo\LokiAdminComponents\Form\Fieldset\FieldType\Text;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Text $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldType = $field->getFieldType();
+?>
+<input
+    class="admin__control-text"
+    type="<?= $fieldType->getInputType() ?>"
+    name="<?= $field->getCode() ?>"
+    placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
+    maxlength="<?= $fieldType->getMaximumLength() ?>"
+    :value="item.<?= $field->getCode() ?>"
+    @change="setValue"
+>

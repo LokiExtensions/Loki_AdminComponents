@@ -1,0 +1,41 @@
+<script>
+    const LokiAdminGridComponentType = {
+        ...LokiComponentType,
+        showLimitOptions: false,
+        toggleLimitOptions() {
+            this.showLimitOptions = !this.showLimitOptions;
+        },
+        newAction() {
+            window.location.href = this.newUrl;
+        },
+        changeSearch(event) {
+            if (!event) {
+                return;
+            }
+            this.post({search: event.target.value});
+        },
+        changeLimit(event) {
+            if (!event) {
+                return;
+            }
+
+            this.post({limit: event.target.value});
+        },
+        setLimitFromElement(event) {
+            this.post({limit: event.target.getAttribute('data-limit')});
+        },
+        changePage(event) {
+            if (!event) {
+                return;
+            }
+
+            this.post({page: event.target.value});
+        },
+        nextPage() {
+            this.post({page: this.page + 1});
+        },
+        previousPage(event) {
+            this.post({page: this.page - 1});
+        }
+    }
+</script>

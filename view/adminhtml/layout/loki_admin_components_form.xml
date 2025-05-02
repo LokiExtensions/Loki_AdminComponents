@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <update handle="loki_components"/>
+
+    <body>
+        <block
+            name="loki-admin.form.actions"
+            template="Yireo_LokiAdminComponents::form/actions.phtml">
+        </block>
+
+        <block
+            name="loki-admin.form.spinner"
+            template="Yireo_LokiAdminComponents::form/spinner.phtml">
+        </block>
+
+        <block
+            name="loki-admin.form.inner"
+            template="Yireo_LokiAdminComponents::form/inner.phtml">
+        </block>
+
+        <referenceContainer name="loki-component-types">
+            <block
+                name="loki-admin.script.component.form-component-type" as="form"
+                template="Yireo_LokiAdminComponents::script/component-type/form-component-type.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="loki-components">
+            <block
+                name="loki-admin.script.component.form-component" as="form"
+                template="Yireo_LokiAdminComponents::script/component/form-component.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,55 @@
+<script>
+    const LokiAdminFormComponentType = {
+        ...LokiComponentType,
+        showOtherActions: false,
+        toggleOtherActions() {
+            this.showOtherActions = !this.showOtherActions;
+        },
+        closeAction() {
+            //window.location.href= this.indexUrl;
+            this.post({
+                actions: ['close'],
+            });
+        },
+        saveAndContinueAction() {
+            this.post({
+                actions: ['save'],
+                item: this.item,
+            });
+        },
+        saveAndDuplicateAction() {
+            this.post({
+                actions: ['save', 'duplicate', 'close'],
+                item: this.item,
+            });
+        },
+        saveAndCloseAction() {
+            this.post({
+                actions: ['save', 'close'],
+                item: this.item,
+            });
+        },
+        deleteAction() {
+            this.post({
+                actions: ['delete', 'close'],
+                item: this.item,
+            });
+        },
+        setValue(event) {
+            let propertyValue;
+            if (event.target.tagName.toLowerCase() === 'select' && event.target.multiple) {
+                propertyValue = [];
+                Object.values(event.target.options).forEach((option) => {
+                    if (option.selected) {
+                        propertyValue.push(option.value);
+                    }
+                })
+            } else {
+                propertyValue = event.target.value;
+            }
+
+            const propertyName = event.target.getAttribute('name');
+            this.item[propertyName] = propertyValue;
+        }
+    }
+</script>
