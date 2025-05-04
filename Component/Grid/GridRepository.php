@@ -2,28 +2,57 @@
 
 namespace Yireo\LokiAdminComponents\Component\Grid;
 
-use Yireo\LokiAdminComponents\Grid\GridDataProvider\GridDataProviderInterface;
+use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\View\Element\AbstractBlock;
 use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
+use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver;
 use Yireo\LokiComponents\Component\ComponentRepository;
 
-/**
- * @method GridViewModel getViewModel()
- */
 class GridRepository extends ComponentRepository
 {
     public function __construct(
         private State $state,
+        private ProviderHandlerResolver $providerHandlerResolver,
+        private ObjectManagerInterface $objectManager,
     ) {
     }
 
+    // @todo: Remove the requirement for this
     public function getValue(): mixed
     {
-        return $this->getDataProvider()->getItems();
+        return $this->getItems();
     }
 
-    public function getDataProvider(): GridDataProviderInterface
+    public function getItems(): array
     {
-        return $this->getComponent()->getViewModel()->getDataProvider();
+        $this->state->setSearchableFields((array)$this->getBlock()->getSearchableFields());
+
+        return $this->getProviderHandler()->getItems($this->getProvider(), $this->state);
+    }
+
+    private function getProvider()
+    {
+        $providerClass = $this->getBlock()->getProvider();
+        $provider = $this->objectManager->get($providerClass);
+
+        if (!empty($provider)) {
+            return $provider;
+        }
+
+        throw new \RuntimeException('Empty provider "'.$providerClass.'"');
+    }
+
+    private function getBlock(): AbstractBlock
+    {
+        return $this->getComponent()->getViewModel()->getBlock();
+    }
+
+    private function getProviderHandler(): ProviderHandlerInterface
+    {
+        $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
+
+        return $this->providerHandlerResolver->resolve($providerHandlerName);
     }
 
     public function saveValue(mixed $value): void

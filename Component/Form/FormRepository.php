@@ -4,24 +4,30 @@ namespace Yireo\LokiAdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\View\Element\AbstractBlock;
 use Yireo\LokiAdminComponents\Component\Form\FormRepository\ActionInterface;
-use Yireo\LokiAdminComponents\Form\FormDataProvider\FormDataProviderInterface;
+use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
+use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver;
 use Yireo\LokiComponents\Component\ComponentRepository;
 
 class FormRepository extends ComponentRepository
 {
     public function __construct(
         private RequestInterface $request,
+        private ProviderHandlerResolver $providerHandlerResolver,
+        private ObjectManagerInterface $objectManager,
         private array $actions = []
     ) {
     }
 
-    public function getDataProvider(): FormDataProviderInterface
+    // @todo: Remove the need for this
+    public function getValue(): mixed
     {
-        return $this->getComponent()->getViewModel()->getDataProvider();
+        return $this->getItem();
     }
 
-    public function getValue(): mixed
+    public function getItem(): DataObject
     {
         $idParam = (string)$this->getComponent()->getViewModel()->getBlock()->getIdParam();
         if (empty($idParam)) {
@@ -30,8 +36,9 @@ class FormRepository extends ComponentRepository
 
         $id = (int)$this->request->getParam($idParam);
 
-        return $this->getDataProvider()->getItem($id);
+        return $this->getProviderHandler()->getItem($this->getProvider(), $id);
     }
+
 
     public function saveValue(mixed $value): void
     {
@@ -53,19 +60,54 @@ class FormRepository extends ComponentRepository
     public function getItemFromData(array $data): DataObject
     {
         if (!isset($data['item'][$this->getPrimaryKey()])) {
-            return $this->getDataProvider()->create();
+            return $this->getFactory()->create();
         }
 
         $id = (int)$data['item'][$this->getPrimaryKey()];
-        return $this->getDataProvider()->getItem($id);
+
+        return $this->getProviderHandler()->getItem($this->getProvider(), $id);
     }
 
     public function getPrimaryKey(): string
     {
-        if (method_exists($this->getDataProvider(), 'getPrimaryKey')) {
-            return call_user_func([$this->getDataProvider(), 'getPrimaryKey']);
-        }
+        // @todo: Make this configurable
 
         return 'id';
+    }
+
+    private function getProvider()
+    {
+        $providerClass = $this->getBlock()->getProvider();
+        $provider = $this->objectManager->get($providerClass);
+
+        if (!empty($provider)) {
+            return $provider;
+        }
+
+        throw new \RuntimeException('Empty provider "'.$providerClass.'"');
+    }
+
+    private function getFactory()
+    {
+        $factoryClass = $this->getBlock()->getFactory();
+        $factory = $this->objectManager->get($factoryClass);
+
+        if (!empty($factory)) {
+            return $factory;
+        }
+
+        throw new \RuntimeException('Empty provider "'.$factoryClass.'"');
+    }
+
+    private function getBlock(): AbstractBlock
+    {
+        return $this->getComponent()->getViewModel()->getBlock();
+    }
+
+    private function getProviderHandler(): ProviderHandlerInterface
+    {
+        $providerHandlerName = (string)$this->getComponent()->getViewModel()->getBlock()->getProviderHandler();
+
+        return $this->providerHandlerResolver->resolve($providerHandlerName);
     }
 }

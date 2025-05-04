@@ -6,7 +6,6 @@ use Magento\Framework\DataObject;
 use Magento\Framework\UrlFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
-use Yireo\LokiAdminComponents\Grid\GridDataProvider\GridDataProviderInterface;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 use Yireo\LokiComponents\Util\CamelCaseConvertor;
@@ -24,11 +23,6 @@ class GridViewModel extends ComponentViewModel
     ) {
     }
 
-    public function getDataProvider(): GridDataProviderInterface
-    {
-        return $this->getBlock()->getDataProvider()->setBlock($this->getBlock());
-    }
-
     public function getSearchableFields(): array
     {
         return $this->getBlock()->getSearchableFields();
@@ -39,7 +33,7 @@ class GridViewModel extends ComponentViewModel
      */
     public function getItems(): array
     {
-        return $this->getRepository()->getValue();
+        return $this->getRepository()->getItems();
     }
 
     public function getValueFromItem(DataObject $item, mixed $propertyName): mixed

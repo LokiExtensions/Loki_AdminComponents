@@ -12,6 +12,8 @@ class State
     private int $totalItems = 0;
     private string $search = '';
 
+    private array $searchableFields = [];
+
     public function __construct(
         private Session $session
     ) {
@@ -96,5 +98,15 @@ class State
     {
         // @todo: Save this under a specific prefix
         $this->session->setData($name, $value);
+    }
+
+    public function getSearchableFields(): array
+    {
+        return $this->searchableFields;
+    }
+
+    public function setSearchableFields(array $searchableFields): void
+    {
+        $this->searchableFields = $searchableFields;
     }
 }

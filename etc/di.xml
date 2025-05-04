@@ -20,4 +20,16 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver">
+        <arguments>
+            <argument name="providerHandlers" xsi:type="array">
+                <item name="repository" xsi:type="object">Yireo\LokiAdminComponents\ProviderHandler\RepositoryHandler</item>
+                <!--
+                <item name="collection" xsi:type="object">Yireo\LokiAdminComponents\ProviderHandler\CollectionHandler</item>
+                <item name="array" xsi:type="object">Yireo\LokiAdminComponents\ProviderHandler\ArrayHandler</item>
+                -->
+            </argument>
+        </arguments>
+    </type>
 </config>
