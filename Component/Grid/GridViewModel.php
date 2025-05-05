@@ -98,6 +98,7 @@ class GridViewModel extends ComponentViewModel
             'status' => 'Yireo_LokiAdminComponents::grid/cell/status.phtml',
             'type_id' => 'Yireo_LokiAdminComponents::grid/cell/product_type.phtml',
             'attribute_set_id' => 'Yireo_LokiAdminComponents::grid/cell/attribute_set_id.phtml',
+            'name' => 'Yireo_LokiAdminComponents::grid/cell/name.phtml',
         ];
     }
 
