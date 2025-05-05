@@ -63,6 +63,7 @@ class GridViewModel extends ComponentViewModel
             ...parent::getJsData(),
             ...$this->state->toArray(),
             'newUrl' => $this->getNewUrl(),
+            'columns' => array_keys($this->getColumns()),
             'indexUrl' => $this->getIndexUrl(),
         ];
     }

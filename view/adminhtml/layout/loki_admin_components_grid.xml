@@ -53,5 +53,12 @@
                 name="loki-admin.script.component.grid-component" as="grid"
                 template="Yireo_LokiAdminComponents::script/component/grid-component.phtml"/>
         </referenceContainer>
+
+        <referenceBlock name="loki-components.alpinejs">
+            <block
+                name="loki-components.alpine-plugin-sort"
+                template="Yireo_LokiAdminComponents::script/alpine-sort.phtml"
+            />
+        </referenceBlock>
     </body>
 </page>

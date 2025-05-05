@@ -1,6 +1,7 @@
 <script>
     const LokiAdminGridComponentType = {
         ...LokiComponentType,
+        columns: {},
         showLimitOptions: false,
         toggleLimitOptions() {
             this.showLimitOptions = !this.showLimitOptions;
@@ -36,6 +37,9 @@
         },
         previousPage(event) {
             this.post({page: this.page - 1});
+        },
+        sortColumns(item, position) {
+            console.log('Sorting columns', item, position, this.$item, this.$position, this.columns);
         }
     }
 </script>

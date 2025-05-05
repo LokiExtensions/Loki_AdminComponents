@@ -1,0 +1,10 @@
+<?php
+declare(strict_types=1);
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+?>
+<script defer src="<?= $escaper->escapeUrl($block->getViewFileUrl("Yireo_LokiAdminComponents::js/alpine-sort.min.js")) ?>"></script>
