@@ -6,10 +6,7 @@
             this.showOtherActions = !this.showOtherActions;
         },
         closeAction() {
-            //window.location.href= this.indexUrl;
-            this.post({
-                actions: ['close'],
-            });
+            window.location.href= this.indexUrl;
         },
         saveAndContinueAction() {
             this.post({
@@ -50,6 +47,10 @@
 
             const propertyName = event.target.getAttribute('name');
             this.item[propertyName] = propertyValue;
+        },
+        toggleValueByClick(event) {
+            const propertyName = event.target.getAttribute('data-name');
+            this.item[propertyName] =  !this.item[propertyName];;
         }
     }
 </script>

@@ -1,0 +1,37 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Field\Field;
+use Yireo\LokiAdminComponents\Form\Field\FieldType\Select;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Select $fieldType */
+/** @var OptionSourceInterface $options */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$parentBlock = $field->getBlock();
+$options = $parentBlock->getOptions();
+$fieldType = $field->getFieldType();
+?>
+<div class="admin__actions-switch">
+    <input
+        type="checkbox"
+        class="admin__actions-switch-checkbox"
+        :checked="item.<?= $field->getCode() ?>"
+        @change="setValue"
+    >
+    <label
+        class="admin__actions-switch-label"
+        @click="toggleValueByClick"
+        data-name="<?= $field->getCode() ?>"
+        data-value="item.<?= $field->getCode() ?>"
+    >
+        <span class="admin__actions-switch-text" x-show="item.<?= $field->getCode() ?>">Yes</span>
+        <span class="admin__actions-switch-text" x-show="!item.<?= $field->getCode() ?>">No</span>
+    </label>
+</div>

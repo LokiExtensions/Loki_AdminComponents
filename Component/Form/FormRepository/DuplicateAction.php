@@ -14,13 +14,12 @@ class DuplicateAction implements ActionInterface
 
     public function execute(FormRepository $formRepository, array $value): void
     {
-        $primaryKey = $formRepository->getPrimaryKey();
-        $dataProvider = $formRepository->getDataProvider();
+        $provider = $formRepository->getProvider();
+        $providerHandler = $formRepository->getProviderHandler();
 
-        $id = (int)$value['item'][$primaryKey];
-        $item = $dataProvider->getItem($id);
+        $item = $formRepository->getItemFromData($value);
+        $providerHandler->duplicateItem($provider, $item);
 
-        $dataProvider->duplicate($item);
         $this->messageManager->addSuccessMessage('Item has been duplicated');
     }
 }

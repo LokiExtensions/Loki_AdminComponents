@@ -10,7 +10,11 @@ interface ProviderHandlerInterface
 {
     public function getItem($provider, string|int $identifier): DataObject;
 
+    public function getItems($provider, GridState $gridState): array;
+
     public function saveItem($provider, DataObject $item);
 
-    public function getItems($provider, GridState $gridState): array;
+    public function deleteItem($provider, DataObject $item);
+
+    public function duplicateItem($provider, DataObject $item);
 }

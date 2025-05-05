@@ -18,7 +18,8 @@ class SaveAction implements ActionInterface
     public function execute(FormRepository $formRepository, array $value): void
     {
         $primaryKey = $formRepository->getPrimaryKey();
-        $dataProvider = $formRepository->getDataProvider();
+        $provider = $formRepository->getProvider();
+        $providerHandler = $formRepository->getProviderHandler();
 
         $item = $formRepository->getItemFromData($value);
 
@@ -27,10 +28,15 @@ class SaveAction implements ActionInterface
                 continue;
             }
 
+            if (is_array($propertyValue)) {
+                // @todo: Fix this because it breaks a lot of logic
+                continue;
+            }
+
             $this->setItemPropertyValue($item, $propertyKey, $propertyValue);
         }
 
-        $dataProvider->save($item);
+        $providerHandler->saveItem($provider, $item);
         $this->messageManager->addSuccessMessage('Item saved');
     }
 

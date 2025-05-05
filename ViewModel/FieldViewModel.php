@@ -4,8 +4,8 @@ namespace Yireo\LokiAdminComponents\ViewModel;
 
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Yireo\LokiAdminComponents\Form\Fieldset\Field;
-use Yireo\LokiAdminComponents\Form\Fieldset\FieldFactory;
+use Yireo\LokiAdminComponents\Form\Field\Field;
+use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
 
 class FieldViewModel implements ArgumentInterface
 {

@@ -68,6 +68,7 @@ class FormRepository extends ComponentRepository
         return $this->getProviderHandler()->getItem($this->getProvider(), $id);
     }
 
+    // @todo: Can this be private?
     public function getPrimaryKey(): string
     {
         // @todo: Make this configurable
@@ -75,7 +76,7 @@ class FormRepository extends ComponentRepository
         return 'id';
     }
 
-    private function getProvider()
+    public function getProvider()
     {
         $providerClass = $this->getBlock()->getProvider();
         $provider = $this->objectManager->get($providerClass);
@@ -96,7 +97,7 @@ class FormRepository extends ComponentRepository
             return $factory;
         }
 
-        throw new \RuntimeException('Empty provider "'.$factoryClass.'"');
+        throw new \RuntimeException('Empty factory "'.$factoryClass.'"');
     }
 
     private function getBlock(): AbstractBlock
@@ -104,7 +105,7 @@ class FormRepository extends ComponentRepository
         return $this->getComponent()->getViewModel()->getBlock();
     }
 
-    private function getProviderHandler(): ProviderHandlerInterface
+    public function getProviderHandler(): ProviderHandlerInterface
     {
         $providerHandlerName = (string)$this->getComponent()->getViewModel()->getBlock()->getProviderHandler();
 

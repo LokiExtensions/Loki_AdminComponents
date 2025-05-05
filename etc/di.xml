@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Yireo\LokiAdminComponents\Form\Fieldset\FieldTypeProvider">
+    <type name="Yireo\LokiAdminComponents\Form\Field\FieldTypeProvider">
         <arguments>
             <argument name="fieldTypes" xsi:type="array">
-                <item name="text" xsi:type="object">Yireo\LokiAdminComponents\Form\Fieldset\FieldType\Text</item>
-                <item name="select" xsi:type="object">Yireo\LokiAdminComponents\Form\Fieldset\FieldType\Select</item>
+                <item name="text" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Text</item>
+                <item name="select" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Select</item>
+                <item name="switch" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Switcher</item>
             </argument>
         </arguments>
     </type>
@@ -16,7 +17,6 @@
                 <item name="save" xsi:type="object">Yireo\LokiAdminComponents\Component\Form\FormRepository\SaveAction</item>
                 <item name="delete" xsi:type="object">Yireo\LokiAdminComponents\Component\Form\FormRepository\DeleteAction</item>
                 <item name="duplicate" xsi:type="object">Yireo\LokiAdminComponents\Component\Form\FormRepository\DuplicateAction</item>
-                <item name="close" xsi:type="object">Yireo\LokiAdminComponents\Component\Form\FormRepository\CloseAction</item>
             </argument>
         </arguments>
     </type>

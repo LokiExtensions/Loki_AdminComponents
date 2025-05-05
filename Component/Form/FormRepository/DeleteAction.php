@@ -14,13 +14,12 @@ class DeleteAction implements ActionInterface
 
     public function execute(FormRepository $formRepository, array $value): void
     {
-        $primaryKey = $formRepository->getPrimaryKey();
-        $dataProvider = $formRepository->getDataProvider();
+        $provider = $formRepository->getProvider();
+        $providerHandler = $formRepository->getProviderHandler();
 
-        $id = (int)$value['item'][$primaryKey];
-        $item = $dataProvider->getItem($id);
+        $item = $formRepository->getItemFromData($value);
+        $providerHandler->deleteItem($provider, $item);
 
-        $dataProvider->delete($item);
         $this->messageManager->addWarningMessage('Item deleted');
     }
 }

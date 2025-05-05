@@ -33,7 +33,35 @@ class RepositoryHandler implements ProviderHandlerInterface
         return $searchResults->getItems();
     }
 
-    protected function getSearchCriteriaBuilder(GridState $gridState): SearchCriteriaBuilder
+    public function getItem($provider, int|string $identifier): DataObject
+    {
+        if (method_exists($provider, 'getById')) {
+            return call_user_func([$provider, 'getById'], $identifier);
+        }
+
+        if (method_exists($provider, 'get')) {
+            return call_user_func([$provider, 'get'], $identifier);
+        }
+
+        throw new RuntimeException('Repository has no method we know of.');
+    }
+
+    public function saveItem($provider, DataObject $item): void
+    {
+        $provider->save($item);
+    }
+
+    public function deleteItem($provider, DataObject $item): void
+    {
+        $provider->delete($item);
+    }
+
+    public function duplicateItem($provider, DataObject $item): void
+    {
+        $provider->duplicate($item);
+    }
+
+    private function getSearchCriteriaBuilder(GridState $gridState): SearchCriteriaBuilder
     {
         $this->searchCriteriaBuilder->setPageSize($gridState->getLimit());
         $this->searchCriteriaBuilder->setCurrentPage($gridState->getPage());
@@ -47,7 +75,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         return $this->searchCriteriaBuilder;
     }
 
-    protected function getFilterGroups(GridState $gridState): array
+    private function getFilterGroups(GridState $gridState): array
     {
         $filterGroups = [];
 
@@ -59,7 +87,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         return $filterGroups;
     }
 
-    protected function getSearchFilterGroup(GridState $gridState): ?FilterGroup
+    private function getSearchFilterGroup(GridState $gridState): ?FilterGroup
     {
         $search = $gridState->getSearch();
         if (empty($search)) {
@@ -76,15 +104,5 @@ class RepositoryHandler implements ProviderHandlerInterface
         }
 
         return $this->filterGroupBuilder->setFilters($filters)->create();
-    }
-
-    public function getItem($provider, int|string $identifier): DataObject
-    {
-        // TODO: Implement getItem() method.
-    }
-
-    public function saveItem($provider, DataObject $item)
-    {
-        // TODO: Implement saveItem() method.
     }
 }
