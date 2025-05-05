@@ -33,6 +33,14 @@ class State
 
     public function getPage(): int
     {
+        if ($this->page > $this->getTotalPages()) {
+            $this->page = $this->getTotalPages();
+        }
+
+        if ($this->page < 1) {
+            $this->page = 1;
+        }
+
         return $this->page;
     }
 
