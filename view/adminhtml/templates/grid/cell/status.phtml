@@ -1,0 +1,15 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Catalog\Api\Data\ProductInterface;
+use Yireo\LokiAdminComponents\ViewModel\Status;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+
+/** @var Magento\Framework\View\Element\Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var ProductInterface $item */
+/** @var Status $status */
+
+$status = $viewModelFactory->create(Status::class);
+?>
+<span><?= $status->getLabel($block->getValue()) ?></span>

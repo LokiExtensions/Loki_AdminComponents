@@ -22,8 +22,8 @@ $cellTemplates = $viewModel->getCellTemplates();
                 <th class="data-grid-th" x-sort:item="columns.<?= $code ?>">
                     <span class="data-grid-cell-content"><?= __($label) ?></span>
                 </th>
-            <?php
-            $i++;
+                <?php
+                $i++;
             endforeach; ?>
             <th class="data-grid-th">
                 <span class="data-grid-cell-content"><?= __('Actions') ?></span>
@@ -43,10 +43,12 @@ $cellTemplates = $viewModel->getCellTemplates();
                             <?php if (isset($cellTemplates[$propertyName])): ?>
                                 <?= $templateRenderer->html($block, $cellTemplates[$propertyName], [
                                     'item' => $item,
-                                    'value' => $value
+                                    'value' => $value,
                                 ]) ?>
                             <?php else: ?>
+                                <a href="<?= $viewModel->getRowAction($item)->getUrl() ?>">
                                 <?= $value ?>
+                                </a>
                             <?php endif; ?>
                         </div>
                     </td>

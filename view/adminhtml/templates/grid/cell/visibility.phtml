@@ -1,0 +1,17 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Catalog\Api\Data\ProductInterface;
+use Yireo\LokiAdminComponents\ViewModel\ProductImage;
+use Yireo\LokiAdminComponents\ViewModel\PriceFormatter;
+use Yireo\LokiAdminComponents\ViewModel\Visibility;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+
+/** @var Magento\Framework\View\Element\Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var ProductInterface $item */
+/** @var Visibility $visibility */
+
+$visibility = $viewModelFactory->create(Visibility::class);
+?>
+<span><?= $visibility->getLabel($block->getValue()) ?></span>

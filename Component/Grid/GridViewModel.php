@@ -92,7 +92,12 @@ class GridViewModel extends ComponentViewModel
         }
 
         return [
-            'thumbnail' => 'Yireo_LokiAdminComponents::grid/cell/product_image.phtml'
+            'thumbnail' => 'Yireo_LokiAdminComponents::grid/cell/product_image.phtml',
+            'price' => 'Yireo_LokiAdminComponents::grid/cell/price.phtml',
+            'visibility' => 'Yireo_LokiAdminComponents::grid/cell/visibility.phtml',
+            'status' => 'Yireo_LokiAdminComponents::grid/cell/status.phtml',
+            'type_id' => 'Yireo_LokiAdminComponents::grid/cell/product_type.phtml',
+            'attribute_set_id' => 'Yireo_LokiAdminComponents::grid/cell/attribute_set_id.phtml',
         ];
     }
 
@@ -100,15 +105,25 @@ class GridViewModel extends ComponentViewModel
      * @param DataObject $item
      * @return CellAction[]
      */
-    public function getCellActions(DataObject $item): array
+    protected function getAdditionalActions(DataObject $item): array
     {
-        $cellActions = [];
+        return [];
+    }
 
+    public function getRowAction(DataObject $item): CellAction
+    {
         $editUrl = $this->urlFactory->create()->getUrl('*/*/edit', [
             'id' => $item->getId(),
         ]);
 
-        $cellActions[] = $this->cellActionFactory->create($editUrl, 'Edit');
+        return $this->cellActionFactory->create($editUrl, 'Edit');
+    }
+
+    public function getCellActions(DataObject $item): array
+    {
+        $cellActions = [];
+        $cellActions[] = $this->getRowAction($item);
+        $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));
 
         return $cellActions;
     }
