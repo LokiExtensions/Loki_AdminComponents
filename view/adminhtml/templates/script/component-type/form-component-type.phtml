@@ -45,7 +45,7 @@
                 propertyValue = event.target.value;
             }
 
-            const propertyName = event.target.getAttribute('name');
+            const propertyName = event.target.getAttribute('data-name');
             this.item[propertyName] = propertyValue;
         },
         toggleValueByClick(event) {

@@ -17,7 +17,7 @@ $fieldType = $field->getFieldType();
 <input
     class="admin__control-text"
     type="<?= $fieldType->getInputType() ?>"
-    name="<?= $field->getCode() ?>"
+    data-name="<?= $field->getCode() ?>"
     placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
     maxlength="<?= $fieldType->getMaximumLength() ?>"
     :value="item.<?= $field->getCode() ?>"

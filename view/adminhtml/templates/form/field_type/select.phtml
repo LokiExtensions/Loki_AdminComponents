@@ -21,7 +21,7 @@ $fieldType = $field->getFieldType();
 <select
     aria-label="<?= $field->getLabel() ?>"
     class="admin__control-select"
-    name="<?= $field->getCode() ?>"
+    data-name="<?= $field->getCode() ?>"
     <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>
     <?php if ($parentBlock->getSize()) : ?>size="<?= $parentBlock->getSize() ?>"<?php endif; ?>
     :value="item.<?= $field->getCode() ?>"

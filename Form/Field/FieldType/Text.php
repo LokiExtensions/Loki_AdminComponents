@@ -8,7 +8,7 @@ class Text implements FieldTypeInterface
 {
     public function __construct(
         private string $inputType = 'text',
-        private int $maximumLength = 11,
+        private int $maximumLength = 255,
     ) {
     }
 
