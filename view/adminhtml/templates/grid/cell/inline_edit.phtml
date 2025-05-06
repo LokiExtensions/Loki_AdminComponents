@@ -21,7 +21,7 @@ use Yireo\LokiComponents\Factory\ViewModelFactory;
             class="admin__control-text"
             value="<?= $block->getValue() ?>"
         />
-        <button @click="toggleInlineEdit">x</button>
-        <button @click="saveInlineEdit">save</button>
+        <button class="action-close" @click="toggleInlineEdit"></button>
+        <button class="action-save" @click="saveInlineEdit">save</button>
     </span>
 </div>
