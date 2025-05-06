@@ -42,9 +42,21 @@
             template="Yireo_LokiAdminComponents::grid/records.phtml">
         </block>
 
+        <referenceContainer name="loki-component-partials">
+            <block
+                name="loki-admin.script.component-partials.pagination" as="pagination"
+                template="Yireo_LokiAdminComponents::script/component-partial/pagination-component-partial.phtml"/>
+            <block
+                name="loki-admin.script.component-partials.limit" as="limit"
+                template="Yireo_LokiAdminComponents::script/component-partial/limit-component-partial.phtml"/>
+            <block
+                name="loki-admin.script.component-partials.inline-edit" as="inline-edit"
+                template="Yireo_LokiAdminComponents::script/component-partial/inline-edit-component-partial.phtml"/>
+        </referenceContainer>
+
         <referenceContainer name="loki-component-types">
             <block
-                name="loki-admin.script.component.grid-component-type" as="grid"
+                name="loki-admin.script.component-types.grid" as="grid"
                 template="Yireo_LokiAdminComponents::script/component-type/grid-component-type.phtml"/>
         </referenceContainer>
 

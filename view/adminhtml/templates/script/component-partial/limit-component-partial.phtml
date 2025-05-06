@@ -1,0 +1,18 @@
+<script>
+    const LokiAdminLimitComponentPartial = {
+        showLimitOptions: false,
+        toggleLimitOptions() {
+            this.showLimitOptions = !this.showLimitOptions;
+        },
+        changeLimit(event) {
+            if (!event) {
+                return;
+            }
+
+            this.post({limit: event.target.value});
+        },
+        setLimitFromElement(event) {
+            this.post({limit: event.target.getAttribute('data-limit')});
+        },
+    }
+</script>

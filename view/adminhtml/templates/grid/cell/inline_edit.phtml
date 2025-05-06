@@ -11,11 +11,17 @@ use Yireo\LokiComponents\Factory\ViewModelFactory;
 /** @var PriceFormatter $priceFormatter */
 
 ?>
-<div x-data="LokiToggle">
-    <span @dblclick="toggle" x-show="shown">
+<div>
+    <span @dblclick="toggleInlineEdit" x-show="hideInlineEdit">
         <?= $block->getValue() ?>
     </span>
-    <span x-show="hidden">
-        <input type="text" class="admin__control-text" value="<?= $block->getValue() ?>"/>
+    <span x-show="showInlineEdit">
+        <input
+            type="text"
+            class="admin__control-text"
+            value="<?= $block->getValue() ?>"
+        />
+        <button @click="toggleInlineEdit">x</button>
+        <button @click="saveInlineEdit">save</button>
     </span>
 </div>

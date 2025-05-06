@@ -1,11 +1,10 @@
 <script>
     const LokiAdminGridComponentType = {
+        ...LokiAdminPaginationComponentPartial,
+        ...LokiAdminLimitComponentPartial,
+        ...LokiAdminInlineEditComponentPartial,
         ...LokiComponentType,
         columns: {},
-        showLimitOptions: false,
-        toggleLimitOptions() {
-            this.showLimitOptions = !this.showLimitOptions;
-        },
         newAction() {
             window.location.href = this.newUrl;
         },
@@ -14,29 +13,6 @@
                 return;
             }
             this.post({search: event.target.value});
-        },
-        changeLimit(event) {
-            if (!event) {
-                return;
-            }
-
-            this.post({limit: event.target.value});
-        },
-        setLimitFromElement(event) {
-            this.post({limit: event.target.getAttribute('data-limit')});
-        },
-        changePage(event) {
-            if (!event) {
-                return;
-            }
-
-            this.post({page: event.target.value});
-        },
-        nextPage() {
-            this.post({page: this.page + 1});
-        },
-        previousPage(event) {
-            this.post({page: this.page - 1});
         },
         sortColumns(item, position) {
             console.log('Sorting columns', item, position, this.$item, this.$position, this.columns);
