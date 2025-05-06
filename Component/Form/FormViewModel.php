@@ -6,7 +6,6 @@ use Magento\Framework\DataObject;
 use Magento\Framework\UrlFactory;
 use Yireo\LokiAdminComponents\Form\FormAction\FormAction;
 use Yireo\LokiAdminComponents\Form\FormAction\FormActionFactory;
-use Yireo\LokiAdminComponents\Form\FormDataProvider\FormDataProviderInterface;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 
 class FormViewModel extends ComponentViewModel
@@ -15,11 +14,6 @@ class FormViewModel extends ComponentViewModel
         protected UrlFactory $urlFactory,
         protected FormActionFactory $formActionFactory,
     ) {
-    }
-
-    public function getDataProvider(): FormDataProviderInterface
-    {
-        return $this->getBlock()->getDataProvider();
     }
 
     public function getJsComponentName(): ?string

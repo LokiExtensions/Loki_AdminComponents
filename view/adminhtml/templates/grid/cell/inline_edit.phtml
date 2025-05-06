@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 use Magento\Catalog\Api\Data\ProductInterface;
-use Yireo\LokiAdminComponents\ViewModel\ProductImage;
 use Yireo\LokiAdminComponents\ViewModel\PriceFormatter;
 use Yireo\LokiComponents\Factory\ViewModelFactory;
 
@@ -13,6 +12,10 @@ use Yireo\LokiComponents\Factory\ViewModelFactory;
 
 ?>
 <div x-data="LokiToggle">
-    <span @dblclick="toggle" x-show="shown"><?= $block->getValue() ?></span>
-    <span x-show="hidden"><input type="text" value="<?= $block->getValue() ?>"/></span>
+    <span @dblclick="toggle" x-show="shown">
+        <?= $block->getValue() ?>
+    </span>
+    <span x-show="hidden">
+        <input type="text" class="admin__control-text" value="<?= $block->getValue() ?>"/>
+    </span>
 </div>

@@ -1,0 +1,17 @@
+<script>
+    const LokiAdminPaginationComponentPartial = {
+        changePage(event) {
+            if (!event) {
+                return;
+            }
+
+            this.post({page: event.target.value});
+        },
+        nextPage() {
+            this.post({page: this.page + 1});
+        },
+        previousPage(event) {
+            this.post({page: this.page - 1});
+        }
+    }
+</script>

@@ -6,6 +6,8 @@ use Magento\Framework\DataObject;
 use Magento\Framework\UrlFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
+use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
+use Yireo\LokiAdminComponents\Grid\ColumnLoader;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 use Yireo\LokiComponents\Util\CamelCaseConvertor;
@@ -19,7 +21,9 @@ class GridViewModel extends ComponentViewModel
         private State $state,
         protected UrlFactory $urlFactory,
         protected CellActionFactory $cellActionFactory,
-        protected CamelCaseConvertor $camelCaseConvertor
+        protected CamelCaseConvertor $camelCaseConvertor,
+        protected CellTemplateResolver $cellTemplateResolver,
+        protected ColumnLoader $columnLoader,
     ) {
     }
 
@@ -70,7 +74,12 @@ class GridViewModel extends ComponentViewModel
 
     public function getColumns(): array
     {
-        return (array)$this->getBlock()->getColumns();
+        $columns = (array)$this->getBlock()->getColumns();;
+        if (!empty($columns)) {
+            return $columns;
+        }
+
+        return $this->columnLoader->getColumns('product_listing');
     }
 
     public function getIndexUrl(): string
@@ -83,23 +92,15 @@ class GridViewModel extends ComponentViewModel
         return $this->urlFactory->create()->getUrl('*/*/create');
     }
 
-    public function getCellTemplates(): array
+    public function getCellTemplate(DataObject $dataObject, string $propertyName): string
     {
         $cellTemplates = (array)$this->getBlock()->getCellTemplates();
 
-        if (!empty($cellTemplates)) {
-            return $cellTemplates;
+        if (!empty($cellTemplates) && array_key_exists($propertyName, $cellTemplates)) {
+            return (string)$cellTemplates[$propertyName];
         }
 
-        return [
-            'thumbnail' => 'Yireo_LokiAdminComponents::grid/cell/product_image.phtml',
-            'price' => 'Yireo_LokiAdminComponents::grid/cell/price.phtml',
-            'visibility' => 'Yireo_LokiAdminComponents::grid/cell/visibility.phtml',
-            'status' => 'Yireo_LokiAdminComponents::grid/cell/status.phtml',
-            'type_id' => 'Yireo_LokiAdminComponents::grid/cell/product_type.phtml',
-            'attribute_set_id' => 'Yireo_LokiAdminComponents::grid/cell/attribute_set_id.phtml',
-            'name' => 'Yireo_LokiAdminComponents::grid/cell/name.phtml',
-        ];
+        return $this->cellTemplateResolver->resolve($dataObject, $propertyName);
     }
 
     /**

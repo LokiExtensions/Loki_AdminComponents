@@ -10,7 +10,6 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 
 $viewModel = $block->getViewModel();
-$cellTemplates = $viewModel->getCellTemplates();
 ?>
 <div class="admin__data-grid-wrap" data-role="grid-wrapper">
     <table class="data-grid" data-role="grid">
@@ -39,17 +38,12 @@ $cellTemplates = $viewModel->getCellTemplates();
                 <?php foreach ($viewModel->getColumns() as $propertyName => $label): ?>
                     <td class="data-grid-cell">
                         <div class="data-grid-cell-content">
+                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $propertyName) ?>
                             <?php $value = $viewModel->getValueFromItem($item, $propertyName); ?>
-                            <?php if (isset($cellTemplates[$propertyName])): ?>
-                                <?= $templateRenderer->html($block, $cellTemplates[$propertyName], [
-                                    'item' => $item,
-                                    'value' => $value,
-                                ]) ?>
-                            <?php else: ?>
-                                <a href="<?= $viewModel->getRowAction($item)->getUrl() ?>">
-                                    <?= $value ?>
-                                </a>
-                            <?php endif; ?>
+                            <?= $templateRenderer->html($block, $cellTemplate, [
+                                'item' => $item,
+                                'value' => $value,
+                            ]) ?>
                         </div>
                     </td>
                 <?php endforeach; ?>
