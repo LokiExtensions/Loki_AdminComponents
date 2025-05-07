@@ -12,4 +12,10 @@
             }
         }));
     });
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('LokiAdminInlineEditComponent', () => ({
+            ...LokiAdminInlineEditComponentPartial
+        }));
+    });
 </script>

@@ -7,7 +7,8 @@ use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Component\Form\FormRepository\ActionInterface;
+use Yireo\LokiAdminComponents\Form\Action\ActionInterface;
+use Yireo\LokiAdminComponents\Form\Action\ActionListing;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver;
 use Yireo\LokiComponents\Component\ComponentRepository;
@@ -18,7 +19,7 @@ class FormRepository extends ComponentRepository
         private RequestInterface $request,
         private ProviderHandlerResolver $providerHandlerResolver,
         private ObjectManagerInterface $objectManager,
-        private array $actions = []
+        private ActionListing $actionListing,
     ) {
     }
 
@@ -48,13 +49,15 @@ class FormRepository extends ComponentRepository
             return;
         }
 
+        $actions = $this->actionListing->getActions();
         foreach ($value['actions'] as $actionName) {
-            if (false === array_key_exists($actionName, $this->actions)) {
+
+            if (false === array_key_exists($actionName, $actions)) {
                 continue;
             }
 
             /** @var ActionInterface $action */
-            $action = $this->actions[$actionName];
+            $action = $actions[$actionName];
             $action->execute($this, $value);
         }
     }

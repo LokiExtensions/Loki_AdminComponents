@@ -43,6 +43,7 @@ $viewModel = $block->getViewModel();
                             <?= $templateRenderer->html($block, $cellTemplate, [
                                 'item' => $item,
                                 'value' => $value,
+                                'column_name' => $propertyName,
                             ]) ?>
                         </div>
                     </td>

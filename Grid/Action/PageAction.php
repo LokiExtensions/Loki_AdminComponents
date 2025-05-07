@@ -5,7 +5,7 @@ namespace Yireo\LokiAdminComponents\Grid\Action;
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
 use Yireo\LokiAdminComponents\Grid\State;
 
-class Search implements ActionInterface
+class PageAction implements ActionInterface
 {
     public function __construct(
         private State $state,
@@ -14,10 +14,10 @@ class Search implements ActionInterface
 
     public function execute(GridRepository $gridRepository, array $value): void
     {
-        if (!isset($value['search'])) {
+        if (!isset($value['page'])) {
             return;
         }
 
-        $this->state->setSearch(trim((string)$value['search']));
+        $this->state->setPage((int)$value['page']);
     }
 }

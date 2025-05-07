@@ -5,7 +5,7 @@ namespace Yireo\LokiAdminComponents\Grid\Action;
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
 use Yireo\LokiAdminComponents\Grid\State;
 
-class Limit implements ActionInterface
+class SearchAction implements ActionInterface
 {
     public function __construct(
         private State $state,
@@ -14,10 +14,10 @@ class Limit implements ActionInterface
 
     public function execute(GridRepository $gridRepository, array $value): void
     {
-        if (!isset($value['limit'])) {
+        if (!isset($value['search'])) {
             return;
         }
 
-        $this->state->setLimit((int)$value['limit']);
+        $this->state->setSearch(trim((string)$value['search']));
     }
 }

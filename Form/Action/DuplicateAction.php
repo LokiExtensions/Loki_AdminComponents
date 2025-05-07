@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Component\Form\FormRepository;
+namespace Yireo\LokiAdminComponents\Form\Action;
 
 use Magento\Framework\Message\Manager;
 use Yireo\LokiAdminComponents\Component\Form\FormRepository;

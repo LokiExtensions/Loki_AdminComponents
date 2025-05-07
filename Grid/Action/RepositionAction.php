@@ -7,7 +7,7 @@ use Magento\Ui\Api\BookmarkRepositoryInterface;
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
 use Yireo\LokiAdminComponents\Grid\BookmarkLoader;
 
-class Reposition implements ActionInterface
+class RepositionAction implements ActionInterface
 {
     public function __construct(
         private BookmarkRepositoryInterface $bookmarkRepository,

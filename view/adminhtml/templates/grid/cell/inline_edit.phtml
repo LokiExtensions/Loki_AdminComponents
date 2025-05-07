@@ -1,27 +1,38 @@
 <?php
 declare(strict_types=1);
 
-use Magento\Catalog\Api\Data\ProductInterface;
-use Yireo\LokiAdminComponents\ViewModel\PriceFormatter;
+use Magento\Framework\DataObject;
 use Yireo\LokiComponents\Factory\ViewModelFactory;
 
 /** @var Magento\Framework\View\Element\Template $block */
 /** @var ViewModelFactory $viewModelFactory */
-/** @var ProductInterface $item */
-/** @var PriceFormatter $priceFormatter */
+/** @var DataObject $item */
 
+$item = $block->getItem();
 ?>
-<div>
+<div x-data="LokiAdminInlineEditComponent">
     <span @dblclick="toggleInlineEdit" x-show="hideInlineEdit">
         <?= $block->getValue() ?>
     </span>
+
     <span x-show="showInlineEdit">
         <input
+            x-ref="inlineEditField"
             type="text"
             class="admin__control-text"
             value="<?= $block->getValue() ?>"
         />
-        <button class="action-close" @click="toggleInlineEdit"></button>
-        <button class="action-save" @click="saveInlineEdit">save</button>
+
+        <button
+            class="action-close"
+            @click="toggleInlineEdit"
+        ></button>
+
+        <button
+            class="action-save"
+            @click="saveInlineEdit"
+            data-identifier="<?= $item->getId() ?>"
+            data-property="<?= $block->getColumnName() ?>"
+        >save</button>
     </span>
 </div>

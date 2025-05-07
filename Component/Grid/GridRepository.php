@@ -34,7 +34,14 @@ class GridRepository extends ComponentRepository
         return $this->getProviderHandler()->getItems($this->getProvider(), $this->state);
     }
 
-    private function getProvider()
+    public function getProviderHandler(): ProviderHandlerInterface
+    {
+        $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
+
+        return $this->providerHandlerResolver->resolve($providerHandlerName);
+    }
+
+    public function getProvider()
     {
         $providerClass = $this->getBlock()->getProvider();
         $provider = $this->objectManager->get($providerClass);
@@ -49,13 +56,6 @@ class GridRepository extends ComponentRepository
     private function getBlock(): AbstractBlock
     {
         return $this->getComponent()->getViewModel()->getBlock();
-    }
-
-    private function getProviderHandler(): ProviderHandlerInterface
-    {
-        $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
-
-        return $this->providerHandlerResolver->resolve($providerHandlerName);
     }
 
     public function saveValue(mixed $value): void
