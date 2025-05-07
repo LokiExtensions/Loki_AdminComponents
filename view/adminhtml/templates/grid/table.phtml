@@ -14,11 +14,11 @@ $viewModel = $block->getViewModel();
 <div class="admin__data-grid-wrap" data-role="grid-wrapper">
     <table class="data-grid" data-role="grid">
         <thead>
-        <tr x-sort.ghost="sortColumns">
+        <tr x-sort.ghost="repositionColumns">
             <?php
             $i = 1;
             foreach ($viewModel->getColumns() as $code => $label): ?>
-                <th class="data-grid-th" x-sort:item="columns.<?= $code ?>">
+                <th class="data-grid-th" x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $code ?>'">
                     <span class="data-grid-cell-content"><?= __($label) ?></span>
                 </th>
                 <?php

@@ -67,14 +67,26 @@ class GridViewModel extends ComponentViewModel
             ...parent::getJsData(),
             ...$this->state->toArray(),
             'newUrl' => $this->getNewUrl(),
-            'columns' => array_keys($this->getColumns()),
+            'columnPositions' => $this->getColumnPositions(),
             'indexUrl' => $this->getIndexUrl(),
         ];
     }
 
+    public function getColumnPositions(): array
+    {
+        $columnPositions = [];
+        $position = 0;
+        foreach ($this->getColumns() as $columnName => $columnLabel) {
+            $columnPositions[$columnName] = $position;
+            $position++;
+        }
+
+        return $columnPositions;
+    }
+
     public function getColumns(): array
     {
-        $columns = (array)$this->getBlock()->getColumns();;
+        $columns = (array)$this->getBlock()->getColumns();
         if (!empty($columns)) {
             return $columns;
         }

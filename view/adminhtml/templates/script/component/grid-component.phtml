@@ -2,6 +2,14 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminGridComponent', () => ({
             ...LokiAdminGridComponentType,
+            repositionColumns(columnName, position) {
+                // @todo: This is really hacky, because the x-sort callback is bound to Window and not the component
+                const itemParts = columnName.split('.');
+                const componentName = itemParts[0];
+                const propertyName = itemParts[1];
+                const component = Alpine.store('components').get(componentName);
+                component.post({reposition: {property: propertyName, position: position}});
+            }
         }));
     });
 </script>

@@ -4,7 +4,7 @@
         ...LokiAdminLimitComponentPartial,
         ...LokiAdminInlineEditComponentPartial,
         ...LokiComponentType,
-        columns: {},
+        columnPositions: {},
         newAction() {
             window.location.href = this.newUrl;
         },
@@ -14,8 +14,5 @@
             }
             this.post({search: event.target.value});
         },
-        sortColumns(item, position) {
-            console.log('Sorting columns', item, position, this.$item, this.$position, this.columns);
-        }
     }
 </script>
