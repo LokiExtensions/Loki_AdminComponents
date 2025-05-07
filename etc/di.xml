@@ -46,4 +46,15 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Yireo\LokiAdminComponents\Grid\Action\ActionListing">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="search" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\Search</item>
+                <item name="page" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\Page</item>
+                <item name="limit" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\Limit</item>
+                <item name="reposition" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\Reposition</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

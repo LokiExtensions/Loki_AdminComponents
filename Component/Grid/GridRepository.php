@@ -4,6 +4,7 @@ namespace Yireo\LokiAdminComponents\Component\Grid;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
+use Yireo\LokiAdminComponents\Grid\Action\ActionListing;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver;
@@ -15,6 +16,7 @@ class GridRepository extends ComponentRepository
         private State $state,
         private ProviderHandlerResolver $providerHandlerResolver,
         private ObjectManagerInterface $objectManager,
+        private ActionListing $actionListing
     ) {
     }
 
@@ -61,17 +63,8 @@ class GridRepository extends ComponentRepository
             return;
         }
 
-        if (isset($value['search'])) {
-            $search = $value['search']; // @todo: Add some security here
-            $this->state->setSearch($search);
-        }
-
-        if (isset($value['page'])) {
-            $this->state->setPage((int)$value['page']);
-        }
-
-        if (isset($value['limit'])) {
-            $this->state->setLimit((int)$value['limit']);
+        foreach ($this->actionListing->getActions() as $action) {
+            $action->execute($this, $value);
         }
     }
 }

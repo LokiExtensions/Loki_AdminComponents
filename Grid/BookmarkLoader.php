@@ -2,9 +2,10 @@
 
 namespace Yireo\LokiAdminComponents\Grid;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Ui\Api\BookmarkManagementInterface;
+use Magento\Ui\Api\Data\BookmarkInterface;
 use Magento\Ui\Api\Data\BookmarkSearchResultsInterface;
-use Magento\Ui\Api\Data\BookmarkSearchResultsInterfaceFactory;
 
 class BookmarkLoader
 {
@@ -13,26 +14,27 @@ class BookmarkLoader
     ) {
     }
 
-    public function getBookmarkData(string $namespace): array
+    public function getBookmark(string $namespace): BookmarkInterface
     {
         /** @var BookmarkSearchResultsInterface $bookmarks */
         $bookmarks = $this->bookmarkManagement->loadByNamespace($namespace);
         if ($bookmarks->getTotalCount() < 1) {
-            return [];
+            // @todo: Find out how to add new entries to table `ui_bookmark` without actual UiComponent XML
+            throw new NoSuchEntityException();
         }
 
         foreach ($bookmarks->getItems() as $bookmark) {
             if ($bookmark->isCurrent()) {
-                return $bookmark->getConfig();
+                return $bookmark;
             }
         }
 
         foreach ($bookmarks->getItems() as $bookmark) {
             if ($bookmark->getIdentifier() === 'default') {
-                return $bookmark->getConfig();
+                return $bookmark;
             }
         }
 
-        return [];
+        throw new NoSuchEntityException();
     }
 }

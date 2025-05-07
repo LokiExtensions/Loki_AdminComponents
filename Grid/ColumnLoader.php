@@ -2,6 +2,8 @@
 
 namespace Yireo\LokiAdminComponents\Grid;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class ColumnLoader
 {
     public function __construct(
@@ -16,7 +18,13 @@ class ColumnLoader
             return $flatColumns;
         }
 
-        $bookmarkData = $this->bookmarkLoader->getBookmarkData($namespace);
+        try {
+            $bookmark = $this->bookmarkLoader->getBookmark($namespace);
+            $bookmarkData = $bookmark->getData();
+        } catch (NoSuchEntityException $e) {
+            $bookmarkData = [];
+        }
+
         // @todo $bookmarkData['views']['default']['data']['paging']['options']
 
         if (false === isset($bookmarkData['views']['default']['data']['columns'])) {
