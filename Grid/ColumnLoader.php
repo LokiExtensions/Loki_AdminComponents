@@ -20,11 +20,11 @@ class ColumnLoader
 
         try {
             $bookmark = $this->bookmarkLoader->getBookmark($namespace);
-            $bookmarkData = $bookmark->getData();
+            $bookmarkData = $bookmark->getConfig();
         } catch (NoSuchEntityException $e) {
             $bookmarkData = [];
         }
-
+        
         // @todo $bookmarkData['views']['default']['data']['paging']['options']
 
         if (false === isset($bookmarkData['views']['default']['data']['columns'])) {
