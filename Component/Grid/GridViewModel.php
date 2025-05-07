@@ -91,7 +91,12 @@ class GridViewModel extends ComponentViewModel
             return $columns;
         }
 
-        return $this->columnLoader->getColumns('product_listing');
+        $namespace = (string)$this->getBlock()->getNamespace();
+        if (!$namespace) {
+            return $this->columnLoader->getColumns($namespace);
+        }
+
+        return [];
     }
 
     public function getIndexUrl(): string
