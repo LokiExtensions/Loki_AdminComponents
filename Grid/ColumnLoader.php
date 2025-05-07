@@ -24,7 +24,7 @@ class ColumnLoader
         } catch (NoSuchEntityException $e) {
             $bookmarkData = [];
         }
-        
+
         // @todo $bookmarkData['views']['default']['data']['paging']['options']
 
         if (false === isset($bookmarkData['views']['default']['data']['columns'])) {

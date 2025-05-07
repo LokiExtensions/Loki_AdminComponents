@@ -28,7 +28,8 @@ class GridRepository extends ComponentRepository
 
     public function getItems(): array
     {
-        $this->state->setSearchableFields((array)$this->getBlock()->getSearchableFields());
+        $searchableFields = $this->getComponent()->getViewModel()->getSearchableFields();
+        $this->state->setSearchableFields($searchableFields);
 
         return $this->getProviderHandler()->getItems($this->getProvider(), $this->state);
     }
