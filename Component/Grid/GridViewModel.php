@@ -92,7 +92,7 @@ class GridViewModel extends ComponentViewModel
         }
 
         $namespace = (string)$this->getBlock()->getNamespace();
-        if (!$namespace) {
+        if (!empty($namespace)) {
             return $this->columnLoader->getColumns($namespace);
         }
 
