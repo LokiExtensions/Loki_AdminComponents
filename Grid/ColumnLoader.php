@@ -72,7 +72,7 @@ class ColumnLoader
         return $flatColumns;
     }
 
-    private function getLabelByColumn(string $columnName): string
+    public function getLabelByColumn(string $columnName): string
     {
         $label = (string)__($columnName);
         if ($label !== $columnName) {

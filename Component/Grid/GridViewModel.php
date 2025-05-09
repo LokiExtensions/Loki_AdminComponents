@@ -96,7 +96,19 @@ class GridViewModel extends ComponentViewModel
             return $this->columnLoader->getColumns($namespace);
         }
 
-        return [];
+        $items = $this->getItems();
+        if (empty($items)) {
+            return [];
+        }
+
+        $item = array_shift($items);
+        $itemData = $item->getData();
+        $columns = [];
+        foreach (array_keys($itemData) as $columnName) {
+            $columns[$columnName] = $this->columnLoader->getLabelByColumn($columnName);
+        }
+
+        return $columns;
     }
 
     public function getIndexUrl(): string
