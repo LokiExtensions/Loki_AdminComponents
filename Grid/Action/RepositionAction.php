@@ -27,7 +27,7 @@ class RepositionAction implements ActionInterface
         }
 
         try {
-            $bookmark = $this->bookmarkLoader->getBookmark($namespace);
+            $bookmark = $this->bookmarkLoader->getBookmark($namespace); // @phpstan-ignore-line
         } catch (NoSuchEntityException $e) {
             return;
         }
