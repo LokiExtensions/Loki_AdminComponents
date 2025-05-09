@@ -83,14 +83,18 @@ class FormRepository extends ComponentRepository
 
     public function getProvider()
     {
-        $providerClass = $this->getBlock()->getProvider();
-        $provider = $this->objectManager->get($providerClass);
+        $provider = $this->getBlock()->getProvider();
+        if (is_object($provider)) {
+            return $provider;
+        }
+
+        $provider = $this->objectManager->get($provider);
 
         if (!empty($provider)) {
             return $provider;
         }
 
-        throw new RuntimeException('Empty provider "'.$providerClass.'"');
+        throw new \RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
     private function getFactory()
