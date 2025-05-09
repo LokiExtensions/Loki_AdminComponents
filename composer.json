@@ -9,7 +9,8 @@
     "magento/module-catalog": "^102.0 | ^103.0 | ^104.0",
     "magento/module-eav": "^100.0 | ^101.0 | ^102.0",
     "magento/module-ui": "^101.0",
-    "yireo/magento2-loki-components": "^1.0"
+    "yireo/magento2-loki-components": "^1.0",
+    "ext-json": "*"
   },
   "license": [
     "Open Software License (OSL)"
