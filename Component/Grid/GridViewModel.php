@@ -3,6 +3,8 @@
 namespace Yireo\LokiAdminComponents\Component\Grid;
 
 use Magento\Framework\DataObject;
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
@@ -24,12 +26,51 @@ class GridViewModel extends ComponentViewModel
         protected CamelCaseConvertor $camelCaseConvertor,
         protected CellTemplateResolver $cellTemplateResolver,
         protected ColumnLoader $columnLoader,
+        protected ObjectManagerInterface $objectManager
     ) {
     }
 
     public function getSearchableFields(): array
     {
-        return $this->getBlock()->getSearchableFields();
+        $searchableFields = (array)$this->getBlock()->getSearchableFields();
+        if (!empty($searchableFields)) {
+            return $searchableFields;
+        }
+
+        return $this->getSearchableFieldsFromResourceModel();
+    }
+
+    private function getSearchableFieldsFromResourceModel(): array
+    {
+        $resourceModel = $this->getResourceModel();
+        if (!$resourceModel) {
+            return [];
+        }
+
+        $searchableFields = [];
+        $fields = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
+        foreach ($fields as $field) {
+            if (in_array($field['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+                $searchableFields[] = $field['COLUMN_NAME'];
+            }
+        }
+
+        return $searchableFields;
+    }
+
+    private function getResourceModel(): ?AbstractDb
+    {
+        $resourceModelClass = $this->getBlock()->getResourceModel();
+        if (empty($resourceModelClass)) {
+            return null;
+        }
+
+        $resourceModel = $this->objectManager->get($resourceModelClass);
+        if (false === $resourceModel instanceof AbstractDb) {
+            return null;
+        }
+
+        return $resourceModel;
     }
 
     /**
@@ -43,6 +84,7 @@ class GridViewModel extends ComponentViewModel
     public function getValueFromItem(DataObject $item, mixed $propertyName): mixed
     {
         $propertyMethod = 'get'.ucfirst($this->camelCaseConvertor->toCamelCase($propertyName));
+
         return call_user_func([$item, $propertyMethod]);
     }
 
@@ -118,7 +160,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getNewUrl(): string
     {
-        return $this->urlFactory->create()->getUrl('*/*/create');
+        return $this->urlFactory->create()->getUrl('*/*/form');
     }
 
     public function getCellTemplate(DataObject $dataObject, string $propertyName): string
@@ -143,7 +185,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getRowAction(DataObject $item): CellAction
     {
-        $editUrl = $this->urlFactory->create()->getUrl('*/*/edit', [
+        $editUrl = $this->urlFactory->create()->getUrl('*/*/form', [
             'id' => $item->getId(),
         ]);
 

@@ -4,6 +4,10 @@ declare(strict_types=1);
 use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
+$value = $block->getValue();
 
+if (is_array($value)) {
+    $value = 'array';
+}
 ?>
-<?php echo $block->getValue() ?>
+<?php echo $value ?>
