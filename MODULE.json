@@ -1,0 +1,12 @@
+{
+    "modules": [
+        "Yireo_LokiComponents",
+        "Magento_Backend",
+        "Magento_Catalog",
+        "Magento_Eav",
+        "Magento_Ui"
+    ],
+    "components": [],
+    "config": [],
+    "tests": []
+}
