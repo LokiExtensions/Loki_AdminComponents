@@ -40,38 +40,6 @@ class GridViewModel extends ComponentViewModel
         return $this->getSearchableFieldsFromResourceModel();
     }
 
-    private function getSearchableFieldsFromResourceModel(): array
-    {
-        $resourceModel = $this->getResourceModel();
-        if (!$resourceModel) {
-            return [];
-        }
-
-        $searchableFields = [];
-        $fields = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
-        foreach ($fields as $field) {
-            if (in_array($field['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-                $searchableFields[] = $field['COLUMN_NAME'];
-            }
-        }
-
-        return $searchableFields;
-    }
-
-    private function getResourceModel(): ?AbstractDb
-    {
-        $resourceModelClass = $this->getBlock()->getResourceModel();
-        if (empty($resourceModelClass)) {
-            return null;
-        }
-
-        $resourceModel = $this->objectManager->get($resourceModelClass);
-        if (false === $resourceModel instanceof AbstractDb) {
-            return null;
-        }
-
-        return $resourceModel;
-    }
 
     /**
      * @return DataObject[]
@@ -174,14 +142,6 @@ class GridViewModel extends ComponentViewModel
         return $this->cellTemplateResolver->resolve($dataObject, $propertyName);
     }
 
-    /**
-     * @param DataObject $item
-     * @return CellAction[]
-     */
-    protected function getAdditionalActions(DataObject $item): array
-    {
-        return [];
-    }
 
     public function getRowAction(DataObject $item): CellAction
     {
@@ -199,5 +159,47 @@ class GridViewModel extends ComponentViewModel
         $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));
 
         return $cellActions;
+    }
+
+    /**
+     * @param DataObject $item
+     * @return CellAction[]
+     */
+    protected function getAdditionalActions(DataObject $item): array
+    {
+        return [];
+    }
+
+    private function getSearchableFieldsFromResourceModel(): array
+    {
+        $resourceModel = $this->getResourceModel();
+        if (!$resourceModel) {
+            return [];
+        }
+
+        $searchableFields = [];
+        $fields = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
+        foreach ($fields as $field) {
+            if (in_array($field['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+                $searchableFields[] = $field['COLUMN_NAME'];
+            }
+        }
+
+        return $searchableFields;
+    }
+
+    private function getResourceModel(): ?AbstractDb
+    {
+        $resourceModelClass = $this->getBlock()->getResourceModel();
+        if (empty($resourceModelClass)) {
+            return null;
+        }
+
+        $resourceModel = $this->objectManager->get($resourceModelClass);
+        if (false === $resourceModel instanceof AbstractDb) {
+            return null;
+        }
+
+        return $resourceModel;
     }
 }
