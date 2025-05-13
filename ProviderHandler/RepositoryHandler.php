@@ -35,6 +35,10 @@ class RepositoryHandler implements ProviderHandlerInterface
 
     public function getItem($provider, int|string $identifier): DataObject
     {
+        if (empty($identifier)) {
+            throw new RuntimeException('Empty identifier');
+        }
+
         if (method_exists($provider, 'getById')) {
             return call_user_func([$provider, 'getById'], $identifier);
         }
