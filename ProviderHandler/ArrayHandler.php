@@ -24,6 +24,7 @@ class ArrayHandler implements ProviderHandlerInterface
 
     public function getItems($provider, GridState $gridState): array
     {
+        // @todo: Use a new interface ArrayProvider instead
         return $provider;
     }
 

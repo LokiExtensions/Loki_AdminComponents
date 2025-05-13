@@ -2,8 +2,10 @@
 
 namespace Yireo\LokiAdminComponents\Component\Grid;
 
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
+use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\Action\ActionListing;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
@@ -37,8 +39,25 @@ class GridRepository extends ComponentRepository
     public function getProviderHandler(): ProviderHandlerInterface
     {
         $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
+        if (!empty($providerHandlerName)) {
+            return $this->providerHandlerResolver->resolve($providerHandlerName);
+        }
 
-        return $this->providerHandlerResolver->resolve($providerHandlerName);
+        $providerClass = $this->getBlock()->getProvider();
+        if (is_object($providerClass)) {
+            $providerClass = get_class($providerClass);
+        }
+
+        if (str_ends_with($providerClass, 'Repository')) {
+            return $this->providerHandlerResolver->resolve('repository');
+        }
+
+        $provider = $this->getProvider();
+        if ($provider instanceof AbstractCollection) {
+            return $this->providerHandlerResolver->resolve('collection');
+        }
+
+        throw new RuntimeException('Unknown provider type');
     }
 
     public function getProvider()
@@ -54,7 +73,7 @@ class GridRepository extends ComponentRepository
             return $provider;
         }
 
-        throw new \RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        throw new RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
     private function getBlock(): AbstractBlock
