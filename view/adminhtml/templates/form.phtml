@@ -5,11 +5,15 @@ use Magento\Framework\View\Element\Template;
 use Yireo\LokiAdminComponents\Component\Form\FormViewModel;
 use Yireo\LokiComponents\Util\Block\BlockRenderer;
 use Yireo\LokiComponents\Util\Block\ChildRenderer;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 
 /** @var Template $block */
 /** @var FormViewModel $viewModel */
 /** @var BlockRenderer $blockRenderer */
 /** @var ChildRenderer $childRenderer */
+/** @var TemplateRenderer $templateRenderer */
+
+$fields = $viewModel->getFields();
 ?>
 <div class="loki-form form">
     <?= $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
@@ -18,7 +22,23 @@ use Yireo\LokiComponents\Util\Block\ChildRenderer;
         <div class="main-col">
             <?= $blockRenderer->html($block, 'loki-admin.form.spinner') ?>
             <?= $blockRenderer->html($block, 'loki-admin.form.inner') ?>
-            <?= $childRenderer->html($block, 'inner') ?>
+
+            <div class="entry-edit form-inline">
+                <div class="fieldset-wrapper">
+                    <h1><?= $block->getLabel() ?></h1>
+                    <div class="admin__fieldset-wrapper-content">
+                        <fieldset class="admin__fieldset">
+                            <?php foreach ($fields as $field) : ?>
+                                <?= $templateRenderer->html(
+                                    $block,
+                                    'Yireo_LokiAdminComponents::form/field.phtml',
+                                    ['field' => $field]
+                                ); ?>
+                            <?php endforeach; ?>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

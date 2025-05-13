@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Magento\Framework\View\Element\Template;
-use Yireo\LokiAdminComponents\Form\Fieldset\Field;
+use Yireo\LokiAdminComponents\Form\Field\Field;
 use Yireo\LokiAdminComponents\ViewModel\FieldViewModel;
 use Yireo\LokiComponents\Factory\ViewModelFactory;
 use Yireo\LokiComponents\Util\Block\TemplateRenderer;
@@ -12,8 +12,12 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 /** @var ViewModelFactory $viewModelFactory */
 
-$fieldViewModel = $viewModelFactory->create(FieldViewModel::class);
-$field = $fieldViewModel->getField($block);
+$field = $block->getField();
+if (false === $field instanceof Field) {
+    $fieldViewModel = $viewModelFactory->create(FieldViewModel::class);
+    $field = $fieldViewModel->getField($block);
+}
+
 ?>
 <div class="admin__field">
     <div class="admin__field-label">

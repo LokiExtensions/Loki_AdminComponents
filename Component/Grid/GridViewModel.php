@@ -190,10 +190,10 @@ class GridViewModel extends ComponentViewModel
         }
 
         $searchableFields = [];
-        $fields = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
-        foreach ($fields as $field) {
-            if (in_array($field['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-                $searchableFields[] = $field['COLUMN_NAME'];
+        $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
+        foreach ($tableColumns as $tableColumn) {
+            if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+                $searchableFields[] = $tableColumn['COLUMN_NAME'];
             }
         }
 

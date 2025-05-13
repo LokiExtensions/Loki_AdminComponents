@@ -11,7 +11,7 @@ class FieldFactory
 {
     public function __construct(
         private ObjectManagerInterface $objectManager,
-        private FieldTypeProvider  $fieldTypeProvider,
+        private FieldTypeProvider $fieldTypeProvider,
     ) {
     }
 
@@ -20,9 +20,8 @@ class FieldFactory
         string $fieldTypeCode,
         string $label,
         string $code,
-        bool $required,
-    ): Field
-    {
+        bool $required = false,
+    ): Field {
         $fieldType = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
 
         return $this->objectManager->create(Field::class, [
