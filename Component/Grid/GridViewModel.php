@@ -11,6 +11,8 @@ use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
 use Yireo\LokiAdminComponents\Grid\ColumnLoader;
 use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\Ui\Button;
+use Yireo\LokiAdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 use Yireo\LokiComponents\Util\CamelCaseConvertor;
 
@@ -26,7 +28,8 @@ class GridViewModel extends ComponentViewModel
         protected CamelCaseConvertor $camelCaseConvertor,
         protected CellTemplateResolver $cellTemplateResolver,
         protected ColumnLoader $columnLoader,
-        protected ObjectManagerInterface $objectManager
+        protected ObjectManagerInterface $objectManager,
+        protected ButtonFactory $buttonFactory,
     ) {
     }
 
@@ -142,6 +145,15 @@ class GridViewModel extends ComponentViewModel
         return $this->cellTemplateResolver->resolve($dataObject, $propertyName);
     }
 
+    /**
+     * @return Button[]
+     */
+    public function getButtons(): array
+    {
+        return [
+            $this->buttonFactory->createNewAction()
+        ];
+    }
 
     public function getRowAction(DataObject $item): CellAction
     {

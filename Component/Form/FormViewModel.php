@@ -4,15 +4,15 @@ namespace Yireo\LokiAdminComponents\Component\Form;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\UrlFactory;
-use Yireo\LokiAdminComponents\Form\FormAction\FormAction;
-use Yireo\LokiAdminComponents\Form\FormAction\FormActionFactory;
+use Yireo\LokiAdminComponents\Ui\Button;
+use Yireo\LokiAdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 
 class FormViewModel extends ComponentViewModel
 {
     public function __construct(
         protected UrlFactory $urlFactory,
-        protected FormActionFactory $formActionFactory,
+        protected ButtonFactory $buttonFactory,
     ) {
     }
 
@@ -26,7 +26,7 @@ class FormViewModel extends ComponentViewModel
 
         return [
             ...parent::getJsData(),
-            'item' => $this->getValue()->toArray(),
+            'item' => $this->getRepository()->getItem()?->toArray(),
             'indexUrl' => $this->getIndexUrl(),
         ];
     }
@@ -37,25 +37,25 @@ class FormViewModel extends ComponentViewModel
     }
 
     /**
-     * @return FormAction[]
+     * @return Button[]
      */
-    public function getFormActions(): array
+    public function getButtons(): array
     {
         $item = $this->getValue();
         if ($item instanceof DataObject && $item->getId() > 0) {
             return [
-                $this->formActionFactory->createCloseAction(),
-                $this->formActionFactory->createDeleteAction(),
-                $this->formActionFactory->createSaveContinueAction(),
-                $this->formActionFactory->createSaveDuplicateAction(),
-                $this->formActionFactory->createSaveCloseAction(),
+                $this->buttonFactory->createCloseAction(),
+                $this->buttonFactory->createDeleteAction(),
+                $this->buttonFactory->createSaveContinueAction(),
+                $this->buttonFactory->createSaveDuplicateAction(),
+                $this->buttonFactory->createSaveCloseAction(),
             ];
         }
 
         return [
-            $this->formActionFactory->createCloseAction(),
-            $this->formActionFactory->createSaveCloseAction(),
-            //$this->formActionFactory->createSaveContinueAction(), // @todo: This looses current changes when creating a new item
+            $this->buttonFactory->createCloseAction(),
+            $this->buttonFactory->createSaveCloseAction(),
+            //$this->buttonFactory->createSaveContinueAction(), // @todo: This looses current changes when creating a new item
         ];
     }
 }
