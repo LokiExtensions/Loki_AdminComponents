@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\FormAction;
+namespace Yireo\LokiAdminComponents\Ui;
 
-class FormAction
+class Button
 {
     public function __construct(
         private string $alpineMethod,
         private string $label,
         private string $cssClass,
-        private array $subActions = []
+        private array $subButtons = []
     ) {
     }
 
@@ -26,8 +26,8 @@ class FormAction
         return $this->cssClass;
     }
 
-    public function getSubActions(): array
+    public function getSubButtons(): array
     {
-        return $this->subActions;
+        return $this->subButtons;
     }
 }

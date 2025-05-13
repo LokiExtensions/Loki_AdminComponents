@@ -1,0 +1,17 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Ui\Button;
+
+/** @var Template $block */
+/** @var Button $button */
+$button = $block->getButton();
+?>
+<button
+    @click="<?= $button->getAlpineMethod() ?>"
+    title="<?= __($button->getLabel()) ?>"
+    type="button"
+    class="scalable <?= $button->getCssClass() ?>">
+    <span><?= __($button->getLabel()) ?></span>
+</button>

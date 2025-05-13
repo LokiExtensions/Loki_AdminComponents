@@ -12,7 +12,7 @@ use Yireo\LokiComponents\Util\Block\ChildRenderer;
 /** @var ChildRenderer $childRenderer */
 
 $viewModel = $block->getViewModel();
-$formActions = $viewModel->getFormActions();
+$buttons = $viewModel->getButtons();
 
 
 $mainSaveAction = false;
@@ -23,14 +23,14 @@ $otherSaveActions = [];
     <div class="page-actions">
         <div class="page-actions-inner">
             <div class="page-actions-buttons">
-                <?php foreach ($formActions as $formAction) : ?>
-                    <?php $subActions = $formAction->getSubActions(); ?>
+                <?php foreach ($buttons as $button) : ?>
+                    <?php $subButtons = $button->getSubButtons(); ?>
                     <button
-                        @click="<?= $formAction->getAlpineMethod() ?>"
-                        title="<?= __($formAction->getLabel()) ?>"
+                        @click="<?= $button->getAlpineMethod() ?>"
+                        title="<?= __($button->getLabel()) ?>"
                         type="button"
-                        class="action- scalable <?= $formAction->getCssClass() ?>">
-                        <span><?= __($formAction->getLabel()) ?></span>
+                        class="action- scalable <?= $button->getCssClass() ?>">
+                        <span><?= __($button->getLabel()) ?></span>
                     </button>
                 <?php endforeach; ?>
 
