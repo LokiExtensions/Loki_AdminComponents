@@ -82,13 +82,16 @@ class FormViewModel extends ComponentViewModel
         $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
 
         foreach ($tableColumns as $tableColumn) {
+            //echo $tableColumn['DATA_TYPE'].' ';
             if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
                 $fieldTypeCode = 'text';
+                // @todo: For DATA_TYPE = date show date
+                // @todo: For DATA_TYPE = tinyint show switch
 
                 $fields[] = $this->fieldFactory->create(
                     $this->getBlock(),
                     $fieldTypeCode,
-                    $tableColumn['COLUMN_NAME'],
+                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
                     $tableColumn['COLUMN_NAME'],
                     false
                 );
@@ -96,6 +99,16 @@ class FormViewModel extends ComponentViewModel
         }
 
         return $fields;
+    }
+
+    private function getLabelByColumn(string $columnName): string
+    {
+        $label = (string)__($columnName);
+        if ($label !== $columnName) {
+            return $label;
+        }
+
+        return ucfirst(str_replace('_', ' ', $label));
     }
 
     private function getResourceModel(): ?AbstractDb

@@ -4,6 +4,7 @@ namespace Yireo\LokiAdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
@@ -42,6 +43,7 @@ class FormRepository extends ComponentRepository
         try {
             return $this->getProviderHandler()->getItem($this->getProvider(), $id);
         } catch (Throwable $e) {
+            die($e->getMessage());
             return $this->getFactory()->create();
         }
     }
@@ -120,8 +122,25 @@ class FormRepository extends ComponentRepository
 
     public function getProviderHandler(): ProviderHandlerInterface
     {
-        $providerHandlerName = (string)$this->getComponent()->getViewModel()->getBlock()->getProviderHandler();
+        $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
+        if (!empty($providerHandlerName)) {
+            return $this->providerHandlerResolver->resolve($providerHandlerName);
+        }
 
-        return $this->providerHandlerResolver->resolve($providerHandlerName);
+        $providerClass = $this->getBlock()->getProvider();
+        if (is_object($providerClass)) {
+            $providerClass = get_class($providerClass);
+        }
+
+        if (str_ends_with($providerClass, 'Repository')) {
+            return $this->providerHandlerResolver->resolve('repository');
+        }
+
+        $provider = $this->getProvider();
+        if ($provider instanceof AbstractCollection) {
+            return $this->providerHandlerResolver->resolve('collection');
+        }
+
+        throw new RuntimeException('Unknown provider type');
     }
 }
