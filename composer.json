@@ -1,6 +1,6 @@
 {
   "name": "yireo/magento2-loki-admin-components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "N/A",
   "type": "magento2-module",
   "require": {

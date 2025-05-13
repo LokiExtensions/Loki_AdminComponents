@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 13 May 2025
+### Fixed
+- Move non-public methods to bottom
+- Fetch searchable fields from resource model if available
+- Update MODULE.json
+- Fix PHPStan issue because wrong type hint in core
+- Update license
+
 ## [0.0.2] - 07 May 2025
 ### Added
 - Basic implementation of array and collection handler
