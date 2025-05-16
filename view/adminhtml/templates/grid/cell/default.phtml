@@ -9,5 +9,10 @@ $value = $block->getValue();
 if (is_array($value)) {
     $value = 'array';
 }
+
+
+if (is_object($value)) {
+    $value = 'object';
+}
 ?>
 <?php echo $value ?>
