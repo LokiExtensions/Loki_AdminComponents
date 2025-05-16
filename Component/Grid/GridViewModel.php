@@ -11,6 +11,7 @@ use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
 use Yireo\LokiAdminComponents\Grid\ColumnLoader;
 use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\Grid\StateManager;
 use Yireo\LokiAdminComponents\Ui\Button;
 use Yireo\LokiAdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
@@ -22,7 +23,7 @@ use Yireo\LokiComponents\Util\CamelCaseConvertor;
 class GridViewModel extends ComponentViewModel
 {
     public function __construct(
-        private State $state,
+        protected StateManager $stateManager,
         protected UrlFactory $urlFactory,
         protected CellActionFactory $cellActionFactory,
         protected CamelCaseConvertor $camelCaseConvertor,
@@ -31,6 +32,16 @@ class GridViewModel extends ComponentViewModel
         protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
     ) {
+    }
+
+    public function getNamespace(): string
+    {
+        $namespace = (string)$this->getBlock()->getNamespace();
+        if (!empty($namespace)) {
+            return $namespace;
+        }
+
+        return $this->getBlock()->getNameInLayout();
     }
 
     public function getSearchableFields(): array
@@ -61,12 +72,12 @@ class GridViewModel extends ComponentViewModel
 
     public function getPage(): int
     {
-        return $this->state->getPage();
+        return $this->getState()->getPage();
     }
 
     public function getTotalPages(): int
     {
-        return $this->state->getTotalPages();
+        return $this->getState()->getTotalPages();
     }
 
     public function getJsComponentName(): ?string
@@ -78,7 +89,7 @@ class GridViewModel extends ComponentViewModel
     {
         return [
             ...parent::getJsData(),
-            ...$this->state->toArray(),
+            ...$this->getState()->toArray(),
             'newUrl' => $this->getNewUrl(),
             'columnPositions' => $this->getColumnPositions(),
             'indexUrl' => $this->getIndexUrl(),
@@ -105,11 +116,7 @@ class GridViewModel extends ComponentViewModel
             return $columns;
         }
 
-        $namespace = (string)$this->getBlock()->getNamespace();
-        if (!empty($namespace)) {
-            $columns = $this->columnLoader->getColumns($namespace);
-        }
-
+        $columns = $this->columnLoader->getColumns($this->getNamespace());
         if (!empty($columns)) {
             return $columns;
         }
@@ -161,7 +168,7 @@ class GridViewModel extends ComponentViewModel
     public function getButtons(): array
     {
         return [
-            $this->buttonFactory->createNewAction()
+            $this->buttonFactory->createNewAction(),
         ];
     }
 
@@ -181,6 +188,11 @@ class GridViewModel extends ComponentViewModel
         $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));
 
         return $cellActions;
+    }
+
+    protected function getState(): State
+    {
+        return $this->stateManager->get($this->getNamespace());
     }
 
     /**

@@ -7,85 +7,94 @@ use Magento\Backend\Model\Session;
 
 class State
 {
-    private int $page = 1;
-    private int $limit = 20;
-    private int $totalItems = 0;
-    private string $search = '';
-
     private array $searchableFields = [];
 
     public function __construct(
-        private Session $session
+        private Session $session,
+        private string $namespace,
+        private int $defaultLimit = 20,
     ) {
-        $this->page = (int)$session->getData('page');
-        if ($this->page < 1) {
-            $this->page = 1;
-        }
-
-        $limit = (int)$session->getData('limit');
-        if ($limit > 0) {
-            $this->limit = $limit;
-        }
-
-        $this->totalItems = (int)$session->getData('totalItems');
-        $this->search = (string)$session->getData('search');
     }
 
     public function getPage(): int
     {
-        if ($this->page > $this->getTotalPages()) {
-            $this->page = $this->getTotalPages();
+        $originalPage = (int)$this->get('page');
+        $page = $originalPage;
+
+        if ($page < 1) {
+            $page = 1;
         }
 
-        if ($this->page < 1) {
-            $this->page = 1;
+        if ($page > $this->getTotalPages()) {
+            $page = $this->getTotalPages();
         }
 
-        return $this->page;
+        if ($page < 1) {
+            $page = 1;
+        }
+
+        if ($page !== $originalPage) {
+            $this->save('page', $page);
+        }
+
+        return $page;
     }
 
     public function setPage(int $page): void
     {
         $this->save('page', $page);
-        $this->page = $page;
     }
 
     public function getLimit(): int
     {
-        return $this->limit;
+        $originalLimit = (int)$this->get('limit');
+        $limit = $originalLimit;
+
+        if ($limit < 1) {
+            $limit = $this->defaultLimit;
+        }
+
+        return $limit;
     }
 
     public function setLimit(int $limit): void
     {
         $this->save('limit', $limit);
-        $this->limit = $limit;
     }
 
     public function getTotalItems(): int
     {
-        return $this->totalItems;
+        return (int)$this->get('total_items');
     }
 
     public function setTotalItems(int $totalItems): void
     {
-        $this->save('totalItems', $totalItems);
-        $this->totalItems = $totalItems;
+        $this->save('total_items', $totalItems);
     }
 
     public function getTotalPages(): int
     {
-        return (int)ceil($this->totalItems / $this->limit);
+        return (int)ceil($this->getTotalItems() / $this->getLimit());
     }
 
     public function getSearch(): string
     {
-        return $this->search;
+        return (string)$this->get('search');
     }
 
     public function setSearch(string $search): void
     {
         $this->save('search', $search);
-        $this->search = $search;
+    }
+
+    public function getSearchableFields(): array
+    {
+        return explode(',', (string)$this->get('searchable_fields'));
+    }
+
+    public function setSearchableFields(array $searchableFields): void
+    {
+        $this->save('searchable_fields', implode(',', $searchableFields));
     }
 
     /**
@@ -94,27 +103,22 @@ class State
     public function toArray(): array
     {
         return [
-            'page' => $this->page,
-            'limit' => $this->limit,
-            'totalItems' => $this->totalItems,
+            'page' => $this->getPage(),
+            'limit' => $this->getLimit(),
+            'totalItems' => $this->getTotalItems(),
             'totalPages' => $this->getTotalPages(),
-            'search' => $this->search,
+            'searchableFields' => $this->getSearchableFields(),
+            'search' => $this->getSearch(),
         ];
     }
 
-    private function save(string $name, $value)
+    private function get(string $name): mixed
     {
-        // @todo: Save this under a specific prefix
-        $this->session->setData($name, $value);
+        return $this->session->getData($this->namespace.'.'.$name);
     }
 
-    public function getSearchableFields(): array
+    private function save(string $name, mixed $value)
     {
-        return $this->searchableFields;
-    }
-
-    public function setSearchableFields(array $searchableFields): void
-    {
-        $this->searchableFields = $searchableFields;
+        $this->session->setData($this->namespace.'.'.$name, $value);
     }
 }

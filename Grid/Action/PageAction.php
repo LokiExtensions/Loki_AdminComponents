@@ -3,12 +3,12 @@
 namespace Yireo\LokiAdminComponents\Grid\Action;
 
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
-use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\Grid\StateManager;
 
 class PageAction implements ActionInterface
 {
     public function __construct(
-        private State $state,
+        private StateManager $stateManager,
     ) {
     }
 
@@ -18,6 +18,7 @@ class PageAction implements ActionInterface
             return;
         }
 
-        $this->state->setPage((int)$value['page']);
+        $state = $this->stateManager->get($gridRepository->getNamespace());
+        $state->setPage((int)$value['page']);
     }
 }

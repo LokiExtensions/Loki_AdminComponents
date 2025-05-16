@@ -3,15 +3,9 @@
 namespace Yireo\LokiAdminComponents\Grid\Action;
 
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
-use Yireo\LokiAdminComponents\Grid\State;
 
 class InlineEditAction implements ActionInterface
 {
-    public function __construct(
-        private State $state,
-    ) {
-    }
-
     public function execute(GridRepository $gridRepository, array $value): void
     {
         if (!isset($value['inline_edit'])) {

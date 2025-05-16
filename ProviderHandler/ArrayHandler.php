@@ -6,7 +6,6 @@ namespace Yireo\LokiAdminComponents\ProviderHandler;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
 use Yireo\LokiAdminComponents\Provider\ArrayProviderInterface;
 
@@ -14,7 +13,6 @@ class ArrayHandler implements ProviderHandlerInterface
 {
     public function __construct(
         private DataObjectFactory $dataObjectFactory,
-        private State $state
     ) {
     }
 
@@ -39,7 +37,7 @@ class ArrayHandler implements ProviderHandlerInterface
         }
 
 
-        $search = $this->state->getSearch();
+        $search = $gridState->getSearch();
         if (!empty($search)) {
             $items = array_filter($items, function (DataObject $item) use ($search) {
                 foreach ($item->getData() as $itemValue) {
@@ -52,9 +50,9 @@ class ArrayHandler implements ProviderHandlerInterface
             });
         }
 
-        $this->state->setTotalItems(count($items));
-        $limit = $this->state->getLimit();
-        $page = $this->state->getPage();
+        $gridState->setTotalItems(count($items));
+        $limit = $gridState->getLimit();
+        $page = $gridState->getPage();
         $items = array_splice($items, ($page - 1) * $limit, $limit);
 
         return $items;

@@ -4,11 +4,12 @@ namespace Yireo\LokiAdminComponents\Grid\Action;
 
 use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
 use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\Grid\StateManager;
 
 class SearchAction implements ActionInterface
 {
     public function __construct(
-        private State $state,
+        private StateManager $stateManager,
     ) {
     }
 
@@ -18,6 +19,7 @@ class SearchAction implements ActionInterface
             return;
         }
 
-        $this->state->setSearch(trim((string)$value['search']));
+        $state = $this->stateManager->get($gridRepository->getNamespace());
+        $state->setSearch(trim((string)$value['search']));
     }
 }

@@ -7,6 +7,7 @@ use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\Action\ActionListing;
 use Yireo\LokiAdminComponents\Grid\State;
+use Yireo\LokiAdminComponents\Grid\StateManager;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
@@ -14,11 +15,16 @@ use Yireo\LokiComponents\Component\ComponentRepository;
 class GridRepository extends ComponentRepository
 {
     public function __construct(
-        private State $state,
+        private StateManager $stateManager,
         private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing
     ) {
+    }
+
+    public function getNamespace(): string
+    {
+        return $this->getComponent()->getViewModel()->getNamespace();
     }
 
     // @todo: Remove the requirement for this
@@ -30,9 +36,9 @@ class GridRepository extends ComponentRepository
     public function getItems(): array
     {
         $searchableFields = $this->getComponent()->getViewModel()->getSearchableFields();
-        $this->state->setSearchableFields($searchableFields);
+        $this->getState()->setSearchableFields($searchableFields);
 
-        return $this->getProviderHandler()->getItems($this->getProvider(), $this->state);
+        return $this->getProviderHandler()->getItems($this->getProvider(), $this->getState());
     }
 
     public function getProviderHandler(): ProviderHandlerInterface
@@ -62,11 +68,6 @@ class GridRepository extends ComponentRepository
         throw new RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
-    private function getBlock(): AbstractBlock
-    {
-        return $this->getComponent()->getViewModel()->getBlock();
-    }
-
     public function saveValue(mixed $value): void
     {
         if (!is_array($value)) {
@@ -76,5 +77,15 @@ class GridRepository extends ComponentRepository
         foreach ($this->actionListing->getActions() as $action) {
             $action->execute($this, $value);
         }
+    }
+
+    protected function getState(): State
+    {
+        return $this->stateManager->get($this->getNamespace());
+    }
+
+    protected function getBlock(): AbstractBlock
+    {
+        return $this->getComponent()->getViewModel()->getBlock();
     }
 }
