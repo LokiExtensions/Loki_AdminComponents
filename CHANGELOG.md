@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.8] - 16 May 2025
+### Fixed
+- Configure `allow_actions` via XML layout
+- Allow configuring URLs via XML layout
+- Hide any actions from array grid
+
 ## [0.0.7] - 16 May 2025
 ### Fixed
 - Disallow actions with arrays
