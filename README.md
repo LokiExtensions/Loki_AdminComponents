@@ -11,7 +11,7 @@ that the Loki suite of Yireo can be applied in many more places.
 ## Installation
 ```bash
 composer require yireo/magento2-loki-admin-components
-bin/magento module:enable Yireo_LokiAdminComponents
+bin/magento module:enable Yireo_LokiAdminComponents Yireo_LokiComponents
 ```
 
 As a demo, you could opt to install the following examples:
