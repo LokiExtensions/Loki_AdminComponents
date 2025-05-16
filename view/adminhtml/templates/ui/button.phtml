@@ -8,10 +8,39 @@ use Yireo\LokiAdminComponents\Ui\Button;
 /** @var Button $button */
 $button = $block->getButton();
 ?>
-<button
-    @click="<?= $button->getAlpineMethod() ?>"
-    title="<?= __($button->getLabel()) ?>"
-    type="button"
-    class="scalable <?= $button->getCssClass() ?>">
-    <span><?= __($button->getLabel()) ?></span>
-</button>
+<?php if ($button->getSubButtons()): ?>
+    <div title="Save and Continue" class="actions-split save primary">
+        <button @click="<?= __($button->getAlpineMethod()) ?>" title="<?= __($button->getLabel()) ?>"
+                class="action-default primary">
+            <span><?= __($button->getLabel()) ?></span>
+        </button>
+
+        <button @click="toggleOtherActions" title="Toggle other actions"
+                class="action-toggle primary save">
+            <span>Select</span>
+        </button>
+
+        <ul class="dropdown-menu" x-cloak x-show="showOtherActions">
+            <?php foreach ($button->getSubButtons() as $subButton): ?>
+                <li>
+                    <span
+                        @click="<?= __($subButton->getAlpineMethod()) ?>"
+                        title="<?= __($subButton->getLabel()) ?>" class="item"
+                    >
+                    <?= __($subButton->getLabel()) ?>
+                    </span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+<?php else: ?>
+    <button
+        @click="<?= $button->getAlpineMethod() ?>"
+        title="<?= __($button->getLabel()) ?>"
+        type="button"
+        class="scalable <?= $button->getCssClass() ?>">
+        <span><?= __($button->getLabel()) ?></span>
+    </button>
+<?php endif; ?>
+

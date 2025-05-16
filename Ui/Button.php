@@ -26,6 +26,9 @@ class Button
         return $this->cssClass;
     }
 
+    /**
+     * @return Button[]
+     */
     public function getSubButtons(): array
     {
         return $this->subButtons;

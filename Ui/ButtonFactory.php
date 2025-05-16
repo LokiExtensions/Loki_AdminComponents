@@ -4,7 +4,7 @@ namespace Yireo\LokiAdminComponents\Ui;
 
 use Magento\Framework\ObjectManagerInterface;
 
-class  ButtonFactory
+class ButtonFactory
 {
     public function __construct(
         private ObjectManagerInterface $objectManager,
@@ -14,8 +14,9 @@ class  ButtonFactory
     public function create(
         string $alpineMethod,
         string $label,
-        string $cssClass,
-        bool $primary = false
+        string $cssClass = '',
+        bool $primary = false,
+        array $subButtons = []
     ): Button {
         if ($primary) {
             $cssClass .= ' primary';
@@ -25,6 +26,7 @@ class  ButtonFactory
             'alpineMethod' => $alpineMethod,
             'label' => $label,
             'cssClass' => $cssClass,
+            'subButtons' => $subButtons
         ]);
     }
 
