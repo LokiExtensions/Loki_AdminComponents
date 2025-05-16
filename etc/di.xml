@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver">
+    <type name="Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing">
         <arguments>
             <argument name="providerHandlers" xsi:type="array">
                 <item name="repository" xsi:type="object">Yireo\LokiAdminComponents\ProviderHandler\RepositoryHandler</item>

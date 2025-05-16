@@ -8,6 +8,8 @@ use Yireo\LokiAdminComponents\Grid\State as GridState;
 
 interface ProviderHandlerInterface
 {
+    public function match($provider): bool;
+
     public function getItem($provider, string|int $identifier): DataObject;
 
     public function getItems($provider, GridState $gridState): array;

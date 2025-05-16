@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Yireo\LokiAdminComponents\ProviderHandler;
 
-use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
@@ -20,6 +19,13 @@ class RepositoryHandler implements ProviderHandlerInterface
         private SearchCriteriaBuilder $searchCriteriaBuilder,
     ) {
     }
+
+    public function match($provider): bool
+    {
+        return str_ends_with(get_class($provider), 'Repository')
+            || str_ends_with(get_class($provider), 'Repository\Interceptor');
+    }
+
 
     public function getItems($provider, GridState $gridState): array
     {

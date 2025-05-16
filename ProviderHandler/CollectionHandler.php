@@ -5,11 +5,17 @@ namespace Yireo\LokiAdminComponents\ProviderHandler;
 
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
 
 class CollectionHandler implements ProviderHandlerInterface
 {
+    public function match($provider): bool
+    {
+        return $provider instanceof AbstractCollection;
+    }
+
 
     public function getItem($provider, int|string $identifier): DataObject
     {
