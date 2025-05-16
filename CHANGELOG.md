@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 16 May 2025
+### Fixed
+- Add support for grid and collection providers
+- Hide search when there are no searchable fields
+- Add samples
+- Automatically create fields from entity
+- Refactor form actions into reusable buttons
+- Detect provider handler type automatically
+- Throw error if no identifier when loading item
+
 ## [0.0.3] - 13 May 2025
 ### Fixed
 - Move non-public methods to bottom
