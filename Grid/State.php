@@ -110,12 +110,12 @@ class State
         ];
     }
 
-    private function get(string $name): mixed
+    public function get(string $name): mixed
     {
         return $this->session->getData($this->namespace.'.'.$name);
     }
 
-    private function save(string $name, mixed $value)
+    public function save(string $name, mixed $value)
     {
         $this->session->setData($this->namespace.'.'.$name, $value);
     }
