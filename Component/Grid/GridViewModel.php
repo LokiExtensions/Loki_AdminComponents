@@ -148,7 +148,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getIndexUrl(): string
     {
-        $indexUrl = $this->getBlock()->getIndexUrl();
+        $indexUrl = $this->getBlock()->getData('index_url');
         if (empty($indexUrl)) {
             $indexUrl = '*/*/index';
         }
@@ -158,12 +158,23 @@ class GridViewModel extends ComponentViewModel
 
     public function getNewUrl(): string
     {
-        $newUrl = $this->getBlock()->getNewUrl();
+        $newUrl = $this->getBlock()->getData('new_url');
+        $newUrl = 'catalog/product/new';
         if (empty($newUrl)) {
             $newUrl = '*/*/form';
         }
 
         return $this->urlFactory->create()->getUrl($newUrl);
+    }
+
+    public function getEditUrl(array $params = []): string
+    {
+        $editUrl = $this->getBlock()->getData('edit_url');
+        if (empty($editUrl)) {
+            $editUrl = '*/*/form';
+        }
+
+        return $this->urlFactory->create()->getUrl($editUrl, $params);
     }
 
     public function getCellTemplate(DataObject $dataObject, string $propertyName): string
@@ -193,10 +204,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getRowAction(DataObject $item): CellAction
     {
-        $editUrl = $this->urlFactory->create()->getUrl('*/*/form', [
-            'id' => $item->getId(),
-        ]);
-
+        $editUrl = $this->getEditUrl(['id' => $item->getId()]);
         return $this->cellActionFactory->create($editUrl, 'Edit');
     }
 
