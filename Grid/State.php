@@ -7,8 +7,6 @@ use Magento\Backend\Model\Session;
 
 class State
 {
-    private array $searchableFields = [];
-
     public function __construct(
         private Session $session,
         private string $namespace,
