@@ -41,7 +41,9 @@ class CollectionHandler implements ProviderHandlerInterface
             }
         }
 
-        return $provider->load();
+        $gridState->setTotalItems($provider->getSize());
+
+        return $provider->getItems();
     }
 
     public function saveItem($provider, DataObject $item)
@@ -57,5 +59,10 @@ class CollectionHandler implements ProviderHandlerInterface
     public function duplicateItem($provider, DataObject $item)
     {
         // TODO: Implement duplicateItem() method.
+    }
+
+    public function getColumns($provider): array
+    {
+        return [];
     }
 }

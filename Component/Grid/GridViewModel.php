@@ -99,6 +99,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getColumns(): array
     {
+        // @todo: Move all logic here to column loader
         $columns = (array)$this->getBlock()->getColumns();
         if (!empty($columns)) {
             return $columns;
@@ -106,7 +107,16 @@ class GridViewModel extends ComponentViewModel
 
         $namespace = (string)$this->getBlock()->getNamespace();
         if (!empty($namespace)) {
-            return $this->columnLoader->getColumns($namespace);
+            $columns = $this->columnLoader->getColumns($namespace);
+        }
+
+        if (!empty($columns)) {
+            return $columns;
+        }
+
+        $columns = $this->getRepository()->getProviderHandler()->getColumns($this->getRepository()->getProvider());
+        if (!empty($columns)) {
+            return $columns;
         }
 
         $items = $this->getItems();

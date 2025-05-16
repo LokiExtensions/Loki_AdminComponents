@@ -35,8 +35,8 @@ As a demo, you could opt to install the following examples:
 
 ### Grid provider handlers
 - `repository`
-- ~~`collection`~~ (coming soon)
-- ~~`array`~~ (coming soon)
+- `collection`
+- `array`
 
 ### Form features
 - Block-based form fields

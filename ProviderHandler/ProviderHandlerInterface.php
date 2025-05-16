@@ -17,4 +17,5 @@ interface ProviderHandlerInterface
     public function deleteItem($provider, DataObject $item);
 
     public function duplicateItem($provider, DataObject $item);
+    public function getColumns($provider): array;
 }

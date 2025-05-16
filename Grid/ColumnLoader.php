@@ -28,9 +28,7 @@ class ColumnLoader
         // @todo $bookmarkData['views']['default']['data']['paging']['options']
 
         if (false === isset($bookmarkData['views']['default']['data']['columns'])) {
-            $columns = ['id' => 'ID'];
-
-            return $columns;
+            return [];
         }
 
         $positions = $bookmarkData['views']['default']['data']['positions'];

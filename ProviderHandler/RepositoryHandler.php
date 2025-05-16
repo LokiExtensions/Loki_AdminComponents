@@ -65,6 +65,11 @@ class RepositoryHandler implements ProviderHandlerInterface
         $provider->duplicate($item);
     }
 
+    public function getColumns($provider): array
+    {
+        return [];
+    }
+
     private function getSearchCriteriaBuilder(GridState $gridState): SearchCriteriaBuilder
     {
         $this->searchCriteriaBuilder->setPageSize($gridState->getLimit());
