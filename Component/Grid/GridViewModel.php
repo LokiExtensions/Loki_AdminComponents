@@ -95,8 +95,8 @@ class GridViewModel extends ComponentViewModel
         return [
             ...parent::getJsData(),
             ...$this->getState()->toArray(),
-            'newUrl' => $this->getNewUrl(),
             'columnPositions' => $this->getColumnPositions(),
+            'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),
         ];
     }
@@ -159,7 +159,6 @@ class GridViewModel extends ComponentViewModel
     public function getNewUrl(): string
     {
         $newUrl = $this->getBlock()->getData('new_url');
-        $newUrl = 'catalog/product/new';
         if (empty($newUrl)) {
             $newUrl = '*/*/form';
         }
