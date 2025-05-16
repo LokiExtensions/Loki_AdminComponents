@@ -12,14 +12,14 @@ use Throwable;
 use Yireo\LokiAdminComponents\Form\Action\ActionInterface;
 use Yireo\LokiAdminComponents\Form\Action\ActionListing;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
-use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerResolver;
+use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
 
 class FormRepository extends ComponentRepository
 {
     public function __construct(
         private RequestInterface $request,
-        private ProviderHandlerResolver $providerHandlerResolver,
+        private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing,
     ) {
@@ -123,23 +123,10 @@ class FormRepository extends ComponentRepository
     {
         $providerHandlerName = (string)$this->getBlock()->getProviderHandler();
         if (!empty($providerHandlerName)) {
-            return $this->providerHandlerResolver->resolve($providerHandlerName);
-        }
-
-        $providerClass = $this->getBlock()->getProvider();
-        if (is_object($providerClass)) {
-            $providerClass = get_class($providerClass);
-        }
-
-        if (str_ends_with($providerClass, 'Repository')) {
-            return $this->providerHandlerResolver->resolve('repository');
+            return $this->providerHandlerListing->getByName($providerHandlerName);
         }
 
         $provider = $this->getProvider();
-        if ($provider instanceof AbstractCollection) {
-            return $this->providerHandlerResolver->resolve('collection');
-        }
-
-        throw new RuntimeException('Unknown provider type');
+        return $this->providerHandlerListing->getByProvider($provider);
     }
 }
