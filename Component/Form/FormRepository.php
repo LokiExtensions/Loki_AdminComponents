@@ -43,7 +43,6 @@ class FormRepository extends ComponentRepository
         try {
             return $this->getProviderHandler()->getItem($this->getProvider(), $id);
         } catch (Throwable $e) {
-            die($e->getMessage());
             return $this->getFactory()->create();
         }
     }
