@@ -1,5 +1,18 @@
 <?php
 declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+
+$viewModel = $block->getViewModel();
+$searchableFields = $viewModel->getSearchableFields();
+if (empty($searchableFields)) {
+    echo '<!-- No searchable fields found -->';
+    return;
+}
 ?>
 <div class="data-grid-search-control-wrap">
     <label class="data-grid-search-label" title="Search" for="grid-search">
