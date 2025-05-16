@@ -39,7 +39,12 @@ class FormViewModel extends ComponentViewModel
 
     public function getIndexUrl(): string
     {
-        return $this->urlFactory->create()->getUrl('*/*/index');
+        $indexUrl = $this->getBlock()->getIndexUrl();
+        if (empty($indexUrl)) {
+            $indexUrl = '*/*/index';
+        }
+
+        return $this->urlFactory->create()->getUrl($indexUrl);
     }
 
     /**

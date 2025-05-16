@@ -148,12 +148,22 @@ class GridViewModel extends ComponentViewModel
 
     public function getIndexUrl(): string
     {
-        return $this->urlFactory->create()->getUrl('*/*/index');
+        $indexUrl = $this->getBlock()->getIndexUrl();
+        if (empty($indexUrl)) {
+            $indexUrl = '*/*/index';
+        }
+
+        return $this->urlFactory->create()->getUrl($indexUrl);
     }
 
     public function getNewUrl(): string
     {
-        return $this->urlFactory->create()->getUrl('*/*/form');
+        $newUrl = $this->getBlock()->getNewUrl();
+        if (empty($newUrl)) {
+            $newUrl = '*/*/form';
+        }
+
+        return $this->urlFactory->create()->getUrl($newUrl);
     }
 
     public function getCellTemplate(DataObject $dataObject, string $propertyName): string
