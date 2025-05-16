@@ -69,6 +69,9 @@ class CollectionHandler implements ProviderHandlerInterface
 
     public function getColumns($provider): array
     {
+        /** @var AbstractDb $provider */
+        $fields = $provider->getResource()->getUniqueFields();
+        // @todo: Use this to fetch database columns
         return [];
     }
 }

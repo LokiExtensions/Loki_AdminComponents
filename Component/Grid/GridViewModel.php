@@ -51,7 +51,12 @@ class GridViewModel extends ComponentViewModel
             return $searchableFields;
         }
 
-        return $this->getSearchableFieldsFromResourceModel();
+        $searchableFields = $this->getSearchableFieldsFromResourceModel();
+        if (!empty($searchableFields)) {
+            return $searchableFields;
+        }
+
+        return $this->getRepository()->getProviderHandler()->getColumns($this->getRepository()->getProvider());
     }
 
 
