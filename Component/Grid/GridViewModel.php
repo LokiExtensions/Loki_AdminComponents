@@ -192,6 +192,10 @@ class GridViewModel extends ComponentViewModel
 
     public function getCellActions(DataObject $item): array
     {
+        if (false === $this->allowActions()) {
+            return [];
+        }
+
         $cellActions = [];
         $cellActions[] = $this->getRowAction($item);
         $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));

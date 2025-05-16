@@ -10,7 +10,9 @@ use Yireo\LokiComponents\Util\Block\BlockRenderer;
 /** @var BlockRenderer $blockRenderer */
 ?>
 <div class="loki-grid grid">
+    <?php if ($viewModel->allowActions()): ?>
     <?= $blockRenderer->html($block, 'loki-admin.grid.actions') ?>
+    <?php endif; ?>
     <div class="page-columns">
         <div class="main-col">
             <div class="admin__data-grid-outer-wrap">
