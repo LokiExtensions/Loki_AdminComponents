@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.5] - 16 May 2025
+### Fixed
+- Make state methods get and save public
+- Make sure each grid uses namespaced session values
+- Refactor provider handler resolving
+
 ## [0.0.4] - 16 May 2025
 ### Fixed
 - Add support for grid and collection providers
