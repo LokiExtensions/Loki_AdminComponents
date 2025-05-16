@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.7] - 16 May 2025
+### Fixed
+- Disallow actions with arrays
+- Fix new ProviderHandlerListing for forms as well
+
 ## [0.0.6] - 16 May 2025
 ### Fixed
 - Do not try to print an object
