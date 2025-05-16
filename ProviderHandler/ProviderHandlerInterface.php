@@ -10,6 +10,8 @@ interface ProviderHandlerInterface
 {
     public function match($provider): bool;
 
+    public function allowActions($provider): bool;
+
     public function getItem($provider, string|int $identifier): DataObject;
 
     public function getItems($provider, GridState $gridState): array;
@@ -19,5 +21,6 @@ interface ProviderHandlerInterface
     public function deleteItem($provider, DataObject $item);
 
     public function duplicateItem($provider, DataObject $item);
+
     public function getColumns($provider): array;
 }

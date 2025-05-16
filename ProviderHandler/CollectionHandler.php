@@ -16,6 +16,11 @@ class CollectionHandler implements ProviderHandlerInterface
         return $provider instanceof AbstractCollection;
     }
 
+    public function allowActions($provider): bool
+    {
+        return true;
+    }
+
 
     public function getItem($provider, int|string $identifier): DataObject
     {

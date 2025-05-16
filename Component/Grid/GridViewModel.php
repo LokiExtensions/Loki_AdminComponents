@@ -158,13 +158,17 @@ class GridViewModel extends ComponentViewModel
 
     public function getCellTemplate(DataObject $dataObject, string $propertyName): string
     {
-        $cellTemplates = (array)$this->getBlock()->getCellTemplates();
-
+        $cellTemplates = $this->getCellTemplates();
         if (!empty($cellTemplates) && array_key_exists($propertyName, $cellTemplates)) {
             return (string)$cellTemplates[$propertyName];
         }
 
         return $this->cellTemplateResolver->resolve($dataObject, $propertyName);
+    }
+
+    public function getCellTemplates(): array
+    {
+        return (array)$this->getBlock()->getCellTemplates();
     }
 
     /**
@@ -193,6 +197,13 @@ class GridViewModel extends ComponentViewModel
         $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));
 
         return $cellActions;
+    }
+
+    public function allowActions(): bool
+    {
+        return $this->getRepository()->getProviderHandler()->allowActions(
+            $this->getRepository()->getProvider()
+        );
     }
 
     protected function getState(): State
