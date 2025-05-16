@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.6] - 16 May 2025
+### Fixed
+- Do not try to print an object
+- Add instruction to enable `Yireo_LokiComponents`
+- WIP on autodetecting searchable fields
+- Remove tut and move to wiki
+
 ## [0.0.5] - 16 May 2025
 ### Fixed
 - Make state methods get and save public
