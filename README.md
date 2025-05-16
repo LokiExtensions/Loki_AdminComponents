@@ -14,12 +14,15 @@ composer require yireo/magento2-loki-admin-components
 bin/magento module:enable Yireo_LokiAdminComponents Yireo_LokiComponents
 ```
 
+## Examples
 As a demo, you could opt to install the following examples:
 
 - [YireoTraining_ExampleLokiAdminProducts](https://github.com/yireo-training/YireoTraining_ExampleLokiAdminProducts) - a product repository-based grid with various modifications including inline editing of the product name; 
 - [YireoTraining_ExampleLokiAdminCmsPage](https://github.com/yireo-training/YireoTraining_ExampleLokiAdminCmsPage) - a bare-bones repository-based implementation that is ugly, but it shows what you get with minimal effort;
 - [YireoTraining_ExampleLokiAdminArrayGrid](https://github.com/yireo-training/YireoTraining_ExampleLokiAdminArrayGrid) - a bare-bones array-based grid;
 - [YireoTraining_YireoTraining_ExampleLokiAdminEavEntityType](https://github.com/yireo-training/YireoTraining_YireoTraining_ExampleLokiAdminEavEntityType) - a bare-bones collection-based grid to display EAV entity types;
+
+![Screenshot of YireoTraining_ExampleLokiAdminProducts](loki-admin-grid-products.png)
 
 ## Features
 
