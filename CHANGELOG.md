@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.9] - 17 May 2025
+### Fixed
+- First bits on filters
+- Allow sorting of repositories, collections and arrays
+- Support for buttons + subbuttons
+- Support for buttons with redirect
+- Allow setting `edit_url` via XML layout
+
 ## [0.0.8] - 16 May 2025
 ### Fixed
 - Configure `allow_actions` via XML layout
