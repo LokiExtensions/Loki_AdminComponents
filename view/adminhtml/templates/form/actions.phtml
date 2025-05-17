@@ -26,7 +26,7 @@ $otherSaveActions = [];
                 <?php foreach ($buttons as $button) : ?>
                     <?php $subButtons = $button->getSubButtons(); ?>
                     <button
-                        @click="<?= $button->getAlpineMethod() ?>"
+                        @click="<?= $button->getMethod() ?>"
                         title="<?= __($button->getLabel()) ?>"
                         type="button"
                         class="action- scalable <?= $button->getCssClass() ?>">

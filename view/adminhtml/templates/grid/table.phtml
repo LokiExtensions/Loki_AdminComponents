@@ -18,7 +18,11 @@ $viewModel = $block->getViewModel();
             <?php
             $i = 1;
             foreach ($viewModel->getColumns() as $code => $label): ?>
-                <th class="data-grid-th" x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $code ?>'">
+                <th
+                    class="data-grid-th _sortable"
+                    data-column="<?= $code ?>"
+                    @click="sortColumn"
+                    x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $code ?>'">
                     <span class="data-grid-cell-content"><?= __($label) ?></span>
                 </th>
                 <?php
@@ -26,7 +30,7 @@ $viewModel = $block->getViewModel();
             endforeach; ?>
             <?php if ($viewModel->allowActions()): ?>
             <th class="data-grid-th">
-                <span class="data-grid-cell-content"><?= __('Actions') ?></span>
+                <span class="pointer data-grid-cell-content"><?= __('Actions') ?></span>
             </th>
             <?php endif; ?>
         </tr>

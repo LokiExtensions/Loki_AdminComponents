@@ -9,14 +9,23 @@ use Yireo\LokiAdminComponents\Ui\Button;
 $button = $block->getButton();
 ?>
 <?php if ($button->getSubButtons()): ?>
-    <div title="Save and Continue" class="actions-split save primary">
-        <button @click="<?= __($button->getAlpineMethod()) ?>" title="<?= __($button->getLabel()) ?>"
-                class="action-default primary">
-            <span><?= __($button->getLabel()) ?></span>
+    <div title="<?= __($button->getLabel()) ?>" class="actions-split <?= __($button->getCssClass()) ?>">
+        <button
+            @click="<?= __($button->getMethod()) ?>"
+            title="<?= __($button->getLabel()) ?>"
+            <?php if ($button->getUrl()): ?>
+                data-url="<?= $button->getUrl() ?>"
+            <?php endif; ?>
+            class="action-default <?= __($button->getCssClass()) ?>"
+        >
+            <?= __($button->getLabel()) ?>
         </button>
 
-        <button @click="toggleOtherActions" title="Toggle other actions"
-                class="action-toggle primary save">
+        <button
+            @click="toggleOtherActions"
+            title="Toggle other actions"
+            class="action-toggle <?= __($button->getCssClass()) ?>"
+        >
             <span>Select</span>
         </button>
 
@@ -24,8 +33,12 @@ $button = $block->getButton();
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
-                        @click="<?= __($subButton->getAlpineMethod()) ?>"
-                        title="<?= __($subButton->getLabel()) ?>" class="item"
+                        @click="<?= __($subButton->getMethod()) ?>"
+                        <?php if ($button->getUrl()): ?>
+                            data-url="<?= $button->getUrl() ?>"
+                        <?php endif; ?>
+                        title="<?= __($subButton->getLabel()) ?>"
+                        class="item"
                     >
                     <?= __($subButton->getLabel()) ?>
                     </span>
@@ -36,11 +49,20 @@ $button = $block->getButton();
 
 <?php else: ?>
     <button
-        @click="<?= $button->getAlpineMethod() ?>"
+        @click="<?= $button->getMethod() ?>"
+        <?php if ($button->getUrl()): ?>
+            data-url="<?= $button->getUrl() ?>"
+        <?php endif; ?>
         title="<?= __($button->getLabel()) ?>"
         type="button"
-        class="scalable <?= $button->getCssClass() ?>">
+        class="scalable <?= $button->getCssClass() ?>"
+    >
         <span><?= __($button->getLabel()) ?></span>
     </button>
 <?php endif; ?>
 
+<style>
+    .actions-split .dropdown-menu {
+        display: block;
+    }
+</style>

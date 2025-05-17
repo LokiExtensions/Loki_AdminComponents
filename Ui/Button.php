@@ -5,17 +5,19 @@ namespace Yireo\LokiAdminComponents\Ui;
 class Button
 {
     public function __construct(
-        private string $alpineMethod,
+        private string $method,
         private string $label,
-        private string $cssClass,
+        private string $cssClass = '',
+        private string $url = '',
         private array $subButtons = []
     ) {
     }
 
-    public function getAlpineMethod(): string
+    public function getMethod(): string
     {
-        return $this->alpineMethod;
+        return $this->method;
     }
+
     public function getLabel(): string
     {
         return $this->label;
@@ -32,5 +34,10 @@ class Button
     public function getSubButtons(): array
     {
         return $this->subButtons;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

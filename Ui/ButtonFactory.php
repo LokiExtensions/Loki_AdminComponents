@@ -12,53 +12,72 @@ class ButtonFactory
     }
 
     public function create(
-        string $alpineMethod,
+        string $method,
         string $label,
         string $cssClass = '',
+        string $url = '',
+        array $subButtons = [],
         bool $primary = false,
-        array $subButtons = []
     ): Button {
         if ($primary) {
             $cssClass .= ' primary';
         }
 
         return $this->objectManager->create(Button::class, [
-            'alpineMethod' => $alpineMethod,
             'label' => $label,
             'cssClass' => $cssClass,
-            'subButtons' => $subButtons
+            'method' => $method,
+            'url' => $url,
+            'subButtons' => $subButtons,
         ]);
+    }
+
+    public function createLinkAction(
+        string $url,
+        string $label,
+        string $cssClass = '',
+        array $subButtons = [],
+        bool $primary = false,
+    ): Button {
+        return $this->create(
+            'redirectAction',
+            $label,
+            $cssClass,
+            $url,
+            $subButtons,
+            $primary
+        );
     }
 
     public function createNewAction(bool $primary = true): Button
     {
-        return $this->create('newAction', 'New', 'new', $primary);
+        return $this->create('newAction', 'New', 'new', primary: $primary);
     }
 
     public function createCloseAction(bool $primary = false): Button
     {
-        return $this->create('closeAction', 'Back', 'back', $primary);
+        return $this->create('closeAction', 'Back', 'back', primary: $primary);
     }
 
     public function createDeleteAction(bool $primary = false): Button
     {
-        return $this->create('deleteAction', 'Delete', 'delete', $primary);
+        return $this->create('deleteAction', 'Delete', 'delete', primary: $primary);
     }
 
     public function createSaveContinueAction(bool $primary = false): Button
     {
-        return $this->create('saveAndContinueAction', 'Save & Continue', 'save', $primary);
+        return $this->create('saveAndContinueAction', 'Save & Continue', 'save', primary: $primary);
     }
 
 
     public function createSaveDuplicateAction(bool $primary = false): Button
     {
-        return $this->create('saveAndDuplicateAction', 'Save & Duplicate', 'save', $primary);
+        return $this->create('saveAndDuplicateAction', 'Save & Duplicate', 'save', primary: $primary);
     }
 
 
     public function createSaveCloseAction(bool $primary = true): Button
     {
-        return $this->create('saveAndCloseAction', 'Save & Close', 'save', $primary);
+        return $this->create('saveAndCloseAction', 'Save & Close', 'save', primary: $primary);
     }
 }

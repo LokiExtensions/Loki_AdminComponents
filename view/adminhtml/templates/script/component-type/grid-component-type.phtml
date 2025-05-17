@@ -5,8 +5,26 @@
         //...LokiAdminInlineEditComponentPartial, // @todo: Uncomment again
         ...LokiComponentType,
         columnPositions: {},
+        showOtherActions: false,
+        toggleOtherActions() {
+            this.showOtherActions = !this.showOtherActions;
+        },
+        sortColumn(event) {
+            if (!event) {
+                return;
+            }
+
+            this.post({sort: event.target.getAttribute('data-column')});
+        },
         newAction() {
             window.location.href = this.newUrl;
+        },
+        redirectAction(event) {
+            if (!event) {
+                return;
+            }
+
+            window.location.href = event.target.getAttribute('data-url');
         },
         changeSearch(event) {
             if (!event) {
