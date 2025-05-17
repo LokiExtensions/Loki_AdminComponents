@@ -7,6 +7,8 @@ use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Api\SortOrderFactory;
 use Magento\Framework\DataObject;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
@@ -17,6 +19,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         private FilterFactory $filterFactory,
         private FilterGroupBuilder $filterGroupBuilder,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
+        private SortOrderFactory $sortOrderFactory
     ) {
     }
 
@@ -84,7 +87,16 @@ class RepositoryHandler implements ProviderHandlerInterface
     {
         $this->searchCriteriaBuilder->setPageSize($gridState->getLimit());
         $this->searchCriteriaBuilder->setCurrentPage($gridState->getPage());
-        //$this->searchCriteriaBuilder->setSortOrders([]); @todo: Implement sort ordering
+
+        $sortField = $gridState->getSortBy();
+        $sortDirection = $gridState->getSortDirection();
+        if (!empty($sortField)) {
+            /** @var SortOrder $sortOrder */
+            $sortOrder = $this->sortOrderFactory->create([]);
+            $sortOrder->setField($sortField);
+            $sortOrder->setDirection($sortDirection);
+            $this->searchCriteriaBuilder->setSortOrders([$sortOrder]);
+        }
 
         $filterGroups = $this->getFilterGroups($gridState);
         if (!empty($filterGroups)) {

@@ -17,6 +17,7 @@
                 <item name="search" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\SearchAction</item>
                 <item name="page" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\PageAction</item>
                 <item name="limit" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\LimitAction</item>
+                <item name="sort" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\SortAction</item>
                 <item name="reposition" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\RepositionAction</item>
                 <item name="inline_edit" xsi:type="object">Yireo\LokiAdminComponents\Grid\Action\InlineEditAction</item>
             </argument>

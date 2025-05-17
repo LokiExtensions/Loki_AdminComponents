@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\View\Element\Template;
 use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
 use Yireo\LokiComponents\Util\Block\TemplateRenderer;
@@ -10,6 +11,7 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 
 $viewModel = $block->getViewModel();
+$state = $viewModel->getState();
 ?>
 <div class="admin__data-grid-wrap" data-role="grid-wrapper">
     <table class="data-grid" data-role="grid">
@@ -18,8 +20,14 @@ $viewModel = $block->getViewModel();
             <?php
             $i = 1;
             foreach ($viewModel->getColumns() as $code => $label): ?>
+                <?php
+                $additionalCss = '';
+                if ($code === $state->getSortBy()) {
+                    $additionalCss .= $state->getSortDirection() === AbstractDb::SORT_ORDER_ASC ? '_ascend' : '_descend';
+                }
+                ?>
                 <th
-                    class="data-grid-th _sortable"
+                    class="data-grid-th _sortable <?= $additionalCss ?>"
                     data-column="<?= $code ?>"
                     @click="sortColumn"
                     x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $code ?>'">
@@ -29,9 +37,9 @@ $viewModel = $block->getViewModel();
                 $i++;
             endforeach; ?>
             <?php if ($viewModel->allowActions()): ?>
-            <th class="data-grid-th">
-                <span class="pointer data-grid-cell-content"><?= __('Actions') ?></span>
-            </th>
+                <th class="data-grid-th">
+                    <span class="pointer data-grid-cell-content"><?= __('Actions') ?></span>
+                </th>
             <?php endif; ?>
         </tr>
         </thead>
@@ -55,17 +63,17 @@ $viewModel = $block->getViewModel();
                     </td>
                 <?php endforeach; ?>
                 <?php if ($viewModel->allowActions()): ?>
-                <td class="data-grid-cell">
-                    <div class="data-grid-cell-content">
-                        <ul>
-                            <?php foreach ($cellActions as $cellAction): ?>
-                                <li>
-                                    <a href="<?= $cellAction->getUrl() ?>"><?= $cellAction->getLabel() ?></a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </td>
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
+                            <ul>
+                                <?php foreach ($cellActions as $cellAction): ?>
+                                    <li>
+                                        <a href="<?= $cellAction->getUrl() ?>"><?= $cellAction->getLabel() ?></a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </td>
                 <?php endif; ?>
             </tr>
             <?php $i++; ?>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Yireo\LokiAdminComponents\Grid;
 
 use Magento\Backend\Model\Session;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class State
 {
@@ -60,6 +61,29 @@ class State
         $this->save('limit', $limit);
     }
 
+    public function getSortBy(): string
+    {
+        return (string)$this->get('sort_by');
+    }
+
+    public function setSortBy(string $sortBy): void
+    {
+        $this->save('sort_by', $sortBy);
+    }
+
+    public function getSortDirection(): string
+    {
+        $sortDirection = strtoupper((string)$this->get('sort_direction'));
+        $sortDirection = $sortDirection === AbstractDb::SORT_ORDER_ASC ? AbstractDb::SORT_ORDER_ASC : AbstractDb::SORT_ORDER_DESC;
+        return $sortDirection;
+    }
+
+    public function setSortDirection(string $sortDirection): void
+    {
+        $sortDirection = $sortDirection === AbstractDb::SORT_ORDER_ASC ? AbstractDb::SORT_ORDER_ASC : AbstractDb::SORT_ORDER_DESC;
+        $this->save('sort_direction', $sortDirection);
+    }
+
     public function getTotalItems(): int
     {
         return (int)$this->get('total_items');
@@ -103,6 +127,8 @@ class State
         return [
             'page' => $this->getPage(),
             'limit' => $this->getLimit(),
+            'sortBy' => $this->getSortBy(),
+            'sortDirection' => $this->getSortDirection(),
             'totalItems' => $this->getTotalItems(),
             'totalPages' => $this->getTotalPages(),
             'searchableFields' => $this->getSearchableFields(),

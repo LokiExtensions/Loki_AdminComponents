@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Yireo\LokiAdminComponents\ProviderHandler;
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use RuntimeException;
@@ -25,6 +26,7 @@ class ArrayHandler implements ProviderHandlerInterface
     {
         return false;
     }
+
     public function getItem($provider, int|string $identifier): DataObject
     {
         throw new RuntimeException('Unable to retrieve item from array');
@@ -52,6 +54,32 @@ class ArrayHandler implements ProviderHandlerInterface
 
                 return false;
             });
+        }
+
+        $sortField = $gridState->getSortBy();
+        $sortDirection = $gridState->getSortDirection();
+        if (!empty($sortField)) {
+            usort($items, function (DataObject $a, DataObject $b) use ($sortField) {
+                $valueA = $a->getData($sortField);
+                $valueB = $b->getData($sortField);
+                if (is_string($valueA)) {
+                    return strcmp($valueA, $valueB);
+                }
+
+                if (is_array($valueA) || is_array($valueB)) {
+                    return 0;
+                }
+
+                if (is_object($valueA) || is_object($valueB)) {
+                    return 0;
+                }
+
+                return $valueA <=> $valueB;
+            });
+
+            if ($sortDirection === AbstractDb::SORT_ORDER_DESC) {
+                $items = array_reverse($items);
+            }
         }
 
         $gridState->setTotalItems(count($items));

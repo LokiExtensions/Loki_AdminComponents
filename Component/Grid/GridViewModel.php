@@ -231,7 +231,7 @@ class GridViewModel extends ComponentViewModel
         );
     }
 
-    protected function getState(): State
+    public function getState(): State
     {
         return $this->stateManager->get($this->getNamespace());
     }

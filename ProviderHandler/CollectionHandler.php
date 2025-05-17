@@ -45,6 +45,12 @@ class CollectionHandler implements ProviderHandlerInterface
         $provider->setPageSize($gridState->getLimit());
         $provider->setCurPage($gridState->getPage());
 
+        $sortField = $gridState->getSortBy();
+        $sortDirection = $gridState->getSortDirection();
+        if (!empty($sortField)) {
+            $provider->setOrder($sortField, $sortDirection);
+        }
+
         $search = $gridState->getSearch();
         if (!empty($search)) {
             foreach ($gridState->getSearchableFields() as $searchableField) {

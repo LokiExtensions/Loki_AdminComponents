@@ -14,23 +14,25 @@
                 return;
             }
 
-            this.post({sort: event.target.getAttribute('data-column')});
+            this.post({
+                sort: {
+                    sortBy: this.$el.getAttribute('data-column'),
+                    sortDirection: this.sortDirection === 'ASC' ? 'DESC' : 'ASC',
+                }
+            });
         },
         newAction() {
             window.location.href = this.newUrl;
         },
-        redirectAction(event) {
-            if (!event) {
-                return;
-            }
-
-            window.location.href = event.target.getAttribute('data-url');
+        redirectAction() {
+            window.location.href = this.$el.getAttribute('data-url');
         },
         changeSearch(event) {
             if (!event) {
                 return;
             }
-            this.post({search: event.target.value});
+
+            this.post({search: this.$el.value});
         },
     }
 </script>
