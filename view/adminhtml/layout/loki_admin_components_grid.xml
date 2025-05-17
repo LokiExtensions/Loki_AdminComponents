@@ -42,6 +42,11 @@
             template="Yireo_LokiAdminComponents::grid/records.phtml">
         </block>
 
+        <block
+            name="loki-admin.grid.filters"
+            template="Yireo_LokiAdminComponents::grid/filters.phtml">
+        </block>
+
         <referenceContainer name="loki-component-partials">
             <block
                 name="loki-admin.script.component-partials.pagination" as="pagination"
