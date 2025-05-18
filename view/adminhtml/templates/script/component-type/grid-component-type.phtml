@@ -21,6 +21,9 @@
         toggleFilters() {
             this.showFilters = !this.showFilters;
         },
+        filterButtonClass() {
+            return this.showFilters ? '_active' : '';
+        },
         sortColumn(event) {
             if (!event) {
                 return;

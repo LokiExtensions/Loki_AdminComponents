@@ -1,12 +1,44 @@
-
 <div class="data-grid-filters-actions-wrap">
     <div class="data-grid-filters-action-wrap">
-        <button class="action-default _active" @click="toggleFilters">
+        <button :class="filterButtonClass" class="action-default" @click="toggleFilters">
             Filters
         </button>
     </div>
 
-    <div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap">
 
-    </div>
+</div>
+
+<div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap _show">
+    <fieldset class="admin__fieldset admin__data-grid-filters">
+        <fieldset class="admin__form-field">
+            <legend class="admin__form-field-legend">
+                <span>ID</span>
+            </legend>
+            <div class="admin__form-field">
+                <label class="admin__form-field-label">
+                    <span>from</span>
+                </label>
+                <div class="admin__form-field-control">
+                    <input
+                        class="admin__control-text"
+                        type="text"
+                        name="entity_id[from]"
+                        maxlength="255"
+                    >
+                </div>
+            </div>
+            <div class="admin__form-field">
+                <label class="admin__form-field-label">
+                    <span>to</span>
+                </label>
+                <div class="admin__form-field-control">
+                    <input
+                        class="admin__control-text"
+                        type="text"
+                        maxlength="255"
+                    >
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
 </div>
