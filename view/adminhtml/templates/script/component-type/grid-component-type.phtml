@@ -112,9 +112,9 @@
                 return;
             }
 
-            const massActionUrl = this.$el.getAttribute('data-url');
-            const params = '?ids=[' + selectedIds.join(',') + ']';
-            window.location.href = massActionUrl + params;
+            this.$refs.massActionFormIds.value = selectedIds;
+            this.$refs.massActionForm.action = this.$el.getAttribute('data-url');
+            this.$refs.massActionForm.submit();
         }
     }
 </script>

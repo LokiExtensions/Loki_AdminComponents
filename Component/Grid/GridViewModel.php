@@ -11,7 +11,6 @@ use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
 use Yireo\LokiAdminComponents\Grid\ColumnLoader;
 use Yireo\LokiAdminComponents\Grid\MassAction\MassActionInterface;
-use Yireo\LokiAdminComponents\Grid\MassAction\MassActionListing;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\Grid\StateManager;
 use Yireo\LokiAdminComponents\Ui\Button;
@@ -33,7 +32,6 @@ class GridViewModel extends ComponentViewModel
         protected ColumnLoader $columnLoader,
         protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
-        protected MassActionListing $massActionListing,
     ) {
     }
 
@@ -208,7 +206,7 @@ class GridViewModel extends ComponentViewModel
      */
     public function getMassActions(): array
     {
-        return $this->massActionListing->getMassActions();
+        return (array)$this->getBlock()->getMassActions();
     }
 
     public function getRowAction(DataObject $item): CellAction

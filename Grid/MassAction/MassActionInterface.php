@@ -2,7 +2,9 @@
 
 namespace Yireo\LokiAdminComponents\Grid\MassAction;
 
-interface MassActionInterface
+use Magento\Framework\View\Element\Block\ArgumentInterface;
+
+interface MassActionInterface extends ArgumentInterface
 {
     public function getLabel(): string;
     public function getUrl(): string;
