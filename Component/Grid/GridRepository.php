@@ -2,6 +2,7 @@
 
 namespace Yireo\LokiAdminComponents\Component\Grid;
 
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
@@ -31,6 +32,17 @@ class GridRepository extends ComponentRepository
     public function getValue(): mixed
     {
         return $this->getItems();
+    }
+
+    public function getPrimaryKey(): string
+    {
+        if ($this->getResourceModel()) {
+            return $this->getResourceModel()->getIdFieldName();
+        }
+
+        // @todo: Make this configurable
+
+        return 'id';
     }
 
     public function getItems(): array
@@ -87,5 +99,21 @@ class GridRepository extends ComponentRepository
     protected function getBlock(): AbstractBlock
     {
         return $this->getComponent()->getViewModel()->getBlock();
+    }
+
+    public function getResourceModel(): ?AbstractDb
+    {
+        $block = $this->getComponent()->getBlock();
+        $resourceModelClass = $block->getResourceModel();
+        if (empty($resourceModelClass)) {
+            return null;
+        }
+
+        $resourceModel = $this->objectManager->get($resourceModelClass);
+        if (false === $resourceModel instanceof AbstractDb) {
+            return null;
+        }
+
+        return $resourceModel;
     }
 }

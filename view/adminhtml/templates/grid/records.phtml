@@ -7,4 +7,8 @@ use Magento\Framework\View\Element\Template;
 ?>
 <div class="admin__control-support-text">
     <span x-html="totalItems"></span> <?= __('records found') ?>
+
+    <span x-cloak x-show="getSelectedIdCount">
+        (<span x-html="getSelectedIdCount"></span> selected)
+    </span>
 </div>

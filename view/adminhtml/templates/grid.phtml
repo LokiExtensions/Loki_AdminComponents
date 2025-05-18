@@ -21,9 +21,14 @@ use Yireo\LokiComponents\Util\Block\BlockRenderer;
 
                 <div class="admin__data-grid-header">
                     <div class="admin__data-grid-header-row">
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.search') ?>
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.pager') ?>
                         <?= $blockRenderer->html($block, 'loki-admin.grid.filters') ?>
+                    </div>
+                    <div class="admin__data-grid-header-row">
+                        <?= $blockRenderer->html($block, 'loki-admin.grid.search') ?>
+                    </div>
+                    <div class="admin__data-grid-header-row row row-gutter">
+                        <?= $blockRenderer->html($block, 'loki-admin.grid.massactions') ?>
+                        <?= $blockRenderer->html($block, 'loki-admin.grid.pager') ?>
                         <?= $blockRenderer->html($block, 'loki-admin.grid.records') ?>
                     </div>
                 </div>

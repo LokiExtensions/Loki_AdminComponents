@@ -17,20 +17,49 @@ $state = $viewModel->getState();
     <table class="data-grid" data-role="grid">
         <thead>
         <tr x-sort.ghost="repositionColumns">
+            <th class="data-grid-multicheck-cell">
+                <div class="action-multicheck-wrap">
+                    <input class="admin__control-checkbox" type="checkbox" disabled>
+                    <button class="action-multicheck-toggle" @click="toggleSelectedMenu">
+                        <span>Options</span>
+                    </button>
+                    <ul class="action-menu" x-cloak x-show="showSelectedMenu">
+                        <li @click="selectAll">
+                            <span class="action-menu-item">Select All</span>
+                        </li>
+
+                        <li @click="deselectAll">
+                            <span class="action-menu-item">Deselect All</span>
+                        </li>
+
+                        <li @click="selectAllOnPage">
+                            <span class="action-menu-item">Select All on This Page</span>
+                        </li>
+
+                        <li @click="deselectAllOnPage">
+                            <span class="action-menu-item">Deselect All on This Page</span>
+                        </li>
+                    </ul>
+                </div>
+            </th>
             <?php
             $i = 1;
-            foreach ($viewModel->getColumns() as $code => $label): ?>
+            foreach ($viewModel->getColumns() as $columnName => $label): ?>
+                <?php if ($columnName === 'ids') {
+                    continue;
+                } ?>
                 <?php
                 $additionalCss = '';
-                if ($code === $state->getSortBy()) {
-                    $additionalCss .= $state->getSortDirection() === AbstractDb::SORT_ORDER_ASC ? '_ascend' : '_descend';
+                if ($columnName === $state->getSortBy()) {
+                    $additionalCss .= $state->getSortDirection(
+                    ) === AbstractDb::SORT_ORDER_ASC ? '_ascend' : '_descend';
                 }
                 ?>
                 <th
                     class="data-grid-th _sortable <?= $additionalCss ?>"
-                    data-column="<?= $code ?>"
+                    data-column="<?= $columnName ?>"
                     @click="sortColumn"
-                    x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $code ?>'">
+                    x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $columnName ?>'">
                     <span class="data-grid-cell-content"><?= __($label) ?></span>
                 </th>
                 <?php
@@ -49,15 +78,29 @@ $state = $viewModel->getState();
             <?php $cellActions = $viewModel->getCellActions($item); ?>
             <?php $trClass = ($i % 2 === 1) ? '_odd-row' : '_even-row'; ?>
             <tr class="data-row <?= $trClass ?>">
-                <?php foreach ($viewModel->getColumns() as $propertyName => $label): ?>
+                <td class="data-grid-checkbox-cell">
+                    <label class="data-grid-checkbox-cell-inner">
+                        <input
+                            class="admin__control-checkbox"
+                            type="checkbox"
+                            :checked="isSelected"
+                            @change="toggleSelectedId"
+                            data-row-id="<?= $item->getId() ?>">
+                        <label></label>
+                    </label>
+                </td>
+                <?php foreach ($viewModel->getColumns() as $columnName => $label): ?>
+                    <?php if ($columnName === 'ids') {
+                        continue;
+                    } ?>
                     <td class="data-grid-cell">
                         <div class="data-grid-cell-content">
-                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $propertyName) ?>
-                            <?php $value = $viewModel->getValueFromItem($item, $propertyName); ?>
+                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $columnName) ?>
+                            <?php $value = $viewModel->getValueFromItem($item, $columnName); ?>
                             <?= $templateRenderer->html($block, $cellTemplate, [
                                 'item' => $item,
                                 'value' => $value,
-                                'column_name' => $propertyName,
+                                'column_name' => $columnName,
                             ]) ?>
                         </div>
                     </td>
@@ -81,3 +124,9 @@ $state = $viewModel->getState();
         </tbody>
     </table>
 </div>
+
+<style>
+    .action-menu {
+        display: block;
+    }
+</style>

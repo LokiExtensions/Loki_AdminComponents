@@ -24,6 +24,16 @@
         </arguments>
     </type>
 
+    <type name="Yireo\LokiAdminComponents\Grid\MassAction\MassActionListing">
+        <arguments>
+            <argument name="massActions" xsi:type="array">
+                <item name="enable" xsi:type="object">Yireo\LokiAdminComponents\Grid\MassAction\EnableMassAction</item>
+                <item name="disable" xsi:type="object">Yireo\LokiAdminComponents\Grid\MassAction\DisableMassAction</item>
+                <item name="delete" xsi:type="object">Yireo\LokiAdminComponents\Grid\MassAction\DeleteMassAction</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Yireo\LokiAdminComponents\Form\Field\FieldTypeProvider">
         <arguments>
             <argument name="fieldTypes" xsi:type="array">

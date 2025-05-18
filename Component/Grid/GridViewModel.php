@@ -10,6 +10,8 @@ use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
 use Yireo\LokiAdminComponents\Grid\ColumnLoader;
+use Yireo\LokiAdminComponents\Grid\MassAction\MassActionInterface;
+use Yireo\LokiAdminComponents\Grid\MassAction\MassActionListing;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\Grid\StateManager;
 use Yireo\LokiAdminComponents\Ui\Button;
@@ -31,6 +33,7 @@ class GridViewModel extends ComponentViewModel
         protected ColumnLoader $columnLoader,
         protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
+        protected MassActionListing $massActionListing,
     ) {
     }
 
@@ -58,7 +61,6 @@ class GridViewModel extends ComponentViewModel
 
         return $this->getRepository()->getProviderHandler()->getColumns($this->getRepository()->getProvider());
     }
-
 
     /**
      * @return DataObject[]
@@ -201,6 +203,14 @@ class GridViewModel extends ComponentViewModel
         ];
     }
 
+    /**
+     * @return MassActionInterface[]
+     */
+    public function getMassActions(): array
+    {
+        return $this->massActionListing->getMassActions();
+    }
+
     public function getRowAction(DataObject $item): CellAction
     {
         $editUrl = $this->getEditUrl(['id' => $item->getId()]);
@@ -265,16 +275,6 @@ class GridViewModel extends ComponentViewModel
 
     private function getResourceModel(): ?AbstractDb
     {
-        $resourceModelClass = $this->getBlock()->getResourceModel();
-        if (empty($resourceModelClass)) {
-            return null;
-        }
-
-        $resourceModel = $this->objectManager->get($resourceModelClass);
-        if (false === $resourceModel instanceof AbstractDb) {
-            return null;
-        }
-
-        return $resourceModel;
+        return $this->getRepository()->getResourceModel();
     }
 }

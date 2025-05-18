@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+/** @var TemplateRenderer $templateRenderer */
+
+$viewModel = $block->getViewModel();
+$massActions = $viewModel->getMassActions();
+?>
+<div class="col-xs-2">
+    <div class="action-select-wrap">
+        <button class="action-select" title="Select Items" @click="toggleMassActions">
+            <span>Actions</span>
+        </button>
+        <div class="action-menu-items" x-cloak x-show="showMassActions" style="z-index:300">
+            <ul class="action-menu">
+                <?php foreach ($massActions as $massAction): ?>
+                    <li @click="massAction" data-url="<?= $massAction->getUrl() ?>">
+                        <span class="action-menu-item"><?= $massAction->getLabel() ?></span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>

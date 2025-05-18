@@ -9,6 +9,11 @@
             template="Yireo_LokiAdminComponents::grid/table.phtml"/>
 
         <block
+            name="loki-admin.grid.massactions"
+            template="Yireo_LokiAdminComponents::grid/massactions.phtml">
+        </block>
+
+        <block
             name="loki-admin.grid.actions"
             template="Yireo_LokiAdminComponents::grid/actions.phtml">
         </block>
