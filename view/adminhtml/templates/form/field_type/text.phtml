@@ -20,6 +20,6 @@ $fieldType = $field->getFieldType();
     data-name="<?= $field->getCode() ?>"
     placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
     maxlength="<?= $fieldType->getMaximumLength() ?>"
-    :value="item.<?= $field->getCode() ?>"
+    :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
     @change="setValue"
 >

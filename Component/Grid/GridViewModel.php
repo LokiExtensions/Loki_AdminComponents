@@ -6,6 +6,8 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
+use Yireo\LokiAdminComponents\Form\Field\Field;
+use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
@@ -32,6 +34,7 @@ class GridViewModel extends ComponentViewModel
         protected ColumnLoader $columnLoader,
         protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
+        protected FieldFactory $fieldFactory
     ) {
     }
 
@@ -213,6 +216,37 @@ class GridViewModel extends ComponentViewModel
     {
         $editUrl = $this->getEditUrl(['id' => $item->getId()]);
         return $this->cellActionFactory->create($editUrl, 'Edit');
+    }
+
+
+    /**
+     * @return Field[]
+     */
+    public function getFilterFields(): array
+    {
+        $filters = (array)$this->getBlock()->getData('grid_filters');
+        if (empty($filters)) {
+            return [];
+        }
+
+        $fields = [];
+        foreach ($filters as $filterCode => $filter) {
+            $field = $this->fieldFactory->createWithBlock(
+                $filter['field_type'],
+                $filter['label'],
+                $filterCode,
+            );
+
+            if (isset($filter['options']) && is_string($filter['options'])) {
+                $filter['options'] = $this->objectManager->get($filter['options']);
+            }
+
+            $field->getBlock()->addData($filter);
+            $field->getBlock()->setField($field);
+            $fields[] = $field;
+        }
+
+        return $fields;
     }
 
     public function getCellActions(DataObject $item): array

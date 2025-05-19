@@ -30,6 +30,7 @@
                 <item name="text" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Text</item>
                 <item name="select" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Select</item>
                 <item name="switch" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Switcher</item>
+                <item name="from_to" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\FromTo</item>
             </argument>
         </arguments>
     </type>

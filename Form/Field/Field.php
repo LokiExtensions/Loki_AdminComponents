@@ -12,7 +12,8 @@ class Field
         private FieldTypeInterface $fieldType,
         private string $label,
         private string $code,
-        private bool $required,
+        private bool $required = false,
+        private string $scope = 'item'
     ) {
     }
 
@@ -29,6 +30,11 @@ class Field
     public function isRequired(): bool
     {
         return $this->required;
+    }
+
+    public function getScope(): string
+    {
+        return $this->scope;
     }
 
     public function getFieldType(): FieldTypeInterface

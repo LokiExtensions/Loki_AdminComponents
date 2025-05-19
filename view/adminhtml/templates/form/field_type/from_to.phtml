@@ -1,0 +1,48 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Field\Field;
+use Yireo\LokiAdminComponents\Form\Field\FieldType\Text;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Text $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldType = $field->getFieldType();
+?>
+<div class="admin__form-field">
+    <label class="admin__form-field-label">
+        <span>from</span>
+    </label>
+    <div class="admin__form-field-control">
+        <input
+            class="admin__control-text"
+            type="text"
+            data-name="<?= $field->getCode() ?>"
+            maxlength="<?= $fieldType->getMaximumLength() ?>"
+            :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+            @change="setValue"
+            placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
+        >
+    </div>
+</div>
+<div class="admin__form-field">
+    <label class="admin__form-field-label">
+        <span>to</span>
+    </label>
+    <div class="admin__form-field-control">
+        <input
+            class="admin__control-text"
+            type="text"
+            data-name="<?= $field->getCode() ?>"
+            maxlength="<?= $fieldType->getMaximumLength() ?>"
+            :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+            @change="setValue"
+            placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
+        >
+    </div>
+</div>

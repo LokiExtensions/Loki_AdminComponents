@@ -1,3 +1,20 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+/** @var TemplateRenderer $templateRenderer */
+
+$viewModel = $block->getViewModel();
+$filterFields = $viewModel->getFilterFields();
+if (empty($filterFields)) {
+    return;
+}
+?>
 <div class="data-grid-filters-actions-wrap">
     <div class="data-grid-filters-action-wrap">
         <button :class="filterButtonClass" class="action-default" @click="toggleFilters">
@@ -10,6 +27,12 @@
 
 <div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap _show">
     <fieldset class="admin__fieldset admin__data-grid-filters">
+        <?php foreach ($filterFields as $filterField): ?>
+            <fieldset class="admin__form-field">
+                <?= $filterField->getBlock()->toHtml() ?>
+            </fieldset>
+        <?php endforeach; ?>
+
         <fieldset class="admin__form-field">
             <legend class="admin__form-field-legend">
                 <span>ID</span>

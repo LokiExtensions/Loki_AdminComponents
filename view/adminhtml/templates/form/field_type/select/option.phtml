@@ -1,0 +1,7 @@
+<?php if (is_array($option['value'])): ?>
+    <?php foreach ($option['value'] as $suboption): ?>
+        <option value="<?= $suboption['value'] ?>"><?= $suboption['label'] ?></option>
+    <?php endforeach; ?>
+<?php else: ?>
+    <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+<?php endif; ?>

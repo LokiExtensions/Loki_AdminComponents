@@ -24,10 +24,13 @@ $fieldType = $field->getFieldType();
     data-name="<?= $field->getCode() ?>"
     <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>
     <?php if ($parentBlock->getSize()) : ?>size="<?= $parentBlock->getSize() ?>"<?php endif; ?>
-    :value="item.<?= $field->getCode() ?>"
+    :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
     @change="setValue"
 >
     <?php foreach ($options->toOptionArray() as $option) : ?>
-        <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+        <?php if (is_array($option['value'])): ?>
+        <?php else: ?>
+            <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+        <?php endif; ?>
     <?php endforeach; ?>
 </select>
