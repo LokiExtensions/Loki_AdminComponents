@@ -24,7 +24,7 @@ $page = $viewModel->getPage();
             <span id="select-button-text"><?= __('Select') ?></span>
         </button>
 
-        <div x-cloak x-show="showLimitOptions" class="selectmenu-items">
+        <div x-cloak x-show="showLimitOptions" class="selectmenu-items" style="z-index:1001">
             <ul>
                 <?php foreach ($limits as $limit): ?>
                     <li>
