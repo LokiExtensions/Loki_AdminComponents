@@ -1,0 +1,25 @@
+<script>
+    const LokiAdminMassActionsComponentPartial = {
+        showMassActions: false,
+        toggleMassActions() {
+            this.showMassActions = !this.showMassActions;
+        },
+        massAction(event) {
+            if (!event) {
+                return;
+            }
+
+            this.showMassActions = false;
+
+            const selectedIds = Array.from(this.selectedIds);
+            if (selectedIds.length < 1) {
+                alert('Please select some items first');
+                return;
+            }
+
+            this.$refs.massActionFormIds.value = selectedIds;
+            this.$refs.massActionForm.action = this.$el.getAttribute('data-url');
+            this.$refs.massActionForm.submit();
+        }
+    }
+</script>

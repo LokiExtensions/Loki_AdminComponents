@@ -2,27 +2,15 @@
     const LokiAdminGridComponentType = {
         ...LokiAdminPaginationComponentPartial,
         ...LokiAdminLimitComponentPartial,
-        //...LokiAdminInlineEditComponentPartial, // @todo: Uncomment again
+        ...LokiAdminInlineEditComponentPartial,
+        ...LokiAdminSelectedComponentPartial,
+        ...LokiAdminFiltersComponentPartial,
+        ...LokiAdminMassActionsComponentPartial,
         ...LokiComponentType,
         columnPositions: {},
         showOtherActions: false,
-        selectedIds: null,
-        initSelectedIds() {
-            this.selectedIds = new Set([]);
-        },
         toggleOtherActions() {
             this.showOtherActions = !this.showOtherActions;
-        },
-        showMassActions: false,
-        toggleMassActions() {
-          this.showMassActions = !this.showMassActions;
-        },
-        showFilters: false,
-        toggleFilters() {
-            this.showFilters = !this.showFilters;
-        },
-        filterButtonClass() {
-            return this.showFilters ? '_active' : '';
         },
         sortColumn(event) {
             if (!event) {
@@ -49,75 +37,6 @@
 
             this.post({search: this.$el.value});
         },
-        getSelectedIdCount() {
-            if (this.selectedIds.has('ALL')) {
-                return this.totalItems;
-            }
 
-            return this.selectedIds.size;
-        },
-        toggleSelectedId(event) {
-            if (!event) {
-                return;
-            }
-
-            const rowId = this.$el.getAttribute('data-row-id');
-            if (this.selectedIds.has(rowId)) {
-                this.selectedIds.delete(rowId);
-            } else {
-                this.selectedIds.add(rowId);
-            }
-        },
-        showSelectedMenu: false,
-        toggleSelectedMenu() {
-            this.showSelectedMenu = !this.showSelectedMenu;
-        },
-        isSelected() {
-            const rowId = this.$el.getAttribute('data-row-id');
-            return this.selectedIds.has(rowId);
-        },
-        selectAllOnPage() {
-            const inputElements = document.getElementsByClassName('admin__control-checkbox');
-            Object.values(inputElements).forEach(element => {
-                const rowId = element.getAttribute('data-row-id');
-                if (!rowId) {
-                    return;
-                }
-
-                this.selectedIds.add(rowId);
-            });
-            this.showSelectedMenu = false;
-        },
-        selectAll() {
-            this.selectedIds.clear();
-            this.selectedIds.add('ALL');
-            this.selectAllOnPage();
-            this.showSelectedMenu = false;
-        },
-        deselectAllOnPage() {
-            this.selectedIds.clear();
-            this.showSelectedMenu = false;
-        },
-        deselectAll() {
-            this.selectedIds.clear();
-            this.showSelectedMenu = false;
-        },
-        massAction(event) {
-            if (!event) {
-                return;
-            }
-
-            this.showMassActions = false;
-
-            const selectedIds = Array.from(this.selectedIds);
-            if (selectedIds.length < 1) {
-                alert('Please select some items first');
-                return;
-            }
-
-            this.$refs.massActionFormIds.value = selectedIds;
-            this.$refs.massActionForm.action = this.$el.getAttribute('data-url');
-            this.$refs.massActionForm.submit();
-        }
     }
 </script>

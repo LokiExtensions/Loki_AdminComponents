@@ -1,0 +1,11 @@
+<script>
+    const LokiAdminFiltersComponentPartial = {
+        showFilters: false,
+        toggleFilters() {
+            this.showFilters = !this.showFilters;
+        },
+        filterButtonClass() {
+            return this.showFilters ? '_active' : '';
+        },
+    }
+</script>

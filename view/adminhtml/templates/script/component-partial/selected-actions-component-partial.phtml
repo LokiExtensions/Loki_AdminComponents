@@ -1,0 +1,61 @@
+<script>
+    const LokiAdminSelectedComponentPartial = {
+        selectedIds: null,
+        initSelectedIds() {
+            this.selectedIds = new Set([]);
+        },
+        getSelectedIdCount() {
+            if (this.selectedIds.has('ALL')) {
+                return this.totalItems;
+            }
+
+            return this.selectedIds.size;
+        },
+        toggleSelectedId(event) {
+            if (!event) {
+                return;
+            }
+
+            const rowId = this.$el.getAttribute('data-row-id');
+            if (this.selectedIds.has(rowId)) {
+                this.selectedIds.delete(rowId);
+            } else {
+                this.selectedIds.add(rowId);
+            }
+        },
+        showSelectedMenu: false,
+        toggleSelectedMenu() {
+            this.showSelectedMenu = !this.showSelectedMenu;
+        },
+        isSelected() {
+            const rowId = this.$el.getAttribute('data-row-id');
+            return this.selectedIds.has(rowId);
+        },
+        selectAllOnPage() {
+            const inputElements = document.getElementsByClassName('admin__control-checkbox');
+            Object.values(inputElements).forEach(element => {
+                const rowId = element.getAttribute('data-row-id');
+                if (!rowId) {
+                    return;
+                }
+
+                this.selectedIds.add(rowId);
+            });
+            this.showSelectedMenu = false;
+        },
+        selectAll() {
+            this.selectedIds.clear();
+            this.selectedIds.add('ALL');
+            this.selectAllOnPage();
+            this.showSelectedMenu = false;
+        },
+        deselectAllOnPage() {
+            this.selectedIds.clear();
+            this.showSelectedMenu = false;
+        },
+        deselectAll() {
+            this.selectedIds.clear();
+            this.showSelectedMenu = false;
+        },
+    }
+</script>
