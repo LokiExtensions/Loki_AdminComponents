@@ -1,5 +1,6 @@
 <script>
     const LokiAdminFiltersComponentPartial = {
+        filters: [],
         showFilters: true,
         toggleFilters() {
             this.showFilters = !this.showFilters;
@@ -7,5 +8,8 @@
         filterButtonClass() {
             return this.showFilters ? '_active' : '';
         },
+        applyFilters() {
+            this.post({filters: this.filters});
+        }
     }
 </script>
