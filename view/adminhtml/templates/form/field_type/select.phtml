@@ -28,9 +28,11 @@ $fieldType = $field->getFieldType();
     @change="setValue"
 >
     <?php foreach ($options->toOptionArray() as $option) : ?>
-        <?php if (is_array($option['value'])): ?>
-        <?php else: ?>
-            <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
-        <?php endif; ?>
+        <?= $option['level'] = 0; ?>
+        <?= $templateRenderer->html(
+            $block,
+            'Yireo_LokiAdminComponents::form/field_type/select/option.phtml',
+            ['option' => $option]
+        ) ?>
     <?php endforeach; ?>
 </select>
