@@ -16,6 +16,7 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 $field = $block->getField();
 $parentBlock = $field->getBlock();
 $options = $parentBlock->getOptions();
+$emptyOption = $parentBlock->getEmptyOption();
 $fieldType = $field->getFieldType();
 ?>
 <select
@@ -27,6 +28,19 @@ $fieldType = $field->getFieldType();
     :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
     @change="setValue"
 >
+    <?php if (!empty($emptyOption)): ?>
+        <?= $templateRenderer->html(
+            $block,
+            'Yireo_LokiAdminComponents::form/field_type/select/option.phtml',
+            [
+                'option' => [
+                    'value' => '',
+                    'label' => $emptyOption,
+                    'level' => 0,
+                ],
+            ]
+        ) ?>
+    <?php endif; ?>
     <?php foreach ($options->toOptionArray() as $option) : ?>
         <?= $option['level'] = 0; ?>
         <?= $templateRenderer->html(

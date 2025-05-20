@@ -11,7 +11,7 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 $option = $block->getOption();
 ?>
 <?php if (is_array($option['value'])): ?>
-    <optgroup label="<?= $option['label'] ?>"></optgroup>
+    <optgroup label="<?= str_repeat('&nbsp;', $option['level']) ?><?= $option['label'] ?>"></optgroup>
     <?php foreach ($option['value'] as $suboption): ?>
         <?= $suboption['level'] = $option['level'] + 1; ?>
         <?= $templateRenderer->html(
