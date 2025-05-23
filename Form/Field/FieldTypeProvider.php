@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Yireo\LokiAdminComponents\Form\Field;
 
+use Exception;
 use Magento\Framework\ObjectManagerInterface;
 
 class FieldTypeProvider
@@ -20,7 +21,7 @@ class FieldTypeProvider
             }
         }
 
-        throw new \Exception('Field type not found');
+        throw new Exception('Field type "'.$code.'" not found');
     }
     public function getFieldTypes(): array
     {
