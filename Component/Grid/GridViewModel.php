@@ -214,6 +214,7 @@ class GridViewModel extends ComponentViewModel
 
     public function getRowAction(DataObject $item): CellAction
     {
+        // @todo: Retrieve ID from primary key
         $editUrl = $this->getEditUrl(['id' => $item->getId()]);
         return $this->cellActionFactory->create($editUrl, 'Edit');
     }
@@ -284,7 +285,17 @@ class GridViewModel extends ComponentViewModel
      */
     protected function getAdditionalActions(DataObject $item): array
     {
-        return [];
+        $actions = [];
+        $actionsFromBlock = (array)$this->getBlock()->getRowActions();
+        if (!empty($actionsFromBlock)) {
+            foreach ($actionsFromBlock as $action) {
+                $params = ['id'=> $item->getId()];
+                $url = $this->urlFactory->create()->getUrl($action['url'], $params);
+                $actions[] = $this->cellActionFactory->create($url, $action['label']);
+            }
+        }
+
+        return $actions;
     }
 
     private function getSearchableFieldsFromResourceModel(): array
