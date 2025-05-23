@@ -24,18 +24,18 @@ class RepositoryHandler implements ProviderHandlerInterface
     ) {
     }
 
-    public function match($provider): bool
+    public function match(object $provider): bool
     {
         return str_ends_with(get_class($provider), 'Repository')
             || str_ends_with(get_class($provider), 'Repository\Interceptor');
     }
 
-    public function allowActions($provider): bool
+    public function allowActions(object $provider): bool
     {
         return true;
     }
 
-    public function getItems($provider, GridState $gridState): array
+    public function getItems(object $provider, GridState $gridState): array
     {
         if (false === method_exists($provider, 'getList')) {
             throw new RuntimeException('Repository "getList" is not available.');
@@ -47,7 +47,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         return $searchResults->getItems();
     }
 
-    public function getItem($provider, int|string $identifier): DataObject
+    public function getItem(object $provider, int|string $identifier): DataObject
     {
         if (empty($identifier)) {
             throw new RuntimeException('Empty identifier');
@@ -77,22 +77,22 @@ class RepositoryHandler implements ProviderHandlerInterface
         throw new RuntimeException('Repository has no create-method we know of.');
     }
 
-    public function saveItem($provider, DataObject $item): void
+    public function saveItem(object $provider, DataObject $item): void
     {
         $provider->save($item);
     }
 
-    public function deleteItem($provider, DataObject $item): void
+    public function deleteItem(object $provider, DataObject $item): void
     {
         $provider->delete($item);
     }
 
-    public function duplicateItem($provider, DataObject $item): void
+    public function duplicateItem(object $provider, DataObject $item): void
     {
         $provider->duplicate($item);
     }
 
-    public function getColumns($provider): array
+    public function getColumns(object $provider): array
     {
         return [];
     }

@@ -17,17 +17,17 @@ class ArrayHandler implements ProviderHandlerInterface
     ) {
     }
 
-    public function match($provider): bool
+    public function match(object $provider): bool
     {
         return $provider instanceof ArrayProviderInterface;
     }
 
-    public function allowActions($provider): bool
+    public function allowActions(object $provider): bool
     {
         return false;
     }
 
-    public function getItem($provider, int|string $identifier): DataObject
+    public function getItem(object $provider, int|string $identifier): DataObject
     {
         throw new RuntimeException('Unable to retrieve item from array');
     }
@@ -37,7 +37,7 @@ class ArrayHandler implements ProviderHandlerInterface
         throw new RuntimeException('Unable to retrieve item from array');
     }
 
-    public function getItems($provider, GridState $gridState): array
+    public function getItems(object $provider, GridState $gridState): array
     {
         /** @var ArrayProviderInterface $provider */
         $rows = $provider->getData();
@@ -95,19 +95,19 @@ class ArrayHandler implements ProviderHandlerInterface
         return $items;
     }
 
-    public function saveItem($provider, DataObject $item)
+    public function saveItem(object $provider, DataObject $item)
     {
     }
 
-    public function deleteItem($provider, DataObject $item)
+    public function deleteItem(object $provider, DataObject $item)
     {
     }
 
-    public function duplicateItem($provider, DataObject $item)
+    public function duplicateItem(object $provider, DataObject $item)
     {
     }
 
-    public function getColumns($provider): array
+    public function getColumns(object $provider): array
     {
         /** @var ArrayProviderInterface $provider */
         return $provider->getColumns();

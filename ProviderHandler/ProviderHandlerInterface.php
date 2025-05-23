@@ -8,21 +8,21 @@ use Yireo\LokiAdminComponents\Grid\State as GridState;
 
 interface ProviderHandlerInterface
 {
-    public function match($provider): bool;
+    public function match(object $provider): bool;
 
-    public function allowActions($provider): bool;
+    public function allowActions(object $provider): bool;
 
-    public function getItem($provider, string|int $identifier): DataObject;
+    public function getItem(object $provider, string|int $identifier): DataObject;
 
     public function createItem(object $provider, object|null $factory): DataObject;
 
-    public function getItems($provider, GridState $gridState): array;
+    public function getItems(object $provider, GridState $gridState): array;
 
-    public function saveItem($provider, DataObject $item);
+    public function saveItem(object $provider, DataObject $item);
 
-    public function deleteItem($provider, DataObject $item);
+    public function deleteItem(object $provider, DataObject $item);
 
-    public function duplicateItem($provider, DataObject $item);
+    public function duplicateItem(object $provider, DataObject $item);
 
-    public function getColumns($provider): array;
+    public function getColumns(object $provider): array;
 }

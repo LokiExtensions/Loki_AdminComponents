@@ -17,18 +17,18 @@ class CollectionHandler implements ProviderHandlerInterface
     ) {
     }
 
-    public function match($provider): bool
+    public function match(object $provider): bool
     {
         return $provider instanceof AbstractCollection;
     }
 
-    public function allowActions($provider): bool
+    public function allowActions(object $provider): bool
     {
         return true;
     }
 
 
-    public function getItem($provider, int|string $identifier): DataObject
+    public function getItem(object $provider, int|string $identifier): DataObject
     {
         if (false === $provider instanceof AbstractDb) {
             throw new RuntimeException('Provider is not an instance of '.AbstractDb::class);
@@ -56,7 +56,7 @@ class CollectionHandler implements ProviderHandlerInterface
         return $this->objectManager->create($modelName);
     }
 
-    public function getItems($provider, GridState $gridState): array
+    public function getItems(object $provider, GridState $gridState): array
     {
         if (false === $provider instanceof AbstractDb) {
             throw new RuntimeException('Provider is not an instance of '.AbstractDb::class);
@@ -83,22 +83,22 @@ class CollectionHandler implements ProviderHandlerInterface
         return $provider->getItems();
     }
 
-    public function saveItem($provider, DataObject $item)
+    public function saveItem(object $provider, DataObject $item)
     {
         // TODO: Implement saveItem() method.
     }
 
-    public function deleteItem($provider, DataObject $item)
+    public function deleteItem(object $provider, DataObject $item)
     {
         // TODO: Implement deleteItem() method.
     }
 
-    public function duplicateItem($provider, DataObject $item)
+    public function duplicateItem(object $provider, DataObject $item)
     {
         // TODO: Implement duplicateItem() method.
     }
 
-    public function getColumns($provider): array
+    public function getColumns(object $provider): array
     {
         /** @var AbstractDb $provider */
         $fields = $provider->getResource()->getUniqueFields();
