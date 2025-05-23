@@ -27,7 +27,10 @@
     <type name="Yireo\LokiAdminComponents\Form\Field\FieldTypeProvider">
         <arguments>
             <argument name="fieldTypes" xsi:type="array">
+                <item name="view" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\View</item>
                 <item name="text" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Text</item>
+                <item name="date" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Date</item>
+                <item name="number" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Number</item>
                 <item name="select" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Select</item>
                 <item name="switch" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Switcher</item>
                 <item name="from_to" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\FromTo</item>

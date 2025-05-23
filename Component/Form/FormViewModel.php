@@ -85,39 +85,46 @@ class FormViewModel extends ComponentViewModel
         $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
 
         foreach ($tableColumns as $tableColumn) {
-            if (in_array($tableColumn['DATA_TYPE'], ['tinyint'])) {
-                $fieldTypeCode = 'switch';
-                $fields[] = $this->fieldFactory->create(
-                    $this->getBlock(),
-                    $fieldTypeCode,
-                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
-                    $tableColumn['COLUMN_NAME']
-                );
+            $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
+            if (empty($fieldTypeCode)) {
+                echo 'Unknown data-type: '.$tableColumn['DATA_TYPE'];
+                continue;
             }
 
-            //echo $tableColumn['DATA_TYPE'].' ';
-            if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-                $fieldTypeCode = 'text';
-                $fields[] = $this->fieldFactory->create(
-                    $this->getBlock(),
-                    $fieldTypeCode,
-                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
-                    $tableColumn['COLUMN_NAME']
-                );
-            }
-
-            if (in_array($tableColumn['DATA_TYPE'], ['date'])) {
-                $fieldTypeCode = 'date';
-                $fields[] = $this->fieldFactory->create(
-                    $this->getBlock(),
-                    $fieldTypeCode,
-                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
-                    $tableColumn['COLUMN_NAME']
-                );
-            }
+            $fields[] = $this->fieldFactory->create(
+                $this->getBlock(),
+                $fieldTypeCode,
+                $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
+                $tableColumn['COLUMN_NAME']
+            );
         }
 
         return $fields;
+    }
+
+    private function getFieldTypeCodeFromColumn(array $tableColumn): false|string
+    {
+        if ($tableColumn['COLUMN_NAME'] === $this->getRepository()->getPrimaryKey()) {
+            return 'view';
+        }
+
+        if (in_array($tableColumn['DATA_TYPE'], ['date'])) {
+            return 'date';
+        }
+
+        if (in_array($tableColumn['DATA_TYPE'], ['tinyint'])) {
+            return 'switch';
+        }
+
+        if (in_array($tableColumn['DATA_TYPE'], ['int'])) {
+            return 'number';
+        }
+
+        if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+            return 'text';
+        }
+
+        return false;
     }
 
     private function getIndexUri(): string

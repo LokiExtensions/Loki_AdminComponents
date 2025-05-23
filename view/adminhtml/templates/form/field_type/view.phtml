@@ -1,0 +1,18 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\Form\Field\Field;
+use Yireo\LokiAdminComponents\Form\Field\FieldType\Text;
+use Yireo\LokiComponents\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Text $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldType = $field->getFieldType();
+
+?>
+<div style="padding-top:8px;" x-html="<?= $field->getScope() ?>.<?= $field->getCode() ?>"></div>
