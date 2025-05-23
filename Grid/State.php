@@ -119,6 +119,16 @@ class State
         $this->save('searchable_fields', implode(',', $searchableFields));
     }
 
+    public function getFilters(): array
+    {
+        return json_decode($this->get('filters'), true);
+    }
+
+    public function setFilters(array $filters): void
+    {
+        $this->save('filters', json_encode($filters));
+    }
+
     /**
      * @return array
      */
@@ -133,6 +143,7 @@ class State
             'totalPages' => $this->getTotalPages(),
             'searchableFields' => $this->getSearchableFields(),
             'search' => $this->getSearch(),
+            'filters' => $this->getFilters(),
         ];
     }
 

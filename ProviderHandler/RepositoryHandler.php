@@ -129,6 +129,14 @@ class RepositoryHandler implements ProviderHandlerInterface
             $filterGroups[] = $searchFilterGroup;
         }
 
+        foreach ($gridState->getFilters() as $filterData) {
+            $filter = $this->filterFactory->create();
+            $filter->setField($filterData['field']);
+            $filter->setValue($filterData['value']);
+            $filter->setConditionType($filterData['condition_type']);
+            $filterGroups[] = $this->filterGroupBuilder->setFilters([$filter])->create();
+        }
+
         return $filterGroups;
     }
 

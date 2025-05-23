@@ -78,6 +78,17 @@ class CollectionHandler implements ProviderHandlerInterface
             }
         }
 
+        foreach ($gridState->getFilters() as $filterData) {
+            if ($filterData['condition_type'] === 'eq') {
+                $provider->addFieldToFilter($filterData['field'], $filterData['value']);
+                continue;
+            }
+
+            $provider->addFieldToFilter($filterData['field'], [
+                $filterData['condition_type'] => $filterData['value'],
+            ]);
+        }
+
         $gridState->setTotalItems($provider->getSize());
 
         return $provider->getItems();
@@ -102,6 +113,7 @@ class CollectionHandler implements ProviderHandlerInterface
     {
         /** @var AbstractDb $provider */
         $fields = $provider->getResource()->getUniqueFields();
+
         // @todo: Use this to fetch database columns
         return [];
     }

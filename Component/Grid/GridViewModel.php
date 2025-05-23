@@ -12,6 +12,7 @@ use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
 use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
 use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
 use Yireo\LokiAdminComponents\Grid\ColumnLoader;
+use Yireo\LokiAdminComponents\Grid\FilterInterface;
 use Yireo\LokiAdminComponents\Grid\MassAction\MassActionInterface;
 use Yireo\LokiAdminComponents\Grid\State;
 use Yireo\LokiAdminComponents\Grid\StateManager;
@@ -25,6 +26,8 @@ use Yireo\LokiComponents\Util\CamelCaseConvertor;
  */
 class GridViewModel extends ComponentViewModel
 {
+    private array $items = [];
+
     public function __construct(
         protected StateManager $stateManager,
         protected UrlFactory $urlFactory,
@@ -68,7 +71,42 @@ class GridViewModel extends ComponentViewModel
      */
     public function getItems(): array
     {
-        return $this->getRepository()->getItems();
+        if (!empty($this->items[$this->getNamespace()])) {
+            return $this->items[$this->getNamespace()];
+        }
+
+        $this->applyStaticFilters();
+        $this->items[$this->getNamespace()] = $this->getRepository()->getItems();
+
+        return $this->items[$this->getNamespace()];
+    }
+
+    public function applyStaticFilters(): void
+    {
+        $staticFilters = (array)$this->getBlock()->getStaticFilters();
+        if (empty($staticFilters)) {
+            return;
+        }
+
+        $filters = [];
+        foreach ($staticFilters as $staticFilter) {
+            if ($staticFilter instanceof FilterInterface) {
+                $filters[] = [
+                    'field' => $staticFilter->getField(),
+                    'value' => $staticFilter->getValue(),
+                    'condition_type' => $staticFilter->getConditionType(),
+                ];
+                continue;
+            }
+
+            $filter = [];
+            $filter['field'] = $staticFilter['field'];
+            $filter['value'] = $staticFilter['value'];
+            $filter['condition_type'] = $staticFilter['condition_type'];
+            $filters[] = $filter;
+        }
+
+        $this->getState()->setFilters($filters);
     }
 
     public function getValueFromItem(DataObject $item, mixed $propertyName): mixed
@@ -216,6 +254,7 @@ class GridViewModel extends ComponentViewModel
     {
         // @todo: Retrieve ID from primary key
         $editUrl = $this->getEditUrl(['id' => $item->getId()]);
+
         return $this->cellActionFactory->create($editUrl, 'Edit');
     }
 
@@ -289,7 +328,7 @@ class GridViewModel extends ComponentViewModel
         $actionsFromBlock = (array)$this->getBlock()->getRowActions();
         if (!empty($actionsFromBlock)) {
             foreach ($actionsFromBlock as $action) {
-                $params = ['id'=> $item->getId()];
+                $params = ['id' => $item->getId()];
                 $url = $this->urlFactory->create()->getUrl($action['url'], $params);
                 $actions[] = $this->cellActionFactory->create($url, $action['label']);
             }
