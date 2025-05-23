@@ -15,8 +15,6 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
-
-$fields = $viewModel->getFields();
 ?>
 <div class="loki-form form">
     <?= $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
@@ -31,7 +29,7 @@ $fields = $viewModel->getFields();
                     <h1><?= $block->getLabel() ?></h1>
                     <div class="admin__fieldset-wrapper-content">
                         <fieldset class="admin__fieldset">
-                            <?php foreach ($fields as $field) : ?>
+                            <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?= $templateRenderer->html(
                                     $block,
                                     'Yireo_LokiAdminComponents::form/field.phtml',
