@@ -1,0 +1,15 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\ViewModel\Product;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var Product $productViewModel */
+
+$productViewModel = $viewModelFactory->create(Product::class);
+$product = $productViewModel->getById((int)$block->getValue());
+?>
+<span><?= $product->getId() ?> (<?= $product->getName() ?>)</span>

@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use Yireo\LokiAdminComponents\ViewModel\Customer;
+use Yireo\LokiComponents\Factory\ViewModelFactory;
+
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var Customer $customerViewModel */
+
+$customerViewModel = $viewModelFactory->create(Customer::class);
+$customerId = (int)$block->getValue();
+$customer = $customerViewModel->getById($customerId);
+?>
+<span><?= $customerId ?> (<?= $customer?->getEmail() ?>)</span>

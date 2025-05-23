@@ -1,0 +1,9 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+$label = $block->getValue() === 1 ? 'Yes' : 'No';
+?>
+<span><?= __($label) ?></span>

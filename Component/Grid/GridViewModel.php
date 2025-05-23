@@ -224,7 +224,7 @@ class GridViewModel extends ComponentViewModel
             return (string)$cellTemplates[$propertyName];
         }
 
-        return $this->cellTemplateResolver->resolve($dataObject, $propertyName);
+        return $this->cellTemplateResolver->resolve($dataObject, $propertyName, $this->getNamespace());
     }
 
     public function getCellTemplates(): array
