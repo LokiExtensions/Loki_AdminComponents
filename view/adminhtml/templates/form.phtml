@@ -13,7 +13,7 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 /** @var ChildRenderer $childRenderer */
 /** @var TemplateRenderer $templateRenderer */
 if (!isset($viewModel)) {
-    throw new \RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
+    throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
 
 $fields = $viewModel->getFields();
