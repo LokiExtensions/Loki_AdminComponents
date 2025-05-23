@@ -16,21 +16,27 @@
         },
         saveAndDuplicateAction() {
             this.post({
-                actions: ['save', 'duplicate', 'close'],
+                actions: ['save', 'duplicate'],
                 item: this.item,
             });
+
+            this.closeAction();
         },
         saveAndCloseAction() {
             this.post({
-                actions: ['save', 'close'],
+                actions: ['save'],
                 item: this.item,
             });
+
+            this.closeAction();
         },
         deleteAction() {
             this.post({
-                actions: ['delete', 'close'],
+                actions: ['delete'],
                 item: this.item,
             });
+
+            this.closeAction();
         },
         setValue(event) {
             let propertyValue;
