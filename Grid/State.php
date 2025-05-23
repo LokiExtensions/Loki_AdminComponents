@@ -121,7 +121,12 @@ class State
 
     public function getFilters(): array
     {
-        return json_decode($this->get('filters'), true);
+        $filters = json_decode((string)$this->get('filters'), true);
+        if (is_array($filters)) {
+            return $filters;
+        }
+
+        return [];
     }
 
     public function setFilters(array $filters): void
