@@ -6,6 +6,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
+use Magento\Framework\View\Element\Template;
 use Yireo\LokiAdminComponents\Form\Field\Field;
 use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
 use Yireo\LokiAdminComponents\Ui\Button;
@@ -81,18 +82,33 @@ class FormViewModel extends ComponentViewModel
             return [];
         }
 
+        $fieldDefinitions = (array)$this->getBlock()->getFields();
+        print_r($fieldDefinitions);
+
         $fields = [];
         $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
 
         foreach ($tableColumns as $tableColumn) {
+            $columnName = $tableColumn['COLUMN_NAME'];
             $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
             if (empty($fieldTypeCode)) {
                 echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
             }
 
+            $block = $this->getBlock()->getLayout()->createBlock(Template::class);
+
+            if (array_key_exists($columnName, $fieldDefinitions)) {
+                $fieldDefinition = (array)$fieldDefinitions[$columnName];
+                if (isset($fieldDefinition['field_type'])) {
+                    $fieldTypeCode = $fieldDefinition['field_type'];
+                }
+
+                //$block->setOptions($fieldDefinition['options']);
+            }
+
             $fields[] = $this->fieldFactory->create(
-                $this->getBlock(),
+                $block,
                 $fieldTypeCode,
                 $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
                 $tableColumn['COLUMN_NAME']
