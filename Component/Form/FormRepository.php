@@ -4,6 +4,7 @@ namespace Yireo\LokiAdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -11,6 +12,7 @@ use RuntimeException;
 use Throwable;
 use Yireo\LokiAdminComponents\Form\Action\ActionInterface;
 use Yireo\LokiAdminComponents\Form\Action\ActionListing;
+use Yireo\LokiAdminComponents\Form\Field\Field;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
@@ -39,14 +41,24 @@ class FormRepository extends ComponentRepository
         }
 
         $id = (int)$this->request->getParam($idParam);
-
-        try {
-            return $this->getProviderHandler()->getItem($this->getProvider(), $id);
-        } catch (Throwable $e) {
-            return $this->getFactory()->create();
+        if ($id) {
+            try {
+                return $this->getProviderHandler()->getItem($this->getProvider(), $id);
+            } catch (Throwable $e) {
+            }
         }
-    }
 
+        $item  = $this->getFactory()->create();
+        $resourceModel = $this->getResourceModel();
+        if ($resourceModel) {
+            $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
+            foreach ($tableColumns as $tableColumn) {
+                $item->setData($tableColumn['COLUMN_NAME'], null);
+            }
+        }
+
+        return $item;
+    }
 
     // @todo: Rename saveValue to handleValue
     public function saveValue(mixed $value): void
@@ -131,6 +143,22 @@ class FormRepository extends ComponentRepository
         }
 
         $provider = $this->getProvider();
+
         return $this->providerHandlerListing->getByProvider($provider);
+    }
+
+    public function getResourceModel(): ?AbstractDb
+    {
+        $resourceModelClass = $this->getBlock()->getResourceModel();
+        if (empty($resourceModelClass)) {
+            return null;
+        }
+
+        $resourceModel = $this->objectManager->get($resourceModelClass);
+        if (false === $resourceModel instanceof AbstractDb) {
+            return null;
+        }
+
+        return $resourceModel;
     }
 }

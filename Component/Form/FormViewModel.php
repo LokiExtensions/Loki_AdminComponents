@@ -4,7 +4,6 @@ namespace Yireo\LokiAdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
-use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
 use Yireo\LokiAdminComponents\Form\Field\Field;
@@ -13,6 +12,9 @@ use Yireo\LokiAdminComponents\Ui\Button;
 use Yireo\LokiAdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 
+/**
+ * @method FormRepository getRepository()
+ */
 class FormViewModel extends ComponentViewModel
 {
     public function __construct(
@@ -31,7 +33,6 @@ class FormViewModel extends ComponentViewModel
 
     public function getJsData(): array
     {
-
         return [
             ...parent::getJsData(),
             'item' => $this->getRepository()->getItem()?->toArray(),
@@ -75,7 +76,7 @@ class FormViewModel extends ComponentViewModel
      */
     public function getFields(): array
     {
-        $resourceModel = $this->getResourceModel();
+        $resourceModel = $this->getRepository()->getResourceModel();
         if (!$resourceModel) {
             return [];
         }
@@ -84,18 +85,34 @@ class FormViewModel extends ComponentViewModel
         $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
 
         foreach ($tableColumns as $tableColumn) {
-            //echo $tableColumn['DATA_TYPE'].' ';
-            if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-                $fieldTypeCode = 'text';
-                // @todo: For DATA_TYPE = date show date
-                // @todo: For DATA_TYPE = tinyint show switch
-
+            if (in_array($tableColumn['DATA_TYPE'], ['tinyint'])) {
+                $fieldTypeCode = 'switch';
                 $fields[] = $this->fieldFactory->create(
                     $this->getBlock(),
                     $fieldTypeCode,
                     $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
-                    $tableColumn['COLUMN_NAME'],
-                    false
+                    $tableColumn['COLUMN_NAME']
+                );
+            }
+
+            //echo $tableColumn['DATA_TYPE'].' ';
+            if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+                $fieldTypeCode = 'text';
+                $fields[] = $this->fieldFactory->create(
+                    $this->getBlock(),
+                    $fieldTypeCode,
+                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
+                    $tableColumn['COLUMN_NAME']
+                );
+            }
+
+            if (in_array($tableColumn['DATA_TYPE'], ['date'])) {
+                $fieldTypeCode = 'date';
+                $fields[] = $this->fieldFactory->create(
+                    $this->getBlock(),
+                    $fieldTypeCode,
+                    $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
+                    $tableColumn['COLUMN_NAME']
                 );
             }
         }
@@ -128,20 +145,5 @@ class FormViewModel extends ComponentViewModel
         }
 
         return ucfirst(str_replace('_', ' ', $label));
-    }
-
-    private function getResourceModel(): ?AbstractDb
-    {
-        $resourceModelClass = $this->getBlock()->getResourceModel();
-        if (empty($resourceModelClass)) {
-            return null;
-        }
-
-        $resourceModel = $this->objectManager->get($resourceModelClass);
-        if (false === $resourceModel instanceof AbstractDb) {
-            return null;
-        }
-
-        return $resourceModel;
     }
 }
