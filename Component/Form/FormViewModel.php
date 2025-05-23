@@ -2,6 +2,7 @@
 
 namespace Yireo\LokiAdminComponents\Component\Form;
 
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
@@ -18,7 +19,8 @@ class FormViewModel extends ComponentViewModel
         protected UrlFactory $urlFactory,
         protected ButtonFactory $buttonFactory,
         protected ObjectManagerInterface $objectManager,
-        protected FieldFactory $fieldFactory
+        protected FieldFactory $fieldFactory,
+        protected RequestInterface $request
     ) {
     }
 
@@ -39,12 +41,7 @@ class FormViewModel extends ComponentViewModel
 
     public function getIndexUrl(): string
     {
-        $indexUrl = $this->getBlock()->getIndexUrl();
-        if (empty($indexUrl)) {
-            $indexUrl = '*/*/index';
-        }
-
-        return $this->urlFactory->create()->getUrl($indexUrl);
+        return $this->urlFactory->create()->getUrl($this->getIndexUri());
     }
 
     /**
@@ -104,6 +101,23 @@ class FormViewModel extends ComponentViewModel
         }
 
         return $fields;
+    }
+
+    private function getIndexUri(): string
+    {
+        $indexUrl = $this->getBlock()->getIndexUrl();
+        if (!empty($indexUrl)) {
+            return $indexUrl;
+        }
+
+
+        $currentUri = (string)$this->request->getParam('currentUri');
+        if (!empty($currentUri)) {
+            $currentUriParts = explode('_', $currentUri);
+            return $currentUriParts[0] . '/' . $currentUriParts[1] . '/index';
+        }
+
+        return '*/*/index';
     }
 
     private function getLabelByColumn(string $columnName): string
