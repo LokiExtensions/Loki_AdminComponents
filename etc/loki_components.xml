@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Yireo_LokiComponents:etc/loki_components.xsd">
+    <group
+        name="loki_admin.grid"
+        viewModel="Yireo\LokiAdminComponents\Component\Grid\GridViewModel"
+        repository="Yireo\LokiAdminComponents\Component\Grid\GridRepository">
+    </group>
+
+    <group
+        name="loki_admin.form"
+        viewModel="Yireo\LokiAdminComponents\Component\Form\FormViewModel"
+        repository="Yireo\LokiAdminComponents\Component\Form\FormRepository">
+    </group>
+</components>
