@@ -9,6 +9,7 @@ use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
@@ -60,7 +61,20 @@ class RepositoryHandler implements ProviderHandlerInterface
             return call_user_func([$provider, 'get'], $identifier);
         }
 
-        throw new RuntimeException('Repository has no method we know of.');
+        throw new RuntimeException('Repository has no load-method we know of.');
+    }
+
+    public function createItem(object $provider, object|null $factory): DataObject
+    {
+        if (method_exists($provider, 'create')) {
+            return call_user_func([$provider, 'create']);
+        }
+
+        if (is_object($factory) && method_exists($factory, 'create')) {
+            return call_user_func([$factory, 'create']);
+        }
+
+        throw new RuntimeException('Repository has no create-method we know of.');
     }
 
     public function saveItem($provider, DataObject $item): void

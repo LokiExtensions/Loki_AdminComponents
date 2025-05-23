@@ -48,16 +48,37 @@ class FormRepository extends ComponentRepository
             }
         }
 
-        $item  = $this->getFactory()->create();
+        $item = $this->getFactory()->create();
         $resourceModel = $this->getResourceModel();
         if ($resourceModel) {
+            // @todo: Move this into separate class TableSchema (or use core)
             $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
             foreach ($tableColumns as $tableColumn) {
-                $item->setData($tableColumn['COLUMN_NAME'], null);
+                $item->setData(
+                    $tableColumn['COLUMN_NAME'],
+                    $this->getDefaultValueFromDataType($tableColumn['DATA_TYPE'])
+                );
             }
         }
 
         return $item;
+    }
+
+    private function getDefaultValueFromDataType(string $dataType): mixed
+    {
+        if (in_array($dataType, ['int', 'tinyint'])) {
+            return 0;
+        }
+
+        if (in_array($dataType, ['varchar', 'text', 'smalltext', 'mediumtext'])) {
+            return '';
+        }
+
+        if (in_array($dataType, ['date'])) {
+            return '0000-00-00';
+        }
+
+        return null;
     }
 
     // @todo: Rename saveValue to handleValue
@@ -86,19 +107,31 @@ class FormRepository extends ComponentRepository
         }
 
         $id = (int)$data['item'][$this->getPrimaryKey()];
+        if (!empty($id)) {
+            return $this->getProviderHandler()->getItem($this->getProvider(), $id);
+        }
 
-        return $this->getProviderHandler()->getItem($this->getProvider(), $id);
+        try {
+            $factory = $this->getFactory();
+        } catch(\Exception $e) {
+            $factory = null;
+        }
+
+        return $this->getProviderHandler()->createItem($this->getProvider(), $factory);
     }
 
     // @todo: Can this be private?
     public function getPrimaryKey(): string
     {
-        // @todo: Make this configurable
+        $resourceModel = $this->getResourceModel();
+        if ($resourceModel) {
+            return $resourceModel->getIdFieldName();
+        }
 
         return 'id';
     }
 
-    public function getProvider()
+    public function getProvider(): object
     {
         $provider = $this->getBlock()->getProvider();
         if (is_object($provider)) {
@@ -107,14 +140,14 @@ class FormRepository extends ComponentRepository
 
         $provider = $this->objectManager->get($provider);
 
-        if (!empty($provider)) {
+        if (is_object($provider)) {
             return $provider;
         }
 
         throw new \RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
-    private function getFactory()
+    private function getFactory(): object
     {
         $factoryClass = $this->getBlock()->getFactory();
         if (empty($factoryClass)) {

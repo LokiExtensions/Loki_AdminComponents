@@ -6,11 +6,17 @@ namespace Yireo\LokiAdminComponents\ProviderHandler;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Magento\Framework\ObjectManagerInterface;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
 
 class CollectionHandler implements ProviderHandlerInterface
 {
+    public function __construct(
+        private ObjectManagerInterface $objectManager
+    ) {
+    }
+
     public function match($provider): bool
     {
         return $provider instanceof AbstractCollection;
@@ -34,6 +40,20 @@ class CollectionHandler implements ProviderHandlerInterface
         $provider->setCurPage(1);
 
         return $provider->getFirstItem();
+    }
+
+    public function createItem(object $provider, object|null $factory): DataObject
+    {
+        if (false === $provider instanceof AbstractDb) {
+            throw new RuntimeException('Provider is not an instance of '.AbstractDb::class);
+        }
+
+        $modelName = $provider->getModelName();
+        if (empty($modelName)) {
+            throw new RuntimeException('No model-name found in collection');
+        }
+
+        return $this->objectManager->create($modelName);
     }
 
     public function getItems($provider, GridState $gridState): array

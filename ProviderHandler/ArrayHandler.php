@@ -32,6 +32,11 @@ class ArrayHandler implements ProviderHandlerInterface
         throw new RuntimeException('Unable to retrieve item from array');
     }
 
+    public function createItem(object $provider, object|null $factory): DataObject
+    {
+        throw new RuntimeException('Unable to retrieve item from array');
+    }
+
     public function getItems($provider, GridState $gridState): array
     {
         /** @var ArrayProviderInterface $provider */

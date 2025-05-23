@@ -14,6 +14,8 @@ interface ProviderHandlerInterface
 
     public function getItem($provider, string|int $identifier): DataObject;
 
+    public function createItem(object $provider, object|null $factory): DataObject;
+
     public function getItems($provider, GridState $gridState): array;
 
     public function saveItem($provider, DataObject $item);
