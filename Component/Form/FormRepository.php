@@ -105,13 +105,17 @@ class FormRepository extends ComponentRepository
     private function getFactory()
     {
         $factoryClass = $this->getBlock()->getFactory();
-        $factory = $this->objectManager->get($factoryClass);
-
-        if (!empty($factory)) {
-            return $factory;
+        if (empty($factoryClass)) {
+            throw new RuntimeException('No factory class set');
         }
 
-        throw new RuntimeException('Empty factory "'.$factoryClass.'"');
+        $factory = $this->objectManager->get($factoryClass);
+
+        if (false === is_object($factory)) {
+            throw new RuntimeException('Empty factory "'.$factoryClass.'"');
+        }
+
+        return $factory;
     }
 
     private function getBlock(): AbstractBlock
