@@ -87,7 +87,7 @@ class FormViewModel extends ComponentViewModel
         foreach ($tableColumns as $tableColumn) {
             $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
             if (empty($fieldTypeCode)) {
-                echo 'Unknown data-type: '.$tableColumn['DATA_TYPE'];
+                echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
             }
 
@@ -106,6 +106,10 @@ class FormViewModel extends ComponentViewModel
     {
         if ($tableColumn['COLUMN_NAME'] === $this->getRepository()->getPrimaryKey()) {
             return 'view';
+        }
+
+        if (in_array($tableColumn['DATA_TYPE'], ['datetime'])) {
+            return 'datetime';
         }
 
         if (in_array($tableColumn['DATA_TYPE'], ['date'])) {

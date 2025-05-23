@@ -30,6 +30,7 @@
                 <item name="view" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\View</item>
                 <item name="text" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Text</item>
                 <item name="date" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Date</item>
+                <item name="datetime" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Datetime</item>
                 <item name="number" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Number</item>
                 <item name="select" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Select</item>
                 <item name="switch" xsi:type="object">Yireo\LokiAdminComponents\Form\Field\FieldType\Switcher</item>
