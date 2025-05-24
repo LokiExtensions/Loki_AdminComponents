@@ -8,6 +8,8 @@ The LokiAdminComponents are based on the [Yireo LokiComponents](https://github.c
 module which is also used in the [Yireo LokiCheckout](https://loki-checkout.com/). However, this admin tool shows
 that the Loki suite of Yireo can be applied in many more places.
 
+*Note that this library makes use of Alpine.js in the Magento Admin Panel. However, TailwindCSS is not used, we stick to the native Magento Admin Panel classes instead.*
+
 ## Installation
 ```bash
 composer require yireo/magento2-loki-admin-components
@@ -33,7 +35,9 @@ As a demo, you could opt to install the following examples:
 - Sorting columns
 - Custom cell templates
 - Inline editing
-- Custom columns
+- Filters
+- Mass Actions
+- Custom cell templates
 - ... (more docs coming soon)
 
 ### Grid provider handlers
@@ -42,9 +46,22 @@ As a demo, you could opt to install the following examples:
 - `array`
 
 ### Form features
-- Block-based form fields
-- Form actions
+- Autodetection of columns
+- Field-types (select, text, number, datetime, etc) with option to configure more
+- Form actions (Back, Save and Close, Save and Continue, Delete, etc)
 - ... (more docs coming soon)
 
 ### Documentation
 See [the wiki](https://github.com/yireo/Yireo_LokiAdminComponents/wiki)
+
+# Todo
+- Easily extend LokiComponent partials via XML layout
+- Add file `view/adminhtml/loki/example-grid.xml`
+- Example database query in custom array provider
+- Extension Attributes
+- Filesystem navigation
+- Tiles instead of grid layout
+- Delete add confirmation
+- Add custom SearchCriteriaBuilder via repository addons
+- Switch field for enabled/disabled column within grid
+- Export selected to CSV, JSON, XSLX
