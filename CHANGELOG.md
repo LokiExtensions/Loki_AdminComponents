@@ -6,6 +6,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.10] - 18 June 2025
+### Fixed
+- Merge fields detected with info from XML layout
+- Add Datetime field-type
+- Fix issue when filters are not saved to grid yet
+- Allow custom cell templates via block-name
+- Allow for static grid filters
+- Add component groups `loki_admin.grid` and `loki_admin.form`
+- Read `row_actions` from XML layout
+- Additional field types (date, number, view)
+- Refactor field detection
+- Add createItem to provider handlers
+- Add LESS file
+- Fix saveAndClose action again by redirecting to index page
+- Exception when no factory class is set in form
+- Properly set indexUrl after form AJAX-reload
+- Add current URI to component params
+- Throw friendly error if block is not component yet
+- Add buttons for filters
+- Add recursive options for select options
+- Fix z-index with limit box
+- Move JS code into partials
+- Visual mock for filters
+- Fix redirect after mass action
+- Working demo of mass actions with products
+- Mass actions
+
 ## [0.0.9] - 17 May 2025
 ### Fixed
 - First bits on filters
