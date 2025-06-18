@@ -9,7 +9,6 @@ use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
-use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use RuntimeException;
 use Yireo\LokiAdminComponents\Grid\State as GridState;
