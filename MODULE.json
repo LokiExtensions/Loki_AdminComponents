@@ -3,6 +3,7 @@
         "Yireo_LokiComponents",
         "Magento_Backend",
         "Magento_Catalog",
+        "Magento_Customer",
         "Magento_Eav",
         "Magento_Ui"
     ],
