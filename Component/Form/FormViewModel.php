@@ -92,7 +92,7 @@ class FormViewModel extends ComponentViewModel
             $columnName = $tableColumn['COLUMN_NAME'];
             $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
             if (empty($fieldTypeCode)) {
-                echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
+                // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
             }
 
