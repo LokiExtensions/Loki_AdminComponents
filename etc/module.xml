@@ -5,6 +5,7 @@
             <module name="Yireo_LokiComponents"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_Customer"/>
             <module name="Magento_Eav"/>
             <module name="Magento_Ui"/>
         </sequence>
