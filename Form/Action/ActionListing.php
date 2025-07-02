@@ -5,7 +5,7 @@ namespace Yireo\LokiAdminComponents\Form\Action;
 class ActionListing
 {
     public function __construct(
-        private array $actions,
+        private array $actions = [],
     ) {
     }
 
