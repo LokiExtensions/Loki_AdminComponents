@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ProviderHandler;
+namespace Loki\AdminComponents\ProviderHandler;
 
 use Magento\Framework\DataObject;
-use Yireo\LokiAdminComponents\Grid\State as GridState;
+use Loki\AdminComponents\Grid\State as GridState;
 
 interface ProviderHandlerInterface
 {

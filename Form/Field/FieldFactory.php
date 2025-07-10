@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\Field;
+namespace Loki\AdminComponents\Form\Field;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
-use Yireo\LokiAdminComponents\Component\Form\FormViewModel;
+use Loki\AdminComponents\Component\Form\FormViewModel;
 
 class FieldFactory
 {
@@ -25,7 +25,7 @@ class FieldFactory
         bool $required = false,
     ) {
         $block = $this->layout->createBlock(Template::class);
-        $block->setTemplate('Yireo_LokiAdminComponents::form/field.phtml');
+        $block->setTemplate('Loki_AdminComponents::form/field.phtml');
         return $this->create($block, $fieldTypeCode, $label, $code, $required);
     }
 

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ProviderHandler;
+namespace Loki\AdminComponents\ProviderHandler;
 
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Grid\State as GridState;
+use Loki\AdminComponents\Grid\State as GridState;
 
 class CollectionHandler implements ProviderHandlerInterface
 {

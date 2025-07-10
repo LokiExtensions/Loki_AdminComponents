@@ -2,13 +2,13 @@
 <components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Yireo_LokiComponents:etc/loki_components.xsd">
     <group
         name="loki_admin.grid"
-        viewModel="Yireo\LokiAdminComponents\Component\Grid\GridViewModel"
-        repository="Yireo\LokiAdminComponents\Component\Grid\GridRepository">
+        viewModel="Loki\AdminComponents\Component\Grid\GridViewModel"
+        repository="Loki\AdminComponents\Component\Grid\GridRepository">
     </group>
 
     <group
         name="loki_admin.form"
-        viewModel="Yireo\LokiAdminComponents\Component\Form\FormViewModel"
-        repository="Yireo\LokiAdminComponents\Component\Form\FormRepository">
+        viewModel="Loki\AdminComponents\Component\Form\FormViewModel"
+        repository="Loki\AdminComponents\Component\Form\FormRepository">
     </group>
 </components>

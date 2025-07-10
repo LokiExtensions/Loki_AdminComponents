@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ProviderHandler;
+namespace Loki\AdminComponents\ProviderHandler;
 
 use RuntimeException;
 

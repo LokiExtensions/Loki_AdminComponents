@@ -2,4 +2,4 @@
 
 use Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Yireo_LokiAdminComponents', __DIR__);
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Loki_AdminComponents', __DIR__);

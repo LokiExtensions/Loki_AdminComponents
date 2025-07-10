@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Component\Form;
+namespace Loki\AdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
@@ -10,11 +10,11 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
 use Throwable;
-use Yireo\LokiAdminComponents\Form\Action\ActionInterface;
-use Yireo\LokiAdminComponents\Form\Action\ActionListing;
-use Yireo\LokiAdminComponents\Form\Field\Field;
-use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
-use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing;
+use Loki\AdminComponents\Form\Action\ActionInterface;
+use Loki\AdminComponents\Form\Action\ActionListing;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
+use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
 
 class FormRepository extends ComponentRepository

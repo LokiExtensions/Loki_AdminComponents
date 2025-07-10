@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid;
+namespace Loki\AdminComponents\Grid;
 
 use Magento\Framework\ObjectManagerInterface;
 

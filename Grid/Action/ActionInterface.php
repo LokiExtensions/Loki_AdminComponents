@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\Action;
+namespace Loki\AdminComponents\Grid\Action;
 
-use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Component\Grid\GridRepository;
 
 interface ActionInterface
 {

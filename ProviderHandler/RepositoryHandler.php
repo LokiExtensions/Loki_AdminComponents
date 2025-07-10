@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ProviderHandler;
+namespace Loki\AdminComponents\ProviderHandler;
 
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Api\Search\FilterGroup;
@@ -11,7 +11,7 @@ use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
 use Magento\Framework\DataObject;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Grid\State as GridState;
+use Loki\AdminComponents\Grid\State as GridState;
 
 class RepositoryHandler implements ProviderHandlerInterface
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\MassAction;
+namespace Loki\AdminComponents\Grid\MassAction;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 

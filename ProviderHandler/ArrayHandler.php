@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ProviderHandler;
+namespace Loki\AdminComponents\ProviderHandler;
 
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Grid\State as GridState;
-use Yireo\LokiAdminComponents\Provider\ArrayProviderInterface;
+use Loki\AdminComponents\Grid\State as GridState;
+use Loki\AdminComponents\Provider\ArrayProviderInterface;
 
 class ArrayHandler implements ProviderHandlerInterface
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\Fieldset;
+namespace Loki\AdminComponents\Form\Fieldset;
 
 class Fieldset
 {
