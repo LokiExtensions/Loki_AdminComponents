@@ -1,5 +1,5 @@
 {
-  "name": "loki-extensions/magento2-admin-components",
+  "name": "loki/magento2-admin-components",
   "version": "0.0.10",
   "description": "N/A",
   "type": "magento2-module",
