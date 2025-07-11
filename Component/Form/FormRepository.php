@@ -188,8 +188,12 @@ class FormRepository extends ComponentRepository
         }
 
         $resourceModel = $this->objectManager->get($resourceModelClass);
+        if (empty($resourceModel)) {
+            throw new \RuntimeException('Unable to instantiate resource model from class "'.$resourceModelClass.'"');
+        }
+
         if (false === $resourceModel instanceof AbstractDb) {
-            return null;
+            throw new \RuntimeException('Resource model "'.$resourceModelClass.'" is not an instance of '.AbstractDb::class);
         }
 
         return $resourceModel;
