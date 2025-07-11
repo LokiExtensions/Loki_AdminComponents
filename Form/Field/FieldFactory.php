@@ -23,10 +23,11 @@ class FieldFactory
         string $label,
         string $code,
         bool $required = false,
+        array $htmlAttributes = []
     ) {
         $block = $this->layout->createBlock(Template::class);
         $block->setTemplate('Loki_AdminComponents::form/field.phtml');
-        return $this->create($block, $fieldTypeCode, $label, $code, $required);
+        return $this->create($block, $fieldTypeCode, $label, $code, $required, $htmlAttributes);
     }
 
     public function create(
@@ -35,6 +36,7 @@ class FieldFactory
         string $label,
         string $code,
         bool $required = false,
+        array $htmlAttributes = []
     ): Field {
         $fieldType = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
 
@@ -44,6 +46,7 @@ class FieldFactory
             'label' => $label,
             'code' => $code,
             'required' => $required,
+            'htmlAttributes' => $htmlAttributes,
         ]);
     }
 }

@@ -12,14 +12,22 @@ use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 
 $field = $block->getField();
+$htmlAttributes = $field->getHtmlAttributes();
 $fieldType = $field->getFieldType();
+$inputType = $fieldType->getInputType();
+if (isset($htmlAttributes['type'])) {
+    $inputType = $htmlAttributes['type'];
+    unset($htmlAttributes['type']);
+}
 ?>
 <input
     class="admin__control-text"
-    type="<?= $fieldType->getInputType() ?>"
+    type="<?= $inputType ?>"
+    name="<?= $field->getCode() ?>"
     data-name="<?= $field->getCode() ?>"
-    placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
-    maxlength="<?= $fieldType->getMaximumLength() ?>"
+    <?php foreach ($htmlAttributes as $htmlAttributeName => $htmlAttributeValue) : ?>
+        <?= $htmlAttributeName ?>="<?= $htmlAttributeValue ?>"
+    <?php endforeach; ?>
     :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
     @change="setValue"
 >

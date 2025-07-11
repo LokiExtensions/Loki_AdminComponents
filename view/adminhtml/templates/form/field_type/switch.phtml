@@ -21,6 +21,7 @@ $fieldType = $field->getFieldType();
 <div class="admin__actions-switch">
     <input
         type="checkbox"
+        name="<?= $field->getCode() ?>"
         class="admin__actions-switch-checkbox"
         :checked="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
         @change="setValue"

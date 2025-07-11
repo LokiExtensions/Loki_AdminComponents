@@ -13,6 +13,7 @@ class Field
         private string $label,
         private string $code,
         private bool $required = false,
+        private array $htmlAttributes = [],
         private string $scope = 'item'
     ) {
     }
@@ -45,5 +46,10 @@ class Field
     public function getBlock(): AbstractBlock
     {
         return $this->block;
+    }
+
+    public function getHtmlAttributes(): array
+    {
+        return $this->htmlAttributes;
     }
 }

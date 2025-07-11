@@ -6,12 +6,6 @@ use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 
 class Text implements FieldTypeInterface
 {
-    public function __construct(
-        private string $inputType = 'text',
-        private int $maximumLength = 255,
-    ) {
-    }
-
     public function getTemplate(): string
     {
         return 'Loki_AdminComponents::form/field_type/text.phtml';
@@ -19,11 +13,6 @@ class Text implements FieldTypeInterface
 
     public function getInputType(): string
     {
-        return $this->inputType;
-    }
-
-    public function getMaximumLength(): int
-    {
-        return $this->maximumLength;
+        return 'text';
     }
 }
