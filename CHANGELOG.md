@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 11 July 2025
+### Fixed
+- Allow for item convertors in forms
+- Configure HTML attributes per field
+- Enhance exceptions when you are being stupid
+- Remove allowActions from provider
+
 ## [0.1.0] - 10 July 2025
 ### Refactor
 - Rename from `Yireo_LokiAdminComponents` to `Loki_AdminComponents`
