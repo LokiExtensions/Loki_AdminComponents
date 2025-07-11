@@ -5,14 +5,12 @@ namespace Loki\AdminComponents\Component\Form;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
 use Throwable;
 use Loki\AdminComponents\Form\Action\ActionInterface;
 use Loki\AdminComponents\Form\Action\ActionListing;
-use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
@@ -113,7 +111,7 @@ class FormRepository extends ComponentRepository
 
         try {
             $factory = $this->getFactory();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $factory = null;
         }
 
@@ -193,7 +191,9 @@ class FormRepository extends ComponentRepository
         }
 
         if (false === $resourceModel instanceof AbstractDb) {
-            throw new \RuntimeException('Resource model "'.$resourceModelClass.'" is not an instance of '.AbstractDb::class);
+            throw new \RuntimeException(
+                'Resource model "'.$resourceModelClass.'" is not an instance of '.AbstractDb::class
+            );
         }
 
         return $resourceModel;

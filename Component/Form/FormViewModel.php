@@ -83,7 +83,6 @@ class FormViewModel extends ComponentViewModel
         }
 
         $fieldDefinitions = (array)$this->getBlock()->getFields();
-        print_r($fieldDefinitions);
 
         $fields = [];
         $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
@@ -96,6 +95,7 @@ class FormViewModel extends ComponentViewModel
                 continue;
             }
 
+            $htmlAttributes = [];
             $block = $this->getBlock()->getLayout()->createBlock(Template::class);
 
             if (array_key_exists($columnName, $fieldDefinitions)) {
@@ -104,14 +104,18 @@ class FormViewModel extends ComponentViewModel
                     $fieldTypeCode = $fieldDefinition['field_type'];
                 }
 
-                //$block->setOptions($fieldDefinition['options']);
+                if (isset($fieldDefinition['html_attributes'])) {
+                    $htmlAttributes = array_merge($htmlAttributes, $fieldDefinition['html_attributes']);
+                }
             }
 
             $fields[] = $this->fieldFactory->create(
                 $block,
                 $fieldTypeCode,
                 $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
-                $tableColumn['COLUMN_NAME']
+                $tableColumn['COLUMN_NAME'],
+                false, // @todo
+                $htmlAttributes
             );
         }
 
