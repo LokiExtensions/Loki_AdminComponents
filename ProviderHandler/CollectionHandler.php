@@ -22,12 +22,6 @@ class CollectionHandler implements ProviderHandlerInterface
         return $provider instanceof AbstractCollection;
     }
 
-    public function allowActions(object $provider): bool
-    {
-        return true;
-    }
-
-
     public function getItem(object $provider, int|string $identifier): DataObject
     {
         if (false === $provider instanceof AbstractDb) {

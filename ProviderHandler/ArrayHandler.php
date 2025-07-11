@@ -22,11 +22,6 @@ class ArrayHandler implements ProviderHandlerInterface
         return $provider instanceof ArrayProviderInterface;
     }
 
-    public function allowActions(object $provider): bool
-    {
-        return false;
-    }
-
     public function getItem(object $provider, int|string $identifier): DataObject
     {
         throw new RuntimeException('Unable to retrieve item from array');

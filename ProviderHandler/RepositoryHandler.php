@@ -29,11 +29,6 @@ class RepositoryHandler implements ProviderHandlerInterface
             || str_ends_with(get_class($provider), 'Repository\Interceptor');
     }
 
-    public function allowActions(object $provider): bool
-    {
-        return true;
-    }
-
     public function getItems(object $provider, GridState $gridState): array
     {
         if (false === method_exists($provider, 'getList')) {

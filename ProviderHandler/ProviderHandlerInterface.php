@@ -10,8 +10,6 @@ interface ProviderHandlerInterface
 {
     public function match(object $provider): bool;
 
-    public function allowActions(object $provider): bool;
-
     public function getItem(object $provider, string|int $identifier): DataObject;
 
     public function createItem(object $provider, object|null $factory): DataObject;

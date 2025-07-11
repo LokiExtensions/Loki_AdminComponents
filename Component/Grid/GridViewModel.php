@@ -304,13 +304,11 @@ class GridViewModel extends ComponentViewModel
 
     public function allowActions(): bool
     {
-        if ($this->getBlock()->hasData('allow_actions')) {
-            return (bool)$this->getBlock()->getData('allow_actions');
+        if ((bool)$this->getBlock()->getData('hide_actions') === true) {
+            return false;
         }
 
-        return $this->getRepository()->getProviderHandler()->allowActions(
-            $this->getRepository()->getProvider()
-        );
+        return true;
     }
 
     public function getState(): State
