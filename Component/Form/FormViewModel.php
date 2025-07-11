@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Form;
 
+use Loki\AdminComponents\Form\ItemConvertorInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
@@ -23,7 +24,8 @@ class FormViewModel extends ComponentViewModel
         protected ButtonFactory $buttonFactory,
         protected ObjectManagerInterface $objectManager,
         protected FieldFactory $fieldFactory,
-        protected RequestInterface $request
+        protected RequestInterface $request,
+        protected array $itemFilters = [],
     ) {
     }
 
@@ -36,9 +38,24 @@ class FormViewModel extends ComponentViewModel
     {
         return [
             ...parent::getJsData(),
-            'item' => $this->getRepository()->getItem()?->toArray(),
+            'item' => $this->getItemData(),
             'indexUrl' => $this->getIndexUrl(),
         ];
+    }
+
+    private function getItemData(): array
+    {
+        $item = $this->getRepository()->getItem();
+        if (false === $item instanceof DataObject) {
+            return [];
+        }
+
+        $itemConvertor = $this->getBlock()->getItemConvertor();
+        if ($itemConvertor instanceof ItemConvertorInterface) {
+            $item = $itemConvertor->afterLoad($item);
+        }
+
+        return $item->toArray();
     }
 
     public function getIndexUrl(): string
@@ -107,6 +124,8 @@ class FormViewModel extends ComponentViewModel
                 if (isset($fieldDefinition['html_attributes'])) {
                     $htmlAttributes = array_merge($htmlAttributes, $fieldDefinition['html_attributes']);
                 }
+
+                $block->addData($fieldDefinition);
             }
 
             $fields[] = $this->fieldFactory->create(

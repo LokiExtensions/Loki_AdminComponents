@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Action;
 
+use Loki\AdminComponents\Form\ItemConvertorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
 use Loki\AdminComponents\Component\Form\FormRepository;
@@ -34,6 +35,11 @@ class SaveAction implements ActionInterface
             }
 
             $this->setItemPropertyValue($item, $propertyKey, $propertyValue);
+        }
+
+        $itemConvertor = $formRepository->getComponent()->getViewModel()->getBlock()->getItemConvertor();
+        if ($itemConvertor instanceof ItemConvertorInterface) {
+            $item = $itemConvertor->beforeSave($item);
         }
 
         $providerHandler->saveItem($provider, $item);
