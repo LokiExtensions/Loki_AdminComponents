@@ -16,7 +16,7 @@ $option = $block->getOption();
         <?= $suboption['level'] = $option['level'] + 1; ?>
         <?= $templateRenderer->html(
             $block,
-            'Yireo_LokiAdminComponents::form/field_type/select/option.phtml',
+            'Loki_AdminComponents::form/field_type/select/option.phtml',
             ['option' => $suboption]
         ) ?>
     <?php endforeach; ?>

@@ -1,23 +1,23 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Component\Grid;
+namespace Loki\AdminComponents\Component\Grid;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
-use Yireo\LokiAdminComponents\Form\Field\Field;
-use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
-use Yireo\LokiAdminComponents\Grid\Cell\CellAction;
-use Yireo\LokiAdminComponents\Grid\Cell\CellActionFactory;
-use Yireo\LokiAdminComponents\Grid\Cell\CellTemplateResolver;
-use Yireo\LokiAdminComponents\Grid\ColumnLoader;
-use Yireo\LokiAdminComponents\Grid\FilterInterface;
-use Yireo\LokiAdminComponents\Grid\MassAction\MassActionInterface;
-use Yireo\LokiAdminComponents\Grid\State;
-use Yireo\LokiAdminComponents\Grid\StateManager;
-use Yireo\LokiAdminComponents\Ui\Button;
-use Yireo\LokiAdminComponents\Ui\ButtonFactory;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldFactory;
+use Loki\AdminComponents\Grid\Cell\CellAction;
+use Loki\AdminComponents\Grid\Cell\CellActionFactory;
+use Loki\AdminComponents\Grid\Cell\CellTemplateResolver;
+use Loki\AdminComponents\Grid\ColumnLoader;
+use Loki\AdminComponents\Grid\FilterInterface;
+use Loki\AdminComponents\Grid\MassAction\MassActionInterface;
+use Loki\AdminComponents\Grid\State;
+use Loki\AdminComponents\Grid\StateManager;
+use Loki\AdminComponents\Ui\Button;
+use Loki\AdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 use Yireo\LokiComponents\Util\CamelCaseConvertor;
 

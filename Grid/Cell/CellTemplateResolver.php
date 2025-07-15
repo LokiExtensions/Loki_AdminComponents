@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\Cell;
+namespace Loki\AdminComponents\Grid\Cell;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
@@ -26,6 +26,6 @@ class CellTemplateResolver
             return $block->getTemplate();
         }
 
-        return 'Yireo_LokiAdminComponents::grid/cell/default.phtml';
+        return 'Loki_AdminComponents::grid/cell/default.phtml';
     }
 }

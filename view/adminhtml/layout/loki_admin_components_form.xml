@@ -6,29 +6,29 @@
     <body>
         <block
             name="loki-admin.form.actions"
-            template="Yireo_LokiAdminComponents::form/actions.phtml">
+            template="Loki_AdminComponents::form/actions.phtml">
         </block>
 
         <block
             name="loki-admin.form.spinner"
-            template="Yireo_LokiAdminComponents::form/spinner.phtml">
+            template="Loki_AdminComponents::form/spinner.phtml">
         </block>
 
         <block
             name="loki-admin.form.inner"
-            template="Yireo_LokiAdminComponents::form/inner.phtml">
+            template="Loki_AdminComponents::form/inner.phtml">
         </block>
 
         <referenceContainer name="loki-component-types">
             <block
                 name="loki-admin.script.component.form-component-type" as="form"
-                template="Yireo_LokiAdminComponents::script/component-type/form-component-type.phtml"/>
+                template="Loki_AdminComponents::script/component-type/form-component-type.phtml"/>
         </referenceContainer>
 
         <referenceContainer name="loki-components">
             <block
                 name="loki-admin.script.component.form-component" as="form"
-                template="Yireo_LokiAdminComponents::script/component/form-component.phtml"/>
+                template="Loki_AdminComponents::script/component/form-component.phtml"/>
         </referenceContainer>
     </body>
 </page>

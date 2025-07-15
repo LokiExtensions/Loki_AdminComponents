@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Component\Form;
+namespace Loki\AdminComponents\Component\Form;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\View\Element\Template;
-use Yireo\LokiAdminComponents\Form\Field\Field;
-use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
-use Yireo\LokiAdminComponents\Ui\Button;
-use Yireo\LokiAdminComponents\Ui\ButtonFactory;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldFactory;
+use Loki\AdminComponents\Ui\Button;
+use Loki\AdminComponents\Ui\ButtonFactory;
 use Yireo\LokiComponents\Component\ComponentViewModel;
 
 /**

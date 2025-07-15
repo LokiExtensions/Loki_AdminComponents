@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 10 July 2025
+### Refactor
+- Rename from `Yireo_LokiAdminComponents` to `Loki_AdminComponents`
+- Rename from `yireo/magento2-loki-admin-components` to `loki/magento2-admin-components`
+
 ## [0.0.10] - 18 June 2025
 ### Fixed
 - Merge fields detected with info from XML layout

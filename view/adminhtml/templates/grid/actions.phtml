@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Magento\Framework\View\Element\Template;
-use Yireo\LokiAdminComponents\Component\Grid\GridViewModel;
+use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 
 /** @var Template $block */
@@ -19,7 +19,7 @@ $buttons = $viewModel->getButtons();
                 <?php foreach ($buttons as $button): ?>
                     <?= $templateRenderer->html(
                         $block,
-                        'Yireo_LokiAdminComponents::ui/button.phtml',
+                        'Loki_AdminComponents::ui/button.phtml',
                         ['button' => $button]
                     ) ?>
                 <?php endforeach; ?>

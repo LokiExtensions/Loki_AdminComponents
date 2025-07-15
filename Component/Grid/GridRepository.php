@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Component\Grid;
+namespace Loki\AdminComponents\Component\Grid;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
-use Yireo\LokiAdminComponents\Grid\Action\ActionListing;
-use Yireo\LokiAdminComponents\Grid\State;
-use Yireo\LokiAdminComponents\Grid\StateManager;
-use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerInterface;
-use Yireo\LokiAdminComponents\ProviderHandler\ProviderHandlerListing;
+use Loki\AdminComponents\Grid\Action\ActionListing;
+use Loki\AdminComponents\Grid\State;
+use Loki\AdminComponents\Grid\StateManager;
+use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
+use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Yireo\LokiComponents\Component\ComponentRepository;
 
 class GridRepository extends ComponentRepository

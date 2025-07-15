@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ViewModel;
+namespace Loki\AdminComponents\ViewModel;
 
 use Magento\Eav\Model\AttributeSetRepository;
 use Magento\Framework\View\Element\Block\ArgumentInterface;

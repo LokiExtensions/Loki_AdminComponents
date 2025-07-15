@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\Action;
+namespace Loki\AdminComponents\Grid\Action;
 
-use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
-use Yireo\LokiAdminComponents\Grid\StateManager;
+use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Grid\StateManager;
 
 class PageAction implements ActionInterface
 {

@@ -6,89 +6,89 @@
     <body>
         <block
             name="loki-admin.grid.table"
-            template="Yireo_LokiAdminComponents::grid/table.phtml"/>
+            template="Loki_AdminComponents::grid/table.phtml"/>
 
         <block
             name="loki-admin.grid.massactions"
-            template="Yireo_LokiAdminComponents::grid/massactions.phtml">
+            template="Loki_AdminComponents::grid/massactions.phtml">
         </block>
 
         <block
             name="loki-admin.grid.actions"
-            template="Yireo_LokiAdminComponents::grid/actions.phtml">
+            template="Loki_AdminComponents::grid/actions.phtml">
         </block>
 
         <block
             name="loki-admin.grid.search"
-            template="Yireo_LokiAdminComponents::grid/search.phtml">
+            template="Loki_AdminComponents::grid/search.phtml">
         </block>
 
         <block
             name="loki-admin.grid.spinner"
-            template="Yireo_LokiAdminComponents::grid/spinner.phtml">
+            template="Loki_AdminComponents::grid/spinner.phtml">
         </block>
 
         <block
             name="loki-admin.grid.pager"
-            template="Yireo_LokiAdminComponents::grid/pager.phtml">
+            template="Loki_AdminComponents::grid/pager.phtml">
             <block
                 name="loki-admin.grid.pager.limit" as="limit"
-                template="Yireo_LokiAdminComponents::grid/pager/limit.phtml">
+                template="Loki_AdminComponents::grid/pager/limit.phtml">
             </block>
 
             <block
                 name="loki-admin.grid.pager.pagination" as="pagination"
-                template="Yireo_LokiAdminComponents::grid/pager/pagination.phtml">
+                template="Loki_AdminComponents::grid/pager/pagination.phtml">
             </block>
         </block>
 
         <block
             name="loki-admin.grid.records"
-            template="Yireo_LokiAdminComponents::grid/records.phtml">
+            template="Loki_AdminComponents::grid/records.phtml">
         </block>
 
         <block
             name="loki-admin.grid.filters"
-            template="Yireo_LokiAdminComponents::grid/filters.phtml">
+            template="Loki_AdminComponents::grid/filters.phtml">
         </block>
 
         <referenceContainer name="loki-component-partials">
             <block
                 name="loki-admin.script.component-partials.pagination" as="pagination"
-                template="Yireo_LokiAdminComponents::script/component-partial/pagination-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/pagination-component-partial.phtml"/>
             <block
                 name="loki-admin.script.component-partials.limit" as="limit"
-                template="Yireo_LokiAdminComponents::script/component-partial/limit-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/limit-component-partial.phtml"/>
             <block
                 name="loki-admin.script.component-partials.inline-edit" as="inline-edit"
-                template="Yireo_LokiAdminComponents::script/component-partial/inline-edit-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/inline-edit-component-partial.phtml"/>
             <block
                 name="loki-admin.script.component-partials.selected" as="selected"
-                template="Yireo_LokiAdminComponents::script/component-partial/selected-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/selected-component-partial.phtml"/>
             <block
                 name="loki-admin.script.component-partials.mass-actions" as="mass-actions"
-                template="Yireo_LokiAdminComponents::script/component-partial/mass-actions-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/mass-actions-component-partial.phtml"/>
             <block
                 name="loki-admin.script.component-partials.filters" as="filters"
-                template="Yireo_LokiAdminComponents::script/component-partial/filters-component-partial.phtml"/>
+                template="Loki_AdminComponents::script/component-partial/filters-component-partial.phtml"/>
         </referenceContainer>
 
         <referenceContainer name="loki-component-types">
             <block
                 name="loki-admin.script.component-types.grid" as="grid"
-                template="Yireo_LokiAdminComponents::script/component-type/grid-component-type.phtml"/>
+                template="Loki_AdminComponents::script/component-type/grid-component-type.phtml"/>
         </referenceContainer>
 
         <referenceContainer name="loki-components">
             <block
                 name="loki-admin.script.component.grid-component" as="grid"
-                template="Yireo_LokiAdminComponents::script/component/grid-component.phtml"/>
+                template="Loki_AdminComponents::script/component/grid-component.phtml"/>
         </referenceContainer>
 
         <referenceBlock name="loki-components.alpinejs">
             <block
                 name="loki-components.alpine-plugin-sort"
-                template="Yireo_LokiAdminComponents::script/alpine-sort.phtml"
+                template="Loki_AdminComponents::script/alpine-sort.phtml"
             />
         </referenceBlock>
     </body>

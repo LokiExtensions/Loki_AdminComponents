@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Plugin;
+namespace Loki\AdminComponents\Plugin;
 
 use Magento\Framework\App\FrontController;
 use Magento\Framework\App\RequestInterface;

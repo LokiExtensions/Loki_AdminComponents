@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\Field\FieldType;
+namespace Loki\AdminComponents\Form\Field\FieldType;
 
-use Yireo\LokiAdminComponents\Form\Field\FieldTypeInterface;
+use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 
 class Text implements FieldTypeInterface
 {
@@ -14,7 +14,7 @@ class Text implements FieldTypeInterface
 
     public function getTemplate(): string
     {
-        return 'Yireo_LokiAdminComponents::form/field_type/text.phtml';
+        return 'Loki_AdminComponents::form/field_type/text.phtml';
     }
 
     public function getInputType(): string

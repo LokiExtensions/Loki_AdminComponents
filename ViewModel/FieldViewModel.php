@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\ViewModel;
+namespace Loki\AdminComponents\ViewModel;
 
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Yireo\LokiAdminComponents\Form\Field\Field;
-use Yireo\LokiAdminComponents\Form\Field\FieldFactory;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldFactory;
 
 class FieldViewModel implements ArgumentInterface
 {

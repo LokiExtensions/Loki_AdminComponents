@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\Action;
+namespace Loki\AdminComponents\Form\Action;
 
-use Yireo\LokiAdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Component\Form\FormRepository;
 
 interface ActionInterface
 {

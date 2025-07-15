@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Magento\Framework\View\Element\Template;
-use Yireo\LokiAdminComponents\Component\Form\FormViewModel;
+use Loki\AdminComponents\Component\Form\FormViewModel;
 use Yireo\LokiComponents\Util\Block\BlockRenderer;
 use Yireo\LokiComponents\Util\Block\ChildRenderer;
 use Yireo\LokiComponents\Util\Block\TemplateRenderer;
@@ -32,7 +32,7 @@ if (!isset($viewModel)) {
                             <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?= $templateRenderer->html(
                                     $block,
-                                    'Yireo_LokiAdminComponents::form/field.phtml',
+                                    'Loki_AdminComponents::form/field.phtml',
                                     ['field' => $field]
                                 ); ?>
                             <?php endforeach; ?>

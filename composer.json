@@ -1,6 +1,6 @@
 {
-  "name": "yireo/magento2-loki-admin-components",
-  "version": "0.0.10",
+  "name": "loki/magento2-admin-components",
+  "version": "0.1.0",
   "description": "N/A",
   "type": "magento2-module",
   "require": {
@@ -21,7 +21,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "Yireo\\LokiAdminComponents\\": ""
+      "Loki\\AdminComponents\\": ""
     }
   }
 }

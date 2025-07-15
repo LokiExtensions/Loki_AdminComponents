@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\Action;
+namespace Loki\AdminComponents\Grid\Action;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Ui\Api\BookmarkRepositoryInterface;
-use Yireo\LokiAdminComponents\Component\Grid\GridRepository;
-use Yireo\LokiAdminComponents\Grid\BookmarkLoader;
+use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Grid\BookmarkLoader;
 
 class RepositionAction implements ActionInterface
 {

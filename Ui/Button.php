@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Ui;
+namespace Loki\AdminComponents\Ui;
 
 class Button
 {

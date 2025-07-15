@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Grid\Cell;
+namespace Loki\AdminComponents\Grid\Cell;
 
 class CellAction
 {

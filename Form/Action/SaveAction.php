@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Yireo\LokiAdminComponents\Form\Action;
+namespace Loki\AdminComponents\Form\Action;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
-use Yireo\LokiAdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Component\Form\FormRepository;
 use Yireo\LokiComponents\Util\CamelCaseConvertor;
 
 class SaveAction implements ActionInterface

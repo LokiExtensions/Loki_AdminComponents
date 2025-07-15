@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\View\Element\Template;
-use Yireo\LokiAdminComponents\Form\Field\Field;
-use Yireo\LokiAdminComponents\Form\Field\FieldType\Select;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Select;
 use Yireo\LokiComponents\Util\Block\TemplateRenderer;
 
 /** @var Template $block */
@@ -31,7 +31,7 @@ $fieldType = $field->getFieldType();
     <?php if (!empty($emptyOption)): ?>
         <?= $templateRenderer->html(
             $block,
-            'Yireo_LokiAdminComponents::form/field_type/select/option.phtml',
+            'Loki_AdminComponents::form/field_type/select/option.phtml',
             [
                 'option' => [
                     'value' => '',
@@ -45,7 +45,7 @@ $fieldType = $field->getFieldType();
         <?= $option['level'] = 0; ?>
         <?= $templateRenderer->html(
             $block,
-            'Yireo_LokiAdminComponents::form/field_type/select/option.phtml',
+            'Loki_AdminComponents::form/field_type/select/option.phtml',
             ['option' => $option]
         ) ?>
     <?php endforeach; ?>

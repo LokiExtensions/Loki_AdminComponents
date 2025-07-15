@@ -1,19 +1,19 @@
-# Yireo_LokiAdminComponents
+# Loki_AdminComponents
 
 **This Magento 2 module allows for developers to build admin grids and admin forms in the Magento 2 Admin Panel in
 a faster way. No more ugly UiComponents that nobody understands. Create grids and forms quickly. And gradually add
 features to them, without getting stuck.**
 
-The LokiAdminComponents are based on the [Yireo LokiComponents](https://github.com/yireo/Yireo_LokiComponents)
-module which is also used in the [Yireo LokiCheckout](https://loki-checkout.com/). However, this admin tool shows
+The LokiAdminComponents are based on the [Loki_Components](https://github.com/yireo/Loki_Components)
+module which is also used in the [LokiCheckout](https://loki-checkout.com/). However, this admin tool shows
 that the Loki suite of Yireo can be applied in many more places.
 
 *Note that this library makes use of Alpine.js in the Magento Admin Panel. However, TailwindCSS is not used, we stick to the native Magento Admin Panel classes instead.*
 
 ## Installation
 ```bash
-composer require yireo/magento2-loki-admin-components
-bin/magento module:enable Yireo_LokiAdminComponents Yireo_LokiComponents
+composer require loki-extensions/magento2-admin-components
+bin/magento module:enable Loki_AdminComponents Yireo_LokiComponents
 ```
 
 ## Examples
@@ -52,7 +52,7 @@ As a demo, you could opt to install the following examples:
 - ... (more docs coming soon)
 
 ### Documentation
-See [the wiki](https://github.com/yireo/Yireo_LokiAdminComponents/wiki)
+See [the wiki](https://github.com/yireo/Loki_AdminComponents/wiki)
 
 # Todo
 - Easily extend LokiComponent partials via XML layout
