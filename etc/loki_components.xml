@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Yireo_LokiComponents:etc/loki_components.xsd">
+<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Loki_Components:etc/loki_components.xsd">
     <group
         name="loki_admin.grid"
         viewModel="Loki\AdminComponents\Component\Grid\GridViewModel"

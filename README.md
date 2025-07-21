@@ -4,7 +4,7 @@
 a faster way. No more ugly UiComponents that nobody understands. Create grids and forms quickly. And gradually add
 features to them, without getting stuck.**
 
-The LokiAdminComponents are based on the [Loki_Components](https://github.com/yireo/Loki_Components)
+The LokiAdminComponents are based on the [Loki Components](https://github.com/LokiExtensions/Loki_Components)
 module which is also used in the [LokiCheckout](https://loki-checkout.com/). However, this admin tool shows
 that the Loki suite of Yireo can be applied in many more places.
 
@@ -12,8 +12,8 @@ that the Loki suite of Yireo can be applied in many more places.
 
 ## Installation
 ```bash
-composer require loki-extensions/magento2-admin-components
-bin/magento module:enable Loki_AdminComponents Yireo_LokiComponents
+composer require loki/magento2-admin-components
+bin/magento module:enable Loki_AdminComponents Loki_Components
 ```
 
 ## Examples
@@ -52,7 +52,7 @@ As a demo, you could opt to install the following examples:
 - ... (more docs coming soon)
 
 ### Documentation
-See [the wiki](https://github.com/yireo/Loki_AdminComponents/wiki)
+See [the wiki](https://github.com/LokiExtensions/Loki_AdminComponents/wiki)
 
 # Todo
 - Easily extend LokiComponent partials via XML layout

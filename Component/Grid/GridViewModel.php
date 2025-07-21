@@ -18,8 +18,8 @@ use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
 use Loki\AdminComponents\Ui\Button;
 use Loki\AdminComponents\Ui\ButtonFactory;
-use Yireo\LokiComponents\Component\ComponentViewModel;
-use Yireo\LokiComponents\Util\CamelCaseConvertor;
+use Loki\Components\Component\ComponentViewModel;
+use Loki\Components\Util\CamelCaseConvertor;
 
 /**
  * @method GridRepository getRepository()

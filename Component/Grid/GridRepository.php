@@ -11,7 +11,7 @@ use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
-use Yireo\LokiComponents\Component\ComponentRepository;
+use Loki\Components\Component\ComponentRepository;
 
 class GridRepository extends ComponentRepository
 {

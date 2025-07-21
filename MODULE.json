@@ -1,6 +1,6 @@
 {
     "modules": [
-        "Yireo_LokiComponents",
+        "Loki_Components",
         "Magento_Backend",
         "Magento_Catalog",
         "Magento_Customer",

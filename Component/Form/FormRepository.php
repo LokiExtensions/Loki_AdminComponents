@@ -13,7 +13,7 @@ use Loki\AdminComponents\Form\Action\ActionInterface;
 use Loki\AdminComponents\Form\Action\ActionListing;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
-use Yireo\LokiComponents\Component\ComponentRepository;
+use Loki\Components\Component\ComponentRepository;
 
 class FormRepository extends ComponentRepository
 {

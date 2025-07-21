@@ -12,7 +12,7 @@ use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Ui\Button;
 use Loki\AdminComponents\Ui\ButtonFactory;
-use Yireo\LokiComponents\Component\ComponentViewModel;
+use Loki\Components\Component\ComponentViewModel;
 
 /**
  * @method FormRepository getRepository()

@@ -6,7 +6,7 @@ use Loki\AdminComponents\Form\ItemConvertorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
 use Loki\AdminComponents\Component\Form\FormRepository;
-use Yireo\LokiComponents\Util\CamelCaseConvertor;
+use Loki\Components\Util\CamelCaseConvertor;
 
 class SaveAction implements ActionInterface
 {
