@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 21 July 2025
+### Fixed
+- Rename PHP namespace from `Yireo_Loki*` to `Loki*`
+- Rename composer package from `yireo/magento2-loki*` to `loki/magento2*`
+
 ## [0.1.1] - 11 July 2025
 ### Fixed
 - Allow for item convertors in forms
