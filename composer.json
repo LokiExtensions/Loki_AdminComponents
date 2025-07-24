@@ -1,6 +1,6 @@
 {
   "name": "loki/magento2-admin-components",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "N/A",
   "type": "magento2-module",
   "require": {

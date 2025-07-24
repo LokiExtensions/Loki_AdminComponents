@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 24 July 2025
+### Fixed
+- Change workflow condition
+- Add GitHub Actions
+
 ## [0.2.0] - 21 July 2025
 ### Fixed
 - Rename PHP namespace from `Yireo_Loki*` to `Loki*`
