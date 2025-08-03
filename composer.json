@@ -1,27 +1,27 @@
 {
-  "name": "loki/magento2-admin-components",
-  "version": "0.2.1",
-  "description": "N/A",
-  "type": "magento2-module",
-  "require": {
-    "magento/framework": "^102.0 | ^103.0",
-    "magento/module-backend": "^101.0 | ^102.0",
-    "magento/module-catalog": "^102.0 | ^103.0 | ^104.0",
-    "magento/module-customer": "^102.0 | ^103.0",
-    "magento/module-eav": "^100.0 | ^101.0 | ^102.0",
-    "magento/module-ui": "^101.0",
-    "loki/magento2-components": "^2.0",
-    "ext-json": "*"
-  },
-  "license": [
-    "OSL-3.0"
-  ],
-  "autoload": {
-    "files": [
-      "registration.php"
+    "name": "loki/magento2-admin-components",
+    "version": "0.2.1",
+    "description": "N/A",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "^102.0 | ^103.0",
+        "magento/module-backend": "^101.0 | ^102.0",
+        "magento/module-catalog": "^102.0 | ^103.0 | ^104.0",
+        "magento/module-customer": "^102.0 | ^103.0",
+        "magento/module-eav": "^100.0 | ^101.0 | ^102.0",
+        "magento/module-ui": "^101.0",
+        "loki/magento2-components": "^2.0",
+        "ext-json": "*"
+    },
+    "license": [
+        "OSL-3.0"
     ],
-    "psr-4": {
-      "Loki\\AdminComponents\\": ""
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Loki\\AdminComponents\\": ""
+        }
     }
-  }
 }
