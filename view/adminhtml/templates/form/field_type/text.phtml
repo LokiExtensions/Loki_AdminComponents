@@ -22,12 +22,14 @@ if (isset($htmlAttributes['type'])) {
 ?>
 <input
     class="admin__control-text"
-    type="<?= $inputType ?>"
-    name="<?= $field->getCode() ?>"
-    data-name="<?= $field->getCode() ?>"
+    type="<?= $escaper->escapeHtml($inputType) ?>"
+    name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($htmlAttributes as $htmlAttributeName => $htmlAttributeValue) : ?>
-        <?= $htmlAttributeName ?>="<?= $htmlAttributeValue ?>"
+        <?= /* @noEscape */
+$htmlAttributeName ?>="<?= /* @noEscape */
+$htmlAttributeValue ?>"
     <?php endforeach; ?>
-    :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+    :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"
 >

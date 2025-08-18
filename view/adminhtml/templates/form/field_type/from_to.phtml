@@ -22,11 +22,11 @@ $fieldType = $field->getFieldType();
         <input
             class="admin__control-text"
             type="text"
-            data-name="<?= $field->getCode() ?>"
-            maxlength="<?= $fieldType->getMaximumLength() ?>"
-            :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+            data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+            maxlength="<?= $escaper->escapeHtml($fieldType->getMaximumLength()) ?>"
+            :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
             @change="setValue"
-            placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
+            placeholder="<?= $escaper->escapeHtml($field->getBlock()->getPlaceholder()) ?>"
         >
     </div>
 </div>
@@ -38,11 +38,11 @@ $fieldType = $field->getFieldType();
         <input
             class="admin__control-text"
             type="text"
-            data-name="<?= $field->getCode() ?>"
-            maxlength="<?= $fieldType->getMaximumLength() ?>"
-            :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+            data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+            maxlength="<?= $escaper->escapeHtml($fieldType->getMaximumLength()) ?>"
+            :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
             @change="setValue"
-            placeholder="<?= $field->getBlock()->getPlaceholder() ?>"
+            placeholder="<?= $escaper->escapeHtml($field->getBlock()->getPlaceholder()) ?>"
         >
     </div>
 </div>

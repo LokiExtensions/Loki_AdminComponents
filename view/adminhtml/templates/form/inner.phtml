@@ -7,5 +7,6 @@ use Magento\Framework\View\Element\Template;
 
 ?>
 <div class="form-inner">
-    <?= $block->getChildHtml() ?>
+    <?= /* @noEscape */
+$block->getChildHtml() ?>
 </div>

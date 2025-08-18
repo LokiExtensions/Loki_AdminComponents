@@ -12,7 +12,7 @@ $item = $block->getItem();
 ?>
 <div x-data="LokiAdminInlineEditComponent">
     <span @dblclick="toggleInlineEdit" x-show="hideInlineEdit">
-        <?= $block->getValue() ?>
+        <?= $escaper->escapeHtml($block->getValue()) ?>
     </span>
 
     <span x-show="showInlineEdit">
@@ -20,7 +20,7 @@ $item = $block->getItem();
             x-ref="inlineEditField"
             type="text"
             class="admin__control-text"
-            value="<?= $block->getValue() ?>"
+            value="<?= $escaper->escapeHtml($block->getValue()) ?>"
         />
 
         <button
@@ -31,8 +31,8 @@ $item = $block->getItem();
         <button
             class="action-save"
             @click="saveInlineEdit"
-            data-identifier="<?= $item->getId() ?>"
-            data-property="<?= $block->getColumnName() ?>"
+            data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
+            data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"
         >save</button>
     </span>
 </div>

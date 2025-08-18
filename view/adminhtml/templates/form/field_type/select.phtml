@@ -20,17 +20,18 @@ $emptyOption = $parentBlock->getEmptyOption();
 $fieldType = $field->getFieldType();
 ?>
 <select
-    aria-label="<?= $field->getLabel() ?>"
+    aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
     class="admin__control-select"
-    name="<?= $field->getCode() ?>"
-    data-name="<?= $field->getCode() ?>"
+    name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>
-    <?php if ($parentBlock->getSize()) : ?>size="<?= $parentBlock->getSize() ?>"<?php endif; ?>
-    :value="<?= $field->getScope() ?>.<?= $field->getCode() ?>"
+    <?php if ($parentBlock->getSize()) : ?>size="<?= $escaper->escapeHtml($parentBlock->getSize()) ?>"<?php endif; ?>
+    :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"
 >
     <?php if (!empty($emptyOption)): ?>
-        <?= $templateRenderer->html(
+        <?= /* @noEscape */
+$templateRenderer->html(
             $block,
             'Loki_AdminComponents::form/field_type/select/option.phtml',
             [
@@ -44,7 +45,8 @@ $fieldType = $field->getFieldType();
     <?php endif; ?>
     <?php foreach ($options->toOptionArray() as $option) : ?>
         <?= $option['level'] = 0; ?>
-        <?= $templateRenderer->html(
+        <?= /* @noEscape */
+        $templateRenderer->html(
             $block,
             'Loki_AdminComponents::form/field_type/select/option.phtml',
             ['option' => $option]

@@ -14,4 +14,4 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $visibility = $viewModelFactory->create(Visibility::class);
 ?>
-<span><?= $visibility->getLabel($block->getValue()) ?></span>
+<span><?= $escaper->escapeHtml($visibility->getLabel($block->getValue())) ?></span>

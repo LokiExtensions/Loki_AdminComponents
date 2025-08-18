@@ -17,7 +17,7 @@ $page = $viewModel->getPage();
         @click="previousPage"
         class="action-previous"
         type="button"
-        title="<?= __('Previous Page') ?>"
+        title="<?= $escaper->escapeHtml(__('Previous Page')) ?>"
         <?= ($page < 2) ? 'disabled' : '' ?>></button>
 
     <input
@@ -35,6 +35,6 @@ $page = $viewModel->getPage();
         @click="nextPage"
         class="action-next"
         type="button"
-        title="<?= __('Next Page') ?>"
+        title="<?= $escaper->escapeHtml(__('Next Page')) ?>"
         <?= ($page >= $totalPages) ? 'disabled' : '' ?>></button>
 </div>

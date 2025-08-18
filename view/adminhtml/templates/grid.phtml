@@ -15,37 +15,46 @@ if (!isset($viewModel)) {
 ?>
 <div class="loki-grid grid">
     <?php if ($viewModel->allowActions()): ?>
-    <?= $blockRenderer->html($block, 'loki-admin.grid.actions') ?>
+    <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.actions') ?>
     <?php endif; ?>
 
     <div class="page-columns">
         <div class="main-col">
             <div class="admin__data-grid-outer-wrap">
-                <?= $blockRenderer->html($block, 'loki-admin.grid.spinner') ?>
+                <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.spinner') ?>
 
                 <div class="admin__data-grid-header">
                     <div class="admin__data-grid-header-row">
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.filters') ?>
+                        <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.filters') ?>
                     </div>
                     <div class="admin__data-grid-header-row">
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.search') ?>
+                        <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.search') ?>
                     </div>
                     <div class="admin__data-grid-header-row row row-gutter">
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.massactions') ?>
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.pager') ?>
-                        <?= $blockRenderer->html($block, 'loki-admin.grid.records') ?>
+                        <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.massactions') ?>
+                        <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.pager') ?>
+                        <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.records') ?>
                     </div>
                 </div>
 
                 <div class="admin__data-grid-header-row row row-gutter">
                     <div class="col-xs-2">
                         <div class="action-select-wrap">
-                            <?= $blockRenderer->html($block, 'loki-admin.grid.row-actions') ?>
+                            <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.row-actions') ?>
                         </div>
                     </div>
                 </div>
 
-                <?= $blockRenderer->html($block, 'loki-admin.grid.table') ?>
+                <?= /* @noEscape */
+$blockRenderer->html($block, 'loki-admin.grid.table') ?>
             </div>
         </div>
     </div>

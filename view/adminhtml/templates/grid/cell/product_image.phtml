@@ -15,14 +15,16 @@ $item = $block->getItem();
 ?>
 <span class="thumbnail-container" x-data="LokiModal">
     <span class="thumbnail-wrapper">
-        <img @click="toggleModal" class="admin__control-thumbnail" src="<?= $productImage->getThumbnailUrl($item) ?>"
-             loading="lazy" alt="<?= $item->getName() ?>"/>
+        <img @click="toggleModal" class="admin__control-thumbnail" src="<?= /* @noEscape */
+$productImage->getThumbnailUrl($item) ?>"
+             loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
     </span>
 
     <dialog x-ref="modal" @click="toggleModal">
     <span class="">
-        <h2><?= $item->getName() ?></h2>
-        <img src="<?= $productImage->getImageUrl($item) ?>" loading="lazy" alt="<?= $item->getName() ?>"/>
+        <h2><?= $escaper->escapeHtml($item->getName()) ?></h2>
+        <img src="<?= /* @noEscape */
+$productImage->getImageUrl($item) ?>" loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
     </span>
     </dialog>
 </span>

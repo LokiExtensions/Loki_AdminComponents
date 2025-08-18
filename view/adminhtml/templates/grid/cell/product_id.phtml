@@ -12,4 +12,4 @@ use Loki\Components\Factory\ViewModelFactory;
 $productViewModel = $viewModelFactory->create(Product::class);
 $product = $productViewModel->getById((int)$block->getValue());
 ?>
-<span><?= $product->getId() ?> (<?= $product->getName() ?>)</span>
+<span><?= $escaper->escapeHtml($product->getId()) ?> (<?= $escaper->escapeHtml($product->getName()) ?>)</span>

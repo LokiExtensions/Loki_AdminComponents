@@ -13,4 +13,4 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $productType = $viewModelFactory->create(ProductType::class);
 ?>
-<span><?= $productType->getLabel($block->getValue()) ?></span>
+<span><?= $escaper->escapeHtml($productType->getLabel($block->getValue())) ?></span>

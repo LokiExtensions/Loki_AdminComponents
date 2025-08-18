@@ -7,10 +7,11 @@ use Magento\Framework\View\Element\Template;
 ?>
 <div class="entry-edit form-inline">
     <div class="fieldset-wrapper">
-        <h1><?= $block->getLabel() ?></h1>
+        <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
         <div class="admin__fieldset-wrapper-content">
             <fieldset class="admin__fieldset">
-                <?= $block->getChildHtml() ?>
+                <?= /* @noEscape */
+$block->getChildHtml() ?>
             </fieldset>
         </div>
     </div>

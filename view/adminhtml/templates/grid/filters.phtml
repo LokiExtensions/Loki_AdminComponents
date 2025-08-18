@@ -29,7 +29,8 @@ if (empty($filterFields)) {
     <fieldset class="admin__fieldset admin__data-grid-filters">
         <?php foreach ($filterFields as $filterField): ?>
             <fieldset class="admin__form-field">
-                <?= $filterField->getBlock()->toHtml() ?>
+                <?= /* @noEscape */
+$filterField->getBlock()->toHtml() ?>
             </fieldset>
         <?php endforeach; ?>
 

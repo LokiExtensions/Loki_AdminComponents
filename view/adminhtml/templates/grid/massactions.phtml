@@ -23,8 +23,9 @@ if (empty($massActions)) {
         <div class="action-menu-items" x-cloak x-show="showMassActions" style="z-index:300">
             <ul class="action-menu">
                 <?php foreach ($massActions as $massAction): ?>
-                    <li @click="massAction" data-url="<?= $massAction->getUrl() ?>">
-                        <span class="action-menu-item"><?= $massAction->getLabel() ?></span>
+                    <li @click="massAction" data-url="<?= /* @noEscape */
+$massAction->getUrl() ?>">
+                        <span class="action-menu-item"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -33,8 +34,10 @@ if (empty($massActions)) {
 
     <form method="post" x-ref="massActionForm">
         <input type="hidden" name="selected[]" x-ref="massActionFormIds" />
-        <input type="hidden" name="namespace" value="<?= $viewModel->getNamespace() ?>" />
-        <input type="hidden" name="loki_redirect_url" value="<?= $viewModel->getIndexUrl() ?>" />
-        <?php echo $block->getBlockHtml('formkey') ?>
+        <input type="hidden" name="namespace" value="<?= $escaper->escapeHtml($viewModel->getNamespace()) ?>" />
+        <input type="hidden" name="loki_redirect_url" value="<?= /* @noEscape */
+$viewModel->getIndexUrl() ?>" />
+        <?php echo /* @noEscape */
+$block->getBlockHtml('formkey') ?>
     </form>
 </div>

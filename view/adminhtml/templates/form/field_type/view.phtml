@@ -15,4 +15,4 @@ $field = $block->getField();
 $fieldType = $field->getFieldType();
 
 ?>
-<div style="padding-top:8px;" x-html="<?= $field->getScope() ?>.<?= $field->getCode() ?>"></div>
+<div style="padding-top:8px;" x-html="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"></div>

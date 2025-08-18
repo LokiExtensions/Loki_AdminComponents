@@ -56,18 +56,18 @@ $state = $viewModel->getState();
                 }
                 ?>
                 <th
-                    class="data-grid-th _sortable <?= $additionalCss ?>"
-                    data-column="<?= $columnName ?>"
+                    class="data-grid-th _sortable <?= $escaper->escapeHtml($additionalCss) ?>"
+                    data-column="<?= $escaper->escapeHtml($columnName) ?>"
                     @click="sortColumn"
-                    x-sort:item="'<?= $viewModel->getJsComponentId() ?>.<?= $columnName ?>'">
-                    <span class="data-grid-cell-content"><?= __($label) ?></span>
+                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($columnName) ?>'">
+                    <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($label)) ?></span>
                 </th>
                 <?php
                 $i++;
             endforeach; ?>
             <?php if ($viewModel->allowActions()): ?>
                 <th class="data-grid-th">
-                    <span class="pointer data-grid-cell-content"><?= __('Actions') ?></span>
+                    <span class="pointer data-grid-cell-content"><?= $escaper->escapeHtml(__('Actions')) ?></span>
                 </th>
             <?php endif; ?>
         </tr>
@@ -77,7 +77,7 @@ $state = $viewModel->getState();
         <?php foreach ($viewModel->getItems() as $item): ?>
             <?php $cellActions = $viewModel->getCellActions($item); ?>
             <?php $trClass = ($i % 2 === 1) ? '_odd-row' : '_even-row'; ?>
-            <tr class="data-row <?= $trClass ?>">
+            <tr class="data-row <?= $escaper->escapeHtml($trClass) ?>">
                 <td class="data-grid-checkbox-cell">
                     <label class="data-grid-checkbox-cell-inner">
                         <input
@@ -85,7 +85,7 @@ $state = $viewModel->getState();
                             type="checkbox"
                             :checked="isSelected"
                             @change="toggleSelectedId"
-                            data-row-id="<?= $item->getId() ?>">
+                            data-row-id="<?= $escaper->escapeHtml($item->getId()) ?>">
                         <label></label>
                     </label>
                 </td>
@@ -97,7 +97,8 @@ $state = $viewModel->getState();
                         <div class="data-grid-cell-content">
                             <?php $cellTemplate = $viewModel->getCellTemplate($item, $columnName) ?>
                             <?php $value = $viewModel->getValueFromItem($item, $columnName); ?>
-                            <?= $templateRenderer->html($block, $cellTemplate, [
+                            <?= /* @noEscape */
+                    $templateRenderer->html($block, $cellTemplate, [
                                 'item' => $item,
                                 'value' => $value,
                                 'column_name' => $columnName,
@@ -111,7 +112,8 @@ $state = $viewModel->getState();
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
-                                        <a href="<?= $cellAction->getUrl() ?>"><?= $cellAction->getLabel() ?></a>
+                                        <a href="<?= /* @noEscape */
+                            $cellAction->getUrl() ?>"><?= $escaper->escapeHtml($cellAction->getLabel()) ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

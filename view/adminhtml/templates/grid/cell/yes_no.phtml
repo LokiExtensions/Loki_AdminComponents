@@ -6,4 +6,4 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 $label = $block->getValue() === 1 ? 'Yes' : 'No';
 ?>
-<span><?= __($label) ?></span>
+<span><?= $escaper->escapeHtml(__($label)) ?></span>

@@ -21,7 +21,7 @@ $page = $viewModel->getPage();
 
         <button @click="toggleLimitOptions" class="selectmenu-toggle" type="button"
                 aria-labelledby="per-page-text select-button-text">
-            <span id="select-button-text"><?= __('Select') ?></span>
+            <span id="select-button-text"><?= $escaper->escapeHtml(__('Select')) ?></span>
         </button>
 
         <div x-cloak x-show="showLimitOptions" class="selectmenu-items" style="z-index:1001">
@@ -31,10 +31,10 @@ $page = $viewModel->getPage();
                         <div class="selectmenu-item">
                             <button
                                 @click="setLimitFromElement"
-                                data-limit="<?= $limit ?>"
+                                data-limit="<?= $escaper->escapeHtml($limit) ?>"
                                 class="selectmenu-item-action"
                                 type="button">
-                                <?= $limit ?>
+                                <?= $escaper->escapeHtml($limit) ?>
                             </button>
                         </div>
                     </li>
@@ -44,7 +44,7 @@ $page = $viewModel->getPage();
     </div>
 
     <label class="admin__control-support-text" id="per-page-text"
-           for="product_listing.product_listing.listing_top.listing_paging_sizes"><?= __('per page') ?></label>
+           for="product_listing.product_listing.listing_top.listing_paging_sizes"><?= $escaper->escapeHtml(__('per page')) ?></label>
 
     <style>
         .loki-grid .selectmenu-items {

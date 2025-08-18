@@ -13,4 +13,4 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $priceFormatter = $viewModelFactory->create(PriceFormatter::class);
 ?>
-<span><?= $priceFormatter->format($block->getValue()) ?></span>
+<span><?= $escaper->escapeHtml($priceFormatter->format($block->getValue())) ?></span>

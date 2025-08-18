@@ -9,22 +9,23 @@ use Loki\AdminComponents\Ui\Button;
 $button = $block->getButton();
 ?>
 <?php if ($button->getSubButtons()): ?>
-    <div title="<?= __($button->getLabel()) ?>" class="actions-split <?= __($button->getCssClass()) ?>">
+    <div title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>" class="actions-split <?= $escaper->escapeHtml(__($button->getCssClass())) ?>">
         <button
-            @click="<?= __($button->getMethod()) ?>"
-            title="<?= __($button->getLabel()) ?>"
+            @click="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
+            title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
             <?php if ($button->getUrl()): ?>
-                data-url="<?= $button->getUrl() ?>"
+                data-url="<?= /* @noEscape */
+$button->getUrl() ?>"
             <?php endif; ?>
-            class="action-default <?= __($button->getCssClass()) ?>"
+            class="action-default <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
         >
-            <?= __($button->getLabel()) ?>
+            <?= $escaper->escapeHtml(__($button->getLabel())) ?>
         </button>
 
         <button
             @click="toggleOtherActions"
             title="Toggle other actions"
-            class="action-toggle <?= __($button->getCssClass()) ?>"
+            class="action-toggle <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
         >
             <span>Select</span>
         </button>
@@ -33,14 +34,15 @@ $button = $block->getButton();
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
-                        @click="<?= __($subButton->getMethod()) ?>"
+                        @click="<?= $escaper->escapeHtml(__($subButton->getMethod())) ?>"
                         <?php if ($button->getUrl()): ?>
-                            data-url="<?= $button->getUrl() ?>"
+                            data-url="<?= /* @noEscape */
+$button->getUrl() ?>"
                         <?php endif; ?>
-                        title="<?= __($subButton->getLabel()) ?>"
+                        title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
                         class="item"
                     >
-                    <?= __($subButton->getLabel()) ?>
+                    <?= $escaper->escapeHtml(__($subButton->getLabel())) ?>
                     </span>
                 </li>
             <?php endforeach; ?>
@@ -49,15 +51,16 @@ $button = $block->getButton();
 
 <?php else: ?>
     <button
-        @click="<?= $button->getMethod() ?>"
+        @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
         <?php if ($button->getUrl()): ?>
-            data-url="<?= $button->getUrl() ?>"
+            data-url="<?= /* @noEscape */
+$button->getUrl() ?>"
         <?php endif; ?>
-        title="<?= __($button->getLabel()) ?>"
+        title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
         type="button"
-        class="scalable <?= $button->getCssClass() ?>"
+        class="scalable <?= $escaper->escapeHtml($button->getCssClass()) ?>"
     >
-        <span><?= __($button->getLabel()) ?></span>
+        <span><?= $escaper->escapeHtml(__($button->getLabel())) ?></span>
     </button>
 <?php endif; ?>
 

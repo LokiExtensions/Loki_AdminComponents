@@ -12,4 +12,4 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $status = $viewModelFactory->create(Status::class);
 ?>
-<span><?= $status->getLabel($block->getValue()) ?></span>
+<span><?= $escaper->escapeHtml($status->getLabel($block->getValue())) ?></span>

@@ -26,11 +26,11 @@ $otherSaveActions = [];
                 <?php foreach ($buttons as $button) : ?>
                     <?php $subButtons = $button->getSubButtons(); ?>
                     <button
-                        @click="<?= $button->getMethod() ?>"
-                        title="<?= __($button->getLabel()) ?>"
+                        @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
+                        title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
                         type="button"
-                        class="action- scalable <?= $button->getCssClass() ?>">
-                        <span><?= __($button->getLabel()) ?></span>
+                        class="action- scalable <?= $escaper->escapeHtml($button->getCssClass()) ?>">
+                        <span><?= $escaper->escapeHtml(__($button->getLabel())) ?></span>
                     </button>
                 <?php endforeach; ?>
 

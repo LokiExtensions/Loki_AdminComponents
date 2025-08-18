@@ -16,7 +16,7 @@ if (empty($searchableFields)) {
 ?>
 <div class="data-grid-search-control-wrap">
     <label class="data-grid-search-label" title="Search" for="grid-search">
-        <span><?= __('Search') ?></span>
+        <span><?= $escaper->escapeHtml(__('Search')) ?></span>
     </label>
     <input
         :value="search"
@@ -24,10 +24,10 @@ if (empty($searchableFields)) {
         id="grid-search"
         class="admin__control-text data-grid-search-control"
         type="text"
-        placeholder="<?= __('Search by keyword') ?>"
-        aria-label="<?= __('Search by keyword') ?>"
+        placeholder="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
+        aria-label="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
     />
-    <button :click="changeSearch" class="action-submit" type="button" aria-label="<?= __('Search' )?>">
-        <span><?= __('Search' )?></span>
+    <button :click="changeSearch" class="action-submit" type="button" aria-label="<?= $escaper->escapeHtml(__('Search' ))?>">
+        <span><?= $escaper->escapeHtml(__('Search' ))?></span>
     </button>
 </div>

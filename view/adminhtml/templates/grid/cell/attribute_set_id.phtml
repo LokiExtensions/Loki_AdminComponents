@@ -12,4 +12,4 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $attributeSet = $viewModelFactory->create(AttributeSet::class);
 ?>
-<span><?= $attributeSet->getLabel((int)$block->getValue()) ?></span>
+<span><?= $escaper->escapeHtml($attributeSet->getLabel((int)$block->getValue())) ?></span>

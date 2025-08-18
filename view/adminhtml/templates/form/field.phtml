@@ -20,13 +20,14 @@ if (false === $field instanceof Field) {
 ?>
 <div class="admin__field">
     <div class="admin__field-label">
-        <label for="<?= $field->getCode() ?>">
-            <span><?= $field->getLabel() ?></span>
+        <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
+            <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
         </label>
     </div>
 
     <div class="admin__field-control">
-        <?= $templateRenderer->html(
+        <?= /* @noEscape */
+$templateRenderer->html(
             $block,
             $field->getFieldType()->getTemplate(),
             ['field' => $field]
