@@ -15,4 +15,4 @@ $customerViewModel = $viewModelFactory->create(Customer::class);
 $customerId = (int)$block->getValue();
 $customer = $customerViewModel->getById($customerId);
 ?>
-<span><?= $escaper->escapeHtml($customerId) ?> (<?= $customer?->getEmail() ?>)</span>
+<span><?= $escaper->escapeHtml($customerId) ?> (<?= $escaper->escapeHtml($customer?->getEmail()) ?>)</span>

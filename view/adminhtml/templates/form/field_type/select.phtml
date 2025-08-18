@@ -45,7 +45,7 @@ $fieldType = $field->getFieldType();
         ) ?>
     <?php endif; ?>
     <?php foreach ($options->toOptionArray() as $option) : ?>
-        <?= $option['level'] = 0; ?>
+        <?php $option['level'] = 0; ?>
         <?= /* @noEscape */ $templateRenderer->html(
             $block,
             'Loki_AdminComponents::form/field_type/select/option.phtml',
