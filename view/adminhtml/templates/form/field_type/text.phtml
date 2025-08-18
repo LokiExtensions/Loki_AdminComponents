@@ -26,9 +26,7 @@ if (isset($htmlAttributes['type'])) {
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($htmlAttributes as $htmlAttributeName => $htmlAttributeValue) : ?>
-        <?= /* @noEscape */
-$htmlAttributeName ?>="<?= /* @noEscape */
-$htmlAttributeValue ?>"
+        <?= /* @noEscape */ $htmlAttributeName ?>="<?= /* @noEscape */ $htmlAttributeValue ?>"
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"

@@ -97,8 +97,7 @@ $state = $viewModel->getState();
                         <div class="data-grid-cell-content">
                             <?php $cellTemplate = $viewModel->getCellTemplate($item, $columnName) ?>
                             <?php $value = $viewModel->getValueFromItem($item, $columnName); ?>
-                            <?= /* @noEscape */
-                    $templateRenderer->html($block, $cellTemplate, [
+                            <?= /* @noEscape */ $templateRenderer->html($block, $cellTemplate, [
                                 'item' => $item,
                                 'value' => $value,
                                 'column_name' => $columnName,
@@ -112,8 +111,7 @@ $state = $viewModel->getState();
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
-                                        <a href="<?= /* @noEscape */
-                            $cellAction->getUrl() ?>"><?= $escaper->escapeHtml($cellAction->getLabel()) ?></a>
+                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>"><?= $escaper->escapeHtml($cellAction->getLabel()) ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

@@ -11,8 +11,6 @@ use Loki\Components\Util\Block\ChildRenderer;
 $viewModel = $block->getViewModel();
 ?>
 <div class="admin__data-grid-pager-wrap">
-    <?= /* @noEscape */
-$childRenderer->html($block, 'limit') ?>
-    <?= /* @noEscape */
-$childRenderer->html($block, 'pagination') ?>
+    <?= /* @noEscape */ $childRenderer->html($block, 'limit') ?>
+    <?= /* @noEscape */ $childRenderer->html($block, 'pagination') ?>
 </div>

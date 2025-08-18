@@ -14,8 +14,7 @@ $button = $block->getButton();
             @click="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
             title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
             <?php if ($button->getUrl()): ?>
-                data-url="<?= /* @noEscape */
-$button->getUrl() ?>"
+                data-url="<?= /* @noEscape */ $button->getUrl() ?>"
             <?php endif; ?>
             class="action-default <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
         >
@@ -36,8 +35,7 @@ $button->getUrl() ?>"
                     <span
                         @click="<?= $escaper->escapeHtml(__($subButton->getMethod())) ?>"
                         <?php if ($button->getUrl()): ?>
-                            data-url="<?= /* @noEscape */
-$button->getUrl() ?>"
+                            data-url="<?= /* @noEscape */ $button->getUrl() ?>"
                         <?php endif; ?>
                         title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
                         class="item"
@@ -53,8 +51,7 @@ $button->getUrl() ?>"
     <button
         @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
         <?php if ($button->getUrl()): ?>
-            data-url="<?= /* @noEscape */
-$button->getUrl() ?>"
+            data-url="<?= /* @noEscape */ $button->getUrl() ?>"
         <?php endif; ?>
         title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
         type="button"

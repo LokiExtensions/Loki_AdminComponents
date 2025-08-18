@@ -17,15 +17,12 @@ if (!isset($viewModel)) {
 }
 ?>
 <div class="loki-form form">
-    <?= /* @noEscape */
-$blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
+    <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
 
     <div class="page-columns">
         <div class="main-col">
-            <?= /* @noEscape */
-$blockRenderer->html($block, 'loki-admin.form.spinner') ?>
-            <?= /* @noEscape */
-$blockRenderer->html($block, 'loki-admin.form.inner') ?>
+            <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.spinner') ?>
+            <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.inner') ?>
 
             <div class="entry-edit form-inline">
                 <div class="fieldset-wrapper">
@@ -33,8 +30,7 @@ $blockRenderer->html($block, 'loki-admin.form.inner') ?>
                     <div class="admin__fieldset-wrapper-content">
                         <fieldset class="admin__fieldset">
                             <?php foreach ($viewModel->getFields() as $field) : ?>
-                                <?= /* @noEscape */
-$templateRenderer->html(
+                                <?= /* @noEscape */ $templateRenderer->html(
                                     $block,
                                     'Loki_AdminComponents::form/field.phtml',
                                     ['field' => $field]

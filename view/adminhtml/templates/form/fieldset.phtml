@@ -10,8 +10,7 @@ use Magento\Framework\View\Element\Template;
         <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
         <div class="admin__fieldset-wrapper-content">
             <fieldset class="admin__fieldset">
-                <?= /* @noEscape */
-$block->getChildHtml() ?>
+                <?= /* @noEscape */ $block->getChildHtml() ?>
             </fieldset>
         </div>
     </div>
