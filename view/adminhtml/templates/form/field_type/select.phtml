@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Select;
@@ -12,6 +13,7 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var Select $fieldType */
 /** @var OptionSourceInterface $options */
 /** @var TemplateRenderer $templateRenderer */
+/** @var Escaper $escaper */
 
 $field = $block->getField();
 $parentBlock = $field->getBlock();

@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\Components\Util\Block\TemplateRenderer;
 
 /** @var Template $block */
 /** @var TemplateRenderer $templateRenderer */
+/** @var Escaper $escaper */
 /** @var $option string[]|array[] */
 
 $option = $block->getOption();

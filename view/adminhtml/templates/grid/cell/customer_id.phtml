@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\ViewModel\Customer;
 use Loki\Components\Factory\ViewModelFactory;
@@ -8,6 +9,7 @@ use Loki\Components\Factory\ViewModelFactory;
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var Customer $customerViewModel */
+/** @var Escaper $escaper */
 
 $customerViewModel = $viewModelFactory->create(Customer::class);
 $customerId = (int)$block->getValue();
