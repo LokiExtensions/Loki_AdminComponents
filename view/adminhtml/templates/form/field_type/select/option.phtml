@@ -23,7 +23,7 @@ $option = $block->getOption();
         ) ?>
     <?php endforeach; ?>
 <?php else: ?>
-    <option value="<?= $option['value'] ?>">
+    <option value="<?= $escaper->escapeHtml($option['value']) ?>">
         <?= $escaper->escapeHtml(str_repeat('&nbsp;', $option['level'])) ?>
         <?= $escaper->escapeHtml($option['label']) ?>
     </option>
