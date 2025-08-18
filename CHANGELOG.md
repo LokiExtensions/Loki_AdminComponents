@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.3] - 18 August 2025
 ### Fixed
 - Lower requirements to PHP 8.1
+- Add escaping in PHTML templates
 
 ## [0.2.2] - 06 August 2025
 ### Fixed
