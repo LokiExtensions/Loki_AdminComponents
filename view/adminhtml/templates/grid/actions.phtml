@@ -14,10 +14,10 @@ use Loki\Components\Util\Block\TemplateRenderer;
 $viewModel = $block->getViewModel();
 $buttons = $viewModel->getButtons();
 ?>
-<div class="page-main-actions">
-    <div class="page-actions">
-        <div class="page-actions-inner">
-            <div class="page-actions-buttons">
+<div class="<?= $css('page-main-actions', '@todo') ?>">
+    <div class="<?= $css('page-actions', '@todo') ?>">
+        <div class="<?= $css('page-actions-inner', '@todo') ?>">
+            <div class="<?= $css('page-actions-buttons', '@todo') ?>">
                 <?php foreach ($buttons as $button): ?>
                     <?= /* @noEscape */ $templateRenderer->html(
                         $block,

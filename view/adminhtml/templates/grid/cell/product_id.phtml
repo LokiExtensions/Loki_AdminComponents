@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\ViewModel\Product;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var Product $productViewModel */

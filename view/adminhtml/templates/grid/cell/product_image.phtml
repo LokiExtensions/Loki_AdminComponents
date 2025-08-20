@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Loki\AdminComponents\ViewModel\ProductImage;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @var Template $block */
+/** @var Escaper $escaper */
 /** @var Magento\Framework\View\Element\Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var ProductImage $productImage */
@@ -15,9 +19,9 @@ use Loki\Components\Factory\ViewModelFactory;
 $productImage = $viewModelFactory->create(ProductImage::class);
 $item = $block->getItem();
 ?>
-<span class="thumbnail-container" x-data="LokiModal">
-    <span class="thumbnail-wrapper">
-        <img @click="toggleModal" class="admin__control-thumbnail" src="<?= /* @noEscape */ $productImage->getThumbnailUrl($item) ?>"
+<span class="<?= $css('thumbnail-container', '@todo') ?>" x-data="LokiModal">
+    <span class="<?= $css('thumbnail-wrapper', '@todo') ?>">
+        <img @click="toggleModal" class="<?= $css('admin__control-thumbnail', '@todo') ?>" src="<?= /* @noEscape */ $productImage->getThumbnailUrl($item) ?>"
              loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
     </span>
 

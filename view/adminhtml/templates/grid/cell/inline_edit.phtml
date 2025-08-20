@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 use Magento\Framework\DataObject;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @var Template $block */
+/** @var Escaper $escaper */
 /** @var Magento\Framework\View\Element\Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var DataObject $item */
@@ -21,17 +25,17 @@ $item = $block->getItem();
         <input
             x-ref="inlineEditField"
             type="text"
-            class="admin__control-text"
+            class="<?= $css('admin__control-text', '@todo') ?>"
             value="<?= $escaper->escapeHtml($block->getValue()) ?>"
         />
 
         <button
-            class="action-close"
+            class="<?= $css('action-close', '@todo') ?>"
             @click="toggleInlineEdit"
         ></button>
 
         <button
-            class="action-save"
+            class="<?= $css('action-save', '@todo') ?>"
             @click="saveInlineEdit"
             data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
             data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"

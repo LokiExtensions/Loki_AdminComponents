@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
 $viewModel = $block->getViewModel();
@@ -15,26 +17,26 @@ $totalPages = $viewModel->getTotalPages();
 $page = $viewModel->getPage();
 ?>
 <div style="display: inline-block">
-    <div class="selectmenu">
-        <div class="selectmenu-value">
+    <div class="<?= $css('selectmenu', '@todo') ?>">
+        <div class="<?= $css('selectmenu-value', '@todo') ?>">
             <input :value="limit" @change="changeLimit" type="text" aria-labelledby="per-page-text"
                    id="product_listing.product_listing.listing_top.listing_paging_sizes">
         </div>
 
-        <button @click="toggleLimitOptions" class="selectmenu-toggle" type="button"
+        <button @click="toggleLimitOptions" class="<?= $css('selectmenu-toggle', '@todo') ?>" type="button"
                 aria-labelledby="per-page-text select-button-text">
             <span id="select-button-text"><?= $escaper->escapeHtml(__('Select')) ?></span>
         </button>
 
-        <div x-cloak x-show="showLimitOptions" class="selectmenu-items" style="z-index:1001">
+        <div x-cloak x-show="showLimitOptions" class="<?= $css('selectmenu-items', '@todo') ?>" style="z-index:1001">
             <ul>
                 <?php foreach ($limits as $limit): ?>
                     <li>
-                        <div class="selectmenu-item">
+                        <div class="<?= $css('selectmenu-item', '@todo') ?>">
                             <button
                                 @click="setLimitFromElement"
                                 data-limit="<?= $escaper->escapeHtml($limit) ?>"
-                                class="selectmenu-item-action"
+                                class="<?= $css('selectmenu-item-action', '@todo') ?>"
                                 type="button">
                                 <?= $escaper->escapeHtml($limit) ?>
                             </button>
@@ -45,7 +47,7 @@ $page = $viewModel->getPage();
         </div>
     </div>
 
-    <label class="admin__control-support-text" id="per-page-text"
+    <label class="<?= $css('admin__control-support-text', '@todo') ?>" id="per-page-text"
            for="product_listing.product_listing.listing_top.listing_paging_sizes"><?= $escaper->escapeHtml(__('per page')) ?></label>
 
     <style>

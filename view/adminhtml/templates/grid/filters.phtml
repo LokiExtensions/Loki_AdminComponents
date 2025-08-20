@@ -17,9 +17,9 @@ if (empty($filterFields)) {
     return;
 }
 ?>
-<div class="data-grid-filters-actions-wrap">
-    <div class="data-grid-filters-action-wrap">
-        <button :class="filterButtonClass" class="action-default" @click="toggleFilters">
+<div class="<?= $css('data-grid-filters-actions-wrap', '@todo') ?>">
+    <div class="<?= $css('data-grid-filters-action-wrap', '@todo') ?>">
+        <button :class="<?= $css('filterButtonClass', '@todo') ?>" class="<?= $css('action-default', '@todo') ?>" @click="toggleFilters">
             Filters
         </button>
     </div>
@@ -27,38 +27,38 @@ if (empty($filterFields)) {
 
 </div>
 
-<div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap _show">
-    <fieldset class="admin__fieldset admin__data-grid-filters">
+<div x-cloak x-show="showFilters" class="<?= $css('admin__data-grid-filters-wrap _show', '@todo') ?>">
+    <fieldset class="<?= $css('admin__fieldset admin__data-grid-filters', '@todo') ?>">
         <?php foreach ($filterFields as $filterField): ?>
-            <fieldset class="admin__form-field">
+            <fieldset class="<?= $css('admin__form-field', '@todo') ?>">
                 <?= /* @noEscape */ $filterField->getBlock()->toHtml() ?>
             </fieldset>
         <?php endforeach; ?>
 
-        <fieldset class="admin__form-field">
-            <legend class="admin__form-field-legend">
+        <fieldset class="<?= $css('admin__form-field', '@todo') ?>">
+            <legend class="<?= $css('admin__form-field-legend', '@todo') ?>">
                 <span>ID</span>
             </legend>
-            <div class="admin__form-field">
-                <label class="admin__form-field-label">
+            <div class="<?= $css('admin__form-field', '@todo') ?>">
+                <label class="<?= $css('admin__form-field-label', '@todo') ?>">
                     <span>from</span>
                 </label>
-                <div class="admin__form-field-control">
+                <div class="<?= $css('admin__form-field-control', '@todo') ?>">
                     <input
-                        class="admin__control-text"
+                        class="<?= $css('admin__control-text', '@todo') ?>"
                         type="text"
                         name="entity_id[from]"
                         maxlength="255"
                     >
                 </div>
             </div>
-            <div class="admin__form-field">
-                <label class="admin__form-field-label">
+            <div class="<?= $css('admin__form-field', '@todo') ?>">
+                <label class="<?= $css('admin__form-field-label', '@todo') ?>">
                     <span>to</span>
                 </label>
-                <div class="admin__form-field-control">
+                <div class="<?= $css('admin__form-field-control', '@todo') ?>">
                     <input
-                        class="admin__control-text"
+                        class="<?= $css('admin__control-text', '@todo') ?>"
                         type="text"
                         maxlength="255"
                     >
@@ -67,12 +67,12 @@ if (empty($filterFields)) {
         </fieldset>
     </fieldset>
 
-    <div class="admin__data-grid-filters-footer">
-        <div class="admin__footer-main-actions">
-            <button class="action-tertiary" type="button" @click="toggleFilters">
+    <div class="<?= $css('admin__data-grid-filters-footer', '@todo') ?>">
+        <div class="<?= $css('admin__footer-main-actions', '@todo') ?>">
+            <button class="<?= $css('action-tertiary', '@todo') ?>" type="button" @click="toggleFilters">
                 <span>Cancel</span>
             </button>
-            <button class="action-secondary" type="button" @click="applyFilters">
+            <button class="<?= $css('action-secondary', '@todo') ?>" type="button" @click="applyFilters">
                 <span>Apply Filters</span>
             </button>
         </div>

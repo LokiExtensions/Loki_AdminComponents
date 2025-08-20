@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 $label = $block->getValue() === 1 ? 'Yes' : 'No';
 ?>

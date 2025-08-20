@@ -25,7 +25,7 @@ $fieldType = $field->getFieldType();
 ?>
 <select
     aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
-    class="admin__control-select"
+    class="<?= $css('admin__control-select', '@todo') ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>

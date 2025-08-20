@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
 
@@ -16,20 +18,20 @@ if (empty($searchableFields)) {
     return;
 }
 ?>
-<div class="data-grid-search-control-wrap">
-    <label class="data-grid-search-label" title="Search" for="grid-search">
+<div class="<?= $css('data-grid-search-control-wrap', '@todo') ?>">
+    <label class="<?= $css('data-grid-search-label', '@todo') ?>" title="Search" for="grid-search">
         <span><?= $escaper->escapeHtml(__('Search')) ?></span>
     </label>
     <input
         :value="search"
         @change="changeSearch"
         id="grid-search"
-        class="admin__control-text data-grid-search-control"
+        class="<?= $css('admin__control-text data-grid-search-control', '@todo') ?>"
         type="text"
         placeholder="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
         aria-label="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
     />
-    <button :click="changeSearch" class="action-submit" type="button" aria-label="<?= $escaper->escapeHtml(__('Search' ))?>">
+    <button :click="changeSearch" class="<?= $css('action-submit', '@todo') ?>" type="button" aria-label="<?= $escaper->escapeHtml(__('Search' ))?>">
         <span><?= $escaper->escapeHtml(__('Search' ))?></span>
     </button>
 </div>

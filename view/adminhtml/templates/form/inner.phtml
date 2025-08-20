@@ -8,6 +8,6 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 
 ?>
-<div class="form-inner">
+<div class="<?= $css('form-inner', '@todo') ?>">
     <?= /* @noEscape */ $block->getChildHtml() ?>
 </div>

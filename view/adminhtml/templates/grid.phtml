@@ -15,33 +15,33 @@ if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
 ?>
-<div class="loki-grid grid">
+<div class="<?= $css('loki-grid grid', '@todo') ?>">
     <?php if ($viewModel->allowActions()): ?>
     <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.actions') ?>
     <?php endif; ?>
 
-    <div class="page-columns">
-        <div class="main-col">
-            <div class="admin__data-grid-outer-wrap">
+    <div class="<?= $css('page-columns', '@todo') ?>">
+        <div class="<?= $css('main-col', '@todo') ?>">
+            <div class="<?= $css('admin__data-grid-outer-wrap', '@todo') ?>">
                 <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.spinner') ?>
 
-                <div class="admin__data-grid-header">
-                    <div class="admin__data-grid-header-row">
+                <div class="<?= $css('admin__data-grid-header', '@todo') ?>">
+                    <div class="<?= $css('admin__data-grid-header-row', '@todo') ?>">
                         <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.filters') ?>
                     </div>
-                    <div class="admin__data-grid-header-row">
+                    <div class="<?= $css('admin__data-grid-header-row', '@todo') ?>">
                         <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.search') ?>
                     </div>
-                    <div class="admin__data-grid-header-row row row-gutter">
+                    <div class="<?= $css('admin__data-grid-header-row row row-gutter', '@todo') ?>">
                         <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.massactions') ?>
                         <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.pager') ?>
                         <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.records') ?>
                     </div>
                 </div>
 
-                <div class="admin__data-grid-header-row row row-gutter">
-                    <div class="col-xs-2">
-                        <div class="action-select-wrap">
+                <div class="<?= $css('admin__data-grid-header-row row row-gutter', '@todo') ?>">
+                    <div class="<?= $css('col-xs-2', '@todo') ?>">
+                        <div class="<?= $css('action-select-wrap', '@todo') ?>">
                             <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.grid.row-actions') ?>
                         </div>
                     </div>

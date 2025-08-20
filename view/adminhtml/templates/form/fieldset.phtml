@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 ?>
-<div class="entry-edit form-inline">
-    <div class="fieldset-wrapper">
+<div class="<?= $css('entry-edit form-inline', '@todo') ?>">
+    <div class="<?= $css('fieldset-wrapper', '@todo') ?>">
         <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
-        <div class="admin__fieldset-wrapper-content">
-            <fieldset class="admin__fieldset">
+        <div class="<?= $css('admin__fieldset-wrapper-content', '@todo') ?>">
+            <fieldset class="<?= $css('admin__fieldset', '@todo') ?>">
                 <?= /* @noEscape */ $block->getChildHtml() ?>
             </fieldset>
         </div>

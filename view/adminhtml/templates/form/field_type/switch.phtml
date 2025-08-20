@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Select;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
 /** @var Select $fieldType */
@@ -20,21 +22,21 @@ $parentBlock = $field->getBlock();
 $options = $parentBlock->getOptions();
 $fieldType = $field->getFieldType();
 ?>
-<div class="admin__actions-switch">
+<div class="<?= $css('admin__actions-switch', '@todo') ?>">
     <input
         type="checkbox"
         name="<?= $escaper->escapeHtml($field->getCode()) ?>"
-        class="admin__actions-switch-checkbox"
+        class="<?= $css('admin__actions-switch-checkbox', '@todo') ?>"
         :checked="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
         @change="setValue"
     >
     <label
-        class="admin__actions-switch-label"
+        class="<?= $css('admin__actions-switch-label', '@todo') ?>"
         @click="toggleValueByClick"
         data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         data-value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     >
-        <span class="admin__actions-switch-text" x-show="item.<?= $escaper->escapeHtml($field->getCode()) ?>">Yes</span>
-        <span class="admin__actions-switch-text" x-show="!item.<?= $escaper->escapeHtml($field->getCode()) ?>">No</span>
+        <span class="<?= $css('admin__actions-switch-text', '@todo') ?>" x-show="item.<?= $escaper->escapeHtml($field->getCode()) ?>">Yes</span>
+        <span class="<?= $css('admin__actions-switch-text', '@todo') ?>" x-show="!item.<?= $escaper->escapeHtml($field->getCode()) ?>">No</span>
     </label>
 </div>

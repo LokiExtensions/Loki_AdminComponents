@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\ViewModel\FieldViewModel;
 use Loki\Components\Factory\ViewModelFactory;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
 /** @var TemplateRenderer $templateRenderer */
@@ -20,14 +22,14 @@ if (false === $field instanceof Field) {
     $field = $fieldViewModel->getField($block);
 }
 ?>
-<div class="admin__field">
-    <div class="admin__field-label">
+<div class="<?= $css('admin__field', '@todo') ?>">
+    <div class="<?= $css('admin__field-label', '@todo') ?>">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
         </label>
     </div>
 
-    <div class="admin__field-control">
+    <div class="<?= $css('admin__field-control', '@todo') ?>">
         <?= /* @noEscape */ $templateRenderer->html(
             $block,
             $field->getFieldType()->getTemplate(),

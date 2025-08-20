@@ -3,11 +3,15 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Loki\AdminComponents\ViewModel\ProductImage;
 use Loki\AdminComponents\ViewModel\PriceFormatter;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @var Template $block */
+/** @var Escaper $escaper */
 /** @var Magento\Framework\View\Element\Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var ProductInterface $item */

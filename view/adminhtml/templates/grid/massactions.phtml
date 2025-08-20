@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
 /** @var TemplateRenderer $templateRenderer */
@@ -17,16 +19,16 @@ if (empty($massActions)) {
     return;
 }
 ?>
-<div class="col-xs-2">
-    <div class="action-select-wrap">
-        <button class="action-select" title="Select Items" @click="toggleMassActions">
+<div class="<?= $css('col-xs-2', '@todo') ?>">
+    <div class="<?= $css('action-select-wrap', '@todo') ?>">
+        <button class="<?= $css('action-select', '@todo') ?>" title="Select Items" @click="toggleMassActions">
             <span>Actions</span>
         </button>
-        <div class="action-menu-items" x-cloak x-show="showMassActions" style="z-index:300">
-            <ul class="action-menu">
+        <div class="<?= $css('action-menu-items', '@todo') ?>" x-cloak x-show="showMassActions" style="z-index:300">
+            <ul class="<?= $css('action-menu', '@todo') ?>">
                 <?php foreach ($massActions as $massAction): ?>
                     <li @click="massAction" data-url="<?= /* @noEscape */ $massAction->getUrl() ?>">
-                        <span class="action-menu-item"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
+                        <span class="<?= $css('action-menu-item', '@todo') ?>"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>

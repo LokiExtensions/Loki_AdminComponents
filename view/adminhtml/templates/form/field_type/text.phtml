@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Text;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
 /** @var Text $fieldType */
@@ -23,7 +25,7 @@ if (isset($htmlAttributes['type'])) {
 }
 ?>
 <input
-    class="admin__control-text"
+    class="<?= $css('admin__control-text', '@todo') ?>"
     type="<?= $escaper->escapeHtml($inputType) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"

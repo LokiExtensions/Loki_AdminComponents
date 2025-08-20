@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Form\FormViewModel;
 use Loki\Components\Util\Block\BlockRenderer;
 use Loki\Components\Util\Block\ChildRenderer;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var FormViewModel $viewModel */
 /** @var BlockRenderer $blockRenderer */
@@ -18,19 +20,19 @@ if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
 ?>
-<div class="loki-form form">
+<div class="<?= $css('loki-form form', '@todo') ?>">
     <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
 
-    <div class="page-columns">
-        <div class="main-col">
+    <div class="<?= $css('page-columns', '@todo') ?>">
+        <div class="<?= $css('main-col', '@todo') ?>">
             <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.spinner') ?>
             <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.inner') ?>
 
-            <div class="entry-edit form-inline">
-                <div class="fieldset-wrapper">
+            <div class="<?= $css('entry-edit form-inline', '@todo') ?>">
+                <div class="<?= $css('fieldset-wrapper', '@todo') ?>">
                     <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
-                    <div class="admin__fieldset-wrapper-content">
-                        <fieldset class="admin__fieldset">
+                    <div class="<?= $css('admin__fieldset-wrapper-content', '@todo') ?>">
+                        <fieldset class="<?= $css('admin__fieldset', '@todo') ?>">
                             <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?= /* @noEscape */ $templateRenderer->html(
                                     $block,

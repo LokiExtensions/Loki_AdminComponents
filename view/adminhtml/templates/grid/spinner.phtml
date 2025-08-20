@@ -1,10 +1,14 @@
 <?php
 declare(strict_types=1);
 
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
 /** @version 0.0.1 */
 ?>
-<div x-show="loading" data-role="spinner" class="admin__data-grid-loading-mask" >
-    <div class="spinner">
+<div x-show="loading" data-role="spinner" class="<?= $css('admin__data-grid-loading-mask', '@todo') ?>" >
+    <div class="<?= $css('spinner', '@todo') ?>">
         <span></span>
     </div>
 </div>

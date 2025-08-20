@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Ui\Button;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Button $button */
 $button = $block->getButton();
@@ -31,7 +33,7 @@ $button = $block->getButton();
             <span>Select</span>
         </button>
 
-        <ul class="dropdown-menu" x-cloak x-show="showOtherActions">
+        <ul class="<?= $css('dropdown-menu', '@todo') ?>" x-cloak x-show="showOtherActions">
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
@@ -40,7 +42,7 @@ $button = $block->getButton();
                             data-url="<?= /* @noEscape */ $button->getUrl() ?>"
                         <?php endif; ?>
                         title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
-                        class="item"
+                        class="<?= $css('item', '@todo') ?>"
                     >
                     <?= $escaper->escapeHtml(__($subButton->getLabel())) ?>
                     </span>

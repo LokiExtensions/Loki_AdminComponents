@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 /** @version 0.2.3 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
 $viewModel = $block->getViewModel();
@@ -14,10 +16,10 @@ $limits = [5, 10, 20, 30, 50, 100, 200]; // @todo: Move this into a viewModel
 $totalPages = $viewModel->getTotalPages();
 $page = $viewModel->getPage();
 ?>
-<div class="admin__data-grid-pager">
+<div class="<?= $css('admin__data-grid-pager', '@todo') ?>">
     <button
         @click="previousPage"
-        class="action-previous"
+        class="<?= $css('action-previous', '@todo') ?>"
         type="button"
         title="<?= $escaper->escapeHtml(__('Previous Page')) ?>"
         <?= ($page < 2) ? 'disabled' : '' ?>></button>
@@ -25,17 +27,17 @@ $page = $viewModel->getPage();
     <input
         :value="page"
         @change="changePage"
-        class="admin__control-text"
+        class="<?= $css('admin__control-text', '@todo') ?>"
         type="number"
         id="current_page"/>
 
-    <label class="admin__control-support-text" for="current_page">
+    <label class="<?= $css('admin__control-support-text', '@todo') ?>" for="current_page">
         of <span x-html="totalPages"></span> pages
     </label>
 
     <button
         @click="nextPage"
-        class="action-next"
+        class="<?= $css('action-next', '@todo') ?>"
         type="button"
         title="<?= $escaper->escapeHtml(__('Next Page')) ?>"
         <?= ($page >= $totalPages) ? 'disabled' : '' ?>></button>
