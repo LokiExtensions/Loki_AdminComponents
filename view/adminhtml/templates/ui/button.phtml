@@ -13,7 +13,10 @@ use Loki\AdminComponents\Ui\Button;
 $button = $block->getButton();
 ?>
 <?php if ($button->getSubButtons()): ?>
-    <div title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>" class="actions-split <?= $escaper->escapeHtml(__($button->getCssClass())) ?>">
+    <div
+        title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
+        class="actions-split <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
+    >
         <button
             @click="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
             title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
@@ -33,7 +36,7 @@ $button = $block->getButton();
             <span>Select</span>
         </button>
 
-        <ul class="<?= $css('dropdown-menu', '@todo') ?>" x-cloak x-show="showOtherActions">
+        <ul class="<?= $css('dropdown-menu', 'listing') ?>" x-cloak x-show="showOtherActions">
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
@@ -42,7 +45,7 @@ $button = $block->getButton();
                             data-url="<?= /* @noEscape */ $button->getUrl() ?>"
                         <?php endif; ?>
                         title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
-                        class="<?= $css('item', '@todo') ?>"
+                        class="<?= $css('item', 'action-label') ?>"
                     >
                     <?= $escaper->escapeHtml(__($subButton->getLabel())) ?>
                     </span>

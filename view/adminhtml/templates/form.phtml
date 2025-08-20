@@ -20,19 +20,23 @@ if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
 ?>
-<div class="<?= $css('loki-form form', '@todo') ?>">
-    <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.actions', ['view_model' => $viewModel]) ?>
+<div class="<?= $css('loki-form form') ?>">
+    <?= /* @noEscape */ $blockRenderer->html(
+        $block,
+        'loki-admin.form.actions',
+        ['view_model' => $viewModel]
+    ) ?>
 
-    <div class="<?= $css('page-columns', '@todo') ?>">
-        <div class="<?= $css('main-col', '@todo') ?>">
+    <div class="<?= $css('page-columns', 'columns') ?>">
+        <div class="<?= $css('main-col', 'main-col') ?>">
             <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.spinner') ?>
             <?= /* @noEscape */ $blockRenderer->html($block, 'loki-admin.form.inner') ?>
 
-            <div class="<?= $css('entry-edit form-inline', '@todo') ?>">
-                <div class="<?= $css('fieldset-wrapper', '@todo') ?>">
+            <div class="<?= $css('entry-edit form-inline', 'form') ?>">
+                <div class="<?= $css('fieldset-wrapper', 'field-wrapper') ?>">
                     <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
-                    <div class="<?= $css('admin__fieldset-wrapper-content', '@todo') ?>">
-                        <fieldset class="<?= $css('admin__fieldset', '@todo') ?>">
+                    <div class="<?= $css('admin__fieldset-wrapper-content', 'wrapper-content') ?>">
+                        <fieldset class="<?= $css('admin__fieldset', 'fieldset') ?>">
                             <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?= /* @noEscape */ $templateRenderer->html(
                                     $block,

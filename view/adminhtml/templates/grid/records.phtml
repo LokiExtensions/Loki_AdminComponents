@@ -9,7 +9,7 @@ use Magento\Framework\View\Element\Template;
 /** @var Escaper $escaper */
 /** @var Template $block */
 ?>
-<div class="<?= $css('admin__control-support-text', '@todo') ?>">
+<div class="<?= $css('admin__control-support-text') ?>">
     <span x-html="totalItems"></span> <?= $escaper->escapeHtml(__('records found')) ?>
 
     <span x-cloak x-show="getSelectedIdCount">
