@@ -19,7 +19,7 @@ if (empty($filterFields)) {
 ?>
 <div class="<?= $css('data-grid-filters-actions-wrap', '@todo') ?>">
     <div class="<?= $css('data-grid-filters-action-wrap', '@todo') ?>">
-        <button :class="<?= $css('filterButtonClass', '@todo') ?>" class="<?= $css('action-default', '@todo') ?>" @click="toggleFilters">
+        <button :class="filterButtonClass" class="<?= $css('action-default', '@todo') ?>" @click="toggleFilters">
             Filters
         </button>
     </div>
