@@ -14,6 +14,7 @@ class Field
         private string $code,
         private bool $required = false,
         private array $htmlAttributes = [],
+        private int $sortOrder = 0,
         private string $scope = 'item'
     ) {
     }
@@ -51,5 +52,10 @@ class Field
     public function getHtmlAttributes(): array
     {
         return $this->htmlAttributes;
+    }
+
+    public function getSortOrder(): int
+    {
+        return $this->sortOrder;
     }
 }

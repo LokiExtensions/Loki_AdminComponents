@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+
+/** @version 0.2.3 */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Textarea;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var Textarea $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$htmlAttributes = $field->getHtmlAttributes();
+$fieldType = $field->getFieldType();
+?>
+<textarea
+    class="<?= $css('admin__control-text', '@todo') ?>"
+    name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    <?php foreach ($htmlAttributes as $htmlAttributeName => $htmlAttributeValue) : ?>
+        <?= /* @noEscape */ $htmlAttributeName ?>="<?= /* @noEscape */ $htmlAttributeValue ?>"
+    <?php endforeach; ?>
+    :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+    @change="setValue"
+></textarea>

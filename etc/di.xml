@@ -29,6 +29,7 @@
             <argument name="fieldTypes" xsi:type="array">
                 <item name="view" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\View</item>
                 <item name="text" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Text</item>
+                <item name="textarea" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Textarea</item>
                 <item name="date" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Date</item>
                 <item name="datetime" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Datetime</item>
                 <item name="number" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Number</item>

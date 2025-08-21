@@ -36,7 +36,8 @@ class FieldFactory
         string $label,
         string $code,
         bool $required = false,
-        array $htmlAttributes = []
+        array $htmlAttributes = [],
+        int $sortOrder = 0
     ): Field {
         $fieldType = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
 
@@ -47,6 +48,7 @@ class FieldFactory
             'code' => $code,
             'required' => $required,
             'htmlAttributes' => $htmlAttributes,
+            'sortOrder' => $sortOrder,
         ]);
     }
 }

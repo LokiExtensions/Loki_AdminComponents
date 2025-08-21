@@ -107,6 +107,9 @@ class FormViewModel extends ComponentViewModel
         foreach ($tableColumns as $tableColumn) {
             $columnName = $tableColumn['COLUMN_NAME'];
             $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
+            $fieldLabel = $this->getLabelByColumn($tableColumn['COLUMN_NAME']);
+            $sortOrder = 0;
+
             if (empty($fieldTypeCode)) {
                 // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
@@ -117,8 +120,17 @@ class FormViewModel extends ComponentViewModel
 
             if (array_key_exists($columnName, $fieldDefinitions)) {
                 $fieldDefinition = (array)$fieldDefinitions[$columnName];
+
                 if (isset($fieldDefinition['field_type'])) {
-                    $fieldTypeCode = $fieldDefinition['field_type'];
+                    $fieldTypeCode = (string)$fieldDefinition['field_type'];
+                }
+
+                if (isset($fieldDefinition['label'])) {
+                    $fieldLabel = (string)$fieldDefinition['label'];
+                }
+
+                if (isset($fieldDefinition['sortOrder'])) {
+                    $sortOrder = (int)$fieldDefinition['sortOrder'];
                 }
 
                 if (isset($fieldDefinition['html_attributes'])) {
@@ -131,12 +143,17 @@ class FormViewModel extends ComponentViewModel
             $fields[] = $this->fieldFactory->create(
                 $block,
                 $fieldTypeCode,
-                $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
+                $fieldLabel,
                 $tableColumn['COLUMN_NAME'],
                 false, // @todo
-                $htmlAttributes
+                $htmlAttributes,
+                $sortOrder
             );
         }
+
+        usort($fields, function (Field $field1, Field $field2) {
+            return $field1->getSortOrder() <=> $field2->getSortOrder();
+        });
 
         return $fields;
     }
@@ -181,7 +198,8 @@ class FormViewModel extends ComponentViewModel
         $currentUri = (string)$this->request->getParam('currentUri');
         if (!empty($currentUri)) {
             $currentUriParts = explode('_', $currentUri);
-            return $currentUriParts[0] . '/' . $currentUriParts[1] . '/index';
+
+            return $currentUriParts[0].'/'.$currentUriParts[1].'/index';
         }
 
         return '*/*/index';
