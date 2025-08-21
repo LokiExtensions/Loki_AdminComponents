@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 21 August 2025
+### Fixed
+- Do not add CSS util for Alpine-based `:class`
+- Fix CSS utils
+- Declare used PHP namespaces
+- Document latest version of template
+- Add missing strict_types declaration
+
 ## [0.2.3] - 18 August 2025
 ### Fixed
 - Lower requirements to PHP 8.1
