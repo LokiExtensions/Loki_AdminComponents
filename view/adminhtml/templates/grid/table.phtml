@@ -17,40 +17,40 @@ use Loki\Components\Util\Block\TemplateRenderer;
 $viewModel = $block->getViewModel();
 $state = $viewModel->getState();
 ?>
-<div class="<?= $css('admin__data-grid-wrap') ?>" data-role="grid-wrapper">
-    <table class="<?= $css('data-grid', 'table') ?>" data-role="grid">
+<div class="admin__data-grid-wrap" data-role="grid-wrapper">
+    <table class="data-grid" data-role="grid">
         <thead>
         <tr x-sort.ghost="repositionColumns">
-            <th class="<?= $css('data-grid-multicheck-cell', 'multicheck-heading') ?>">
-                <div class="<?= $css('action-multicheck-wrap', 'multicheck-inner') ?>">
+            <th class="data-grid-multicheck-cell">
+                <div class="action-multicheck-wrap">
                     <input
-                        class="<?= $css('admin__control-checkbox', 'multicheck-checkbox') ?>"
+                        class="admin__control-checkbox"
                         type="checkbox"
                         disabled
                     />
 
                     <button
-                        class="<?= $css('action-multicheck-toggle', 'multicheck-button') ?>"
+                        class="action-multicheck-toggle"
                         @click="toggleSelectedMenu"
                     >
                         <span>Options</span>
                     </button>
 
-                    <ul class="<?= $css('action-menu', 'listing') ?>" x-cloak x-show="showSelectedMenu">
+                    <ul class="action-menu" x-cloak x-show="showSelectedMenu">
                         <li @click="selectAll">
-                            <span class="<?= $css('action-menu-item', 'item-span') ?>">Select All</span>
+                            <span class="action-menu-item">Select All</span>
                         </li>
 
                         <li @click="deselectAll">
-                            <span class="<?= $css('action-menu-item', 'item-span') ?>">Deselect All</span>
+                            <span class="action-menu-item">Deselect All</span>
                         </li>
 
                         <li @click="selectAllOnPage">
-                            <span class="<?= $css('action-menu-item', 'item-span') ?>">Select All on This Page</span>
+                            <span class="action-menu-item">Select All on This Page</span>
                         </li>
 
                         <li @click="deselectAllOnPage">
-                            <span class="<?= $css('action-menu-item', 'item-span') ?>">Deselect All on This Page</span>
+                            <span class="action-menu-item">Deselect All on This Page</span>
                         </li>
                     </ul>
                 </div>
@@ -73,14 +73,14 @@ $state = $viewModel->getState();
                     data-column="<?= $escaper->escapeHtml($columnName) ?>"
                     @click="sortColumn"
                     x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($columnName) ?>'">
-                    <span class="<?= $css('data-grid-cell-content', 'heading-span') ?>"><?= $escaper->escapeHtml(__($label)) ?></span>
+                    <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($label)) ?></span>
                 </th>
                 <?php
                 $i++;
             endforeach; ?>
             <?php if ($viewModel->allowActions()): ?>
-                <th class="<?= $css('data-grid-th', 'heading') ?>">
-                    <span class="<?= $css('pointer data-grid-cell-content', 'heading-span') ?>"><?= $escaper->escapeHtml(__('Actions')) ?></span>
+                <th class="data-grid-th">
+                    <span class="pointer data-grid-cell-content"><?= $escaper->escapeHtml(__('Actions')) ?></span>
                 </th>
             <?php endif; ?>
         </tr>
@@ -91,10 +91,10 @@ $state = $viewModel->getState();
             <?php $cellActions = $viewModel->getCellActions($item); ?>
             <?php $trClass = ($i % 2 === 1) ? '_odd-row' : '_even-row'; ?>
             <tr class="data-row <?= $escaper->escapeHtml($trClass) ?>">
-                <td class="<?= $css('data-grid-checkbox-cell', '@todo') ?>">
-                    <label class="<?= $css('data-grid-checkbox-cell-inner', '@todo') ?>">
+                <td class="data-grid-checkbox-cell">
+                    <label class="data-grid-checkbox-cell-inner">
                         <input
-                            class="<?= $css('admin__control-checkbox', '@todo') ?>"
+                            class="admin__control-checkbox"
                             type="checkbox"
                             :checked="isSelected"
                             @change="toggleSelectedId"
@@ -106,8 +106,8 @@ $state = $viewModel->getState();
                     <?php if ($columnName === 'ids') {
                         continue;
                     } ?>
-                    <td class="<?= $css('data-grid-cell', '@todo') ?>">
-                        <div class="<?= $css('data-grid-cell-content', '@todo') ?>">
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
                             <?php $cellTemplate = $viewModel->getCellTemplate($item, $columnName) ?>
                             <?php $value = $viewModel->getValueFromItem($item, $columnName); ?>
                             <?= /* @noEscape */ $templateRenderer->html($block, $cellTemplate, [
@@ -119,8 +119,8 @@ $state = $viewModel->getState();
                     </td>
                 <?php endforeach; ?>
                 <?php if ($viewModel->allowActions()): ?>
-                    <td class="<?= $css('data-grid-cell', '@todo') ?>">
-                        <div class="<?= $css('data-grid-cell-content', '@todo') ?>">
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>

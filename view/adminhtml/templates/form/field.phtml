@@ -22,14 +22,14 @@ if (false === $field instanceof Field) {
     $field = $fieldViewModel->getField($block);
 }
 ?>
-<div class="<?= $css('admin__field', '@todo') ?>">
-    <div class="<?= $css('admin__field-label', '@todo') ?>">
+<div class="admin__field">
+    <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
         </label>
     </div>
 
-    <div class="<?= $css('admin__field-control', '@todo') ?>">
+    <div class="admin__field-control">
         <?= /* @noEscape */ $templateRenderer->html(
             $block,
             $field->getFieldType()->getTemplate(),

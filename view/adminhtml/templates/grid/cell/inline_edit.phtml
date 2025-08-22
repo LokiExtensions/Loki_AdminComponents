@@ -25,17 +25,17 @@ $item = $block->getItem();
         <input
             x-ref="inlineEditField"
             type="text"
-            class="<?= $css('admin__control-text', '@todo') ?>"
+            class="admin__control-text"
             value="<?= $escaper->escapeHtml($block->getValue()) ?>"
         />
 
         <button
-            class="<?= $css('action-close', '@todo') ?>"
+            class="action-close"
             @click="toggleInlineEdit"
         ></button>
 
         <button
-            class="<?= $css('action-save', '@todo') ?>"
+            class="action-save"
             @click="saveInlineEdit"
             data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
             data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"

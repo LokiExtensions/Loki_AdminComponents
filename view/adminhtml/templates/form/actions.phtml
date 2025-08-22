@@ -22,60 +22,44 @@ $buttons = $viewModel->getButtons();
 $mainSaveAction = false;
 $otherSaveActions = [];
 ?>
-<div class="<?= $css('page-main-actions') ?>">
-    <div class="<?= $css('page-actions-placeholder', 'placeholder') ?>"></div>
+<div class="page-main-actions">
+    <div class="page-actions-placeholder"></div>
 
-    <div class="<?= $css('page-actions', 'actions') ?>">
-        <div class="<?= $css('page-actions-inner', 'actions-inner') ?>">
-            <div class="<?= $css('page-actions-buttons', 'actions-buttons') ?>">
+    <div class="page-actions">
+        <div class="page-actions-inner">
+            <div class="page-actions-buttons">
                 <?php foreach ($buttons as $button) : ?>
                     <?php $subButtons = $button->getSubButtons(); ?>
                     <button
-                        @click="<?= $escaper->escapeHtml(
-                            $button->getMethod()
-                        ) ?>"
-                        title="<?= $escaper->escapeHtml(
-                            __($button->getLabel())
-                        ) ?>"
+                        @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
+                        title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
                         type="button"
-                        class="action- scalable <?= $escaper->escapeHtml(
-                            $button->getCssClass()
-                        ) ?>">
-                        <span><?= $escaper->escapeHtml(
-                                __($button->getLabel())
-                            ) ?></span>
+                        class="action- scalable <?= $escaper->escapeHtml($button->getCssClass()) ?>">
+                        <span><?= $escaper->escapeHtml(__($button->getLabel())) ?></span>
                     </button>
                 <?php endforeach; ?>
 
                 <?php if (!empty($otherSaveActions)) : ?>
                     <div
                         title="Save and Continue"
-                        class="<?= $css(
-                            'actions-split save primary', 'button-container'
-                        ) ?>"
+                        class="actions-split save primary"
                     >
                         <button
                             @click="saveAndContinueAction"
                             title="Save and Continue"
-                            class="<?= $css(
-                                'action-default primary',
-                                'button-save-and-continue'
-                            ) ?>"
+                            class="action-default primary"
                         >
                             <span>Save and Continue</span>
                         </button>
 
                         <button @click="toggleOtherActions"
                                 title="Save and Continue"
-                                class="<?= $css(
-                                    'action-toggle primary save',
-                                    'button-toggle-actions'
-                                ) ?>">
+                                class="action-toggle primary save">
                             <span>Select</span>
                         </button>
 
                         <ul
-                            class="<?= $css('dropdown-menu', 'listing') ?>"
+                            class="dropdown-menu"
                             x-cloak x-show="showOtherActions"
                         >
                             <?php foreach (
@@ -85,11 +69,9 @@ $otherSaveActions = [];
                                     <span
                                         @click="saveAndDuplicateAction"
                                         title="Save &amp; Duplicate"
-                                        class="<?= $css(
-                                            'item', 'action-label'
-                                        ) ?>"
+                                        class="item"
                                     >
-                                        Save &amp; Duplicate
+                                        Save &amp;amp; Duplicate
                                     </span>
                                 </li>
                             <?php endforeach; ?>

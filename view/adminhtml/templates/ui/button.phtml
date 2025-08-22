@@ -36,7 +36,7 @@ $button = $block->getButton();
             <span>Select</span>
         </button>
 
-        <ul class="<?= $css('dropdown-menu', 'listing') ?>" x-cloak x-show="showOtherActions">
+        <ul class="dropdown-menu" x-cloak x-show="showOtherActions">
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
@@ -45,7 +45,7 @@ $button = $block->getButton();
                             data-url="<?= /* @noEscape */ $button->getUrl() ?>"
                         <?php endif; ?>
                         title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
-                        class="<?= $css('item', 'action-label') ?>"
+                        class="item"
                     >
                     <?= $escaper->escapeHtml(__($subButton->getLabel())) ?>
                     </span>

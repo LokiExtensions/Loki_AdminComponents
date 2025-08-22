@@ -19,17 +19,17 @@ if (empty($massActions)) {
     return;
 }
 ?>
-<div class="<?= $css('col-xs-2') ?>">
-    <div class="<?= $css('action-select-wrap', 'wrapper') ?>">
-        <button class="<?= $css('action-select', 'button') ?>" title="Select Items" @click="toggleMassActions">
+<div class="col-xs-2">
+    <div class="action-select-wrap">
+        <button class="action-select" title="Select Items" @click="toggleMassActions">
             <span>Actions</span>
         </button>
 
-        <div class="<?= $css('action-menu-items', 'listing-wrapper') ?>" x-cloak x-show="showMassActions" style="z-index:300">
-            <ul class="<?= $css('action-menu', 'listing') ?>">
+        <div class="action-menu-items" x-cloak x-show="showMassActions" style="z-index:300">
+            <ul class="action-menu">
                 <?php foreach ($massActions as $massAction): ?>
                     <li @click="massAction" data-url="<?= /* @noEscape */ $massAction->getUrl() ?>">
-                        <span class="<?= $css('action-menu-item', 'item-span') ?>"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
+                        <span class="action-menu-item"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -40,6 +40,6 @@ if (empty($massActions)) {
         <input type="hidden" name="selected[]" x-ref="massActionFormIds" />
         <input type="hidden" name="namespace" value="<?= $escaper->escapeHtml($viewModel->getNamespace()) ?>" />
         <input type="hidden" name="loki_redirect_url" value="<?= /* @noEscape */ $viewModel->getIndexUrl() ?>" />
-        <?php echo /* @noEscape */ $block->getBlockHtml('formkey') ?>
+        <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
     </form>
 </div>

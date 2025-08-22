@@ -17,26 +17,26 @@ $totalPages = $viewModel->getTotalPages();
 $page = $viewModel->getPage();
 ?>
 <div style="display: inline-block">
-    <div class="<?= $css('selectmenu', '@todo') ?>">
-        <div class="<?= $css('selectmenu-value', '@todo') ?>">
+    <div class="selectmenu">
+        <div class="selectmenu-value">
             <input :value="limit" @change="changeLimit" type="text" aria-labelledby="per-page-text"
                    id="product_listing.product_listing.listing_top.listing_paging_sizes">
         </div>
 
-        <button @click="toggleLimitOptions" class="<?= $css('selectmenu-toggle', '@todo') ?>" type="button"
+        <button @click="toggleLimitOptions" class="selectmenu-toggle" type="button"
                 aria-labelledby="per-page-text select-button-text">
             <span id="select-button-text"><?= $escaper->escapeHtml(__('Select')) ?></span>
         </button>
 
-        <div x-cloak x-show="showLimitOptions" class="<?= $css('selectmenu-items', '@todo') ?>" style="z-index:1001">
+        <div x-cloak x-show="showLimitOptions" class="selectmenu-items" style="z-index:1001">
             <ul>
                 <?php foreach ($limits as $limit): ?>
                     <li>
-                        <div class="<?= $css('selectmenu-item', '@todo') ?>">
+                        <div class="selectmenu-item">
                             <button
                                 @click="setLimitFromElement"
                                 data-limit="<?= $escaper->escapeHtml($limit) ?>"
-                                class="<?= $css('selectmenu-item-action', '@todo') ?>"
+                                class="selectmenu-item-action"
                                 type="button">
                                 <?= $escaper->escapeHtml($limit) ?>
                             </button>
@@ -47,7 +47,7 @@ $page = $viewModel->getPage();
         </div>
     </div>
 
-    <label class="<?= $css('admin__control-support-text', '@todo') ?>" id="per-page-text"
+    <label class="admin__control-support-text" id="per-page-text"
            for="product_listing.product_listing.listing_top.listing_paging_sizes"><?= $escaper->escapeHtml(__('per page')) ?></label>
 
     <style>

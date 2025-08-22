@@ -18,23 +18,21 @@ use Loki\Components\Util\Block\TemplateRenderer;
 $field = $block->getField();
 $fieldType = $field->getFieldType();
 ?>
-<div class="<?= $css('') ?>">
-    <div class="<?= $css('admin__form-field', 'field-container') ?>">
-        <label class="<?= $css('admin__form-field-label', 'label') ?>">
+<div class="">
+    <div class="admin__form-field">
+        <label class="admin__form-field-label">
             <span>from</span>
         </label>
 
-        <div class="<?= $css('admin__form-field-control', 'field-control') ?>">
+        <div class="admin__form-field-control">
             <input
-                class="<?= $css('admin__control-text', 'field') ?>"
+                class="admin__control-text"
                 type="text"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
                 ) ?>"
-                :value="<?= $escaper->escapeHtml(
-                    $field->getScope()
-                ) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+                :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
                 @change="setValue"
                 placeholder="<?= $escaper->escapeHtml(
                     $field->getBlock()->getPlaceholder()
@@ -43,14 +41,14 @@ $fieldType = $field->getFieldType();
         </div>
     </div>
 
-    <div class="<?= $css('admin__form-field', 'field-container') ?>">
-        <label class="<?= $css('admin__form-field-label', 'label') ?>">
+    <div class="admin__form-field">
+        <label class="admin__form-field-label">
             <span>to</span>
         </label>
 
-        <div class="<?= $css('admin__form-field-control', 'field-control') ?>">
+        <div class="admin__form-field-control">
             <input
-                class="<?= $css('admin__control-text', 'field') ?>"
+                class="admin__control-text"
                 type="text"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
                 maxlength="<?= $escaper->escapeHtml(
