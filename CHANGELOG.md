@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.5] - 26 August 2025
+### Fixed
+- Remove CSS util again
+- Additional work on grids and form arguments
+
 ## [0.2.4] - 21 August 2025
 ### Fixed
 - Do not add CSS util for Alpine-based `:class`
