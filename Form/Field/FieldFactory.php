@@ -7,7 +7,6 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
-use Loki\AdminComponents\Component\Form\FormViewModel;
 
 class FieldFactory
 {
@@ -19,36 +18,38 @@ class FieldFactory
     }
 
     public function createWithBlock(
-        string $fieldTypeCode,
-        string $label,
-        string $code,
-        bool $required = false,
-        array $htmlAttributes = []
+        array $data = []
     ) {
         $block = $this->layout->createBlock(Template::class);
         $block->setTemplate('Loki_AdminComponents::form/field.phtml');
-        return $this->create($block, $fieldTypeCode, $label, $code, $required, $htmlAttributes);
+        return $this->create($block, $data);
     }
 
     public function create(
         AbstractBlock $block,
-        string $fieldTypeCode,
-        string $label,
-        string $code,
-        bool $required = false,
-        array $htmlAttributes = [],
-        int $sortOrder = 0
+        array $data = [],
     ): Field {
-        $fieldType = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
+        // @todo: Move this to form field data sanitizer
+        if (!isset($data['field_type'])) {
+            $fieldTypeCode = $data['code'];
+            if (isset($data['field_type_code'])) {
+                $fieldTypeCode = $data['field_type_code'];
+            }
+
+            $data['field_type'] = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
+        }
+
+        if (!isset($data['scope'])) {
+            $data['scope'] = 'item';
+        }
+
+        if (!isset($data['hidden'])) {
+            $data['hidden'] = false;
+        }
 
         return $this->objectManager->create(Field::class, [
             'block' => $block,
-            'fieldType' => $fieldType,
-            'label' => $label,
-            'code' => $code,
-            'required' => $required,
-            'htmlAttributes' => $htmlAttributes,
-            'sortOrder' => $sortOrder,
+            'data' => $data,
         ]);
     }
 }

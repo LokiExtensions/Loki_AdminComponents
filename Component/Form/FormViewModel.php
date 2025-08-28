@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Component\Form;
 use Loki\AdminComponents\Form\ItemConvertorInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\View\Element\Template;
@@ -89,7 +90,7 @@ class FormViewModel extends ComponentViewModel
 
     /**
      * @return Field[]
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      * @todo Move this to Form
      */
     public function getFields(): array
@@ -108,46 +109,31 @@ class FormViewModel extends ComponentViewModel
             $columnName = $tableColumn['COLUMN_NAME'];
             $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
             $fieldLabel = $this->getLabelByColumn($tableColumn['COLUMN_NAME']);
-            $sortOrder = 0;
+            $code = $tableColumn['COLUMN_NAME'];
 
             if (empty($fieldTypeCode)) {
                 // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
             }
 
-            $htmlAttributes = [];
             $block = $this->getBlock()->getLayout()->createBlock(Template::class);
+            $fieldData = [
+                'field_type_code' => $fieldTypeCode,
+                'code' => $code,
+                'label' => $fieldLabel,
+                'required' => false,
+                'sort_order' => 0,
+                'html_attributes' => [],
+            ];
 
             if (array_key_exists($columnName, $fieldDefinitions)) {
                 $fieldDefinition = (array)$fieldDefinitions[$columnName];
-
-                if (isset($fieldDefinition['field_type'])) {
-                    $fieldTypeCode = (string)$fieldDefinition['field_type'];
-                }
-
-                if (isset($fieldDefinition['label'])) {
-                    $fieldLabel = (string)$fieldDefinition['label'];
-                }
-
-                if (isset($fieldDefinition['sortOrder'])) {
-                    $sortOrder = (int)$fieldDefinition['sortOrder'];
-                }
-
-                if (isset($fieldDefinition['html_attributes'])) {
-                    $htmlAttributes = array_merge($htmlAttributes, $fieldDefinition['html_attributes']);
-                }
-
-                $block->addData($fieldDefinition);
+                $fieldData = array_merge($fieldData, $fieldDefinition);
             }
 
             $fields[] = $this->fieldFactory->create(
                 $block,
-                $fieldTypeCode,
-                $fieldLabel,
-                $tableColumn['COLUMN_NAME'],
-                false, // @todo
-                $htmlAttributes,
-                $sortOrder
+                $fieldData,
             );
         }
 

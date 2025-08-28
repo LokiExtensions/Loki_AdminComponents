@@ -3,45 +3,41 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\Form\Field;
 
+use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
 
-class Field
+class Field extends DataObject
 {
     public function __construct(
         private AbstractBlock $block,
-        private FieldTypeInterface $fieldType,
-        private string $label,
-        private string $code,
-        private bool $required = false,
-        private array $htmlAttributes = [],
-        private int $sortOrder = 0,
-        private string $scope = 'item'
+        array $data = [],
     ) {
+        parent::__construct($data);
     }
 
     public function getLabel(): string
     {
-        return $this->label;
+        return (string)$this->getData('label');
     }
 
     public function getCode(): string
     {
-        return $this->code;
+        return (string)$this->getData('code');
     }
 
     public function isRequired(): bool
     {
-        return $this->required;
+        return (bool)$this->getData('required');
     }
 
     public function getScope(): string
     {
-        return $this->scope;
+        return (string)$this->getData('scope');
     }
 
     public function getFieldType(): FieldTypeInterface
     {
-        return $this->fieldType;
+        return $this->getData('field_type');
     }
 
     public function getBlock(): AbstractBlock
@@ -51,11 +47,16 @@ class Field
 
     public function getHtmlAttributes(): array
     {
-        return $this->htmlAttributes;
+        return (array)$this->getData('html_attributes');
     }
 
     public function getSortOrder(): int
     {
-        return $this->sortOrder;
+        return (int)$this->getData('sort_order');
+    }
+
+    public function isHidden(): bool
+    {
+        return (bool)$this->getData('hidden');
     }
 }
