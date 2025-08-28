@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
@@ -271,15 +272,19 @@ class GridViewModel extends ComponentViewModel
 
         $fields = [];
         foreach ($filters as $filterCode => $filter) {
-            $field = $this->fieldFactory->createWithBlock(
-                $filter['field_type'],
-                $filter['label'],
-                $filterCode,
-            );
+            $filter['code'] = $filterCode;
 
-            if (isset($filter['options']) && is_string($filter['options'])) {
+            if (isset($filter['options']) && false === $filter['options'] instanceof OptionSourceInterface) {
                 $filter['options'] = $this->objectManager->get($filter['options']);
             }
+
+            if (isset($filter['options']) && false === $filter['options'] instanceof OptionSourceInterface) {
+                throw new \RuntimeException('Filter uses wrong options class');
+            }
+
+            $field = $this->fieldFactory->createWithBlock(
+                $filter,
+            );
 
             $field->getBlock()->addData($filter);
             $field->getBlock()->setField($field);
