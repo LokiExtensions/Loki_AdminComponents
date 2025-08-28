@@ -18,9 +18,8 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var Escaper $escaper */
 
 $field = $block->getField();
-$parentBlock = $field->getBlock();
-$options = $parentBlock->getOptions();
-$emptyOption = $parentBlock->getEmptyOption();
+$options = $field->getOptions();
+$emptyOption = $field->getEmptyOption();
 $fieldType = $field->getFieldType();
 $fieldAttributes = $field->getFieldAttributes();
 ?>
@@ -29,8 +28,8 @@ $fieldAttributes = $field->getFieldAttributes();
     class="admin__control-select"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
-    <?php if ($parentBlock->getMultiple()) : ?>multiple<?php endif; ?>
-    <?php if ($parentBlock->getSize()) : ?>size="<?= $escaper->escapeHtml($parentBlock->getSize()) ?>"<?php endif; ?>
+    <?php if ($field->getMultiple()) : ?>multiple<?php endif; ?>
+    <?php if ($field->getSize()) : ?>size="<?= $escaper->escapeHtml($field->getSize()) ?>"<?php endif; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>

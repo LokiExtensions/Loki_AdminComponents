@@ -18,8 +18,7 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 
 $field = $block->getField();
-$parentBlock = $field->getBlock();
-$options = $parentBlock->getOptions();
+$options = $field->getOptions();
 $fieldType = $field->getFieldType();
 ?>
 <div class="admin__actions-switch">
