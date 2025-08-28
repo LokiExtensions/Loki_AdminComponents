@@ -1,0 +1,61 @@
+<?php
+declare(strict_types=1);
+
+/** @version 0.2.5 */
+
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Select;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @var Template $block */
+/** @var Field $field */
+/** @var Select $fieldType */
+/** @var OptionSourceInterface $options */
+/** @var TemplateRenderer $templateRenderer */
+/** @var Escaper $escaper */
+
+$field = $block->getField();
+$options = $field->getFieldType()->getOptions();
+$emptyOption = $field->getEmptyOption();
+$fieldType = $field->getFieldType();
+$fieldAttributes = $field->getFieldAttributes();
+?>
+<select
+    aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
+    class="admin__control-select"
+    name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    <?php if ($field->getMultiple()) : ?>multiple<?php endif; ?>
+    <?php if ($field->getSize()) : ?>size="<?= $escaper->escapeHtml($field->getSize()) ?>"<?php endif; ?>
+    :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+    @change="setValue"
+    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
+        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+    <?php endforeach; ?>
+>
+    <?php if (!empty($emptyOption)): ?>
+        <?= /* @noEscape */ $templateRenderer->html(
+            $block,
+            'Loki_AdminComponents::form/field_type/select/option.phtml',
+            [
+                'option' => [
+                    'value' => '',
+                    'label' => $emptyOption,
+                    'level' => 0,
+                ],
+            ]
+        ) ?>
+    <?php endif; ?>
+    <?php foreach ($options->toOptionArray() as $option) : ?>
+        <?php $option['level'] = 0; ?>
+        <?= /* @noEscape */ $templateRenderer->html(
+            $block,
+            'Loki_AdminComponents::form/field_type/select/option.phtml',
+            ['option' => $option]
+        ) ?>
+    <?php endforeach; ?>
+</select>
