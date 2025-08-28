@@ -107,18 +107,22 @@ class FormViewModel extends ComponentViewModel
 
         foreach ($tableColumns as $tableColumn) {
             $columnName = $tableColumn['COLUMN_NAME'];
-            $fieldTypeCode = $this->getFieldTypeCodeFromColumn($tableColumn);
+            $fieldType = $this->getFieldTypeCodeFromColumn($tableColumn);
+            if ($columnName === $resourceModel->getIdFieldName()) {
+                $fieldType = 'view';
+            }
+
             $fieldLabel = $this->getLabelByColumn($tableColumn['COLUMN_NAME']);
             $code = $tableColumn['COLUMN_NAME'];
 
-            if (empty($fieldTypeCode)) {
+            if (empty($fieldType)) {
                 // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
                 continue;
             }
 
             $block = $this->getBlock()->getLayout()->createBlock(Template::class);
             $fieldData = [
-                'field_type_code' => $fieldTypeCode,
+                'field_type' => $fieldType,
                 'code' => $code,
                 'label' => $fieldLabel,
                 'required' => false,
