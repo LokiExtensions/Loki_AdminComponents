@@ -111,4 +111,16 @@ class CollectionHandler implements ProviderHandlerInterface
         // @todo: Use this to fetch database columns
         return [];
     }
+
+    public function getModelClass(object $provider): bool|string
+    {
+        /** @var AbstractDb $provider */
+        return $provider->getItemObjectClass();
+    }
+
+    public function getResourceModelClass(object $provider): bool|string
+    {
+        /** @var AbstractDb $provider */
+        return get_class($provider->getResource());
+    }
 }

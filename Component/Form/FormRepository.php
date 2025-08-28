@@ -149,6 +149,13 @@ class FormRepository extends ComponentRepository
     {
         $factoryClass = $this->getBlock()->getFactory();
         if (empty($factoryClass)) {
+            $modelClass = $this->getProviderHandler()->getModelClass($this->getProvider());
+            if (!empty($modelClass)) {
+                $factoryClass = $modelClass . 'Factory';
+            }
+        }
+
+        if (empty($factoryClass)) {
             throw new RuntimeException('No factory class set');
         }
 
@@ -173,14 +180,24 @@ class FormRepository extends ComponentRepository
             return $this->providerHandlerListing->getByName($providerHandlerName);
         }
 
-        $provider = $this->getProvider();
+        return $this->providerHandlerListing->getByProvider($this->getProvider());
+    }
 
-        return $this->providerHandlerListing->getByProvider($provider);
+    public function getModel(): ?object
+    {
+        $modelClass = $this->getBlock()->getModelClass();
+        if (empty($modelClass)) {
+            return null;
+        }
     }
 
     public function getResourceModel(): ?AbstractDb
     {
         $resourceModelClass = $this->getBlock()->getResourceModel();
+        if (empty($resourceModelClass)) {
+            $resourceModelClass = $this->getProviderHandler()->getResourceModelClass($this->getProvider());
+        }
+
         if (empty($resourceModelClass)) {
             return null;
         }

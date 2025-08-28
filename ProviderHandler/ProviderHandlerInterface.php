@@ -23,4 +23,8 @@ interface ProviderHandlerInterface
     public function duplicateItem(object $provider, DataObject $item);
 
     public function getColumns(object $provider): array;
+
+    public function getModelClass(object $provider): bool|string;
+
+    public function getResourceModelClass(object $provider): bool|string;
 }

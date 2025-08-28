@@ -107,4 +107,14 @@ class ArrayHandler implements ProviderHandlerInterface
         /** @var ArrayProviderInterface $provider */
         return $provider->getColumns();
     }
+
+    public function getModelClass(object $provider): bool|string
+    {
+        return false;
+    }
+
+    public function getResourceModelClass(object $provider): bool|string
+    {
+        return false;
+    }
 }

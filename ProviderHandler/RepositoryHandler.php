@@ -9,6 +9,7 @@ use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use RuntimeException;
 use Loki\AdminComponents\Grid\State as GridState;
@@ -151,5 +152,19 @@ class RepositoryHandler implements ProviderHandlerInterface
         }
 
         return $this->filterGroupBuilder->setFilters($filters)->create();
+    }
+
+    public function getModelClass(object $provider): bool|string
+    {
+        $providerReflection = new \ReflectionClass($provider);
+        $methodReflection = $providerReflection->getMethod('save');
+        $returnTypes = $methodReflection->getReturnType()->getTypes();
+        $returnType = array_pop($returnTypes);
+        return $returnType;
+    }
+
+    public function getResourceModelClass(object $provider): bool|string
+    {
+        return false;
     }
 }
