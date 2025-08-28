@@ -31,12 +31,11 @@ class FieldFactory
     ): Field {
         // @todo: Move this to form field data sanitizer
         if (!isset($data['field_type'])) {
-            $fieldTypeCode = $data['code'];
-            if (isset($data['field_type_code'])) {
-                $fieldTypeCode = $data['field_type_code'];
-            }
+            $data['field_type'] = 'text';
+        }
 
-            $data['field_type'] = $this->fieldTypeProvider->getFieldTypeByCode($fieldTypeCode);
+        if (false === $data['field_type'] instanceof FieldTypeInterface) {
+            $data['field_type'] = $this->fieldTypeProvider->getFieldTypeByCode($data['field_type']);
         }
 
         if (!isset($data['scope'])) {
