@@ -22,6 +22,7 @@ $parentBlock = $field->getBlock();
 $options = $parentBlock->getOptions();
 $emptyOption = $parentBlock->getEmptyOption();
 $fieldType = $field->getFieldType();
+$fieldAttributes = $field->getFieldAttributes();
 ?>
 <select
     aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
@@ -32,6 +33,9 @@ $fieldType = $field->getFieldType();
     <?php if ($parentBlock->getSize()) : ?>size="<?= $escaper->escapeHtml($parentBlock->getSize()) ?>"<?php endif; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"
+    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
+        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+    <?php endforeach; ?>
 >
     <?php if (!empty($emptyOption)): ?>
         <?= /* @noEscape */ $templateRenderer->html(

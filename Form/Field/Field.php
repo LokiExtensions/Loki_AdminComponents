@@ -45,11 +45,16 @@ class Field extends DataObject
         return $this->block;
     }
 
-    public function getHtmlAttributes(): array
+    public function getFieldAttributes(): array
     {
-        $htmlAttributes = (array)$this->getData('html_attributes');
-        return $htmlAttributes;
+        return (array)$this->getData('field_attributes');
     }
+
+    public function getLabelAttributes(): array
+    {
+        return (array)$this->getData('label_attributes');
+    }
+
 
     public function getSortOrder(): int
     {

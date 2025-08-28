@@ -16,15 +16,15 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 
 $field = $block->getField();
-$htmlAttributes = $field->getHtmlAttributes();
+$fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
 ?>
 <textarea
     class="admin__control-text"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
-    <?php foreach ($htmlAttributes as $htmlAttributeName => $htmlAttributeValue) : ?>
-        <?= /* @noEscape */ $htmlAttributeName ?>="<?= /* @noEscape */ $htmlAttributeValue ?>"
+    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
+        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="setValue"

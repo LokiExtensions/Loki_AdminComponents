@@ -123,7 +123,8 @@ class FormViewModel extends ComponentViewModel
                 'label' => $fieldLabel,
                 'required' => false,
                 'sort_order' => 0,
-                'html_attributes' => [],
+                'field_attributes' => [],
+                'label_attributes' => [],
             ];
 
             if (array_key_exists($columnName, $fieldDefinitions)) {
