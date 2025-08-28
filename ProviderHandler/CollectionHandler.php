@@ -92,20 +92,27 @@ class CollectionHandler implements ProviderHandlerInterface
 
     public function saveItem(object $provider, DataObject $item)
     {
-        /** @var AbstractResourceModel $resourceModel */
         /** @var AbstractModel $item */
-        $resourceModel = $this->objectManager->get($this->getResourceModelClass($provider));
+        $resourceModel = $this->getResourceModel($provider);
         $resourceModel->save($item);
     }
 
     public function deleteItem(object $provider, DataObject $item)
     {
-        // TODO: Implement deleteItem() method.
+        /** @var AbstractModel $item */
+        $resourceModel = $this->getResourceModel($provider);
+        $resourceModel->delete($item);
     }
 
     public function duplicateItem(object $provider, DataObject $item)
     {
-        // TODO: Implement duplicateItem() method.
+        /** @var AbstractDb $provider */
+        /** @var AbstractModel $item */
+        /** @var AbstractModel $newItem */
+        $resourceModel = $this->getResourceModel($provider);
+        $newItem = $this->createItem($provider, null);
+        $newItem->setData($item->getData());
+        $resourceModel->save($newItem);
     }
 
     public function getColumns(object $provider): array
@@ -127,5 +134,10 @@ class CollectionHandler implements ProviderHandlerInterface
     {
         /** @var AbstractDb $provider */
         return get_class($provider->getResource());
+    }
+
+    public function getResourceModel(object $provider): AbstractResourceModel
+    {
+        return $this->objectManager->get($this->getResourceModelClass($provider));
     }
 }
