@@ -5,6 +5,8 @@ namespace Loki\AdminComponents\ProviderHandler;
 
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use RuntimeException;
@@ -90,7 +92,10 @@ class CollectionHandler implements ProviderHandlerInterface
 
     public function saveItem(object $provider, DataObject $item)
     {
-        // TODO: Implement saveItem() method.
+        /** @var AbstractResourceModel $resourceModel */
+        /** @var AbstractModel $item */
+        $resourceModel = $this->objectManager->get($this->getResourceModelClass($provider));
+        $resourceModel->save($item);
     }
 
     public function deleteItem(object $provider, DataObject $item)
