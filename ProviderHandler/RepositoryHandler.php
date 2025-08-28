@@ -11,6 +11,7 @@ use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
+use Magento\Framework\ObjectManagerInterface;
 use RuntimeException;
 use Loki\AdminComponents\Grid\State as GridState;
 
@@ -20,7 +21,8 @@ class RepositoryHandler implements ProviderHandlerInterface
         private FilterFactory $filterFactory,
         private FilterGroupBuilder $filterGroupBuilder,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
-        private SortOrderFactory $sortOrderFactory
+        private SortOrderFactory $sortOrderFactory,
+        private ObjectManagerInterface $objectManager
     ) {
     }
 
@@ -69,22 +71,46 @@ class RepositoryHandler implements ProviderHandlerInterface
             return call_user_func([$factory, 'create']);
         }
 
+        $modelClass = $this->getModelClass($provider);
+        if (!empty($modelClass)) {
+            return $this->objectManager->create($modelClass);
+        }
+
         throw new RuntimeException('Repository has no create-method we know of.');
     }
 
     public function saveItem(object $provider, DataObject $item): void
     {
-        $provider->save($item);
+        if (method_exists($provider, 'save')) {
+            call_user_func([$provider, 'save'], $item);
+
+            return;
+        }
+
+        throw new RuntimeException('Repository has no save-method we know of.');
+
     }
 
     public function deleteItem(object $provider, DataObject $item): void
     {
-        $provider->delete($item);
+        if (method_exists($provider, 'delete')) {
+            call_user_func([$provider, 'delete'], $item);
+
+            return;
+        }
+
+        throw new RuntimeException('Repository has no delete-method we know of.');
     }
 
     public function duplicateItem(object $provider, DataObject $item): void
     {
-        $provider->duplicate($item);
+        if (method_exists($provider, 'duplicate')) {
+            call_user_func([$provider, 'duplicate'], $item);
+
+            return;
+        }
+
+        throw new RuntimeException('Repository has no duplicate-method we know of.');
     }
 
     public function getColumns(object $provider): array
@@ -160,6 +186,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         $methodReflection = $providerReflection->getMethod('save');
         $returnTypes = $methodReflection->getReturnType()->getTypes();
         $returnType = array_pop($returnTypes);
+
         return $returnType;
     }
 
