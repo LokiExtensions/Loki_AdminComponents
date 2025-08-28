@@ -31,7 +31,7 @@ class SaveAction implements ActionInterface
 
             if (is_array($propertyValue)) {
                 // @todo: Fix this because it breaks a lot of logic
-                continue;
+                //continue;
             }
 
             $this->setItemPropertyValue($item, $propertyKey, $propertyValue);
@@ -49,6 +49,7 @@ class SaveAction implements ActionInterface
     private function setItemPropertyValue(DataObject $item, $propertyName, $propertyValue): void
     {
         $propertyMethod = 'set'.ucfirst($this->camelCaseConvertor->toCamelCase($propertyName));
+
         call_user_func([$item, $propertyMethod], $propertyValue);
     }
 }
