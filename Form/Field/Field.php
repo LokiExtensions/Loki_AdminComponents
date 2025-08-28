@@ -47,7 +47,8 @@ class Field extends DataObject
 
     public function getHtmlAttributes(): array
     {
-        return (array)$this->getData('html_attributes');
+        $htmlAttributes = (array)$this->getData('html_attributes');
+        return $htmlAttributes;
     }
 
     public function getSortOrder(): int
@@ -55,8 +56,8 @@ class Field extends DataObject
         return (int)$this->getData('sort_order');
     }
 
-    public function isHidden(): bool
+    public function isVisible(): bool
     {
-        return (bool)$this->getData('hidden');
+        return (bool)$this->getData('visible');
     }
 }

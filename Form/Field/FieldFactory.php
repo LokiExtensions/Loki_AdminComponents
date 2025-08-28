@@ -43,8 +43,8 @@ class FieldFactory
             $data['scope'] = 'item';
         }
 
-        if (!isset($data['hidden'])) {
-            $data['hidden'] = false;
+        if (!isset($data['visible'])) {
+            $data['visible'] = true;
         }
 
         return $this->objectManager->create(Field::class, [
