@@ -199,4 +199,9 @@ class RepositoryHandler implements ProviderHandlerInterface
     {
         return false;
     }
+
+    public function getResourceModel(object $provider): ?AbstractResourceModel
+    {
+        return $this->objectManager->get($this->getResourceModelClass($provider));
+    }
 }
