@@ -184,10 +184,15 @@ class RepositoryHandler implements ProviderHandlerInterface
     {
         $providerReflection = new \ReflectionClass($provider);
         $methodReflection = $providerReflection->getMethod('save');
-        $returnTypes = $methodReflection->getReturnType()->getTypes();
-        $returnType = array_pop($returnTypes);
 
-        return $returnType;
+        /** @var ReflectionParameter $parameter */
+        $parameters = $methodReflection->getParameters();
+        if (empty($parameters)) {
+            return false;
+        }
+
+        $parameter = array_shift($parameters);
+        return $parameter->getType()->getName();
     }
 
     public function getResourceModelClass(object $provider): bool|string
