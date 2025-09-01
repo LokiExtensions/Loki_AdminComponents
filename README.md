@@ -6,9 +6,9 @@ features to them, without getting stuck.**
 
 The LokiAdminComponents are based on the [Loki Components](https://github.com/LokiExtensions/Loki_Components)
 module which is also used in the [LokiCheckout](https://loki-checkout.com/). However, this admin tool shows
-that the Loki suite of Yireo can be applied in many more places.
+that the Loki Extension suite can be applied in many more places.
 
-*Note that this library makes use of Alpine.js in the Magento Admin Panel. However, TailwindCSS is not used, we stick to the native Magento Admin Panel classes instead.*
+*Note that this library makes use of Alpine.js in the Magento Admin Panel. However, TailwindCSS is not used: We stick to the native Magento Admin Panel classes instead.*
 
 ## Installation
 ```bash
@@ -52,12 +52,9 @@ As a demo, you could opt to install the following examples:
 - ... (more docs coming soon)
 
 ### Documentation
-See [the wiki](https://github.com/LokiExtensions/Loki_AdminComponents/wiki)
+See [loki-extensions.com/docs/admin-components](https://loki-extensions.com/docs/admin-components)
 
 # Todo
-- Easily extend LokiComponent partials via XML layout
-- Add file `view/adminhtml/loki/example-grid.xml`
-- Example database query in custom array provider
 - Extension Attributes
 - Filesystem navigation
 - Tiles instead of grid layout
