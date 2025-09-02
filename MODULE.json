@@ -1,5 +1,6 @@
 {
     "modules": [
+        "Loki_CssUtils",
         "Loki_Components",
         "Magento_Backend",
         "Magento_Catalog",
