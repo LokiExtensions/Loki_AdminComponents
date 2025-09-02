@@ -4,14 +4,15 @@
     "description": "N/A",
     "type": "magento2-module",
     "require": {
+        "ext-json": "*",
+        "loki/magento2-components": "^2.0",
+        "loki/magento2-css-utils": "^1.0",
         "magento/framework": "^102.0 | ^103.0",
         "magento/module-backend": "^101.0 | ^102.0",
         "magento/module-catalog": "^102.0 | ^103.0 | ^104.0",
         "magento/module-customer": "^102.0 | ^103.0",
         "magento/module-eav": "^100.0 | ^101.0 | ^102.0",
-        "magento/module-ui": "^101.0",
-        "loki/magento2-components": "^2.0",
-        "ext-json": "*"
+        "magento/module-ui": "^101.0"
     },
     "license": [
         "OSL-3.0"
