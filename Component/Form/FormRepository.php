@@ -189,6 +189,8 @@ class FormRepository extends ComponentRepository
         if (empty($modelClass)) {
             return null;
         }
+
+        return $this->objectManager->get($modelClass);
     }
 
     public function getResourceModel(): ?AbstractDb
