@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.8] - 04 September 2025
+### Fixed
+- Rename `field_type` text to input
+
 ## [0.2.7] - 02 September 2025
 ### Fixed
 - Update README.md
@@ -17,14 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Do not escape pricing format
 - Fix wrong initialization of grid filter options
 - Re-enable saving array values
-- Add product_id field type
+- Add `product_id` field type
 - Remove requirement of repository provider to define additional factory
 - Get rid of confusing parent-block behaviour
 - Implement delete and duplicate for collection provider
 - Implement saving an item via collection provider
-- Automatically set primary key to field_type "view"
-- Allow changing HTML attributes of textarea; Rename html_attributes to field_attributes
-- Transform field_type string to FieldTypeInterface instance
+- Automatically set primary key to `field_type` "view"
+- Allow changing HTML attributes of textarea; Rename `html_attributes` to `field_attributes`
+- Transform `field_type` string to FieldTypeInterface instance
 - Allow hiding a complete field with label by setting "visible=false"
 - Simplify structure of Field and FieldFactory class
 - Retrieve modelClass and resourceModelClass from provider
@@ -41,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix CSS utils
 - Declare used PHP namespaces
 - Document latest version of template
-- Add missing strict_types declaration
+- Add missing `strict_types` declaration
 
 ## [0.2.3] - 18 August 2025
 ### Fixed

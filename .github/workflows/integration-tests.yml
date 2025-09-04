@@ -42,7 +42,7 @@ jobs:
           cp -R ${GITHUB_WORKSPACE} /tmp/magento/package-source
           cd /tmp/magento
           composer config repositories.local-source path package-source/
-          composer require --prefer-source -- ${COMPOSER_NAME}:@dev
+          composer require --prefer-source -- ${COMPOSER_NAME}:@dev yireo/magento2-integration-test-helper
 
       - name: Run Magento 2 Integration Tests
         run: |
