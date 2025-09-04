@@ -1,12 +1,28 @@
 {
-    "modules": [
-        "Loki_CssUtils",
+    "sequence": [
         "Loki_Components",
+        "Loki_CssUtils",
         "Magento_Backend",
         "Magento_Catalog",
         "Magento_Customer",
         "Magento_Eav",
         "Magento_Ui"
+    ],
+    "modules": [
+        "Loki_Components",
+        "Loki_CssUtils",
+        "Magento_Backend",
+        "Magento_Catalog",
+        "Magento_Cms",
+        "Magento_Config",
+        "Magento_Customer",
+        "Magento_Directory",
+        "Magento_Eav",
+        "Magento_Indexer",
+        "Magento_Store",
+        "Magento_Theme",
+        "Magento_Ui",
+        "Yireo_CspUtilities"
     ],
     "components": [],
     "config": [],
