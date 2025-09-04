@@ -30,8 +30,8 @@ class FieldFactory
         array $data = [],
     ): Field {
         // @todo: Move this to form field data sanitizer
-        if (!isset($data['field_type'])) {
-            $data['field_type'] = 'text';
+        if (!isset($data['field_type']) || empty($data['field_type'])) {
+            $data['field_type'] = 'input';
         }
 
         if (false === $data['field_type'] instanceof FieldTypeInterface) {

@@ -20,11 +20,12 @@ class FieldViewModel implements ArgumentInterface
         $blockParts = explode('.', $blockName);
         $blockAlias = array_pop($blockParts);
 
-        $fieldType = !empty($block->getFieldType()) ? (string)$block->getFieldType() : 'text';
-        $label = !empty($block->getLabel()) ? (string)$block->getLabel() : $blockAlias;
-        $name = !empty($block->getName()) ? (string)$block->getName() : $blockAlias;
-        $required = !empty($block->getRequired()) ? (bool)$block->getRequired() : false;
+        $data = [];
+        $data['field_type'] = !empty($block->getFieldType()) ? (string)$block->getFieldType() : 'input';
+        $data['label'] = !empty($block->getLabel()) ? (string)$block->getLabel() : $blockAlias;
+        $data['name'] = !empty($block->getName()) ? (string)$block->getName() : $blockAlias;
+        $data['required'] = !empty($block->getRequired()) ? (bool)$block->getRequired() : false;
 
-        return $this->fieldFactory->create($block, $fieldType, $label, $name, $required);
+        return $this->fieldFactory->create($block, $data);
     }
 }

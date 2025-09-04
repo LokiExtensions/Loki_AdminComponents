@@ -2,7 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
-class Number extends Text
+class Number extends Input
 {
     public function getInputType(): string
     {

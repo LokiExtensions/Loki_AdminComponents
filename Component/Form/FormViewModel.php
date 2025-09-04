@@ -172,7 +172,7 @@ class FormViewModel extends ComponentViewModel
         }
 
         if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-            return 'text';
+            return 'input';
         }
 
         return false;

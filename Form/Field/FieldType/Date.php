@@ -2,7 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
-class Date extends Text
+class Date extends Input
 {
     public function getInputType(): string
     {
