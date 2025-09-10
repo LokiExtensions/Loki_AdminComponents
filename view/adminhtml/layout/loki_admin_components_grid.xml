@@ -85,9 +85,9 @@
                 template="Loki_AdminComponents::script/component/grid-component.phtml"/>
         </referenceContainer>
 
-        <referenceBlock name="loki-components.alpinejs">
+        <referenceBlock name="loki.alpinejs">
             <block
-                name="loki-components.alpine-plugin-sort"
+                name="loki.alpine-plugin-sort"
                 template="Loki_AdminComponents::script/alpine-sort.phtml"
             />
         </referenceBlock>
