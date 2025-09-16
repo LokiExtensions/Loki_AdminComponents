@@ -9,6 +9,7 @@
         "Magento_Ui"
     ],
     "modules": [
+        "Loki_Base",
         "Loki_Components",
         "Loki_CssUtils",
         "Magento_Backend",
