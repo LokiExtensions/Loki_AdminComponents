@@ -2,15 +2,46 @@
 
 namespace Loki\AdminComponents\Grid;
 
+use Loki\AdminComponents\Grid\Column\Column;
+use Loki\AdminComponents\Grid\Column\ColumnFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class ColumnLoader
 {
     public function __construct(
-        private BookmarkLoader $bookmarkLoader,
+        private readonly ColumnFactory $columnFactory,
+        private readonly BookmarkLoader $bookmarkLoader,
     ) {
     }
 
+    /**
+     * @param AbstractBlock $block
+     *
+     * @return Column[]
+     */
+    public function getColumnsFromBlock(AbstractBlock $block): array
+    {
+        $columnDefinitions = $block->getColumns();
+        if (false === is_array($columnDefinitions)) {
+            return [];
+        }
+
+        $columns = [];
+        foreach ($columnDefinitions as $columnCode => $columnDefinition) {
+            $columnDefinition['code'] = $columnCode;
+            $columns[] = $this->columnFactory->create($columnDefinition);
+        }
+
+        return $columns;
+
+    }
+
+    /**
+     * @param string $namespace
+     *
+     * @return Column[]
+     */
     public function getColumns(string $namespace): array
     {
         static $flatColumns = false;
@@ -70,13 +101,16 @@ class ColumnLoader
         return $flatColumns;
     }
 
-    public function getLabelByColumn(string $columnName): string
+    public function getLabelByColumn(string $columnName): Column
     {
         $label = (string)__($columnName);
-        if ($label !== $columnName) {
-            return $label;
+        if ($label === $columnName) {
+            $label = ucfirst(str_replace('_', ' ', $label));
         }
 
-        return ucfirst(str_replace('_', ' ', $label));
+        return $this->columnFactory->create([
+            'code' => $columnName,
+            'label' => $label,
+        ]);
     }
 }

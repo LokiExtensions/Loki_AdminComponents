@@ -57,23 +57,23 @@ $state = $viewModel->getState();
             </th>
             <?php
             $i = 1;
-            foreach ($viewModel->getColumns() as $columnName => $label): ?>
-                <?php if ($columnName === 'ids') {
+            foreach ($viewModel->getColumns() as $column): ?>
+                <?php if ($column->getCode() === 'ids') {
                     continue;
                 } ?>
                 <?php
                 $additionalCss = '';
-                if ($columnName === $state->getSortBy()) {
+                if ($column->getCode() === $state->getSortBy()) {
                     $additionalCss .= $state->getSortDirection(
                     ) === AbstractDb::SORT_ORDER_ASC ? '_ascend' : '_descend';
                 }
                 ?>
                 <th
                     class="data-grid-th _sortable <?= $escaper->escapeHtml($additionalCss) ?>"
-                    data-column="<?= $escaper->escapeHtml($columnName) ?>"
+                    data-column="<?= $escaper->escapeHtml($column->getCode()) ?>"
                     @click="sortColumn"
-                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($columnName) ?>'">
-                    <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($label)) ?></span>
+                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($column->getCode()) ?>'">
+                    <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($column->getLabel())) ?></span>
                 </th>
                 <?php
                 $i++;
@@ -102,18 +102,18 @@ $state = $viewModel->getState();
                         <label></label>
                     </label>
                 </td>
-                <?php foreach ($viewModel->getColumns() as $columnName => $label): ?>
-                    <?php if ($columnName === 'ids') {
+                <?php foreach ($viewModel->getColumns() as $column): ?>
+                    <?php if ($column->getCode() === 'ids') {
                         continue;
                     } ?>
                     <td class="data-grid-cell">
                         <div class="data-grid-cell-content">
-                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $columnName) ?>
-                            <?php $value = $viewModel->getValueFromItem($item, $columnName); ?>
+                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $column) ?>
+                            <?php $value = $viewModel->getValueFromItem($item, $column->getCode()); ?>
                             <?= /* @noEscape */ $templateRenderer->html($block, $cellTemplate, [
                                 'item' => $item,
                                 'value' => $value,
-                                'column_name' => $columnName,
+                                'column_name' => $column->getCode(),
                             ]) ?>
                         </div>
                     </td>

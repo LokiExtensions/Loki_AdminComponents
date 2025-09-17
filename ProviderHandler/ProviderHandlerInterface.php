@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\ProviderHandler;
 
+use Loki\AdminComponents\Grid\Column\Column;
 use Magento\Framework\DataObject;
 use Loki\AdminComponents\Grid\State as GridState;
 
@@ -22,6 +23,9 @@ interface ProviderHandlerInterface
 
     public function duplicateItem(object $provider, DataObject $item);
 
+    /**
+     * @return Column[]
+     */
     public function getColumns(object $provider): array;
 
     public function getModelClass(object $provider): bool|string;

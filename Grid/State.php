@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\Grid;
 
+use Loki\AdminComponents\Grid\Column\Column;
 use Magento\Backend\Model\Session;
 use Magento\Framework\Data\Collection\AbstractDb;
 
@@ -114,6 +115,11 @@ class State
         return explode(',', (string)$this->get('searchable_fields'));
     }
 
+    /**
+     * @param array $searchableFields
+     *
+     * @return Column[]
+     */
     public function setSearchableFields(array $searchableFields): void
     {
         $this->save('searchable_fields', implode(',', $searchableFields));

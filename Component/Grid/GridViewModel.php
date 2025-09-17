@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
+use Loki\AdminComponents\Grid\Column\Column;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -155,10 +156,13 @@ class GridViewModel extends ComponentViewModel
         return $columnPositions;
     }
 
+    /**
+     * @return Column[]
+     */
     public function getColumns(): array
     {
         // @todo: Move all logic here to column loader
-        $columns = (array)$this->getBlock()->getColumns();
+        $columns = $this->columnLoader->getColumnsFromBlock($this->block);
         if (!empty($columns)) {
             return $columns;
         }
@@ -218,8 +222,13 @@ class GridViewModel extends ComponentViewModel
         return $this->urlFactory->create()->getUrl($editUrl, $params);
     }
 
-    public function getCellTemplate(DataObject $dataObject, string $propertyName): string
+    public function getCellTemplate(DataObject $dataObject, Column $column): string
     {
+        if ($column->getCellTemplate()) {
+            return $column->getCellTemplate();
+        }
+
+        $propertyName = $column->getCode();
         $cellTemplates = $this->getCellTemplates();
         if (!empty($cellTemplates) && array_key_exists($propertyName, $cellTemplates)) {
             return (string)$cellTemplates[$propertyName];

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\ProviderHandler;
 
+use Loki\AdminComponents\Grid\Column\Column;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
@@ -102,6 +103,9 @@ class ArrayHandler implements ProviderHandlerInterface
     {
     }
 
+    /**
+     * @return Column[]
+     */
     public function getColumns(object $provider): array
     {
         /** @var ArrayProviderInterface $provider */
