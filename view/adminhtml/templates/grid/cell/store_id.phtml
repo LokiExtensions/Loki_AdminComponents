@@ -1,0 +1,46 @@
+<?php
+declare(strict_types=1);
+
+use Loki\AdminComponents\ViewModel\StoreView;
+use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var StoreView $storeView */
+/** @var array $value */
+
+$value = $block->getValue();
+
+if (count($value) === 1 && (int)$value[0] === 0) {
+    echo __('All Store Views');
+    return;
+}
+
+$storeView = $viewModelFactory->create(StoreView::class);
+$storeHierarchy = $storeView->getStoreHierarchy($value);
+?>
+<ul>
+    <?php foreach ($storeHierarchy as $website) : ?>
+        <?php if(!$website['selected']) continue; ?>
+        <li>
+            <?= $website['name'] ?> (<?= $website['code'] ?>)
+            <ul>
+                <?php foreach ($website['groups'] as $group) : ?>
+                    <?php if(!$group['selected']) continue; ?>
+                    <li>
+                        <?= $group['name'] ?> (<code><?= $group['code'] ?></code>)
+                        <ul>
+                            <?php foreach ($group['stores'] as $store) : ?>
+                                <?php if(!$store['selected']) continue; ?>
+                                <li>
+                                    <?= $store['name'] ?> (<code><?= $store['code'] ?></code>)
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+    <?php endforeach; ?>
+</ul>
