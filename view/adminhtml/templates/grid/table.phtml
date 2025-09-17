@@ -103,7 +103,7 @@ $state = $viewModel->getState();
                     </label>
                 </td>
                 <?php foreach ($viewModel->getColumns() as $column): ?>
-                    <?php if ($column->getCode() === 'ids') {
+                    <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
                         continue;
                     } ?>
                     <td class="data-grid-cell">
