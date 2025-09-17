@@ -58,7 +58,7 @@ $state = $viewModel->getState();
             <?php
             $i = 1;
             foreach ($viewModel->getColumns() as $column): ?>
-                <?php if ($column->getCode() === 'ids') {
+                <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
                     continue;
                 } ?>
                 <?php

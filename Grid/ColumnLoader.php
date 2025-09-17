@@ -77,12 +77,11 @@ class ColumnLoader
                 continue;
             }
 
-            if ((int)$columnData['visible'] === 1) {
-                $columns[] = $this->columnFactory->create([
-                    'code' => $columnName,
-                    'position' => (isset($positions[$columnName])) ? $positions[$columnName] : 99,
-                ]);
-            }
+            $columns[] = $this->columnFactory->create([
+                'code' => $columnName,
+                'visible' => (bool)$columnData['visible'],
+                'position' => (isset($positions[$columnName])) ? $positions[$columnName] : 99,
+            ]);
         }
 
         return $columns;
