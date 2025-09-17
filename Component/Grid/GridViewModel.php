@@ -159,14 +159,8 @@ class GridViewModel extends ComponentViewModel
     /**
      * @return Column[]
      */
-    public function getColumns(): array
+    private function getAllColumns(): array
     {
-        // @todo: Move all logic here to column loader
-        $columns = $this->columnLoader->getColumnsFromBlock($this->block);
-        if (!empty($columns)) {
-            return $columns;
-        }
-
         $columns = $this->columnLoader->getColumns($this->getNamespace());
         if (!empty($columns)) {
             return $columns;
@@ -186,8 +180,43 @@ class GridViewModel extends ComponentViewModel
         $itemData = $item->getData();
         $columns = [];
         foreach (array_keys($itemData) as $columnName) {
-            $columns[$columnName] = $this->columnLoader->getLabelByColumn($columnName);
+            $columns[$columnName] = $this->columnLoader->createColumn($columnName);
         }
+
+        return $columns;
+    }
+
+    /**
+     * @return Column[]
+     */
+    public function getColumns(): array
+    {
+        $columns = $this->getAllColumns();
+
+        $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
+        if (!empty($columnsFromBlock)) {
+            foreach ($columnsFromBlock as $columnFromBlock) {
+                foreach ($columns as $column) {
+                    if ($column->getCode() !== $columnFromBlock->getCode()) {
+                        continue;
+                    }
+
+                    $column->setData(array_merge($column->getData(), $columnFromBlock->getData()));
+                }
+            }
+        }
+
+        usort($columns, function (Column $a, Column $b) {
+            if ($a->getPosition() === $b->getPosition()) {
+                return 0;
+            }
+
+            if ($a->getPosition() < $b->getPosition()) {
+                return -1;
+            }
+
+            return 1;
+        });
 
         return $columns;
     }

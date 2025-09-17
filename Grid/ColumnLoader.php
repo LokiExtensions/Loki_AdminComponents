@@ -34,7 +34,6 @@ class ColumnLoader
         }
 
         return $columns;
-
     }
 
     /**
@@ -71,46 +70,20 @@ class ColumnLoader
             }
 
             if ((int)$columnData['visible'] === 1) {
-                $columns[] = [
-                    'name' => $columnName,
+                $columns[] = $this->columnFactory->create([
+                    'code' => $columnName,
                     'position' => (isset($positions[$columnName])) ? $positions[$columnName] : 99,
-                    'label' => $this->getLabelByColumn($columnName),
-                ];
+                ]);
             }
         }
 
-        usort($columns, function ($a, $b) {
-            if ($a['position'] === $b['position']) {
-                return 0;
-            }
-
-            if ($a['position'] < $b['position']) {
-                return -1;
-            }
-
-            return 1;
-        });
-
-
-        $flatColumns = [];
-        foreach ($columns as $column) {
-            $columnName = $column['name'];
-            $flatColumns[$columnName] = $column['label'];
-        }
-
-        return $flatColumns;
+        return $columns;
     }
 
-    public function getLabelByColumn(string $columnName): Column
+    public function createColumn(string $columnName): Column
     {
-        $label = (string)__($columnName);
-        if ($label === $columnName) {
-            $label = ucfirst(str_replace('_', ' ', $label));
-        }
-
         return $this->columnFactory->create([
             'code' => $columnName,
-            'label' => $label,
         ]);
     }
 }

@@ -8,17 +8,37 @@ class Column extends DataObject
 {
     public function getLabel(): string
     {
-        return (string)$this->getData('label');
+        $label = (string)$this->getData('label');
+        if (!empty($label)) {
+            return $label;
+        }
+
+        $label = (string)__($this->getCode());
+        if ($label !== $this->getCode()) {
+            return $label;
+        }
+
+        return ucfirst(str_replace('_', ' ', $label));
     }
 
     public function getCode(): string
     {
-        return (string)$this->getData('code');
+        $code = (string)$this->getData('code');
+        if (!empty($code)) {
+            return $code;
+        }
+
+        return 'unknown';
     }
 
     public function getCellTemplate(): string
     {
         return (string)$this->getData('cell_template');
+    }
+
+    public function getPosition(): int
+    {
+        return (int)$this->getData('position');
     }
 
     public function __toString(): string
