@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.10] - 17 September 2025
+### Fixed
+- Bookmark status should not hide column, but simply set visible property
+- Allow setting visible flag on grid column
+- Set grid state paging from bookmark
+- Fix loading different bookmark than default
+- Merge XML-layout column info with current columns instead of removing all
+- Refactor string-type columns into Column-class
+- Add `store_id.phtml` cell template
+- Change flag `allow_actions` into `hide_actions`
+
 ## [0.2.9] - 16 September 2025
 ### Fixed
 - Rename loki-components.alpinejs to loki.alpinejs
