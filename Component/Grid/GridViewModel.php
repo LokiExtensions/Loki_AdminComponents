@@ -159,7 +159,7 @@ class GridViewModel extends ComponentViewModel
     /**
      * @return Column[]
      */
-    private function getAllColumns(): array
+    private function getAvailableColumns(): array
     {
         $columns = $this->columnLoader->getColumns($this->getNamespace());
         if (!empty($columns)) {
@@ -191,7 +191,7 @@ class GridViewModel extends ComponentViewModel
      */
     public function getColumns(): array
     {
-        $columns = $this->getAllColumns();
+        $columns = $this->getAvailableColumns();
 
         $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
         if (!empty($columnsFromBlock)) {
@@ -206,19 +206,7 @@ class GridViewModel extends ComponentViewModel
             }
         }
 
-        usort($columns, function (Column $a, Column $b) {
-            if ($a->getPosition() === $b->getPosition()) {
-                return 0;
-            }
-
-            if ($a->getPosition() < $b->getPosition()) {
-                return -1;
-            }
-
-            return 1;
-        });
-
-        return $columns;
+        return $this->columnLoader->sortColumns($columns);
     }
 
     public function getIndexUrl(): string

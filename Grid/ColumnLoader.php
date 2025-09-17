@@ -43,28 +43,29 @@ class ColumnLoader
      */
     public function getColumns(string $namespace): array
     {
-        static $columns = false;
+        /*static $columns = false;
         if (is_array($columns)) {
             return $columns;
-        }
+        }*/
 
         try {
             $bookmark = $this->bookmarkLoader->getBookmark($namespace);
+            $bookmarkIdentifier = $bookmark->getIdentifier();
             $bookmarkData = $bookmark->getConfig();
         } catch (NoSuchEntityException $e) {
-            $bookmarkData = [];
+            return [];
         }
 
         // @todo $bookmarkData['views']['default']['data']['paging']['options']
 
-        if (false === isset($bookmarkData['views']['default']['data']['columns'])) {
+        if (false === isset($bookmarkData['views'][$bookmarkIdentifier]['data']['columns'])) {
             return [];
         }
 
-        $positions = $bookmarkData['views']['default']['data']['positions'];
+        $positions = $bookmarkData['views'][$bookmarkIdentifier]['data']['positions'];
 
         $columns = [];
-        foreach ($bookmarkData['views']['default']['data']['columns'] as $columnName => $columnData) {
+        foreach ($bookmarkData['views'][$bookmarkIdentifier]['data']['columns'] as $columnName => $columnData) {
             if ($columnName === 'actions') {
                 continue;
             }
@@ -85,5 +86,27 @@ class ColumnLoader
         return $this->columnFactory->create([
             'code' => $columnName,
         ]);
+    }
+
+    /**
+     * @param Column[] $columns
+     *
+     * @return Column[]
+     */
+    public function sortColumns(array $columns): array
+    {
+        usort($columns, function (Column $a, Column $b) {
+            if ($a->getPosition() === $b->getPosition()) {
+                return 0;
+            }
+
+            if ($a->getPosition() < $b->getPosition()) {
+                return -1;
+            }
+
+            return 1;
+        });
+
+        return $columns;
     }
 }
