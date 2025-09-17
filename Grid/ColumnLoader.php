@@ -43,9 +43,9 @@ class ColumnLoader
      */
     public function getColumns(string $namespace): array
     {
-        static $flatColumns = false;
-        if (is_array($flatColumns)) {
-            return $flatColumns;
+        static $columns = false;
+        if (is_array($columns)) {
+            return $columns;
         }
 
         try {
