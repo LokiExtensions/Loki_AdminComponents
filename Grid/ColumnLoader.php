@@ -12,6 +12,7 @@ class ColumnLoader
     public function __construct(
         private readonly ColumnFactory $columnFactory,
         private readonly BookmarkLoader $bookmarkLoader,
+        private readonly StateManager $stateManager
     ) {
     }
 
@@ -43,11 +44,6 @@ class ColumnLoader
      */
     public function getColumns(string $namespace): array
     {
-        /*static $columns = false;
-        if (is_array($columns)) {
-            return $columns;
-        }*/
-
         try {
             $bookmark = $this->bookmarkLoader->getBookmark($namespace);
             $bookmarkIdentifier = $bookmark->getIdentifier();
@@ -56,7 +52,18 @@ class ColumnLoader
             return [];
         }
 
-        // @todo $bookmarkData['views']['default']['data']['paging']['options']
+        if (isset($bookmarkData['views'][$bookmarkIdentifier]['data']['paging'])) {
+            $paging = $bookmarkData['views'][$bookmarkIdentifier]['data']['paging'];
+            $gridState = $this->stateManager->get($namespace);
+
+            if (isset($paging['pageSize'])) {
+                $gridState->setLimit((int)$paging['pageSize']);
+            }
+
+            if (isset($paging['current'])) {
+                $gridState->setPage((int)$paging['current']);
+            }
+        }
 
         if (false === isset($bookmarkData['views'][$bookmarkIdentifier]['data']['columns'])) {
             return [];
