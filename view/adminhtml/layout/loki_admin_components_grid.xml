@@ -79,7 +79,7 @@
                 template="Loki_AdminComponents::script/component-type/grid-component-type.phtml"/>
         </referenceContainer>
 
-        <referenceContainer name="loki-components">
+        <referenceContainer name="loki.script.component">
             <block
                 name="loki-admin.script.component.grid-component" as="grid"
                 template="Loki_AdminComponents::script/component/grid-component.phtml"/>
