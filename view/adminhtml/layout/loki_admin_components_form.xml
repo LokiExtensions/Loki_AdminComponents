@@ -19,7 +19,7 @@
             template="Loki_AdminComponents::form/inner.phtml">
         </block>
 
-        <referenceContainer name="loki-component-types">
+        <referenceContainer name="loki.script.component-type">
             <block
                 name="loki-admin.script.component.form-component-type" as="form"
                 template="Loki_AdminComponents::script/component-type/form-component-type.phtml"/>

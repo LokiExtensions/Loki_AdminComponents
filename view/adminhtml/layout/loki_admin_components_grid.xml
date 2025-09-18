@@ -73,7 +73,7 @@
                 template="Loki_AdminComponents::script/component-partial/filters-component-partial.phtml"/>
         </referenceContainer>
 
-        <referenceContainer name="loki-component-types">
+        <referenceContainer name="loki.script.component-type">
             <block
                 name="loki-admin.script.component-types.grid" as="grid"
                 template="Loki_AdminComponents::script/component-type/grid-component-type.phtml"/>
