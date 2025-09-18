@@ -25,7 +25,7 @@
                 template="Loki_AdminComponents::script/component-type/form-component-type.phtml"/>
         </referenceContainer>
 
-        <referenceContainer name="loki.components">
+        <referenceContainer name="loki-components">
             <block
                 name="loki-admin.script.component.form-component" as="form"
                 template="Loki_AdminComponents::script/component/form-component.phtml"/>
