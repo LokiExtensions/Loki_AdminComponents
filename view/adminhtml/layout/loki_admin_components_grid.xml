@@ -52,7 +52,7 @@
             template="Loki_AdminComponents::grid/filters.phtml">
         </block>
 
-        <referenceContainer name="loki-component-partials">
+        <referenceContainer name="loki.script.component-partial">
             <block
                 name="loki-admin.script.component-partials.pagination" as="pagination"
                 template="Loki_AdminComponents::script/component-partial/pagination-component-partial.phtml"/>
