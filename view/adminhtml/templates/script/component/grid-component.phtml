@@ -16,7 +16,7 @@ use Magento\Framework\View\Element\Template;
                 const itemParts = columnName.split('.');
                 const componentName = itemParts[0];
                 const propertyName = itemParts[1];
-                const component = Alpine.store('components').get(componentName);
+                const component = Alpine.store('LokiComponents').get(componentName);
                 component.post({reposition: {property: propertyName, position: position}});
             }
         }));
