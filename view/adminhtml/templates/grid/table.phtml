@@ -31,25 +31,25 @@ $state = $viewModel->getState();
 
                     <button
                         class="action-multicheck-toggle"
-                        @click="toggleSelectedMenu"
+                        @click.prevent="toggleSelectedMenu"
                     >
                         <span>Options</span>
                     </button>
 
                     <ul class="action-menu" x-cloak x-show="showSelectedMenu">
-                        <li @click="selectAll">
+                        <li @click.prevent="selectAll">
                             <span class="action-menu-item">Select All</span>
                         </li>
 
-                        <li @click="deselectAll">
+                        <li @click.prevent="deselectAll">
                             <span class="action-menu-item">Deselect All</span>
                         </li>
 
-                        <li @click="selectAllOnPage">
+                        <li @click.prevent="selectAllOnPage">
                             <span class="action-menu-item">Select All on This Page</span>
                         </li>
 
-                        <li @click="deselectAllOnPage">
+                        <li @click.prevent="deselectAllOnPage">
                             <span class="action-menu-item">Deselect All on This Page</span>
                         </li>
                     </ul>
@@ -71,7 +71,7 @@ $state = $viewModel->getState();
                 <th
                     class="data-grid-th _sortable <?= $escaper->escapeHtml($additionalCss) ?>"
                     data-column="<?= $escaper->escapeHtml($column->getCode()) ?>"
-                    @click="sortColumn"
+                    @click.prevent="sortColumn"
                     x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($column->getCode()) ?>'">
                     <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($column->getLabel())) ?></span>
                 </th>

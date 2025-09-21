@@ -18,7 +18,7 @@ $page = $viewModel->getPage();
 ?>
 <div class="admin__data-grid-pager">
     <button
-        @click="previousPage"
+        @click.prevent="previousPage"
         class="action-previous"
         type="button"
         title="<?= $escaper->escapeHtml(__('Previous Page')) ?>"
@@ -36,7 +36,7 @@ $page = $viewModel->getPage();
     </label>
 
     <button
-        @click="nextPage"
+        @click.prevent="nextPage"
         class="action-next"
         type="button"
         title="<?= $escaper->escapeHtml(__('Next Page')) ?>"

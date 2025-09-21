@@ -18,7 +18,7 @@ $button = $block->getButton();
         class="actions-split <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
     >
         <button
-            @click="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
+            @click.prevent="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
             title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
             <?php if ($button->getUrl()): ?>
                 data-url="<?= /* @noEscape */ $button->getUrl() ?>"
@@ -29,7 +29,7 @@ $button = $block->getButton();
         </button>
 
         <button
-            @click="toggleOtherActions"
+            @click.prevent="toggleOtherActions"
             title="Toggle other actions"
             class="action-toggle <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
         >
@@ -40,7 +40,7 @@ $button = $block->getButton();
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
-                        @click="<?= $escaper->escapeHtml(__($subButton->getMethod())) ?>"
+                        @click.prevent="<?= $escaper->escapeHtml(__($subButton->getMethod())) ?>"
                         <?php if ($button->getUrl()): ?>
                             data-url="<?= /* @noEscape */ $button->getUrl() ?>"
                         <?php endif; ?>
@@ -56,7 +56,7 @@ $button = $block->getButton();
 
 <?php else: ?>
     <button
-        @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
+        @click.prevent="<?= $escaper->escapeHtml($button->getMethod()) ?>"
         <?php if ($button->getUrl()): ?>
             data-url="<?= /* @noEscape */ $button->getUrl() ?>"
         <?php endif; ?>

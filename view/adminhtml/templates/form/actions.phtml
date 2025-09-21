@@ -31,7 +31,7 @@ $otherSaveActions = [];
                 <?php foreach ($buttons as $button) : ?>
                     <?php $subButtons = $button->getSubButtons(); ?>
                     <button
-                        @click="<?= $escaper->escapeHtml($button->getMethod()) ?>"
+                        @click.prevent="<?= $escaper->escapeHtml($button->getMethod()) ?>"
                         title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
                         type="button"
                         class="action- scalable <?= $escaper->escapeHtml($button->getCssClass()) ?>">
@@ -45,14 +45,14 @@ $otherSaveActions = [];
                         class="actions-split save primary"
                     >
                         <button
-                            @click="saveAndContinueAction"
+                            @click.prevent="saveAndContinueAction"
                             title="Save and Continue"
                             class="action-default primary"
                         >
                             <span>Save and Continue</span>
                         </button>
 
-                        <button @click="toggleOtherActions"
+                        <button @click.prevent="toggleOtherActions"
                                 title="Save and Continue"
                                 class="action-toggle primary save">
                             <span>Select</span>
@@ -67,7 +67,7 @@ $otherSaveActions = [];
                             ): ?>
                                 <li>
                                     <span
-                                        @click="saveAndDuplicateAction"
+                                        @click.prevent="saveAndDuplicateAction"
                                         title="Save &amp; Duplicate"
                                         class="item"
                                     >

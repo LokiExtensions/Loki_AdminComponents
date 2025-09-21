@@ -31,7 +31,7 @@ $fieldType = $field->getFieldType();
     >
     <label
         class="admin__actions-switch-label"
-        @click="toggleValueByClick"
+        @click.prevent="toggleValueByClick"
         data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         data-value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     >

@@ -23,7 +23,7 @@ $page = $viewModel->getPage();
                    id="product_listing.product_listing.listing_top.listing_paging_sizes">
         </div>
 
-        <button @click="toggleLimitOptions" class="selectmenu-toggle" type="button"
+        <button @click.prevent="toggleLimitOptions" class="selectmenu-toggle" type="button"
                 aria-labelledby="per-page-text select-button-text">
             <span id="select-button-text"><?= $escaper->escapeHtml(__('Select')) ?></span>
         </button>
@@ -34,7 +34,7 @@ $page = $viewModel->getPage();
                     <li>
                         <div class="selectmenu-item">
                             <button
-                                @click="setLimitFromElement"
+                                @click.prevent="setLimitFromElement"
                                 data-limit="<?= $escaper->escapeHtml($limit) ?>"
                                 class="selectmenu-item-action"
                                 type="button">

@@ -19,7 +19,7 @@ if (empty($filterFields)) {
 ?>
 <div class="data-grid-filters-actions-wrap">
     <div class="data-grid-filters-action-wrap">
-        <button :class="filterButtonClass" class="action-default" @click="toggleFilters">
+        <button :class="filterButtonClass" class="action-default" @click.prevent="toggleFilters">
             Filters
         </button>
     </div>
@@ -69,10 +69,10 @@ if (empty($filterFields)) {
 
     <div class="admin__data-grid-filters-footer">
         <div class="admin__footer-main-actions">
-            <button class="action-tertiary" type="button" @click="toggleFilters">
+            <button class="action-tertiary" type="button" @click.prevent="toggleFilters">
                 <span>Cancel</span>
             </button>
-            <button class="action-secondary" type="button" @click="applyFilters">
+            <button class="action-secondary" type="button" @click.prevent="applyFilters">
                 <span>Apply Filters</span>
             </button>
         </div>

@@ -31,12 +31,12 @@ $item = $block->getItem();
 
         <button
             class="action-close"
-            @click="toggleInlineEdit"
+            @click.prevent="toggleInlineEdit"
         ></button>
 
         <button
             class="action-save"
-            @click="saveInlineEdit"
+            @click.prevent="saveInlineEdit"
             data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
             data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"
         >save</button>
