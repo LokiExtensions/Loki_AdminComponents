@@ -52,7 +52,7 @@
             template="Loki_AdminComponents::grid/filters.phtml">
         </block>
 
-        <referenceContainer name="loki.script.component-partial">
+        <referenceBlock name="loki.script.component-partial">
             <block
                 name="loki-admin.script.component-partials.pagination" as="pagination"
                 template="Loki_AdminComponents::script/component-partial/pagination-component-partial.phtml"/>
@@ -71,19 +71,19 @@
             <block
                 name="loki-admin.script.component-partials.filters" as="filters"
                 template="Loki_AdminComponents::script/component-partial/filters-component-partial.phtml"/>
-        </referenceContainer>
+        </referenceBlock>
 
-        <referenceContainer name="loki.script.component-type">
+        <referenceBlock name="loki.script.component-type">
             <block
                 name="loki-admin.script.component-types.grid" as="grid"
                 template="Loki_AdminComponents::script/component-type/grid-component-type.phtml"/>
-        </referenceContainer>
+        </referenceBlock>
 
-        <referenceContainer name="loki.script.component">
+        <referenceBlock name="loki.script.component">
             <block
                 name="loki-admin.script.component.grid-component" as="grid"
                 template="Loki_AdminComponents::script/component/grid-component.phtml"/>
-        </referenceContainer>
+        </referenceBlock>
 
         <referenceBlock name="loki.alpinejs">
             <block

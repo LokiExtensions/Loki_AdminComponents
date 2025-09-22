@@ -19,16 +19,16 @@
             template="Loki_AdminComponents::form/inner.phtml">
         </block>
 
-        <referenceContainer name="loki.script.component-type">
+        <referenceBlock name="loki.script.component-type">
             <block
                 name="loki-admin.script.component.form-component-type" as="form"
                 template="Loki_AdminComponents::script/component-type/form-component-type.phtml"/>
-        </referenceContainer>
+        </referenceBlock>
 
-        <referenceContainer name="loki.script.component">
+        <referenceBlock name="loki.script.component">
             <block
                 name="loki-admin.script.component.form-component" as="form"
                 template="Loki_AdminComponents::script/component/form-component.phtml"/>
-        </referenceContainer>
+        </referenceBlock>
     </body>
 </page>
