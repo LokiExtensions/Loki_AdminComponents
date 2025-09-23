@@ -22,14 +22,15 @@ if (!isset($viewModel)) {
 ?>
 <div class="loki-form form">
     <?= /* @noEscape */ $blockRenderer->html(
+        $block,
         'loki-admin.form.actions',
         ['view_model' => $viewModel]
     ) ?>
 
     <div class="page-columns">
         <div class="main-col">
-            <?= /* @noEscape */ $childRenderer->html( 'loki-admin.form.spinner') ?>
-            <?= /* @noEscape */ $childRenderer->html( 'loki-admin.form.inner') ?>
+            <?= /* @noEscape */ $childRenderer->html( $block, 'loki-admin.form.spinner') ?>
+            <?= /* @noEscape */ $childRenderer->html( $block, 'loki-admin.form.inner') ?>
 
             <div class="entry-edit form-inline">
                 <div class="fieldset-wrapper">
@@ -39,6 +40,7 @@ if (!isset($viewModel)) {
                             <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?php if (false === $field->isVisible()) continue; ?>
                                 <?= /* @noEscape */ $templateRenderer->html(
+                                    $block,
                                     'Loki_AdminComponents::form/field.phtml',
                                     ['field' => $field]
                                 ); ?>

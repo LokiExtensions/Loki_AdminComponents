@@ -72,7 +72,9 @@ $state = $viewModel->getState();
                     class="data-grid-th _sortable <?= $escaper->escapeHtml($additionalCss) ?>"
                     data-column="<?= $escaper->escapeHtml($column->getCode()) ?>"
                     @click.prevent="sortColumn"
-                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml($column->getCode()) ?>'">
+                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml(
+                        $column->getCode()
+                    ) ?>'">
                     <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($column->getLabel())) ?></span>
                 </th>
                 <?php
@@ -110,11 +112,16 @@ $state = $viewModel->getState();
                         <div class="data-grid-cell-content">
                             <?php $cellTemplate = $viewModel->getCellTemplate($item, $column) ?>
                             <?php $value = $viewModel->getValueFromItem($item, $column->getCode()); ?>
-                            <?= /* @noEscape */ $templateRenderer->html($cellTemplate, [
-                                'item' => $item,
-                                'value' => $value,
-                                'column_name' => $column->getCode(),
-                            ]) ?>
+                            <?= /* @noEscape */
+                            $templateRenderer->html(
+                                $block,
+                                $cellTemplate,
+                                [
+                                    'item' => $item,
+                                    'value' => $value,
+                                    'column_name' => $column->getCode(),
+                                ]
+                            ) ?>
                         </div>
                     </td>
                 <?php endforeach; ?>
@@ -125,7 +132,10 @@ $state = $viewModel->getState();
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
-                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>"><?= $escaper->escapeHtml($cellAction->getLabel()) ?></a>
+                                        <a href="<?= /* @noEscape */
+                                        $cellAction->getUrl() ?>"><?= $escaper->escapeHtml(
+                                                $cellAction->getLabel()
+                                            ) ?></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

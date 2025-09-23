@@ -38,6 +38,7 @@ $fieldAttributes = $field->getFieldAttributes();
 >
     <?php if (!empty($emptyOption)): ?>
         <?= /* @noEscape */ $templateRenderer->html(
+            $block,
             'Loki_AdminComponents::form/field_type/select/option.phtml',
             [
                 'option' => [
@@ -51,6 +52,7 @@ $fieldAttributes = $field->getFieldAttributes();
     <?php foreach ($options->toOptionArray() as $option) : ?>
         <?php $option['level'] = 0; ?>
         <?= /* @noEscape */ $templateRenderer->html(
+            $block,
             'Loki_AdminComponents::form/field_type/select/option.phtml',
             ['option' => $option]
         ) ?>

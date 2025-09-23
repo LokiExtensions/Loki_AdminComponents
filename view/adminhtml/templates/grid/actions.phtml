@@ -20,6 +20,7 @@ $buttons = $viewModel->getButtons();
             <div class="page-actions-buttons">
                 <?php foreach ($buttons as $button): ?>
                     <?= /* @noEscape */ $templateRenderer->html(
+                        $block,
                         'Loki_AdminComponents::ui/button.phtml',
                         ['button' => $button]
                     ) ?>
