@@ -6,6 +6,7 @@
         "Magento_Catalog",
         "Magento_Customer",
         "Magento_Eav",
+        "Magento_Store",
         "Magento_Ui"
     ],
     "modules": [
@@ -27,7 +28,5 @@
     ],
     "components": [],
     "config": [],
-    "tests": [],
-    "phpcs_severity": "9",
-    "phpstan_level": "1"
+    "tests": []
 }
