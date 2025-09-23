@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\Template;
 $value = $block->getValue();
 
 if (count($value) === 1 && (int)$value[0] === 0) {
-    echo __('All Store Views');
+    echo $escaper->escapeHtml(__('All Store Views'));
     return;
 }
 
@@ -26,17 +26,17 @@ $storeHierarchy = $storeView->getStoreHierarchy($value);
     <?php foreach ($storeHierarchy as $website) : ?>
         <?php if(!$website['selected']) continue; ?>
         <li>
-            <?= $website['name'] ?> (<?= $website['code'] ?>)
+            <?= $escaper->escapeHtml($website['name']) ?> (<?= $escaper->escapeHtml($website['code']) ?>)
             <ul>
                 <?php foreach ($website['groups'] as $group) : ?>
                     <?php if(!$group['selected']) continue; ?>
                     <li>
-                        <?= $group['name'] ?> (<code><?= $group['code'] ?></code>)
+                        <?= $escaper->escapeHtml($group['name']) ?> (<code><?= $escaper->escapeHtml($group['code']) ?></code>)
                         <ul>
                             <?php foreach ($group['stores'] as $store) : ?>
                                 <?php if(!$store['selected']) continue; ?>
                                 <li>
-                                    <?= $store['name'] ?> (<code><?= $store['code'] ?></code>)
+                                    <?= $escaper->escapeHtml($store['name']) ?> (<code><?= $escaper->escapeHtml($store['code']) ?></code>)
                                 </li>
                             <?php endforeach; ?>
                         </ul>
