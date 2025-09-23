@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 23 September 2025
+### Fixed
+- Fix block rendering of static blocks
+- Implement new blockRenderer and childRenderer arguments
+- Change containers into blocks to allow for caching
+- Add `.prevent` modifier to `@click` event handler
+- Rename Alpine store checkout to LokiCheckout, components to LokiComponents
+- Rename loki-components to loki.script.component block
+
 ## [0.2.10] - 17 September 2025
 ### Fixed
 - Bookmark status should not hide column, but simply set visible property
