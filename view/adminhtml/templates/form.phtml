@@ -40,7 +40,6 @@ if (!isset($viewModel)) {
                             <?php foreach ($viewModel->getFields() as $field) : ?>
                                 <?php if (false === $field->isVisible()) continue; ?>
                                 <?= /* @noEscape */ $templateRenderer->html(
-                                    $block,
                                     'Loki_AdminComponents::form/field.phtml',
                                     ['field' => $field]
                                 ); ?>

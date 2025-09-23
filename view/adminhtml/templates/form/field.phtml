@@ -31,7 +31,6 @@ if (false === $field instanceof Field) {
 
     <div class="admin__field-control">
         <?= /* @noEscape */ $templateRenderer->html(
-            $block,
             $field->getFieldType()->getTemplate(),
             ['field' => $field]
         ) ?>
