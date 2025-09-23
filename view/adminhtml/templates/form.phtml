@@ -29,8 +29,8 @@ if (!isset($viewModel)) {
 
     <div class="page-columns">
         <div class="main-col">
-            <?= /* @noEscape */ $childRenderer->html( $block, 'loki-admin.form.spinner') ?>
-            <?= /* @noEscape */ $childRenderer->html( $block, 'loki-admin.form.inner') ?>
+            <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.form.spinner') ?>
+            <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.form.inner') ?>
 
             <div class="entry-edit form-inline">
                 <div class="fieldset-wrapper">
