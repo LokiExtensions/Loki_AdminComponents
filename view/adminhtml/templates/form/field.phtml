@@ -16,6 +16,10 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var TemplateRenderer $templateRenderer */
 /** @var ViewModelFactory $viewModelFactory */
 
+if (empty($templateRenderer)) {
+    throw new RuntimeException('Template renderer not found in block "'.$block->getNameInLayout().'"');
+}
+
 $field = $block->getField();
 if (false === $field instanceof Field) {
     $fieldViewModel = $viewModelFactory->create(FieldViewModel::class);
