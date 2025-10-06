@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 06 October 2025
+### Fixed
+- Throw exception when template renderer is not found in critical templates
+
 ## [0.3.0] - 23 September 2025
 ### Fixed
 - Fix block rendering of static blocks
