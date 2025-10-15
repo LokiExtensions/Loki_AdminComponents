@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 15 October 2025
+### Fixed
+- Append template name to error message
+- Add Column[] type hint to ArrayProviderInterface
+
 ## [0.3.1] - 06 October 2025
 ### Fixed
 - Throw exception when template renderer is not found in critical templates
