@@ -25,6 +25,17 @@ class ArrayHandler implements ProviderHandlerInterface
 
     public function getItem(object $provider, int|string $identifier): DataObject
     {
+        /** @var ArrayProviderInterface $provider */
+        $rows = $provider->getData();
+        $primaryKey = $this->getPrimaryKey($provider);
+        if (!empty($primaryKey)) {
+            foreach ($rows as $row) {
+                if (isset($row[$primaryKey]) && $row[$primaryKey] == $identifier) {
+                    return $this->dataObjectFactory->create()->setData($row);
+                }
+            }
+        }
+
         throw new RuntimeException('Unable to retrieve item from array');
     }
 
@@ -93,6 +104,9 @@ class ArrayHandler implements ProviderHandlerInterface
 
     public function saveItem(object $provider, DataObject $item)
     {
+        if (method_exists($provider, 'saveItem')) {
+            call_user_func([$provider, 'saveItem'], $item);
+        }
     }
 
     public function deleteItem(object $provider, DataObject $item)
@@ -120,5 +134,14 @@ class ArrayHandler implements ProviderHandlerInterface
     public function getResourceModelClass(object $provider): bool|string
     {
         return false;
+    }
+
+    public function getPrimaryKey(object $provider): ?string
+    {
+        if (method_exists($provider, 'getPrimaryKey')) {
+            return call_user_func([$provider, 'getPrimaryKey']);
+        }
+
+        return null;
     }
 }

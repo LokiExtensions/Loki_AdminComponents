@@ -142,6 +142,7 @@ class GridViewModel extends ComponentViewModel
         return [
             ...parent::getJsData(),
             ...$this->getState()->toArray(),
+            'namespace' => $this->getNamespace(),
             'gridFilters' => $this->getGridFilterValues(),
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
@@ -313,6 +314,10 @@ class GridViewModel extends ComponentViewModel
         $gridFilterValues = [];
         foreach ($this->getGridFilters() as $gridFilter) {
             $value = $this->getState()->getFilterValue($gridFilter->getCode());
+            if (empty($value)) {
+                continue;
+            }
+
             $gridFilterValues[$gridFilter->getCode()] = $value;
         }
 

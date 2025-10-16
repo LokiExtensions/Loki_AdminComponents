@@ -1,19 +1,22 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.3.2 */
-
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @version 0.3.2 */
 /** @var Escaper $escaper */
 /** @var Template $block */
 $value = $block->getValue();
+$emptyValue = $block->getEmptyValue();
+
+if (empty($value) && !empty($emptyValue)) {
+    $value = $emptyValue;
+}
 
 if (is_array($value)) {
     $value = 'array';
 }
-
 
 if (is_object($value)) {
     $value = 'object';

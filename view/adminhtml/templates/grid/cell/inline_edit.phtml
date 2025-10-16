@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.3.2 */
-
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
 use Magento\Framework\DataObject;
 use Loki\Components\Factory\ViewModelFactory;
 
+/** @version 0.3.2 */
 /** @var Template $block */
 /** @var Escaper $escaper */
 /** @var Magento\Framework\View\Element\Template $block */
@@ -16,7 +15,7 @@ use Loki\Components\Factory\ViewModelFactory;
 
 $item = $block->getItem();
 ?>
-<div x-data="LokiAdminInlineEditComponent">
+<div x-data="LokiAdminInlineEditComponent" @dblclick="toggleInlineEdit">
     <span @dblclick="toggleInlineEdit" x-show="hideInlineEdit">
         <?= $escaper->escapeHtml($block->getValue()) ?>
     </span>
@@ -30,15 +29,19 @@ $item = $block->getItem();
         />
 
         <button
-            class="action-close"
+            class="action-close2"
             @click.prevent="toggleInlineEdit"
-        ></button>
+        >
+            <?= $escaper->escapeHtml(__('Close')) ?>
+        </button>
 
         <button
             class="action-save"
             @click.prevent="saveInlineEdit"
             data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
             data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"
-        >save</button>
+        >
+            <?= $escaper->escapeHtml(__('Save')) ?>
+        </button>
     </span>
 </div>

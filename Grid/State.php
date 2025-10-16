@@ -148,12 +148,17 @@ class State
     public function setFilter(string $name, mixed $value): void
     {
         $filters = $this->getFilters();
-        $filters[$name] = $value;
+        if (empty($value) && isset($filters[$name])) {
+            unset($filters[$name]);
+        } else {
+            $filters[$name] = $value;
+        }
+
         $this->setFilters($filters);
     }
 
     /**
-     * @param Filter[] $filters
+     * @param mixed[] $filters
      *
      * @return void
      */

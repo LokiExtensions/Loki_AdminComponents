@@ -21,6 +21,7 @@ class InlineEditAction implements ActionInterface
 
         $item = $providerHandler->getItem($provider, $identifier);
         $item->setData($propertyName, $propertyValue);
+
         $providerHandler->saveItem($provider, $item);
     }
 }
