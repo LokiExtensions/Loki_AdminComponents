@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Component\Grid;
 
 use Loki\AdminComponents\Grid\Column\Column;
+use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -14,7 +15,7 @@ use Loki\AdminComponents\Grid\Cell\CellAction;
 use Loki\AdminComponents\Grid\Cell\CellActionFactory;
 use Loki\AdminComponents\Grid\Cell\CellTemplateResolver;
 use Loki\AdminComponents\Grid\ColumnLoader;
-use Loki\AdminComponents\Grid\FilterInterface;
+use Loki\AdminComponents\Grid\Filter\FilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionInterface;
 use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
@@ -22,6 +23,7 @@ use Loki\AdminComponents\Ui\Button;
 use Loki\AdminComponents\Ui\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Loki\Components\Util\CamelCaseConvertor;
+use RuntimeException;
 
 /**
  * @method GridRepository getRepository()
@@ -39,7 +41,8 @@ class GridViewModel extends ComponentViewModel
         protected ColumnLoader $columnLoader,
         protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
-        protected FieldFactory $fieldFactory
+        protected FieldFactory $fieldFactory,
+        protected FilterFactory $filterFactory,
     ) {
     }
 
@@ -138,6 +141,7 @@ class GridViewModel extends ComponentViewModel
         return [
             ...parent::getJsData(),
             ...$this->getState()->toArray(),
+            'gridFilters' => $this->getGridFilterValues(),
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),
@@ -285,6 +289,34 @@ class GridViewModel extends ComponentViewModel
         return $this->cellActionFactory->create($editUrl, 'Edit');
     }
 
+    /**
+     * @return FilterInterface[]
+     */
+    public function getGridFilters(): array
+    {
+        $gridFilters = [];
+        $gridFilterDefinitions = (array)$this->getBlock()->getGridFilters();
+        if (empty($gridFilterDefinitions)) {
+            return [];
+        }
+
+        foreach($gridFilterDefinitions as $gridFilterDefinition) {
+            $gridFilters[] = $this->filterFactory->createFromArray($gridFilterDefinition);
+        }
+
+        return $gridFilters;
+    }
+
+    public function getGridFilterValues(): array
+    {
+        $gridFilterValues = [];
+        foreach ($this->getGridFilters() as $gridFilter) {
+            $value = $this->getState()->getFilterValue($gridFilter->getCode());
+            $gridFilterValues[$gridFilter->getCode()] = $value;
+        }
+
+        return $gridFilterValues;
+    }
 
     /**
      * @return Field[]
@@ -305,7 +337,7 @@ class GridViewModel extends ComponentViewModel
             }
 
             if (isset($filter['options']) && false === $filter['options'] instanceof OptionSourceInterface) {
-                throw new \RuntimeException('Filter uses wrong options class');
+                throw new RuntimeException('Filter uses wrong options class');
             }
 
             $field = $this->fieldFactory->createWithBlock(

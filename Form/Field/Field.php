@@ -35,6 +35,16 @@ class Field extends DataObject
         return (string)$this->getData('scope');
     }
 
+    public function getAlpineSetter(): string
+    {
+        $alpineSetter = (string)$this->getData('alpine_setter');
+        if ($alpineSetter) {
+            return $alpineSetter;
+        }
+
+        return 'setValue';
+    }
+
     public function getFieldType(): FieldTypeInterface
     {
         return $this->getData('field_type');

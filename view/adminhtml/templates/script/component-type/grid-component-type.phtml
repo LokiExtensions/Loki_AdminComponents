@@ -18,8 +18,21 @@ use Magento\Framework\View\Element\Template;
         ...LokiComponentType,
         columnPositions: {},
         showOtherActions: false,
+        gridFilters: {},
         toggleOtherActions() {
             this.showOtherActions = !this.showOtherActions;
+        },
+        setGridFilter(event) {
+            const value = event.target.value;
+            const name = event.target.name;
+            this.gridFilters[name] = value;
+
+            this.post({
+                filter: {
+                    name: name,
+                    value: value,
+                }
+            });
         },
         sortColumn(event) {
             if (!event) {

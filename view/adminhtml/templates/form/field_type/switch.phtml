@@ -27,7 +27,7 @@ $fieldType = $field->getFieldType();
         name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         class="admin__actions-switch-checkbox"
         :checked="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
-        @change="setValue"
+        @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
     >
     <label
         class="admin__actions-switch-label"

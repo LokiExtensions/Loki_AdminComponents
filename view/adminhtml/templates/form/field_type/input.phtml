@@ -33,5 +33,5 @@ if (isset($fieldAttributes['type'])) {
         <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
-    @change="setValue"
+    @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
 >

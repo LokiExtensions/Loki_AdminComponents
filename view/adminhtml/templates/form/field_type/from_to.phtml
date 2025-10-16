@@ -33,7 +33,7 @@ $fieldType = $field->getFieldType();
                     $fieldType->getMaximumLength()
                 ) ?>"
                 :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
-                @change="setValue"
+                @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
                 placeholder="<?= $escaper->escapeHtml(
                     $field->getBlock()->getPlaceholder()
                 ) ?>"

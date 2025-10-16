@@ -135,6 +135,28 @@ class State
         return [];
     }
 
+    public function getFilterValue(string $name): mixed
+    {
+        $filters = $this->getFilters();
+        if (isset($filters[$name])) {
+            return $filters[$name];
+        }
+
+        return null;
+    }
+
+    public function setFilter(string $name, mixed $value): void
+    {
+        $filters = $this->getFilters();
+        $filters[$name] = $value;
+        $this->setFilters($filters);
+    }
+
+    /**
+     * @param Filter[] $filters
+     *
+     * @return void
+     */
     public function setFilters(array $filters): void
     {
         $this->save('filters', json_encode($filters));
