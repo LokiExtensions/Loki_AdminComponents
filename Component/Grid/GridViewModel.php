@@ -4,6 +4,7 @@ namespace Loki\AdminComponents\Component\Grid;
 
 use Loki\AdminComponents\Grid\Column\Column;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
+use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -95,20 +96,20 @@ class GridViewModel extends ComponentViewModel
 
         $filters = [];
         foreach ($staticFilters as $staticFilter) {
-            if ($staticFilter instanceof FilterInterface) {
+            if ($staticFilter instanceof StaticFilterInterface) {
                 $filters[] = [
-                    'field' => $staticFilter->getField(),
+                    'field' => $staticFilter->getCode(),
                     'value' => $staticFilter->getValue(),
                     'condition_type' => $staticFilter->getConditionType(),
                 ];
                 continue;
             }
 
-            $filter = [];
-            $filter['field'] = $staticFilter['field'];
-            $filter['value'] = $staticFilter['value'];
-            $filter['condition_type'] = $staticFilter['condition_type'];
-            $filters[] = $filter;
+            $filters[] = [
+                'field' => $staticFilter['field'],
+                'value' => $staticFilter['value'],
+                'condition_type' => $staticFilter['condition_type'],
+            ];
         }
 
         $this->getState()->setFilters($filters);
@@ -316,40 +317,6 @@ class GridViewModel extends ComponentViewModel
         }
 
         return $gridFilterValues;
-    }
-
-    /**
-     * @return Field[]
-     */
-    public function getFilterFields(): array
-    {
-        $filters = (array)$this->getBlock()->getData('grid_filters');
-        if (empty($filters)) {
-            return [];
-        }
-
-        $fields = [];
-        foreach ($filters as $filterCode => $filter) {
-            $filter['code'] = $filterCode;
-
-            if (isset($filter['options']) && false === $filter['options'] instanceof OptionSourceInterface) {
-                $filter['options'] = $this->objectManager->get($filter['options']);
-            }
-
-            if (isset($filter['options']) && false === $filter['options'] instanceof OptionSourceInterface) {
-                throw new RuntimeException('Filter uses wrong options class');
-            }
-
-            $field = $this->fieldFactory->createWithBlock(
-                $filter,
-            );
-
-            $field->getBlock()->addData($filter);
-            $field->getBlock()->setField($field);
-            $fields[] = $field;
-        }
-
-        return $fields;
     }
 
     public function getCellActions(DataObject $item): array

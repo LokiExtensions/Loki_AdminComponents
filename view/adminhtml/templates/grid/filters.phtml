@@ -3,16 +3,19 @@ declare(strict_types=1);
 
 /** @version 0.3.2 */
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\Components\Util\Block\TemplateRenderer;
 
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
+/** @var Escaper $escaper */
 /** @var TemplateRenderer $templateRenderer */
 
 $viewModel = $block->getViewModel();
 $gridFilters = $viewModel->getGridFilters();
+$gridFilterValues = $viewModel->getGridFilterValues();
 if (empty($gridFilters)) {
     return;
 }
@@ -24,6 +27,25 @@ if (empty($gridFilters)) {
         </button>
     </div>
 </div>
+
+<div class="admin__data-grid-filters-current _show">
+    <div class="admin__current-filters-title-wrap">
+        <span class="admin__current-filters-title">
+            <?= $escaper->escapeHtml(__('Active filters:')) ?>
+        </span>
+    </div>
+    <div class="admin__current-filters-list-wrap">
+        <ul class="admin__current-filters-list" data-role="filter-list">
+            <?php foreach ($gridFilterValues as $gridFilterName => $gridFilterValue): ?>
+            <li>
+                <span class="label"><?= $gridFilterName ?></span>: <span class="preview"><?= $gridFilterValue ?></span>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+
+
 
 <div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap _show">
     <fieldset class="admin__fieldset admin__data-grid-filters">
