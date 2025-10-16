@@ -28,6 +28,7 @@ if (empty($gridFilters)) {
     </div>
 </div>
 
+<?php if (!empty($gridFilterValues)): ?>
 <div class="admin__data-grid-filters-current _show">
     <div class="admin__current-filters-title-wrap">
         <span class="admin__current-filters-title">
@@ -38,14 +39,14 @@ if (empty($gridFilters)) {
         <ul class="admin__current-filters-list" data-role="filter-list">
             <?php foreach ($gridFilterValues as $gridFilterName => $gridFilterValue): ?>
             <li>
-                <span class="label"><?= $gridFilterName ?></span>: <span class="preview"><?= $gridFilterValue ?></span>
+                <span class="label"><?= $escaper->escapeHtml($gridFilterName) ?></span>:
+                <span class="preview"><?= $escaper->escapeHtml($gridFilterValue) ?></span>
             </li>
             <?php endforeach; ?>
         </ul>
     </div>
 </div>
-
-
+<?php endif; ?>
 
 <div x-cloak x-show="showFilters" class="admin__data-grid-filters-wrap _show">
     <fieldset class="admin__fieldset admin__data-grid-filters">
@@ -56,15 +57,13 @@ if (empty($gridFilters)) {
         <?php endforeach; ?>
     </fieldset>
 
-    <!--
+    <?php if (!empty($gridFilterValues)): ?>
     <div class="admin__data-grid-filters-footer">
         <div class="admin__footer-main-actions">
-
-            <button class="action-tertiary" type="button" @click.prevent="toggleFilters">
-                <span>Reset all filters</span>
+            <button class="action-tertiary" type="button" @click="toggleFilters">
+                <span>Clear all filters</span>
             </button>
-
         </div>
     </div>
-    -->
+    <?php endif; ?>
 </div>
