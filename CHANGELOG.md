@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 17 October 2025
+### Fixed
+- Better handling of inline edit actions
+- Layout fix for filter expansion
+- Cleanup static-filters and look & feel of filters
+- Properly implement grid filtering
+- Add CountryOptions ViewModel for usage in filters
+
 ## [0.3.2] - 15 October 2025
 ### Fixed
 - Append template name to error message
