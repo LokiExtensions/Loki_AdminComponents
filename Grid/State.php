@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Grid;
 
 use Loki\AdminComponents\Grid\Column\Column;
+use Loki\AdminComponents\Grid\Filter\Filter;
+use Loki\AdminComponents\Grid\State\FilterState;
+use Loki\AdminComponents\Grid\State\FilterStateFactory;
 use Magento\Backend\Model\Session;
 use Magento\Framework\Data\Collection\AbstractDb;
 
@@ -11,6 +14,7 @@ class State
 {
     public function __construct(
         private Session $session,
+        private FilterStateFactory $filterStateFactory,
         private string $namespace,
         private int $defaultLimit = 20,
     ) {
@@ -76,6 +80,7 @@ class State
     {
         $sortDirection = strtoupper((string)$this->get('sort_direction'));
         $sortDirection = $sortDirection === AbstractDb::SORT_ORDER_ASC ? AbstractDb::SORT_ORDER_ASC : AbstractDb::SORT_ORDER_DESC;
+
         return $sortDirection;
     }
 
@@ -125,17 +130,36 @@ class State
         $this->save('searchable_fields', implode(',', $searchableFields));
     }
 
+    /**
+     * @return FilterState[]
+     * @todo Rename this getFilterStates()
+     */
     public function getFilters(): array
     {
-        $filters = json_decode((string)$this->get('filters'), true);
-        if (is_array($filters)) {
-            return $filters;
+        $filters = [];
+        $filtersData = json_decode((string)$this->get('filters'), true);
+        if (false === is_array($filtersData)) {
+            return [];
         }
 
-        return [];
+        foreach ($filtersData as $filterData) {
+            if (!isset($filterData['value'])
+                || !isset($filterData['field'])
+                || !isset($filterData['condition_type'])) {
+                continue;
+            }
+
+            $filters[$filterData['field']] = $this->filterStateFactory->create(
+                $filterData['field'],
+                $filterData['value'],
+                $filterData['condition_type'],
+            );
+        }
+
+        return $filters;
     }
 
-    public function getFilterValue(string $name): mixed
+    public function getFilterState(string $name): ?FilterState
     {
         $filters = $this->getFilters();
         if (isset($filters[$name])) {
@@ -148,15 +172,15 @@ class State
     public function setFilter(string $name, mixed $value, ?string $conditionType = 'eq'): void
     {
         $filters = $this->getFilters();
-        if (empty($value) && isset($filters[$name])) {
+        if (isset($filters[$name])) {
             unset($filters[$name]);
-        } else {
-            $filters[$name] = [
-                'field' => $name,
-                'value' => $value,
-                'condition_type' => $conditionType,
-            ];
         }
+
+        $filters[$name] = [
+            'field' => $name,
+            'value' => $value,
+            'condition_type' => $conditionType,
+        ];
 
         $this->setFilters($filters);
     }

@@ -38,6 +38,10 @@ class FieldFactory
             $data['field_type'] = $this->fieldTypeProvider->getFieldTypeByCode($data['field_type']);
         }
 
+        if (false === $data['field_type'] instanceof FieldTypeInterface) {
+            throw new \RuntimeException((string)__('Field type "%1" could not be resolved', $data['field_type']));
+        }
+
         if (!isset($data['scope'])) {
             $data['scope'] = 'item';
         }

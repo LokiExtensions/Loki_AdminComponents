@@ -153,6 +153,10 @@ class RepositoryHandler implements ProviderHandlerInterface
         }
 
         foreach ($gridState->getFilters() as $filterData) {
+            if (!is_array($filterData)) {
+                continue;
+            }
+
             $filter = $this->filterFactory->create();
             $filter->setField($filterData['field']);
             $filter->setValue($filterData['value']);

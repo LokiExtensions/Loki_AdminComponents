@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Component\Grid;
 use Loki\AdminComponents\Grid\Column\Column;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
+use Loki\AdminComponents\Grid\State\FilterState;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -143,7 +144,7 @@ class GridViewModel extends ComponentViewModel
             ...parent::getJsData(),
             ...$this->getState()->toArray(),
             'namespace' => $this->getNamespace(),
-            'gridFilters' => $this->getGridFilterValues(),
+            'gridFilters' => $this->getGridFilterStates(),
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),
@@ -288,7 +289,7 @@ class GridViewModel extends ComponentViewModel
                     isset($buttonAction['cssClass']) ? (string)$buttonAction['cssClass'] : '',
                     isset($buttonAction['url']) ? (string)$buttonAction['url'] : '',
                     isset($buttonAction['subButtons']) ? (string)$buttonAction['subButtons'] : [],
-                    isset($buttonAction['primary']) ?(bool)$buttonAction['primary'] : false,
+                    isset($buttonAction['primary']) ? (bool)$buttonAction['primary'] : false,
                 );
             }
         }
@@ -323,26 +324,29 @@ class GridViewModel extends ComponentViewModel
             return [];
         }
 
-        foreach($gridFilterDefinitions as $gridFilterDefinition) {
+        foreach ($gridFilterDefinitions as $gridFilterDefinition) {
             $gridFilters[] = $this->filterFactory->createFromArray($gridFilterDefinition);
         }
 
         return $gridFilters;
     }
 
-    public function getGridFilterValues(): array
+    /**
+     * @return FilterState[]
+     */
+    public function getGridFilterStates(): array
     {
-        $gridFilterValues = [];
+        $gridFilterStates = [];
         foreach ($this->getGridFilters() as $gridFilter) {
-            $value = $this->getState()->getFilterValue($gridFilter->getCode());
-            if (empty($value)) {
+            $filterState = $this->getState()->getFilterState($gridFilter->getCode());
+            if (empty($filterState)) {
                 continue;
             }
 
-            $gridFilterValues[$gridFilter->getCode()] = $value;
+            $gridFilterStates[$gridFilter->getCode()] = $filterState;
         }
 
-        return $gridFilterValues;
+        return $gridFilterStates;
     }
 
     public function getCellActions(DataObject $item): array

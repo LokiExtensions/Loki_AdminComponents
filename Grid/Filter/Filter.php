@@ -67,6 +67,6 @@ class Filter implements FilterInterface
             return 'select';
         }
 
-        return 'text';
+        return 'input';
     }
 }

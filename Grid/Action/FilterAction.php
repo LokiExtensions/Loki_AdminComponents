@@ -26,6 +26,7 @@ class FilterAction implements ActionInterface
         $state->setFilter(
             (string)$value['filter']['name'],
             (string)$value['filter']['value'],
+            isset($value['filter']['condition_type']) ? (string)$value['filter']['condition_type'] : 'eq',
         );
     }
 }
