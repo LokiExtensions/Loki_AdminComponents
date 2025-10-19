@@ -7,7 +7,7 @@ class FilterState implements \JsonSerializable
 {
     public function __construct(
         private string $field,
-        private string $value,
+        private string|array|null $value,
         private string $conditionType,
     ) {
     }
@@ -17,7 +17,7 @@ class FilterState implements \JsonSerializable
         return $this->field;
     }
 
-    public function getValue(): string
+    public function getValue(): string|array|null
     {
         return $this->value;
     }

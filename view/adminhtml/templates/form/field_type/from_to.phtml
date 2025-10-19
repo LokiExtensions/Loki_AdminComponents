@@ -20,19 +20,22 @@ $fieldType = $field->getFieldType();
 ?>
 <div class="">
     <div class="admin__form-field">
-        <label class="admin__form-field-label">
+        <label
+            for="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+            class="admin__form-field-label">
             <span>from</span>
         </label>
 
         <div class="admin__form-field-control">
             <input
+                id="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
                 class="admin__control-text"
                 type="text"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
                 ) ?>"
-                :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+                :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>.from"
                 @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
                 placeholder="<?= $escaper->escapeHtml(
                     $field->getBlock()->getPlaceholder()
@@ -54,8 +57,8 @@ $fieldType = $field->getFieldType();
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
                 ) ?>"
-                :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
-                @change="setValue"
+                :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>.to"
+                @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
                 placeholder="<?= $escaper->escapeHtml(
                     $field->getBlock()->getPlaceholder()
                 ) ?>"

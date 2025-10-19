@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Component\Grid;
 
 use Loki\AdminComponents\Grid\Column\Column;
+use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\State\FilterState;
@@ -356,8 +357,19 @@ class GridViewModel extends ComponentViewModel
     private function getGridFilterStateValues(): array
     {
         $values = [];
-        foreach ($this->getGridFilterStates() as $gridFilterState) {
-            $values[$gridFilterState->getField()] = $gridFilterState->getValue();
+        foreach ($this->getGridFilters() as $gridFilter) {
+            $gridFilterState = $this->getState()->getFilterState($gridFilter->getCode());
+            $value = $gridFilterState instanceof FilterState ? $gridFilterState->getValue() : null;
+
+            // @todo: This needs to be moved elsewhere, perhaps default value of Filter class?
+            if ($gridFilter->getConditionType() === 'from_to' && $value === null) {
+                $value = [
+                    'from' => null,
+                    'to' => null
+                ];
+            }
+
+            $values[$gridFilter->getCode()] = $value;
         }
 
         return $values;
