@@ -19,6 +19,7 @@
                 <item name="limit" xsi:type="object">Loki\AdminComponents\Grid\Action\LimitAction</item>
                 <item name="sort" xsi:type="object">Loki\AdminComponents\Grid\Action\SortAction</item>
                 <item name="filter" xsi:type="object">Loki\AdminComponents\Grid\Action\FilterAction</item>
+                <item name="clearFilters" xsi:type="object">Loki\AdminComponents\Grid\Action\ClearFiltersAction</item>
                 <item name="reposition" xsi:type="object">Loki\AdminComponents\Grid\Action\RepositionAction</item>
                 <item name="inline_edit" xsi:type="object">Loki\AdminComponents\Grid\Action\InlineEditAction</item>
             </argument>

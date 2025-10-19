@@ -145,13 +145,17 @@ class State
         return null;
     }
 
-    public function setFilter(string $name, mixed $value): void
+    public function setFilter(string $name, mixed $value, ?string $conditionType = 'eq'): void
     {
         $filters = $this->getFilters();
         if (empty($value) && isset($filters[$name])) {
             unset($filters[$name]);
         } else {
-            $filters[$name] = $value;
+            $filters[$name] = [
+                'field' => $name,
+                'value' => $value,
+                'condition_type' => $conditionType,
+            ];
         }
 
         $this->setFilters($filters);

@@ -34,6 +34,11 @@ use Magento\Framework\View\Element\Template;
                 }
             });
         },
+        clearFilters() {
+            this.post({
+                clearFilters: true
+            });
+        },
         sortColumn(event) {
             if (!event) {
                 return;
