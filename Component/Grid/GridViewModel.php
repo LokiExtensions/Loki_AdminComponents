@@ -270,9 +270,30 @@ class GridViewModel extends ComponentViewModel
      */
     public function getButtons(): array
     {
-        return [
-            $this->buttonFactory->createNewAction(),
-        ];
+        $buttons = [];
+        $buttonActions = (array)$this->getBlock()->getButtonActions();
+        if (!empty($buttonActions)) {
+            foreach ($buttonActions as $buttonAction) {
+                if (!is_array($buttonAction)) {
+                    continue;
+                }
+
+                if (!isset($buttonAction['method']) || !isset($buttonAction['label'])) {
+                    continue;
+                }
+
+                $buttons[] = $this->buttonFactory->create(
+                    (string)$buttonAction['method'],
+                    (string)$buttonAction['label'],
+                    isset($buttonAction['cssClass']) ? (string)$buttonAction['cssClass'] : '',
+                    isset($buttonAction['url']) ? (string)$buttonAction['url'] : '',
+                    isset($buttonAction['subButtons']) ? (string)$buttonAction['subButtons'] : [],
+                    isset($buttonAction['primary']) ?(bool)$buttonAction['primary'] : false,
+                );
+            }
+        }
+
+        return $buttons;
     }
 
     /**
