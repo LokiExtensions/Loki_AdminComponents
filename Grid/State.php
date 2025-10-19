@@ -169,7 +169,7 @@ class State
         return null;
     }
 
-    public function setFilter(string $name, mixed $value, ?string $conditionType = 'eq'): void
+    public function setFilter(string $name, mixed $value, ?string $conditionType = 'like'): void
     {
         $filters = $this->getFilters();
         if (isset($filters[$name])) {

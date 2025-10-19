@@ -90,7 +90,6 @@ class RepositoryHandler implements ProviderHandlerInterface
         }
 
         throw new RuntimeException('Repository has no save-method we know of.');
-
     }
 
     public function deleteItem(object $provider, DataObject $item): void
@@ -152,15 +151,18 @@ class RepositoryHandler implements ProviderHandlerInterface
             $filterGroups[] = $searchFilterGroup;
         }
 
-        foreach ($gridState->getFilters() as $filterData) {
-            if (!is_array($filterData)) {
-                continue;
+        foreach ($gridState->getFilters() as $gridFilter) {
+            $filter = $this->filterFactory->create();
+            $filter->setField($gridFilter->getField());
+
+            if ($gridFilter->getConditionType() === 'like') {
+                $filter->setValue($gridFilter->getValue());
+                $filter->setConditionType('like');
+            } else {
+                $filter->setValue($gridFilter->getValue());
+                $filter->setConditionType($gridFilter->getConditionType());
             }
 
-            $filter = $this->filterFactory->create();
-            $filter->setField($filterData['field']);
-            $filter->setValue($filterData['value']);
-            $filter->setConditionType($filterData['condition_type']);
             $filterGroups[] = $this->filterGroupBuilder->setFilters([$filter])->create();
         }
 
