@@ -40,7 +40,7 @@ class FilterFactory
         return $this->create(
             $data['label'],
             $data['code'],
-            '',
+            $data['condition_type'] ?? '',
             $data
         );
     }

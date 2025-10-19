@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Grid\Action;
 
 use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Grid\StateManager;
 
 class FilterAction implements ActionInterface
@@ -22,11 +23,21 @@ class FilterAction implements ActionInterface
             return;
         }
 
+        /** @var GridViewModel $gridViewModel */
+        $gridViewModel = $gridRepository->getComponent()->getViewModel();
+        $gridFilters = $gridViewModel->getGridFilters();
+
+        if (false === array_key_exists($value['filter']['name'], $gridFilters)) {
+            return;
+        }
+
+        $gridFilter = $gridFilters[$value['filter']['name']];
+
         $state = $this->stateManager->get($gridRepository->getNamespace());
         $state->setFilter(
-            (string)$value['filter']['name'],
+            $gridFilter->getCode(),
             (string)$value['filter']['value'],
-            isset($value['filter']['condition_type']) ? (string)$value['filter']['condition_type'] : 'like',
+            $gridFilter->getConditionType(),
         );
     }
 }

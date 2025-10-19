@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\Grid\State;
 
-class FilterState
+class FilterState implements \JsonSerializable
 {
     public function __construct(
         private string $field,
@@ -30,5 +30,14 @@ class FilterState
     public function __toString()
     {
         return $this->value;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'field' => $this->field,
+            'value' => $this->value,
+            'condition_type' => $this->conditionType,
+        ];
     }
 }
