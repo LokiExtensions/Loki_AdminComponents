@@ -144,7 +144,7 @@ class GridViewModel extends ComponentViewModel
             ...parent::getJsData(),
             ...$this->getState()->toArray(),
             'namespace' => $this->getNamespace(),
-            'gridFilters' => $this->getGridFilterStates(),
+            'gridFilters' => $this->getGridFilterStateValues(),
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),
@@ -347,6 +347,16 @@ class GridViewModel extends ComponentViewModel
         }
 
         return $gridFilterStates;
+    }
+
+    private function getGridFilterStateValues(): array
+    {
+        $values = [];
+        foreach ($this->getGridFilterStates() as $gridFilterState) {
+            $values[$gridFilterState->getField()] = $gridFilterState->getValue();
+        }
+
+        return $values;
     }
 
     public function getCellActions(DataObject $item): array

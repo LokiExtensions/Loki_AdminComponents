@@ -155,12 +155,15 @@ class RepositoryHandler implements ProviderHandlerInterface
             $filter = $this->filterFactory->create();
             $filter->setField($gridFilter->getField());
 
-            if ($gridFilter->getConditionType() === 'like') {
-                $filter->setValue($gridFilter->getValue());
+            $value = $gridFilter->getValue();
+            $conditionType = $gridFilter->getConditionType();
+
+            if ($conditionType === 'like') {
+                $filter->setValue('%'.$value.'%');
                 $filter->setConditionType('like');
             } else {
-                $filter->setValue($gridFilter->getValue());
-                $filter->setConditionType($gridFilter->getConditionType());
+                $filter->setValue($value);
+                $filter->setConditionType($conditionType);
             }
 
             $filterGroups[] = $this->filterGroupBuilder->setFilters([$filter])->create();

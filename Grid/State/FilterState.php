@@ -27,5 +27,8 @@ class FilterState
         return $this->conditionType;
     }
 
-
+    public function __toString()
+    {
+        return $this->value;
+    }
 }
