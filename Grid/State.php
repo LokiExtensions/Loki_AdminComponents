@@ -218,8 +218,14 @@ class State
         return $this->session->getData($this->namespace.'.'.$name);
     }
 
-    public function save(string $name, mixed $value)
+    public function save(string $name, mixed $value): void
     {
         $this->session->setData($this->namespace.'.'.$name, $value);
+    }
+
+    public function reset(): void
+    {
+        $this->setFilters([]);
+        $this->setSearch('');
     }
 }

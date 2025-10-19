@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\ProviderHandler;
 
+use Exception;
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
+use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
-use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Message\Manager as MessageManager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
@@ -24,7 +26,8 @@ class RepositoryHandler implements ProviderHandlerInterface
         private FilterGroupBuilder $filterGroupBuilder,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
         private SortOrderFactory $sortOrderFactory,
-        private ObjectManagerInterface $objectManager
+        private ObjectManagerInterface $objectManager,
+        private MessageManager $messageManager
     ) {
     }
 
@@ -40,8 +43,14 @@ class RepositoryHandler implements ProviderHandlerInterface
             throw new RuntimeException('Repository "getList" is not available.');
         }
 
-        $searchResults = $provider->getList($this->getSearchCriteriaBuilder($gridState)->create());
-        $gridState->setTotalItems($searchResults->getTotalCount());
+        try {
+            $searchResults = $provider->getList($this->buildSearchCriteria($gridState));
+            $gridState->setTotalItems($searchResults->getTotalCount());
+        } catch(Exception $e) {
+            $gridState->reset();
+            $this->messageManager->addErrorMessage($e->getMessage());
+            return [];
+        }
 
         return $searchResults->getItems();
     }
@@ -119,7 +128,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         return [];
     }
 
-    private function getSearchCriteriaBuilder(GridState $gridState): SearchCriteriaBuilder
+    private function buildSearchCriteria(GridState $gridState): SearchCriteria
     {
         $this->searchCriteriaBuilder->setPageSize($gridState->getLimit());
         $this->searchCriteriaBuilder->setCurrentPage($gridState->getPage());
@@ -139,7 +148,7 @@ class RepositoryHandler implements ProviderHandlerInterface
             $this->searchCriteriaBuilder->setFilterGroups($this->getFilterGroups($gridState));
         }
 
-        return $this->searchCriteriaBuilder;
+        return $this->searchCriteriaBuilder->create();
     }
 
     private function getFilterGroups(GridState $gridState): array
