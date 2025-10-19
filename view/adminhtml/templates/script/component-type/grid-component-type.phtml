@@ -39,6 +39,16 @@ use Magento\Framework\View\Element\Template;
                 clearFilters: true
             });
         },
+        removeFilter() {
+            const targetFilter = this.$el.getAttribute('data-field');
+            if (!targetFilter) {
+                return;
+            }
+
+            this.post({
+                removeFilter: targetFilter
+            });
+        },
         sortColumn(event) {
             if (!event) {
                 return;

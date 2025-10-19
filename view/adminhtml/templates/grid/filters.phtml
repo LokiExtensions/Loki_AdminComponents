@@ -43,6 +43,10 @@ if (empty($gridFilters)) {
                 <span class="label"><?= $escaper->escapeHtml($gridFilterState->getField()) ?></span>
                 <span class="condition-type"><?= $escaper->escapeHtml($gridFilterState->getConditionType()) ?></span>
                 <span class="preview">"<?= $escaper->escapeHtml($gridFilterState->getValue()) ?>"</span>
+
+                <button class="action-remove" type="button" @click="removeFilter" data-field="<?= $gridFilterState->getField() ?>">
+                    <span><?= __('Remove') ?></span>
+                </button>
             </li>
             <?php endforeach; ?>
         </ul>
