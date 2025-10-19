@@ -46,7 +46,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         try {
             $searchResults = $provider->getList($this->buildSearchCriteria($gridState));
             $gridState->setTotalItems($searchResults->getTotalCount());
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $gridState->reset();
             $this->messageManager->addErrorMessage($e->getMessage());
             return [];
