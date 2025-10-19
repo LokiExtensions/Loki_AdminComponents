@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\ProviderHandler;
 
 use Exception;
+use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\FilterFactory;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
@@ -23,6 +25,7 @@ class RepositoryHandler implements ProviderHandlerInterface
 {
     public function __construct(
         private FilterFactory $filterFactory,
+        private FilterBuilder $filterBuilder,
         private FilterGroupBuilder $filterGroupBuilder,
         private SearchCriteriaBuilder $searchCriteriaBuilder,
         private SortOrderFactory $sortOrderFactory,
@@ -160,25 +163,41 @@ class RepositoryHandler implements ProviderHandlerInterface
             $filterGroups[] = $searchFilterGroup;
         }
 
-        foreach ($gridState->getFilters() as $gridFilter) {
-            $filter = $this->filterFactory->create();
-            $filter->setField($gridFilter->getField());
-
-            $value = $gridFilter->getValue();
-            $conditionType = $gridFilter->getConditionType();
-
-            if ($conditionType === 'like') {
-                $filter->setValue('%'.$value.'%');
-                $filter->setConditionType('like');
-            } else {
-                $filter->setValue($value);
-                $filter->setConditionType($conditionType);
-            }
-
+        foreach ($gridState->getFilters() as $filterState) {
+            $filter = $this->createFilterFromFilterState($filterState);
             $filterGroups[] = $this->filterGroupBuilder->setFilters([$filter])->create();
+
         }
 
         return $filterGroups;
+    }
+
+    private function createFilterFromFilterState(GridState\FilterState $filterState): Filter
+    {
+        $conditionType = $filterState->getConditionType();
+
+        $this->filterBuilder
+            ->setField($filterState->getField())
+            ->setConditionType($conditionType)
+        ;
+
+        $value = $filterState->getValue();
+
+        if ($conditionType === 'like') {
+            return $this->filterBuilder
+                ->setValue('%'.$value.'%')
+                ->create();
+        }
+
+        if ($conditionType === 'in') {
+            return $this->filterBuilder
+                ->setValue([$value])
+                ->create();
+        }
+
+        return $this->filterBuilder
+            ->setValue([$value])
+            ->create();
     }
 
     private function getSearchFilterGroup(GridState $gridState): ?FilterGroup
