@@ -49,6 +49,7 @@ $fieldAttributes = $field->getFieldAttributes();
             ]
         ) ?>
     <?php endif; ?>
+
     <?php foreach ($options->toOptionArray() as $option) : ?>
         <?php $option['level'] = 0; ?>
         <?= /* @noEscape */ $templateRenderer->html(

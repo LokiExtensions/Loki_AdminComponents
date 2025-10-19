@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.3.3 */
-
 use Loki\AdminComponents\ViewModel\StoreView;
 use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @version 0.3.3 */
 /** @var Template $block */
+/** @var Escaper $escaper */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var StoreView $storeView */
 /** @var array $value */
