@@ -324,7 +324,11 @@ class GridViewModel extends ComponentViewModel
             return [];
         }
 
-        foreach ($gridFilterDefinitions as $gridFilterDefinition) {
+        foreach ($gridFilterDefinitions as $gridFilterDefinitionCode => $gridFilterDefinition) {
+            if (!isset($gridFilterDefinition['code'])) {
+                $gridFilterDefinition['code'] = $gridFilterDefinitionCode;
+            }
+
             $gridFilters[] = $this->filterFactory->createFromArray($gridFilterDefinition);
         }
 

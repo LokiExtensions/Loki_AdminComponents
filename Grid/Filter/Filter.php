@@ -52,14 +52,20 @@ class Filter implements FilterInterface
             'field_type' => $fieldType,
         ]);
 
-        $field->addData($this->data);
+        $data = $this->data;
+
+        if (isset($data['field_type'])) {
+            unset($data['field_type']);
+        }
+
+        $field->addData($data);
 
         return $field;
     }
 
     private function getFieldType(): string
     {
-        if (isset($this->data['field_type'])) {
+        if (isset($this->data['field_type']) && is_string($this->data['field_type'])) {
             return $this->data['field_type'];
         }
 

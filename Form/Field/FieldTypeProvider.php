@@ -16,9 +16,15 @@ class FieldTypeProvider
     public function getFieldTypeByCode(string $code): FieldTypeInterface
     {
         foreach ($this->getFieldTypes() as $fieldTypeCode => $fieldType) {
-            if ($fieldTypeCode === $code) {
-                return $fieldType;
+            if ($fieldTypeCode !== $code) {
+                continue;
             }
+
+            if (false === $fieldType instanceof FieldTypeInterface) {
+                throw new Exception('Field type "'.$code.'" is not an instance of '.FieldTypeInterface::class);
+            }
+
+            return $fieldType;
         }
 
         throw new Exception('Field type "'.$code.'" not found');
