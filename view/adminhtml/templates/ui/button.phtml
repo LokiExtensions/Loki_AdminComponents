@@ -1,15 +1,14 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.3.3 */
-
+use Loki\AdminComponents\Ui\ButtonInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
-use Loki\AdminComponents\Ui\Button;
 
+/** @version 0.3.3 */
 /** @var Escaper $escaper */
 /** @var Template $block */
-/** @var Button $button */
+/** @var ButtonInterface $button */
 $button = $block->getButton();
 ?>
 <?php if ($button->getSubButtons()): ?>

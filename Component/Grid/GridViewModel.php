@@ -8,6 +8,7 @@ use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
+use Loki\AdminComponents\Ui\ButtonInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -270,31 +271,39 @@ class GridViewModel extends ComponentViewModel
     }
 
     /**
-     * @return Button[]
+     * @return ButtonInterface[]
      */
     public function getButtons(): array
     {
-        $buttons = [];
         $buttonActions = (array)$this->getBlock()->getButtonActions();
-        if (!empty($buttonActions)) {
-            foreach ($buttonActions as $buttonAction) {
-                if (!is_array($buttonAction)) {
-                    continue;
-                }
+        if (empty($buttonActions)) {
+            return [];
+        }
 
-                if (!isset($buttonAction['method']) || !isset($buttonAction['label'])) {
-                    continue;
-                }
+        $buttons = [];
 
-                $buttons[] = $this->buttonFactory->create(
-                    (string)$buttonAction['method'],
-                    (string)$buttonAction['label'],
-                    isset($buttonAction['cssClass']) ? (string)$buttonAction['cssClass'] : '',
-                    isset($buttonAction['url']) ? (string)$buttonAction['url'] : '',
-                    isset($buttonAction['subButtons']) ? (string)$buttonAction['subButtons'] : [],
-                    isset($buttonAction['primary']) ? (bool)$buttonAction['primary'] : false,
-                );
+        foreach ($buttonActions as $buttonAction) {
+            if ($buttonAction instanceof ButtonInterface) {
+                $buttons[] = $buttonAction;
+                continue;
             }
+
+            if (!is_array($buttonAction)) {
+                continue;
+            }
+
+            if (!isset($buttonAction['method']) || !isset($buttonAction['label'])) {
+                continue;
+            }
+
+            $buttons[] = $this->buttonFactory->create(
+                (string)$buttonAction['method'],
+                (string)$buttonAction['label'],
+                isset($buttonAction['cssClass']) ? (string)$buttonAction['cssClass'] : '',
+                isset($buttonAction['url']) ? (string)$buttonAction['url'] : '',
+                isset($buttonAction['subButtons']) ? (string)$buttonAction['subButtons'] : [],
+                isset($buttonAction['primary']) ? (bool)$buttonAction['primary'] : false,
+            );
         }
 
         return $buttons;
@@ -317,6 +326,7 @@ class GridViewModel extends ComponentViewModel
                     $massAction['label'],
                     $massAction['url'],
                     isset($massAction['url_parameters']) ? $massAction['url_parameters'] : [],
+                    $massAction,
                 );
             }
         }

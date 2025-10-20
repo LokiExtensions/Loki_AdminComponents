@@ -2,7 +2,7 @@
 
 namespace Loki\AdminComponents\Ui;
 
-class Button
+class Button implements ButtonInterface
 {
     public function __construct(
         private string $method,

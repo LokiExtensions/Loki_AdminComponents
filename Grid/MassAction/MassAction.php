@@ -11,6 +11,7 @@ class MassAction implements MassActionInterface
         protected string $label,
         protected string $url,
         protected array $urlParameters = [],
+        protected array $data = [],
     ) {
     }
 

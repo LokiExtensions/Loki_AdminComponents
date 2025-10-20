@@ -11,13 +11,17 @@ class MassActionFactory
     ) {
     }
 
-
-    public function create(string $label, string $url, array $urlParameters = []): MassActionInterface
-    {
+    public function create(
+        string $label,
+        string $url,
+        array $urlParameters = [],
+        array $data = []
+    ): MassActionInterface {
         return $this->objectManager->create(MassAction::class, [
             'label' => $label,
             'url' => $url,
             'urlParameters' => $urlParameters,
+            'data' => $data,
         ]);
     }
 }
