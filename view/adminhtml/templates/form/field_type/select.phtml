@@ -23,7 +23,7 @@ $fieldType = $field->getFieldType();
 $fieldAttributes = $field->getFieldAttributes();
 
 if (false === $options instanceof OptionSourceInterface) {
-    echo '$options is not a proper instance';
+    echo '$options is not a proper instance: '.gettype($options);
     return;
 }
 ?>
