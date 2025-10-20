@@ -17,6 +17,10 @@ use Loki\Components\Util\Block\TemplateRenderer;
 
 $field = $block->getField();
 $fieldType = $field->getFieldType();
+$inputType = $field->getInputType();
+if (empty($inputType)) {
+    $inputType = 'text';
+}
 ?>
 <div class="">
     <div class="admin__form-field">
@@ -30,7 +34,7 @@ $fieldType = $field->getFieldType();
             <input
                 id="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
                 class="admin__control-text"
-                type="text"
+                type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.from"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
@@ -52,7 +56,7 @@ $fieldType = $field->getFieldType();
         <div class="admin__form-field-control">
             <input
                 class="admin__control-text"
-                type="text"
+                type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.to"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
