@@ -26,6 +26,6 @@ class MassAction implements MassActionInterface
 
     protected function getUrlParameters(): array
     {
-        return $this->getUrlParameters();
+        return $this->urlParameters;
     }
 }

@@ -6,6 +6,7 @@ use Loki\AdminComponents\Grid\Column\Column;
 use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
+use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
@@ -46,6 +47,7 @@ class GridViewModel extends ComponentViewModel
         protected ButtonFactory $buttonFactory,
         protected FieldFactory $fieldFactory,
         protected FilterFactory $filterFactory,
+        protected MassActionFactory $massActionFactory,
     ) {
     }
 
@@ -303,7 +305,23 @@ class GridViewModel extends ComponentViewModel
      */
     public function getMassActions(): array
     {
-        return (array)$this->getBlock()->getMassActions();
+        $massActions = [];
+        foreach ((array)$this->getBlock()->getMassActions() as $massActionId => $massAction) {
+            if ($massAction instanceof MassActionInterface) {
+                $massActions[$massActionId] = $massAction;
+                continue;
+            }
+
+            if (is_array($massAction)) {
+                $massActions[$massActionId] = $this->massActionFactory->create(
+                    $massAction['label'],
+                    $massAction['url'],
+                    isset($massAction['url_parameters']) ? $massAction['url_parameters'] : [],
+                );
+            }
+        }
+
+        return $massActions;
     }
 
     public function getRowAction(DataObject $item): CellAction
