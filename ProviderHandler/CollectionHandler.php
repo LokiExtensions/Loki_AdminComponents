@@ -74,14 +74,16 @@ class CollectionHandler implements ProviderHandlerInterface
             }
         }
 
-        foreach ($gridState->getFilters() as $filterData) {
-            if ($filterData['condition_type'] === 'eq') {
-                $provider->addFieldToFilter($filterData['field'], $filterData['value']);
+        foreach ($gridState->getFilters() as $gridFilter) {
+            // @todo: Make this extensible
+
+            if ($gridFilter->getConditionType() === 'eq') {
+                $provider->addFieldToFilter($gridFilter->getField(), $gridFilter->getValue());
                 continue;
             }
 
-            $provider->addFieldToFilter($filterData['field'], [
-                $filterData['condition_type'] => $filterData['value'],
+            $provider->addFieldToFilter($gridFilter->getField(), [
+                $gridFilter->getConditionType() => $gridFilter->getValue(),
             ]);
         }
 

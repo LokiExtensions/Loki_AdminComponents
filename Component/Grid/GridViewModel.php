@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
+use Hyva\Admin\ViewModel\HyvaGrid\GridFilterInterface;
 use Loki\AdminComponents\Grid\Column\Column;
 use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
@@ -354,6 +355,11 @@ class GridViewModel extends ComponentViewModel
         }
 
         foreach ($gridFilterDefinitions as $gridFilterDefinitionCode => $gridFilterDefinition) {
+            if ($gridFilterDefinition instanceof FilterInterface) {
+                $gridFilterDefinitions[$gridFilterDefinition->getCode()] = $gridFilterDefinition;
+                continue;
+            }
+
             if (!isset($gridFilterDefinition['code'])) {
                 $gridFilterDefinition['code'] = $gridFilterDefinitionCode;
             }

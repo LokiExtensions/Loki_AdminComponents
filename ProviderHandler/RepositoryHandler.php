@@ -183,6 +183,8 @@ class RepositoryHandler implements ProviderHandlerInterface
 
         $value = $filterState->getValue();
 
+        // @todo: Make this extensible
+
         if ($conditionType === 'like') {
             return $this->filterBuilder
                 ->setValue('%'.$value.'%')
