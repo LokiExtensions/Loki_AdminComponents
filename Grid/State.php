@@ -172,21 +172,16 @@ class State
     public function setFilter(string $name, mixed $value, ?string $conditionType = 'like'): void
     {
         $filters = $this->getFilters();
-        print_r($filters);
 
         if (isset($filters[$name])) {
             unset($filters[$name]);
         }
-
-        print_r($filters);
 
         $filters[$name] = [
             'field' => $name,
             'value' => $value,
             'condition_type' => $conditionType,
         ];
-
-        print_r($filters);
 
         $this->setFilters($filters);
     }

@@ -13,7 +13,7 @@ class FilterStateFactory
 
     public function create(
         string $field,
-        string $value,
+        mixed $value,
         string $conditionType = '',
     ): FilterState {
         return $this->objectManager->create(FilterState::class, [

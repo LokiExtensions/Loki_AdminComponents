@@ -12,4 +12,8 @@ interface FilterInterface extends ArgumentInterface
 
     public function getConditionType(): string;
     public function render(): string;
+
+    public function getDefaultValue(): mixed;
+
+    public function isEmpty(mixed $value): mixed;
 }

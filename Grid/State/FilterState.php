@@ -22,6 +22,19 @@ class FilterState implements \JsonSerializable
         return $this->value;
     }
 
+    public function renderValue(): string
+    {
+        if (is_string($this->value)) {
+            return $this->value;
+        }
+
+        if (is_array($this->value)) {
+            return implode(',', $this->value);
+        }
+
+        return '';
+    }
+
     public function getConditionType(): string
     {
         return $this->conditionType;

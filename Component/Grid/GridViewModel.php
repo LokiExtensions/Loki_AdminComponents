@@ -359,16 +359,9 @@ class GridViewModel extends ComponentViewModel
         $values = [];
         foreach ($this->getGridFilters() as $gridFilter) {
             $gridFilterState = $this->getState()->getFilterState($gridFilter->getCode());
-            $value = $gridFilterState instanceof FilterState ? $gridFilterState->getValue() : null;
-
-            // @todo: This needs to be moved elsewhere, perhaps default value of Filter class?
-            if ($gridFilter->getConditionType() === 'from_to' && $value === null) {
-                $value = [
-                    'from' => null,
-                    'to' => null
-                ];
-            }
-
+            $value = $gridFilterState instanceof FilterState
+                ? $gridFilterState->getValue()
+                : $gridFilter->getDefaultValue();
             $values[$gridFilter->getCode()] = $value;
         }
 

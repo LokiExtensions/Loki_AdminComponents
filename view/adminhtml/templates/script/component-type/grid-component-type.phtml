@@ -22,24 +22,24 @@ use Magento\Framework\View\Element\Template;
         toggleOtherActions() {
             this.showOtherActions = !this.showOtherActions;
         },
-        setGridFilter(event) {
-            const value = event.target.value;
-            const name = event.target.name;
-            this.gridFilters[name] = value;
-
-            this.post({
-                filter: {
-                    name: name,
-                    value: value,
-                }
-            });
+        setGridFilter() {
+            const value = this.$el.value;
+            const nameParts = this.$el.getAttribute('data-name').split('.');
+            if (nameParts.length > 1) {
+                this.gridFilters[nameParts[0]][nameParts[1]] = value;
+            } else {
+                this.gridFilters[nameParts[0]] = value;
+            }
         },
-        clearFilters() {
+        applyFilters() {
+            this.post({filters: this.gridFilters});
+        },
+        clearFilters() { // @todo: Rename to clearGridFilters
             this.post({
                 clearFilters: true
             });
         },
-        removeFilter() {
+        removeFilter() { // @todo: Rename to removeGridFilter
             const targetFilter = this.$el.getAttribute('data-field');
             if (!targetFilter) {
                 return;

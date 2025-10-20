@@ -15,11 +15,11 @@ class FilterAction implements ActionInterface
 
     public function execute(GridRepository $gridRepository, array $value): void
     {
-        if (!isset($value['filter'])) {
+        if (!isset($value['filters'])) {
             return;
         }
 
-        if (!is_array($value['filter'])) {
+        if (!is_array($value['filters'])) {
             return;
         }
 
@@ -27,17 +27,22 @@ class FilterAction implements ActionInterface
         $gridViewModel = $gridRepository->getComponent()->getViewModel();
         $gridFilters = $gridViewModel->getGridFilters();
 
-        if (false === array_key_exists($value['filter']['name'], $gridFilters)) {
-            return;
+        foreach ($value['filters'] as $filterName => $filterValue) {
+            if (false === array_key_exists($filterName, $gridFilters)) {
+                continue;
+            }
+
+            $gridFilter = $gridFilters[$filterName];
+            if ($gridFilter->isEmpty($filterValue)) {
+                continue;
+            }
+
+            $state = $this->stateManager->get($gridRepository->getNamespace());
+            $state->setFilter(
+                $filterName,
+                $filterValue,
+                $gridFilter->getConditionType(),
+            );
         }
-
-        $gridFilter = $gridFilters[$value['filter']['name']];
-
-        $state = $this->stateManager->get($gridRepository->getNamespace());
-        $state->setFilter(
-            $gridFilter->getCode(),
-            (string)$value['filter']['value'],
-            $gridFilter->getConditionType(),
-        );
     }
 }

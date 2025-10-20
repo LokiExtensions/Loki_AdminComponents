@@ -31,7 +31,7 @@ $fieldType = $field->getFieldType();
                 id="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
                 class="admin__control-text"
                 type="text"
-                data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+                data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.from"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
                 ) ?>"
@@ -53,7 +53,7 @@ $fieldType = $field->getFieldType();
             <input
                 class="admin__control-text"
                 type="text"
-                data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+                data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.to"
                 maxlength="<?= $escaper->escapeHtml(
                     $fieldType->getMaximumLength()
                 ) ?>"

@@ -75,4 +75,30 @@ class Filter implements FilterInterface
 
         return 'input';
     }
+
+    public function getDefaultValue(): mixed
+    {
+        if ($this->getConditionType() === 'from_to') {
+            return [
+                'from' => null,
+                'to' => null,
+            ];
+        }
+
+        return null;
+    }
+
+    public function isEmpty(mixed $value): bool
+    {
+        if ($this->getConditionType() === 'from_to'
+            && is_array($value)
+            && isset($value['from'])
+            && isset($value['to'])
+            && empty($value['from'])
+            && !empty($value['to'])) {
+            return true;
+        }
+
+        return $value === null;
+    }
 }
