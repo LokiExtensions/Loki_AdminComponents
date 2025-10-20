@@ -92,10 +92,8 @@ class Filter implements FilterInterface
     {
         if ($this->getConditionType() === 'from_to'
             && is_array($value)
-            && isset($value['from'])
-            && isset($value['to'])
             && empty($value['from'])
-            && !empty($value['to'])) {
+            && empty($value['to'])) {
             return true;
         }
 
