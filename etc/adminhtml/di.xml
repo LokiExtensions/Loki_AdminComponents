@@ -3,4 +3,8 @@
     <type name="Magento\Framework\App\FrontController">
         <plugin name="Loki_AdminComponents::redirectLokiUrls" type="Loki\AdminComponents\Plugin\RedirectLokiUrlsPlugin"/>
     </type>
+
+    <type name="Magento\Framework\View\Element\Template">
+        <plugin name="Loki_AdminComponents::addCspInlineScripts" type="Loki\AdminComponents\Plugin\AddCspInlineScripts"/>
+    </type>
 </config>
