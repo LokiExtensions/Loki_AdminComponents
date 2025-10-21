@@ -69,9 +69,14 @@ class CollectionHandler implements ProviderHandlerInterface
 
         $search = $gridState->getSearch();
         if (!empty($search)) {
+            $searchFields = [];
+            $searchConditions = [];
             foreach ($gridState->getSearchableFields() as $searchableField) {
-                $provider->addFieldToFilter($searchableField, ['like' => '%'.$search.'%']);
+                $searchFields[] = $searchableField;
+                $searchConditions[] = ['like' => '%'.$search.'%'];
             }
+
+            $provider->addFieldToFilter($searchFields, $searchConditions);
         }
 
         foreach ($gridState->getFilters() as $gridFilter) {
