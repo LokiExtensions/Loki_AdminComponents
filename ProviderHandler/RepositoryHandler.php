@@ -17,6 +17,7 @@ use Magento\Framework\Message\Manager as MessageManager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\DataObject;
 use Magento\Framework\ObjectManagerInterface;
+use ReflectionClass;
 use ReflectionParameter;
 use RuntimeException;
 use Loki\AdminComponents\Grid\State as GridState;
@@ -223,7 +224,7 @@ class RepositoryHandler implements ProviderHandlerInterface
 
     public function getModelClass(object $provider): bool|string
     {
-        $providerReflection = new \ReflectionClass($provider);
+        $providerReflection = new ReflectionClass($provider);
         $methodReflection = $providerReflection->getMethod('save');
 
         /** @var ReflectionParameter $parameter */

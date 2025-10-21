@@ -106,6 +106,10 @@ class GridRepository extends ComponentRepository
         $block = $this->getComponent()->getBlock();
         $resourceModelClass = $block->getResourceModel();
         if (empty($resourceModelClass)) {
+            $resourceModelClass = $this->getProviderHandler()->getResourceModelClass($this->getProvider());
+        }
+
+        if (empty($resourceModelClass)) {
             return null;
         }
 
