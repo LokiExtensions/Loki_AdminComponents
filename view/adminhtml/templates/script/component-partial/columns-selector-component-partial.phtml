@@ -1,0 +1,34 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+?>
+<script>
+    const LokiAdminColumnsSelectorComponentPartial = {
+        activeColumns: null,
+        initActiveColumns() {
+            this.activeColumns = new Set();
+            this.columns.forEach(column => {
+                this.activeColumns.add(column.code);
+            })
+        },
+        isColumnActive() {
+            const columnName = this.$el.getAttribute('data-column');
+            return this.activeColumns.has(columnName);
+        },
+        showColumnsSelector: false,
+        toggleColumnsSelector() {
+            this.showColumnsSelector = !this.showColumnsSelector;
+        },
+        toggleActiveColumn() {
+            const columnName = this.$el.getAttribute('data-column');
+            if (this.activeColumns.has(columnName)) {
+                this.activeColumns.delete(columnName);
+            } else {
+                this.activeColumns.add(columnName);
+            }
+        }
+    }
+</script>

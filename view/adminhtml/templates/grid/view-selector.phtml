@@ -1,0 +1,31 @@
+<div class="admin__action-dropdown-wrap admin__data-grid-action-bookmarks">
+    <button class="admin__action-dropdown" type="button" @click="toggleViewSelector">
+        <span class="admin__action-dropdown-text">Default View</span>
+    </button>
+    <ul class="admin__action-dropdown-menu" x-show="showViewSelector">
+        <li>
+            <div class="action-dropdown-menu-item">
+                <a class="action-dropdown-menu-link">Default View</a>
+            </div>
+        </li>
+
+        <li class="action-dropdown-menu-action action-dropdown-menu-item-last" style="display: none;">
+            <a href="">Save View As...</a>
+            <div class="action-dropdown-menu-item-edit" style="display: none;">
+                <input class="admin__control-text" type="text" aria-label="New View">
+                <div class="action-dropdown-menu-item-actions">
+                    <button class="action-submit" type="button" title="Save all changes">
+                        <span>Submit</span>
+                    </button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .admin__data-grid-action-bookmarks .admin__action-dropdown-menu {
+        display: block;
+        z-index: 1;
+    }
+</style>

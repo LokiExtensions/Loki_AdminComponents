@@ -26,6 +26,10 @@ if (!isset($viewModel)) {
 
                 <div class="admin__data-grid-header">
                     <div class="admin__data-grid-header-row">
+                        <div class="admin__data-grid-actions-wrap">
+                            <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.grid.view-selector') ?>
+                            <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.grid.columns-selector') ?>
+                        </div>
                         <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.grid.filters') ?>
                     </div>
                     <div class="admin__data-grid-header-row">

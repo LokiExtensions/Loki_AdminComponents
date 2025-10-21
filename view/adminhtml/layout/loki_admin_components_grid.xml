@@ -48,6 +48,16 @@
         </block>
 
         <block
+            name="loki-admin.grid.view-selector"
+            template="Loki_AdminComponents::grid/view-selector.phtml">
+        </block>
+
+        <block
+            name="loki-admin.grid.columns-selector"
+            template="Loki_AdminComponents::grid/columns-selector.phtml">
+        </block>
+
+        <block
             name="loki-admin.grid.filters"
             template="Loki_AdminComponents::grid/filters.phtml">
         </block>
@@ -71,6 +81,12 @@
             <block
                 name="loki-admin.script.component-partials.filters" as="filters"
                 template="Loki_AdminComponents::script/component-partial/filters-component-partial.phtml"/>
+            <block
+                name="loki-admin.script.component-partials.view-selector" as="view-selector"
+                template="Loki_AdminComponents::script/component-partial/view-selector-component-partial.phtml"/>
+            <block
+                name="loki-admin.script.component-partials.columns-selector" as="columns-selector"
+                template="Loki_AdminComponents::script/component-partial/columns-selector-component-partial.phtml"/>
         </referenceBlock>
 
         <referenceBlock name="loki.script.component-type">

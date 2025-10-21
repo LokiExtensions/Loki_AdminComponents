@@ -150,6 +150,7 @@ class GridViewModel extends ComponentViewModel
             ...$this->getState()->toArray(),
             'namespace' => $this->getNamespace(),
             'gridFilters' => $this->getGridFilterStateValues(),
+            'columns' => $this->getColumns(),
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),
@@ -171,7 +172,7 @@ class GridViewModel extends ComponentViewModel
     /**
      * @return Column[]
      */
-    private function getAvailableColumns(): array
+    public function getAvailableColumns(): array
     {
         $columns = $this->columnLoader->getColumns($this->getNamespace());
         if (!empty($columns)) {

@@ -4,7 +4,7 @@ namespace Loki\AdminComponents\Grid\Column;
 
 use Magento\Framework\DataObject;
 
-class Column extends DataObject
+class Column extends DataObject implements \JsonSerializable
 {
     public function getLabel(): string
     {
@@ -44,5 +44,14 @@ class Column extends DataObject
     public function __toString(): string
     {
         return $this->getCode();
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'code' => $this->getCode(),
+            'label' => $this->getLabel(),
+            'position' => $this->getPosition(),
+        ];
     }
 }
