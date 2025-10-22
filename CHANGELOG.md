@@ -6,6 +6,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 22 October 2025
+### Fixed
+- Value should be mixed
+- Static filters should not depend upon regular filter interface
+- WIP with columns selection and view selector
+- Make sure CSP is applied to admin scripts
+- Make sure search in multiple search fields are grouped with OR
+- Detect resourceModel for grid repository just like with form repository
+- Fix `from_to` filter being seen as not-empty wrongfully
+- Fix wrong options model
+- Add error message if options is not an OptionSourceInterface
+- Allow button to be defined both via XML layout and custom PHP
+- Extend docs
+- Finalize mass actions
+- Move mass actions from subclasses to XML layout
+- Allow `from_to` with date
+- Filtering of `from_to`
+- Improve way of setting filters via filter builder
+- Proper is equal filtering
+- Allow clear specific filter
+- Allow multiple filters to be set at once
+- Allow for store view filte
+- Allow for setting `field_type` in `grid_filters`
+- Fetch exceptions in filters and reset state
+- Working filter with grid repository
+- WIP with new filtering in repository handler
+- Improve API of grid filters and grid filter states
+- Clear filter actions
+- Add `button_actions` via XML layout
+
 ## [0.3.3] - 17 October 2025
 ### Fixed
 - Better handling of inline edit actions
