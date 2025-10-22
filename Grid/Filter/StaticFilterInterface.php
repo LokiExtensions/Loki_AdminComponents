@@ -7,7 +7,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 interface StaticFilterInterface extends ArgumentInterface
 {
-    public function getValue(): string;
+    public function getValue(): mixed;
     public function getCode(): string;
     public function getConditionType(): string;
 }
