@@ -4,7 +4,6 @@
     "description": "N/A",
     "type": "magento2-module",
     "keywords": [
-        "loki-core",
         "loki-components"
     ],
     "require": {
