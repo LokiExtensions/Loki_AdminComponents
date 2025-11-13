@@ -8,6 +8,14 @@
         <plugin name="Loki_AdminComponents::addCspInlineScripts" type="Loki\AdminComponents\Plugin\AddCspInlineScripts"/>
     </type>
 
+    <type name="Loki\Components\Filter\FilterRegistry">
+        <arguments>
+            <argument name="filters" xsi:type="array">
+                <item name="security" xsi:type="object">Loki\AdminComponents\Filter\Security</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Loki\AdminComponents\ViewModel\Form\Field\Editor">
         <arguments>
             <argument name="toolbar" xsi:type="array">

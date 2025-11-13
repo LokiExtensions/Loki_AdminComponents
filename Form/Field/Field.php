@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\Form\Field;
 
+use Loki\AdminComponents\Form\Field\FieldType\Editor;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
 
@@ -28,6 +29,15 @@ class Field extends DataObject
     public function isRequired(): bool
     {
         return (bool)$this->getData('required');
+    }
+
+    public function allowHtml(): bool
+    {
+        if ($this->getFieldType() instanceof Editor) {
+            return true;
+        }
+
+        return (bool)$this->getData('allow_html');
     }
 
     public function getScope(): string
