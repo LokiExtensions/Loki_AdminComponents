@@ -23,7 +23,6 @@ class SaveAction implements ActionInterface
         $providerHandler = $formRepository->getProviderHandler();
 
         $item = $formRepository->getItemFromData($value);
-
         foreach ($value['item'] as $propertyKey => $propertyValue) {
             if ($propertyKey === $primaryKey) {
                 continue;
