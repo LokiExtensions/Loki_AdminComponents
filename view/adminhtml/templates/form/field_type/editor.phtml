@@ -1,0 +1,35 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Textarea;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var Textarea $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldAttributes = $field->getFieldAttributes();
+$fieldType = $field->getFieldType();
+$identifier = $field->getScope() . '.' . $field->getCode();
+?>
+<div x-data="LokiAdminFormEditorComponent">
+    <textarea
+        x-ref="editor"
+        class="admin__control-text"
+        name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+        data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+        <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
+            <?= /* @noEscape */
+            $attributeName ?>="<?= /* @noEscape */
+            $attributeValue ?>"
+        <?php endforeach; ?>
+        :value="<?= $escaper->escapeHtml($identifier) ?>"
+        @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
+    ></textarea>
+</div>

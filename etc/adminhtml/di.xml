@@ -7,4 +7,37 @@
     <type name="Magento\Framework\View\Element\Template">
         <plugin name="Loki_AdminComponents::addCspInlineScripts" type="Loki\AdminComponents\Plugin\AddCspInlineScripts"/>
     </type>
+
+    <type name="Loki\AdminComponents\ViewModel\Form\Field\Editor">
+        <arguments>
+            <argument name="toolbar" xsi:type="array">
+                <item name="undo_redo" xsi:type="string">undo redo</item>
+                <item name="blocks" xsi:type="string">blocks</item>
+                <item name="textstyle" xsi:type="string">bold italic backcolor</item>
+                <item name="align" xsi:type="string">alignleft aligncenter</item>
+                <item name="list" xsi:type="string">bullist numlist outdent indent</item>
+                <item name="removeformat" xsi:type="string">removeformat</item>
+                <item name="help" xsi:type="string">help</item>
+            </argument>
+            <argument name="plugins" xsi:type="array">
+                <item name="advlist" xsi:type="string">advlist</item>
+                <item name="autolink" xsi:type="string">autolink</item>
+                <item name="lists" xsi:type="string">lists</item>
+                <item name="link" xsi:type="string">link</item>
+                <item name="image" xsi:type="string">image</item>
+                <item name="charmap" xsi:type="string">charmap</item>
+                <item name="preview" xsi:type="string">preview</item>
+                <item name="anchor" xsi:type="string">anchor</item>
+                <item name="searchreplace" xsi:type="string">searchreplace</item>
+                <item name="visualblocks" xsi:type="string">visualblocks</item>
+                <item name="code" xsi:type="string">code</item>
+                <item name="fullscreen" xsi:type="string">fullscreen</item>
+                <item name="insertdatetime" xsi:type="string">insertdatetime</item>
+                <item name="media" xsi:type="string">media</item>
+                <item name="table" xsi:type="string">table</item>
+                <item name="help" xsi:type="string">help</item>
+                <item name="wordcount" xsi:type="string">wordcount</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

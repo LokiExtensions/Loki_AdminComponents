@@ -1,0 +1,38 @@
+<?php
+declare(strict_types=1);
+
+use Loki\AdminComponents\ViewModel\Form\Field\Editor;
+use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var Editor $editor */
+$editor = $viewModelFactory->create(Editor::class);
+?>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('LokiAdminFormEditorComponent', () => ({
+            editor: null,
+            init() {
+                const item = this.item;
+                const identifier = this.$refs.editor.getAttribute('data-name');
+
+                require(['tinymce'], (tinymce) => {
+                    tinymce.init({
+                        target: this.$refs.editor,
+                        height: 500,
+                        plugins: JSON.parse('<?= $editor->getPluginsAsJson() ?>'),
+                        toolbar: '<?= $editor->getToolbarAsString() ?>',
+                        content_style: '<?= $editor->getContentStyle() ?>',
+                        setup(editor) {
+                            editor.on('change keyup input', () => {
+                                item[identifier] = editor.getContent();
+                            });
+                        }
+                    });
+                });
+            }
+        }));
+    });
+</script>

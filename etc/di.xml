@@ -33,6 +33,7 @@
                 <item name="view" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\View</item>
                 <item name="input" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Input</item>
                 <item name="textarea" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Textarea</item>
+                <item name="editor" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Editor</item>
                 <item name="date" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Date</item>
                 <item name="datetime" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Datetime</item>
                 <item name="number" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Number</item>

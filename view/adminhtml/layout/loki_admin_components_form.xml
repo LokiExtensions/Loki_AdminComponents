@@ -29,6 +29,10 @@
             <block
                 name="loki-admin.script.component.form-component" as="form"
                 template="Loki_AdminComponents::script/component/form-component.phtml"/>
+
+            <block
+                name="loki-admin.script.component.editor-component" as="editor"
+                template="Loki_AdminComponents::script/component/editor-component.phtml"/>
         </referenceBlock>
     </body>
 </page>
