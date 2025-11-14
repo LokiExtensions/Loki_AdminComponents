@@ -25,9 +25,7 @@ $identifier = $field->getScope() . '.' . $field->getCode();
         name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
-            <?= /* @noEscape */
-            $attributeName ?>="<?= /* @noEscape */
-            $attributeValue ?>"
+            <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
         <?php endforeach; ?>
         :value="<?= $escaper->escapeHtml($identifier) ?>"
         @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
