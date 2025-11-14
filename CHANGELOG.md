@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 14 November 2025
+### Fixed
+- Add FilterScope to every Filter
+- Add component and scope args to FilterInterface::filter()
+- Basic editor functionality
+- Update composer keywords
+- Update composer keywords
+- Update composer keywords
+
 ## [0.4.0] - 22 October 2025
 ### Fixed
 - Value should be mixed
