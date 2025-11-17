@@ -472,7 +472,7 @@ class GridViewModel extends ComponentViewModel
         $actionsFromBlock = (array)$this->getBlock()->getRowActions();
         if (!empty($actionsFromBlock)) {
             foreach ($actionsFromBlock as $action) {
-                $actions = $this->cellActionFactory->createFromData([
+                $actions[] = $this->cellActionFactory->createFromData([
                     'id' => $item->getId(),
                     ...$action,
                 ]);
