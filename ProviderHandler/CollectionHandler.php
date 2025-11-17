@@ -7,7 +7,6 @@ use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
-use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use RuntimeException;
 use Loki\AdminComponents\Grid\State as GridState;
@@ -21,7 +20,7 @@ class CollectionHandler implements ProviderHandlerInterface
 
     public function match(object $provider): bool
     {
-        return $provider instanceof AbstractCollection;
+        return $provider instanceof AbstractDb;
     }
 
     public function getItem(object $provider, int|string $identifier): DataObject
@@ -125,8 +124,6 @@ class CollectionHandler implements ProviderHandlerInterface
     public function getColumns(object $provider): array
     {
         /** @var AbstractDb $provider */
-        $fields = $provider->getResource()->getUniqueFields();
-
         // @todo: Use this to fetch database columns
         return [];
     }
