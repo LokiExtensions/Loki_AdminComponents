@@ -1,0 +1,13 @@
+<script>
+    function onSelectEntity(event) {
+        console.log('onSelectEntity', event);
+        event.preventDefault();
+        window.parent.postMessage({
+                type: "lokiAdminOnSelectEntity",
+                data: event
+            }
+            , "*"
+        );
+    }
+</script>
+

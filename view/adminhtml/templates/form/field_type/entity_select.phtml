@@ -1,0 +1,103 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Input;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @version 0.4.1 */
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var Input $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldAttributes = $field->getFieldAttributes();
+$fieldType = $field->getFieldType();
+$inputType = $fieldType->getInputType();
+if (isset($fieldAttributes['type'])) {
+    $inputType = $fieldAttributes['type'];
+    unset($fieldAttributes['type']);
+}
+
+// @todo: Escape key does not close popup
+// @todo: Modal effect with _show does not animate
+
+$iframeUrl = $block->getUrl('loki_admin_components/index/entity');
+?>
+<div x-data="LokiAdminFormEntitySelectComponent">
+    <div class="input-with-button">
+        <input
+            class="admin__control-text"
+            type="<?= $escaper->escapeHtml($inputType) ?>"
+            name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+            data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+            <?php foreach ($fieldAttributes as $attributeName => $attributeValue) :?>
+                <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+            <?php endforeach; ?>
+            :value="<?= $escaper->escapeHtml($field->getScope()) ?>
+            .<?= $escaper->escapeHtml($field->getCode()) ?>"
+            @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
+        >
+
+        <button @click="showModalWrapper"><?= __('Select entity') ?></button>
+    </div>
+
+    <template x-teleport="body">
+        <div class="modals-wrapper" x-show="isModalWrapperVisible">
+            <aside
+                role="dialog"
+                x-ref="aside"
+                @keyup.esc="closeWrapper"
+                class="modal-slide"
+                data-role="modal"
+                data-type="popup">
+                <div class="modal-inner-wrap">
+                    <header class="modal-header">
+                        <h1 class="modal-title" data-role="title">
+                            Select an entity
+                        </h1>
+                        <button
+                            @click="closeWrapper"
+                            class="action-close"
+                            type="button">
+                            <span>Close</span>
+                        </button>
+                    </header>
+
+                    <iframe src="<?= $iframeUrl ?>" class="entity-select-iframe"></iframe>
+                </div>
+            </aside>
+            <div class="modals-overlay"></div>
+        </div>
+    </template>
+</div>
+
+<style>
+    .input-with-button {
+        display: flex;
+    }
+
+    .input-with-button .admin__control-text {
+        width: auto !important;
+        flex-grow: 1;
+        margin-right: 4px;
+    }
+
+    .entity-select-iframe {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<script>
+    window.addEventListener("message", (event) => {
+        if (event.data.type === "lokiAdminOnSelectEntity") {
+            console.log("Signal received:", event.data.data);
+        }
+    });
+</script>
+

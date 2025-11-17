@@ -1,0 +1,35 @@
+<?php
+declare(strict_types=1);
+
+use Loki\AdminComponents\ViewModel\Form\Field\Editor;
+use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\View\Element\Template;
+
+/** @version 0.4.1 */
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var Editor $editor */
+$editor = $viewModelFactory->create(Editor::class);
+?>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('LokiAdminFormEntitySelectComponent', () => ({
+            isModalWrapperVisible: false,
+            init() {
+            },
+            showModalWrapper() {
+                this.isModalWrapperVisible = true;
+                document.getElementsByTagName('body')[0].classList.add('_has-modal');
+                this.$refs.aside.classList.add('_show');
+            },
+            closeWrapper() {
+                this.isModalWrapperVisible = false;
+                document.getElementsByTagName('body')[0].classList.remove('_has-modal');
+                this.$refs.aside.classList.remove('_show');
+            },
+            selectEntity() {
+                console.log('selectEntity');
+            }
+        }));
+    });
+</script>

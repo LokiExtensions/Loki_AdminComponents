@@ -33,6 +33,10 @@
             <block
                 name="loki-admin.script.component.editor-component" as="editor"
                 template="Loki_AdminComponents::script/component/editor-component.phtml"/>
+
+            <block
+                name="loki-admin.script.component.entity-select" as="entity-select"
+                template="Loki_AdminComponents::script/component/entity-select-component.phtml"/>
         </referenceBlock>
     </body>
 </page>

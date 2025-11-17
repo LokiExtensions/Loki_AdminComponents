@@ -11,4 +11,10 @@
         viewModel="Loki\AdminComponents\Component\Form\FormViewModel"
         repository="Loki\AdminComponents\Component\Form\FormRepository">
     </group>
+
+    <component
+        name="loki_admin_components.entity_select"
+        viewModel="Loki\AdminComponents\Component\Grid\GridViewModel"
+        repository="Loki\AdminComponents\Component\Grid\GridRepository"
+    />
 </components>

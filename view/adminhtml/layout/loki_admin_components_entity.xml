@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <update handle="overlay_popup"/>
+    <update handle="loki_admin_components_grid"/>
+
+    <body>
+        <referenceContainer name="menu.wrapper" remove="true"/>
+        <referenceContainer name="header" remove="true"/>
+        <referenceContainer name="footer" remove="true"/>
+
+        <referenceContainer name="content">
+            <block
+                name="loki_admin_components.entity_select"
+                template="Loki_AdminComponents::grid.phtml">
+                <arguments>
+                    <argument name="provider" xsi:type="string">Magento\Customer\Model\ResourceModel\Customer\Collection</argument>
+                    <argument name="row_actions" xsi:type="array">
+                        <item name="select" xsi:type="array">
+                            <item name="label" xsi:type="string">Select</item>
+                            <item name="css_class" xsi:type="string">Select</item>
+                            <item name="jsMethod" xsi:type="string">onSelectEntity</item>
+                        </item>
+                    </argument>
+                    <argument name="skip_edit_action" xsi:type="boolean">true</argument>
+                </arguments>
+            </block>
+
+            <block
+                name="loki_admin_components.script.entity_select"
+                template="Loki_AdminComponents::script/entity-select.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>
