@@ -8,6 +8,7 @@ class CellAction
         private string $label,
         private ?string $url = null,
         private ?string $jsMethod = null,
+        private ?string $alpineMethod = null,
     ) {
     }
 
@@ -34,5 +35,15 @@ class CellAction
     public function getJsMethod(): ?string
     {
         return (string)$this->jsMethod;
+    }
+
+    public function hasAlpineMethod(): bool
+    {
+        return !empty($this->alpineMethod);
+    }
+
+    public function getAlpineMethod(): ?string
+    {
+        return (string)$this->alpineMethod;
     }
 }

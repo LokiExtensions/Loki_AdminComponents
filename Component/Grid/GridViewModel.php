@@ -472,19 +472,10 @@ class GridViewModel extends ComponentViewModel
         $actionsFromBlock = (array)$this->getBlock()->getRowActions();
         if (!empty($actionsFromBlock)) {
             foreach ($actionsFromBlock as $action) {
-                $params = ['id' => $item->getId()];
-
-                $url = null;
-                if (isset($action['url'])) {
-                    $url = $this->urlFactory->create()->getUrl($action['url'], $params);
-                }
-
-                $jsMethod = null;
-                if (isset($action['jsMethod'])) {
-                    $jsMethod = $action['jsMethod'];
-                }
-
-                $actions[] = $this->cellActionFactory->create($action['label'], $url, $jsMethod);
+                $actions = $this->cellActionFactory->createFromData([
+                    'id' => $item->getId(),
+                    ...$action,
+                ]);
             }
         }
 
