@@ -132,9 +132,16 @@ $state = $viewModel->getState();
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
+                                        <?php if ($cellAction->hasUrl()): ?>
                                         <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>"><?= $escaper->escapeHtml(
                                                 $cellAction->getLabel()
                                             ) ?></a>
+                                        <?php endif; ?>
+                                        <?php if ($cellAction->hasJsMethod()): ?>
+                                            <a @click="<?= /* @noEscape */ $cellAction->getJsMethod() ?>"><?= $escaper->escapeHtml(
+                                                    $cellAction->getLabel()
+                                                ) ?></a>
+                                        <?php endif; ?>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

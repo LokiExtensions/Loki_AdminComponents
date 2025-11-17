@@ -336,12 +336,30 @@ class GridViewModel extends ComponentViewModel
         return $massActions;
     }
 
+    /**
+     * @deprecated Use getEditAction() instead
+     */
     public function getRowAction(DataObject $item): CellAction
+    {
+        return $this->getEditAction($item);
+    }
+
+    public function getEditAction(DataObject $item): CellAction
     {
         // @todo: Retrieve ID from primary key
         $editUrl = $this->getEditUrl(['id' => $item->getId()]);
 
-        return $this->cellActionFactory->create($editUrl, 'Edit');
+        return $this->cellActionFactory->create($this->getEditLabel(), $editUrl);
+    }
+
+    private function getEditLabel(): string
+    {
+        $editLabel = $this->getBlock()->getEditLabel();
+        if (!empty($editLabel)) {
+            return $editLabel;
+        }
+
+        return 'Edit';
     }
 
     /**
@@ -403,6 +421,11 @@ class GridViewModel extends ComponentViewModel
         return $values;
     }
 
+    /**
+     * @param DataObject $item
+     *
+     * @return CellAction[]
+     */
     public function getCellActions(DataObject $item): array
     {
         if (false === $this->allowActions()) {
@@ -410,10 +433,19 @@ class GridViewModel extends ComponentViewModel
         }
 
         $cellActions = [];
-        $cellActions[] = $this->getRowAction($item);
+
+        if (false === $this->skipEditAction()) {
+            $cellActions[] = $this->getEditAction($item);
+        }
+
         $cellActions = array_merge($cellActions, $this->getAdditionalActions($item));
 
         return $cellActions;
+    }
+
+    private function skipEditAction(): bool
+    {
+        return (bool) $this->getBlock()->getSkipEditAction();
     }
 
     public function allowActions(): bool
@@ -441,8 +473,18 @@ class GridViewModel extends ComponentViewModel
         if (!empty($actionsFromBlock)) {
             foreach ($actionsFromBlock as $action) {
                 $params = ['id' => $item->getId()];
-                $url = $this->urlFactory->create()->getUrl($action['url'], $params);
-                $actions[] = $this->cellActionFactory->create($url, $action['label']);
+
+                $url = null;
+                if (isset($action['url'])) {
+                    $url = $this->urlFactory->create()->getUrl($action['url'], $params);
+                }
+
+                $jsMethod = null;
+                if (isset($action['jsMethod'])) {
+                    $jsMethod = $action['jsMethod'];
+                }
+
+                $actions[] = $this->cellActionFactory->create($action['label'], $url, $jsMethod);
             }
         }
 

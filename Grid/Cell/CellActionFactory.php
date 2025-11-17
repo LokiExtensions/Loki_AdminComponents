@@ -11,11 +11,12 @@ class CellActionFactory
     ) {
     }
 
-    public function create(string $url, string $label): CellAction
+    public function create(string $label, ?string $url = null, ?string $jsMethod = null): CellAction
     {
         return $this->objectManager->create(CellAction::class, [
-            'url' => $url,
             'label' => $label,
+            'url' => $url,
+            'jsMethod' => $jsMethod,
         ]);
     }
 }
