@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2] - 21 November 2025
+### Fixed
+- First draft of new entity select field
+- Allow both Alpine method and regular JS call in cell actions
+- Allow for cell actions to be Alpine methods as well
+- Allow for using EAV collection as provider
+
 ## [0.4.1] - 14 November 2025
 ### Fixed
 - Add FilterScope to every Filter
