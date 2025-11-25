@@ -1,0 +1,29 @@
+{
+  "component": "Magento_Ui/js/form/element/wysiwyg",
+  "deps": [
+    "cms_page_form.page_form_data_source"
+  ],
+  "provider": "cms_page_form.page_form_data_source",
+  "name": "cms_page_form.cms_page_form.content.content",
+  "dataScope": "data.content",
+  "extendProvider": true,
+  "elementTmpl": "ui/content/content",
+  "validation": {
+    "validate-no-utf8mb4-characters": true
+  },
+  "template": "ui/form/field",
+  "content": "<div>Hello World</div>",
+  "wysiwygId": "cms_page_form_content",
+  "formElement": "wysiwyg",
+  "wysiwyg": true,
+  "label": "",
+  "notice": "Note: Keyboard shortcut to activate editor help : Alt + 0 (Windows) or ⌥0 (MacOS)",
+  "additionalClasses": {
+    "admin__field-wide": true
+  },
+  "source": "page",
+  "index": "content",
+  "parentName": "cms_page_form.cms_page_form.content",
+  "parentScope": "data",
+  "componentType": "form.wysiwyg"
+}

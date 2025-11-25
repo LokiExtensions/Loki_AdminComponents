@@ -1,0 +1,85 @@
+<?php declare(strict_types=1); /** @version 0.4.2 */ use Loki\AdminComponents\ViewModel\Form\Field\Editor; use Loki\Components\Factory\ViewModelFactory; use Magento\Framework\View\Element\Template; /** @var Template $block */ /** @var ViewModelFactory $viewModelFactory */ /** @var Editor $editor */ $editor = $viewModelFactory->create(Editor::class); ?> <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('LokiAdminFormPagebuilderComponent', () => ({
+            wysiwygInstance: null,
+            init() {
+                const item = this.item;
+                const elementId = this.$refs.textarea.getAttribute('id');
+                const componentName = this.$refs.textarea.getAttribute('data-component-scope');
+                
+                const componentConfig = JSON.parse('<?= $editor->getComponentConfigAsJson() ?>');
+
+                return;
+                require([
+                    'uiLayout',
+                    'uiRegistry',
+                ], (layout, registry) => {
+                    var componentsConfig = [{
+                        name: componentName,
+                        component: 'Magento_Ui/js/form/element/text',
+                        content: 'Hello World',
+                        template: 'ui/form/field',
+                        config: {
+                            template: 'ui/form/field',
+                        },
+                    }];
+
+                    layout(componentsConfig);
+
+                    
+                    
+                    
+                    
+                    return;
+                })
+
+                return;
+                require([
+                    'Magento_Ui/js/form/element/wysiwyg',
+                    'ko',
+                    'uiRegistry',
+                    'uiLayout'
+                ], (wysiwyg, ko, registry, layout) => {
+                    const config = {
+                        ...componentConfig,
+                        name: componentName,
+                        suffixRegExpPattern: false,
+                        elementSelector: '#' + elementId,
+                        content: this.$refs.textarea.value || '',
+                        dataScope: 'content', 
+                        wysiwygConfigData: Object.assign({
+                            height: '300px', 
+                            add_variables: true,
+                            add_widgets: true,
+                            add_images: true,
+                            add_directives: true
+                        }, wysiwygConfigData)
+                    };
+
+                    var componentsConfig = [{
+                        name: componentName,
+                        component: 'Magento_Ui/js/form/element/wysiwyg',
+                        config: config,
+                    }];
+
+                    layout(componentsConfig);
+                    return;
+
+
+                    if (!this.wysiwygInstance) {
+
+                        this.wysiwygInstance = new wysiwyg(config, {});
+
+                        const component = registry.get(componentName);
+                        if (!component) {
+                            registry.set(componentName, wysiwyg);
+                        }
+                    }
+                });
+            },
+            setValuePageBuilder(event) {
+                this.setValue(event);
+                event.target.dispatchEvent(new Event('change', { bubbles: true })); 
+            }
+        }));
+    });</script>

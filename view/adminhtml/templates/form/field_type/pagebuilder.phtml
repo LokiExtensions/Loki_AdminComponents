@@ -1,0 +1,61 @@
+<?php declare(strict_types=1);
+
+/** @version 0.4.2 */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\Textarea;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var Textarea $fieldType */
+/** @var TemplateRenderer $templateRenderer */
+
+$field = $block->getField();
+$fieldAttributes = $field->getFieldAttributes();
+$fieldType = $field->getFieldType();
+$identifier = $field->getScope().'.'.$field->getCode();
+$domId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $block->getNameInLayout().'-'.$identifier);
+?>
+<div x-data="LokiAdminFormPagebuilderComponent">
+    <div data-bind="scope: 'LokiAdminFormPagebuilderComponent'">
+        SCOPE CONTAINER
+        <!-- ko template: getTemplate() --><!-- /ko --></div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "LokiAdminFormPagebuilderComponent": {
+                            "component": "Magento_Ui/js/form/element/text",
+                            "template": "ui/form/field",
+                            "elementTmpl": "ui/form/element/textarea",
+                            "inputName": "foobar",
+                            "cols": 30,
+                            "rows": 10,
+                            "focused": false,
+                            "noticeId": "",
+                            "placeholder": "",
+                            "valueUpdate": ""
+                        }
+                    }
+                }
+            }
+        }</script>
+    <textarea
+        x-ref="textarea"
+        class="admin__control-text"
+        name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+        id="<?= $escaper->escapeHtml($domId) ?>"
+        data-scope="<?= $escaper->escapeHtml($field->getScope()) ?>"
+        data-code="<?= $escaper->escapeHtml($field->getCode()) ?>"
+        data-component-scope="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?> <?= /* @noEscape */
+        $attributeName ?>="<?= /* @noEscape */
+        $attributeValue ?>"
+    <?php endforeach; ?> :value="<?= $escaper->escapeHtml($identifier) ?>"
+    @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>PageBuilder"
+    ></textarea></div>
