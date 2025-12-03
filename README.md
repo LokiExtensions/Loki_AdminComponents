@@ -42,7 +42,7 @@ In your new XML layout file, add the following:
 
 And you're done. After refreshing the Magento cache, you now have a product grid.
 
-Refer to the [documentation](loki-extensions.com/docs/admin-components) for fine-tuning this grid.
+Refer to the [documentation](https://loki-extensions.com/docs/admin-components/grid) for fine-tuning this grid.
 
 ## Getting started with a form
 Again, first create a module that generates a page in the Admin Panel (`etc/module.xml`, `registration.php`, a backend controller action class, perhaps `acl.xml` and `menu.xml`).
@@ -72,7 +72,7 @@ In your new XML layout file, add the following:
 
 And you're done. After refreshing the Magento cache, you now have a basic product form.
 
-Refer to the [documentation](loki-extensions.com/docs/admin-components) for fine-tuning this form.
+Refer to the [documentation](https://loki-extensions.com/docs/admin-components/form) for fine-tuning this form.
 
 ## Examples
 As a demo, you could opt to install the following examples:
@@ -110,7 +110,7 @@ As a demo, you could opt to install the following examples:
 - ... (more docs coming soon)
 
 ### Documentation
-See [loki-extensions.com/docs/admin-components](https://loki-extensions.com/docs/admin-components)
+See [https://loki-extensions.com/docs/admin-components](https://loki-extensions.com/docs/admin-components)
 
 # Todo
 - Extension Attributes
