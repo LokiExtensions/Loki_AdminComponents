@@ -133,23 +133,25 @@ $state = $viewModel->getState();
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
                                         <?php if ($cellAction->hasUrl()): ?>
-                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>"><?= $escaper->escapeHtml(
-                                                $cellAction->getLabel()
-                                            ) ?></a>
+                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>">
+                                            <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
+                                        </a>
                                         <?php endif; ?>
+
                                         <?php if ($cellAction->hasJsMethod()): ?>
                                             <a
                                                 data-id="<?= $item->getId() ?>"
-                                                onClick="<?= /* @noEscape */ $cellAction->getJsMethod() ?>"><?= $escaper->escapeHtml(
-                                                    $cellAction->getLabel()
-                                                ) ?></a>
+                                                onClick="<?= /* @noEscape */ $cellAction->getJsMethod() ?>"><
+                                                <?= $escaper->escapeHtml( $cellAction->getLabel()) ?>
+                                            </a>
                                         <?php endif; ?>
+
                                         <?php if ($cellAction->hasAlpineMethod()): ?>
                                             <a
                                                 data-id="<?= $item->getId() ?>"
-                                                @click="<?= /* @noEscape */ $cellAction->getAlpineMethod() ?>"><?= $escaper->escapeHtml(
-                                                    $cellAction->getLabel()
-                                                ) ?></a>
+                                                @click="<?= /* @noEscape */ $cellAction->getAlpineMethod() ?>">
+                                                <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
+                                            </a>
                                         <?php endif; ?>
                                     </li>
                                 <?php endforeach; ?>
