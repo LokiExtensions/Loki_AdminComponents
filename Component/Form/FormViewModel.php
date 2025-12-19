@@ -2,18 +2,20 @@
 
 namespace Loki\AdminComponents\Component\Form;
 
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldFactory;
+use Loki\AdminComponents\Form\FieldResolver;
+use Loki\AdminComponents\Form\Fieldset\Fieldset;
+use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
 use Loki\AdminComponents\Form\ItemConvertorInterface;
+use Loki\AdminComponents\Ui\Button;
+use Loki\AdminComponents\Ui\ButtonFactory;
+use Loki\Components\Component\ComponentViewModel;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
-use Magento\Framework\View\Element\Template;
-use Loki\AdminComponents\Form\Field\Field;
-use Loki\AdminComponents\Form\Field\FieldFactory;
-use Loki\AdminComponents\Ui\Button;
-use Loki\AdminComponents\Ui\ButtonFactory;
-use Loki\Components\Component\ComponentViewModel;
 
 /**
  * @method FormRepository getRepository()
@@ -25,7 +27,9 @@ class FormViewModel extends ComponentViewModel
         protected ButtonFactory $buttonFactory,
         protected ObjectManagerInterface $objectManager,
         protected FieldFactory $fieldFactory,
+        protected FieldsetFactory $fieldsetFactory,
         protected RequestInterface $request,
+        protected FieldResolver $fieldResolver,
         protected array $itemFilters = [],
     ) {
     }
@@ -89,93 +93,60 @@ class FormViewModel extends ComponentViewModel
     }
 
     /**
-     * @return Field[]
-     * @throws LocalizedException
-     * @todo Move this to Form
+     * @return Fieldset[]
      */
-    public function getFields(): array
+    public function getFieldsets(): array
     {
-        $resourceModel = $this->getRepository()->getResourceModel();
-        if (!$resourceModel) {
-            return [];
-        }
+        $fieldsets = [];
+        $fieldsets['base'] = $this->fieldsetFactory->create('base');
 
-        $fieldDefinitions = (array)$this->getBlock()->getFields();
-
-        $fields = [];
-        $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
-
-        foreach ($tableColumns as $tableColumn) {
-            $columnName = $tableColumn['COLUMN_NAME'];
-            $fieldType = $this->getFieldTypeCodeFromColumn($tableColumn);
-            if ($columnName === $resourceModel->getIdFieldName()) {
-                $fieldType = 'view';
+        $fieldsetDefinitions = (array)$this->getBlock()->getFieldsets();
+        foreach ($fieldsetDefinitions as $fieldsetCode => $fieldsetDefinition) {
+            if (empty($fieldsetCode)) {
+                $fieldsetCode = 'base';
             }
 
-            $fieldLabel = $this->getLabelByColumn($tableColumn['COLUMN_NAME']);
-            $code = $tableColumn['COLUMN_NAME'];
-
-            if (empty($fieldType)) {
-                // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
+            if (array_key_exists($fieldsetCode, $fieldsets)) {
                 continue;
             }
 
-            $block = $this->getBlock()->getLayout()->createBlock(Template::class);
-            $fieldData = [
-                'field_type' => $fieldType,
-                'code' => $code,
-                'label' => $fieldLabel,
-                'required' => false,
-                'sort_order' => 0,
-                'field_attributes' => [],
-                'label_attributes' => [],
-            ];
+            $fieldsets[$fieldsetCode] = $this->fieldsetFactory->create($fieldsetCode, $fieldsetDefinition['label']);
+        }
 
-            if (array_key_exists($columnName, $fieldDefinitions)) {
-                $fieldDefinition = (array)$fieldDefinitions[$columnName];
-                $fieldData = array_merge($fieldData, $fieldDefinition);
+        $fieldDefinitions = (array)$this->getBlock()->getFields();
+        $fields = $this->fieldResolver->resolve($this->getRepository(), $fieldDefinitions);
+
+        foreach ($fields as $field) {
+            $fieldsetCode = (string)$field->getFieldset();
+
+            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
+                $fieldsets[$fieldsetCode]->addField($field);
+                continue;
             }
 
-            $fields[] = $this->fieldFactory->create(
-                $block,
-                $fieldData,
-            );
+            $fieldsets['base']->addField($field);
         }
 
-        usort($fields, function (Field $field1, Field $field2) {
-            return $field1->getSortOrder() <=> $field2->getSortOrder();
-        });
-
-        return $fields;
+        return $fieldsets;
     }
 
-    private function getFieldTypeCodeFromColumn(array $tableColumn): false|string
+    /**
+     * @return Field[]
+     * @throws LocalizedException
+     * @deprecated Use getFieldsets() instead
+     */
+    public function getFields(): array
     {
-        if ($tableColumn['COLUMN_NAME'] === $this->getRepository()->getPrimaryKey()) {
-            return 'view';
+        $fields = $this->fieldResolver->resolve(
+            $this->getRepository(),
+            (array)$this->getBlock()->getFields(),
+        );
+
+        if (empty($fields)) {
+            return $fields;
         }
 
-        if (in_array($tableColumn['DATA_TYPE'], ['datetime'])) {
-            return 'datetime';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['date'])) {
-            return 'date';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['tinyint'])) {
-            return 'switch';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['int'])) {
-            return 'number';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-            return 'input';
-        }
-
-        return false;
+        return $fields;
     }
 
     private function getIndexUri(): string
@@ -194,15 +165,5 @@ class FormViewModel extends ComponentViewModel
         }
 
         return '*/*/index';
-    }
-
-    private function getLabelByColumn(string $columnName): string
-    {
-        $label = (string)__($columnName);
-        if ($label !== $columnName) {
-            return $label;
-        }
-
-        return ucfirst(str_replace('_', ' ', $label));
     }
 }

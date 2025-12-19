@@ -12,9 +12,10 @@ class FieldsetFactory
     ) {
     }
 
-    public function create(string $label, array $fields = []): Fieldset
+    public function create(string $code, string $label = '', array $fields = []): Fieldset
     {
         return $this->objectManager->create(Fieldset::class, [
+            'code' => $code,
             'label' => $label,
             'fields' => $fields,
         ]);

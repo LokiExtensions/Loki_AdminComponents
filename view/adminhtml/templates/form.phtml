@@ -35,9 +35,20 @@ if (!isset($viewModel)) {
             <div class="entry-edit form-inline">
                 <div class="fieldset-wrapper">
                     <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
+
+                    <?php foreach ($viewModel->getFieldsets() as $fieldset): ?>
                     <div class="admin__fieldset-wrapper-content">
+                        <?php if ($fieldset->hasLabel()): ?>
+                        <div class="fieldset-wrapper-title">
+                            <strong class="admin__collapsible-title">
+                                <?= $escaper->escapeHtml($fieldset->getLabel()) ?>
+                            </strong>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if ($fieldset->hasFields()): ?>
                         <fieldset class="admin__fieldset">
-                            <?php foreach ($viewModel->getFields() as $field) : ?>
+                            <?php foreach ($fieldset->getFields() as $field) : ?>
                                 <?php if (false === $field->isVisible()) continue; ?>
                                 <?= /* @noEscape */ $templateRenderer->html(
                                     $block,
@@ -46,7 +57,9 @@ if (!isset($viewModel)) {
                                 ); ?>
                             <?php endforeach; ?>
                         </fieldset>
+                        <?php endif; ?>
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
