@@ -39,7 +39,7 @@ if (empty($massActions)) {
     <form method="post" x-ref="massActionForm">
         <input type="hidden" name="selected[]" x-ref="massActionFormIds" />
         <input type="hidden" name="namespace" value="<?= $escaper->escapeHtml($viewModel->getNamespace()) ?>" />
-        <input type="hidden" name="loki_redirect_url" value="<?= /* @noEscape */ $viewModel->getIndexUrl() ?>" />
+        <input type="hidden" name="loki_redirect_url" value="<?= /* @noEscape */ $viewModel->getCurrentUrl() ?>" />
         <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
     </form>
 </div>

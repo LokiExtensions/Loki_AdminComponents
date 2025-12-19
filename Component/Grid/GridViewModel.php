@@ -63,6 +63,11 @@ class GridViewModel extends ComponentViewModel
         return $this->getBlock()->getNameInLayout();
     }
 
+    public function getCurrentUrl(): string
+    {
+        return (string)$this->urlFactory->create()->getUrl('*/*/*');
+    }
+
     public function getSearchableFields(): array
     {
         $searchableFields = (array)$this->getBlock()->getSearchableFields();
