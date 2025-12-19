@@ -37,8 +37,7 @@ class FieldResolver
             $code = $tableColumn['COLUMN_NAME'];
 
             if (empty($fieldType)) {
-                // @todo: echo 'Unknown field type: '.$tableColumn['DATA_TYPE'];
-                continue;
+                $fieldType = 'input';
             }
 
             $block = $this->layout->createBlock(Template::class);
@@ -57,7 +56,7 @@ class FieldResolver
                 $fieldData = array_merge($fieldData, $fieldDefinition);
             }
 
-            $fields[$code.$fieldData['sort_order']] = $this->fieldFactory->create(
+            $fields[$code] = $this->fieldFactory->create(
                 $block,
                 $fieldData,
             );

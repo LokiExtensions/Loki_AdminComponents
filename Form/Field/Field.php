@@ -83,6 +83,11 @@ class Field extends DataObject
 
     public function isVisible(): bool
     {
-        return (bool)$this->getData('visible');
+        $visible = $this->getData('visible');
+        if (is_bool($visible)) {
+            return $visible;
+        }
+
+        return true;
     }
 }
