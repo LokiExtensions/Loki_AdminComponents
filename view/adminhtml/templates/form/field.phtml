@@ -29,8 +29,18 @@ if (false === $field instanceof Field) {
     $fieldViewModel = $viewModelFactory->create(FieldViewModel::class);
     $field = $fieldViewModel->getField($block);
 }
+
+if (false === $field->isVisible()) {
+    return;
+}
+
+$depends = $field->getDepends();
+$dependStatement = '';
+if (!empty($depends)) {
+    $dependStatement = 'x-show="item.'.$depends['propertyName'] . " == '".$depends['propertyValue']."'\"";
+}
 ?>
-<div class="admin__field">
+<div class="admin__field" <?= $dependStatement ?>>
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
