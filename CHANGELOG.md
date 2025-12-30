@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.3] - 30 December 2025
+### Fixed
+- Default unknown field types to `input`
+- Add field dependencies
+- Allow for fieldsets
+- Redirect massactions simply to current page
+- WIP UiComponents
+
 ## [0.4.2] - 21 November 2025
 ### Fixed
 - First draft of new entity select field
