@@ -53,9 +53,7 @@ $domId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $block->getNameInLayout().'-'.
         data-scope="<?= $escaper->escapeHtml($field->getScope()) ?>"
         data-code="<?= $escaper->escapeHtml($field->getCode()) ?>"
         data-component-scope="<?= $escaper->escapeHtml($field->getCode()) ?>"
-    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?> <?= /* @noEscape */
-        $attributeName ?>="<?= /* @noEscape */
-        $attributeValue ?>"
+    <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?> <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
     <?php endforeach; ?> :value="<?= $escaper->escapeHtml($identifier) ?>"
     @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>PageBuilder"
     ></textarea></div>
