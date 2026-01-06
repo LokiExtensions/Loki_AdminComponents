@@ -56,9 +56,14 @@ class ArrayHandler implements ProviderHandlerInterface
 
 
         $search = $gridState->getSearch();
+        $searchableFields = $gridState->getSearchableFields();
         if (!empty($search)) {
-            $items = array_filter($items, function (DataObject $item) use ($search) {
-                foreach ($item->getData() as $itemValue) {
+            $items = array_filter($items, function (DataObject $item) use ($search, $searchableFields) {
+                foreach ($item->getData() as $fieldName => $itemValue) {
+                    if($searchableFields && !in_array($fieldName, $searchableFields)) {
+                        continue;
+                    }
+
                     if (is_string($itemValue) && str_contains($itemValue, $search)) {
                         return true;
                     }
@@ -66,6 +71,33 @@ class ArrayHandler implements ProviderHandlerInterface
 
                 return false;
             });
+        }
+
+        foreach($gridState->getFilters() as $filter) {
+            $items = match($filter->getConditionType()) {
+                'like' => array_filter($items, function (DataObject $item) use ($filter) {
+                    return str_contains((string)$item->getData($filter->getField()), (string)$filter->getValue());
+                }),
+                'equals' => array_filter($items, function (DataObject $item) use ($filter) {
+                    return (string)$item->getData($filter->getField()) === (string)$filter->getValue();
+                }),
+                'from_to' => array_filter($items, function (DataObject $item) use ($filter) {
+                    $fieldValue = $item->getData($filter->getField());
+
+                    $from = $filter->getValue()['from'] ?? '';
+                    if ($from !== '' && $fieldValue < $from) {
+                        return false;
+                    }
+
+                    $to = $filter->getValue()['to'] ?? '';
+                    if ($to !== '' && $fieldValue > $to) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+                default => $items
+            };
         }
 
         $sortField = $gridState->getSortBy();
