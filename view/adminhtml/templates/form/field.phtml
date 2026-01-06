@@ -44,6 +44,9 @@ if (!empty($depends)) {
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
+            <?php if ($field->isRequired()): ?>
+                <span style="color:red">*</span>
+            <?php endif; ?>
         </label>
     </div>
 

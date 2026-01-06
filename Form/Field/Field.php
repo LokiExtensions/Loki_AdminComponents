@@ -67,7 +67,13 @@ class Field extends DataObject
 
     public function getFieldAttributes(): array
     {
-        return (array)$this->getData('field_attributes');
+        $fieldAttributes = (array)$this->getData('field_attributes');
+
+        if ($this->isRequired()) {
+            $fieldAttributes['required'] = null;
+        }
+
+        return $fieldAttributes;
     }
 
     public function getLabelAttributes(): array

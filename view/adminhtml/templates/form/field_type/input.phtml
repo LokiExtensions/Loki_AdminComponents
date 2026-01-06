@@ -30,7 +30,11 @@ if (isset($fieldAttributes['type'])) {
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
-        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+        <?php if ($attributeValue === null): ?>
+            <?= /* @noEscape */ $attributeName ?>
+        <?php else: ?>
+            <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+        <?php endif; ?>
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
