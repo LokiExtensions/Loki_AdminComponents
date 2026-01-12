@@ -13,7 +13,8 @@ jobs:
 
       - name: Run Magento 2 PHPCS Tests
         run: |
-          export PHPCS_LEVEL=$(jq -r '.phpcs_severity // 10' MODULE.json)
+          PHPCS_LEVEL=${{ env.PHPCS_LEVEL }}
+          test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=$(jq -r '.phpcs_severity // 10' MODULE.json)
           test -z "$PHPCS_LEVEL" && PHPCS_LEVEL=10
           echo "Testing for PHPCS severity $PHPCS_LEVEL"
           cd /tmp/magento
