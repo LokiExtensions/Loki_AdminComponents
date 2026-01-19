@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\View\Element\Template;
@@ -8,16 +9,64 @@ use Magento\Framework\View\Element\Template;
 /** @version 0.4.4 */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
-/** @var Editor $editor */
-$editor = $viewModelFactory->create(Editor::class);
+
+$ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
+    'namespace' => 'customer_listing',
+    'sorting[field]' => 'entity_id',
+    'sorting[direction]' => 'asc',
+    'search' => '',
+    'keywordUpdated' => false,
+    'filters[placeholder]' => true,
+    'paging[pageSize]' => 20,
+    'paging[current]' => 1,
+    'isAjax' => 'true',
+]);
+
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormEntitySelectComponent', () => ({
             isModalWrapperVisible: false,
+            currentEntityCode: '',
+            currentEntityLabel: '',
+            totalEntities: 0,
+            entities: [],
             init() {
+                if (this.isModalWrapperVisible) {
+                    this.loadEntities();
+                }
+            },
+            hasEntities() {
+                return this.totalEntities > 0;
+            },
+            loadEntities() {
+                fetch(this.getAjaxUrl(), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.entities = data.items;
+                        this.totalEntities = data.totalRecords;
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
+            },
+            getAjaxUrl() {
+                return '<?= $ajaxUrl ?>';
             },
             showModalWrapper() {
+                this.loadEntities();
                 this.isModalWrapperVisible = true;
                 document.getElementsByTagName('body')[0].classList.add('_has-modal');
                 this.$refs.aside.classList.add('_show');
@@ -27,8 +76,11 @@ $editor = $viewModelFactory->create(Editor::class);
                 document.getElementsByTagName('body')[0].classList.remove('_has-modal');
                 this.$refs.aside.classList.remove('_show');
             },
-            selectEntity() {
-                console.log('selectEntity');
+            selectEntity(entity) {
+                this.value = entity[entity.id_field_name];
+                this.currentEntityLabel = entity[entity.name];
+                console.log('selectEntity', this.value);
+                this.closeWrapper();
             }
         }));
     });

@@ -1,0 +1,177 @@
+<?php
+declare(strict_types=1);
+
+/** @version 0.4.4 */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Component\Grid\GridViewModel;
+use Loki\Components\Util\Block\TemplateRenderer;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var GridViewModel $viewModel */
+/** @var TemplateRenderer $templateRenderer */
+
+$viewModel = $block->getViewModel();
+$state = $viewModel->getState();
+?>
+<div class="admin__data-grid-wrap" data-role="grid-wrapper">
+    <table class="data-grid" data-role="grid">
+        <thead>
+        <tr x-sort.ghost="repositionColumns">
+            <th class="data-grid-multicheck-cell">
+                <div class="action-multicheck-wrap">
+                    <input
+                        class="admin__control-checkbox"
+                        type="checkbox"
+                        disabled
+                    />
+
+                    <button
+                        class="action-multicheck-toggle"
+                        @click.prevent="toggleSelectedMenu"
+                    >
+                        <span>Options</span>
+                    </button>
+
+                    <ul class="action-menu" x-cloak x-show="showSelectedMenu">
+                        <li @click.prevent="selectAll">
+                            <span class="action-menu-item">Select All</span>
+                        </li>
+
+                        <li @click.prevent="deselectAll">
+                            <span class="action-menu-item">Deselect All</span>
+                        </li>
+
+                        <li @click.prevent="selectAllOnPage">
+                            <span class="action-menu-item">Select All on This Page</span>
+                        </li>
+
+                        <li @click.prevent="deselectAllOnPage">
+                            <span class="action-menu-item">Deselect All on This Page</span>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <?php
+            $i = 1;
+            foreach ($viewModel->getColumns() as $column): ?>
+                <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
+                    continue;
+                } ?>
+                <?php
+                $additionalCss = '';
+                if ($column->getCode() === $state->getSortBy()) {
+                    $additionalCss .= $state->getSortDirection(
+                    ) === AbstractDb::SORT_ORDER_ASC ? '_ascend' : '_descend';
+                }
+                ?>
+                <th
+                    class="data-grid-th _sortable <?= $escaper->escapeHtml($additionalCss) ?>"
+                    data-column="<?= $escaper->escapeHtml($column->getCode()) ?>"
+                    @click.prevent="sortColumn"
+                    x-sort:item="'<?= $escaper->escapeHtml($viewModel->getJsComponentId()) ?>.<?= $escaper->escapeHtml(
+                        $column->getCode()
+                    ) ?>'">
+                    <span class="data-grid-cell-content"><?= $escaper->escapeHtml(__($column->getLabel())) ?></span>
+                </th>
+                <?php
+                $i++;
+            endforeach; ?>
+            <?php if ($viewModel->allowActions()): ?>
+                <th class="data-grid-th">
+                    <span class="pointer data-grid-cell-content"><?= $escaper->escapeHtml(__('Actions')) ?></span>
+                </th>
+            <?php endif; ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $i = 0; ?>
+        <?php foreach ($viewModel->getItems() as $item): ?>
+            <?php $cellActions = $viewModel->getCellActions($item); ?>
+            <?php $trClass = ($i % 2 === 1) ? '_odd-row' : '_even-row'; ?>
+            <tr class="data-row <?= $escaper->escapeHtml($trClass) ?>">
+                <td class="data-grid-checkbox-cell">
+                    <label class="data-grid-checkbox-cell-inner">
+                        <input
+                            class="admin__control-checkbox"
+                            type="checkbox"
+                            :checked="isSelected"
+                            @change="toggleSelectedId"
+                            data-row-id="<?= $escaper->escapeHtml($item->getId()) ?>">
+                        <label></label>
+                    </label>
+                </td>
+                <?php foreach ($viewModel->getColumns() as $column): ?>
+                    <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
+                        continue;
+                    } ?>
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
+                            <?php $cellTemplate = $viewModel->getCellTemplate($item, $column) ?>
+                            <?php $value = $viewModel->getValueFromItem($item, $column->getCode()); ?>
+                            <?= /* @noEscape */ $templateRenderer->html(
+                                $block,
+                                $cellTemplate,
+                                [
+                                    'item' => $item,
+                                    'value' => $value,
+                                    'empty_value' => $column->getEmptyValue(),
+                                    'column_name' => $column->getCode(),
+                                ]
+                            ) ?>
+                        </div>
+                    </td>
+                <?php endforeach; ?>
+
+                <?php if ($viewModel->allowActions()): ?>
+                    <td class="data-grid-cell">
+                        <div class="data-grid-cell-content">
+                            <ul>
+                                <?php foreach ($cellActions as $cellAction): ?>
+                                    <li>
+                                        <?php if ($cellAction->hasUrl()): ?>
+                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>">
+                                            <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
+                                        </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($cellAction->hasJsMethod()): ?>
+                                            <a
+                                                data-id="<?= $item->getId() ?>"
+                                                onClick="<?= /* @noEscape */ $cellAction->getJsMethod() ?>"><
+                                                <?= $escaper->escapeHtml( $cellAction->getLabel()) ?>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($cellAction->hasAlpineMethod()): ?>
+                                            <a
+                                                data-id="<?= $item->getId() ?>"
+                                                @click="<?= /* @noEscape */ $cellAction->getAlpineMethod() ?>">
+                                                <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </td>
+                <?php endif; ?>
+            </tr>
+            <?php $i++; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .action-menu {
+        display: block;
+    }
+
+    .loki-grid .data-grid .data-grid-th._sortable {
+        z-index: auto;
+    }
+</style>

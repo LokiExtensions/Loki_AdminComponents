@@ -1,11 +1,19 @@
 <?php
 declare(strict_types=1);
 
-use Magento\Framework\Escaper;
-use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Input;
+use Loki\Components\Component\Component;
+use Loki\Components\Component\ComponentContext;
+use Loki\Components\Factory\ViewModelFactory;
 use Loki\Components\Util\Block\TemplateRenderer;
+use Magento\Customer\Model\ResourceModel\Customer;
+use Magento\Customer\Model\ResourceModel\Customer\Collection;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
 
 /** @version 0.4.4 */
 /** @var Escaper $escaper */
@@ -13,6 +21,7 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var Field $field */
 /** @var Input $fieldType */
 /** @var TemplateRenderer $templateRenderer */
+/** @var ViewModelFactory $viewModelFactory */
 
 $field = $block->getField();
 $fieldAttributes = $field->getFieldAttributes();
@@ -23,10 +32,28 @@ if (isset($fieldAttributes['type'])) {
     unset($fieldAttributes['type']);
 }
 
+/** @var Component $component */
+$block->setNamespace('customer_listing');
+$block->setResourceModel(Customer::class);
+$block->setProvider(ObjectManager::getInstance()->get(Collection::class));
+
+$component = ObjectManager::getInstance()->create(Component::class, [
+    'name' => $block->getNameInLayout(),
+    'viewModelClass' => GridViewModel::class,
+    'repositoryClass' => GridRepository::class,
+    'context' => ObjectManager::getInstance()->create(ComponentContext::class),
+]);
+
+/** @var GridViewModel $gridViewModel */
+$gridViewModel = $component->getViewModel();
+$columns = $gridViewModel->getColumns();
+
+$currentId = 1;
+$currentItem = $gridViewModel->getCurrentItem($currentId);
+
 // @todo: Escape key does not close popup
 // @todo: Modal effect with _show does not animate
-
-$iframeUrl = $block->getUrl('loki_admin_components/index/entity');
+$valueCode = $field->getScope() . '.' . $field->getCode();
 ?>
 <div x-data="LokiAdminFormEntitySelectComponent">
     <div class="input-with-button">
@@ -38,8 +65,7 @@ $iframeUrl = $block->getUrl('loki_admin_components/index/entity');
             <?php foreach ($fieldAttributes as $attributeName => $attributeValue) :?>
                 <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
             <?php endforeach; ?>
-            :value="<?= $escaper->escapeHtml($field->getScope()) ?>
-            .<?= $escaper->escapeHtml($field->getCode()) ?>"
+            :value="<?= $escaper->escapeHtml($valueCode) ?>"
             @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
         >
 
@@ -68,7 +94,38 @@ $iframeUrl = $block->getUrl('loki_admin_components/index/entity');
                         </button>
                     </header>
 
-                    <iframe src="<?= $iframeUrl ?>" class="entity-select-iframe"></iframe>
+                    <template x-if="hasEntities">
+                    <div class="admin__data-grid-wrap" data-role="grid-wrapper">
+                        <table class="data-grid" data-role="grid">
+                            <thead>
+                            <tr>
+                                <?php foreach ($columns as $column) : ?>
+                                <th class="data-grid-th">
+                                    <span class="data-grid-cell-content">
+                                        <?= $column->getLabel() ?>
+                                    </span>
+                                </th>
+                                <?php endforeach; ?>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template x-for="entity in entities" :key="entity.entity_id">
+                            <tr class="data-row">
+                                <td class="data-grid-cell">
+                                    <button @click="selectEntity(entity)">Select</button>
+                                </td>
+                                <?php foreach ($columns as $column) : ?>
+                                    <td class="data-grid-cell">
+                                        <div class="data-grid-cell-content" x-html="entity.<?= $column->getCode() ?>"></div>
+                                    </td>
+                                <?php endforeach; ?>
+                            </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    </template>
+
                 </div>
             </aside>
             <div class="modals-overlay"></div>

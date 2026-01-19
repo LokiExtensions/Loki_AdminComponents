@@ -2,20 +2,16 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
-use Hyva\Admin\ViewModel\HyvaGrid\GridFilterInterface;
 use Loki\AdminComponents\Grid\Column\Column;
-use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
 use Loki\AdminComponents\Ui\ButtonInterface;
-use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
-use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Grid\Cell\CellAction;
 use Loki\AdminComponents\Grid\Cell\CellActionFactory;
@@ -25,11 +21,9 @@ use Loki\AdminComponents\Grid\Filter\FilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionInterface;
 use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
-use Loki\AdminComponents\Ui\Button;
 use Loki\AdminComponents\Ui\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Loki\Components\Util\CamelCaseConvertor;
-use RuntimeException;
 
 /**
  * @method GridRepository getRepository()
@@ -96,6 +90,12 @@ class GridViewModel extends ComponentViewModel
         $this->items[$this->getNamespace()] = $this->getRepository()->getItems();
 
         return $this->items[$this->getNamespace()];
+    }
+
+    // @todo: Move this to child-class EntitySelectViewModel
+    public function getCurrentItem(int|string $currentId)
+    {
+        return $this->getRepository()->getProviderHandler()->getItem($this->getBlock()->getProvider(), $currentId);
     }
 
     public function applyStaticFilters(): void
