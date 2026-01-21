@@ -95,7 +95,7 @@ class GridViewModel extends ComponentViewModel
     // @todo: Move this to child-class EntitySelectViewModel
     public function getCurrentItem(int|string $currentId)
     {
-        return $this->getRepository()->getProviderHandler()->getItem($this->getBlock()->getProvider(), $currentId);
+        return $this->getRepository()->getProviderHandler()->getItem($this->getRepository()->getProvider(), $currentId);
     }
 
     public function applyStaticFilters(): void

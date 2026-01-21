@@ -7,30 +7,21 @@ use Magento\Framework\View\Element\Template;
 /** @version 0.4.4 */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
-
-$ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
-    'namespace' => 'customer_listing',
-    'sorting[field]' => 'entity_id',
-    'sorting[direction]' => 'asc',
-    'keywordUpdated' => false,
-    'filters[placeholder]' => true,
-    'paging[pageSize]' => 20,
-    'paging[current]' => 1,
-    'isAjax' => 'true',
-]);
-
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormEntitySelectComponent', () => ({
+            ...LokiLoadDataComponentPartial,
             isModalWrapperVisible: false,
             currentEntityCode: '',
             currentEntityLabel: '',
             totalEntities: 0,
+            ajaxUrl: '',
             valueCode: 'value',
             search: '',
             entities: [],
             init() {
+                this.loadData();
                 this.valueCode = this.$root.getAttribute('data-value-code');
 
                 if (this.isModalWrapperVisible) {
@@ -51,12 +42,7 @@ $ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
                 return !this.hasEntities();
             },
             loadEntities() {
-                let ajaxUrl = this.getAjaxUrl();
-                if (this.search) {
-                    ajaxUrl += '&search=' + this.search;
-                }
-
-                fetch(ajaxUrl, {
+                fetch(this.getAjaxUrl(), {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -79,7 +65,12 @@ $ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
                     });
             },
             getAjaxUrl() {
-                return '<?= $ajaxUrl ?>';
+                let ajaxUrl = this.ajaxUrl;
+                if (this.search) {
+                    ajaxUrl += '&search=' + this.search;
+                }
+
+                return ajaxUrl;
             },
             showModalWrapper() {
                 this.loadEntities();

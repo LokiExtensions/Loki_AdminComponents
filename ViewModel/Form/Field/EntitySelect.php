@@ -5,10 +5,9 @@ namespace Loki\AdminComponents\ViewModel\Form\Field;
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Grid\Column\Column;
 use Loki\Components\Component\Component;
 use Loki\Components\Component\ComponentContext;
-use Magento\Customer\Model\ResourceModel\Customer;
-use Magento\Customer\Model\ResourceModel\Customer\Collection;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
@@ -36,9 +35,22 @@ class EntitySelect implements ArgumentInterface
         return 'Select entity';
     }
 
+    public function getModalTitle(): string
+    {
+        $modalTitle = $this->getField()->getModalTitle();
+        if (!empty($modalTitle)) {
+            return $modalTitle;
+        }
+
+        return $this->getButtonLabel();
+    }
+
     public function getColumns(): array
     {
-        return $this->getGridViewModel()->getColumns();
+        $columns = $this->getGridViewModel()->getColumns();
+        return array_filter($columns, function (Column $column) {
+            return $column->getCode() !== 'ids';
+        });
     }
 
     public function getCurrentItem()
@@ -48,19 +60,45 @@ class EntitySelect implements ArgumentInterface
         return $currentItem;
     }
 
+    public function getJsData(): array
+    {
+        return [
+            'ajaxUrl' => $this->getAjaxUrl(),
+            'valueCode' => $this->getValueCode(),
+        ];
+    }
+
+    public function getJsonData(): string
+    {
+        return json_encode($this->getJsData());
+    }
+
+    private function getNamespace(): string
+    {
+        return (string)$this->getField()->getNamespace();
+    }
+
     private function getGridViewModel(): GridViewModel
     {
-        $block = $this->block->getLayout()->createBlock(Template::class);
-
-        /** @var Component $component */
-        $namespace = $this->getField()->getNamespace();
-        if ($namespace) {
-            $block->setNamespace($namespace);
+        $gridViewModel = null;
+        if ($gridViewModel instanceof GridViewModel) {
+            return $gridViewModel;
         }
 
-        $block->setResourceModel(Customer::class);
-        $block->setProvider(ObjectManager::getInstance()->get(Collection::class));
+        $block = $this->block->getLayout()->createBlock(Template::class);
+        $block->setNamespace($this->getNamespace());
 
+        $resourceModel = $this->getField()->getResourceModel();
+        if ($resourceModel) {
+            $block->setResourceModel($resourceModel);
+        }
+
+        $provider = $this->getField()->getProvider();
+        if ($provider) {
+            $block->setProvider($provider);
+        }
+
+        /** @var Component $component */
         $component = ObjectManager::getInstance()->create(Component::class, [
             'name' => $block->getNameInLayout(),
             'viewModelClass' => GridViewModel::class,
@@ -71,5 +109,24 @@ class EntitySelect implements ArgumentInterface
         /** @var GridViewModel $gridViewModel */
         $gridViewModel = $component->getViewModel();
         return $gridViewModel;
+    }
+
+    public function getValueCode(): string
+    {
+        return $this->getField()->getScope() . '.' . $this->getField()->getCode();
+    }
+
+    public function getAjaxUrl(): string
+    {
+        return $this->block->getUrl('mui/index/render') . '?'.http_build_query([
+                'namespace' => $this->getNamespace(),
+                //'sorting[field]' => 'entity_id',
+                //'sorting[direction]' => 'asc',
+                'keywordUpdated' => false,
+                'filters[placeholder]' => true,
+                'paging[pageSize]' => 20,
+                'paging[current]' => 1,
+                'isAjax' => 'true',
+            ]);
     }
 }

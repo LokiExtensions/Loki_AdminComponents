@@ -27,6 +27,7 @@ $fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
 $inputType = $fieldType->getInputType();
 $buttonLabel = $entitySelect->getButtonLabel();
+$modalTitle = $entitySelect->getModalTitle();
 
 if (isset($fieldAttributes['type'])) {
     $inputType = $fieldAttributes['type'];
@@ -35,7 +36,7 @@ if (isset($fieldAttributes['type'])) {
 
 $columns = $entitySelect->getColumns();
 $currentItem = $entitySelect->getCurrentItem();
-$valueCode = $field->getScope() . '.' . $field->getCode();
+$valueCode = $entitySelect->getValueCode();
 
 // @todo: Modal effect with _show does not animate
 ?>
@@ -44,6 +45,8 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
     @keyup.esc="closeWrapper"
     data-value-code="<?= $valueCode ?>"
 >
+    <script x-ref="initialData" type="text/x-loki-init"><?= $entitySelect->getJsonData() ?></script>
+
     <div class="input-with-button">
         <input
             class="admin__control-text"
@@ -71,7 +74,7 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
                 <div class="modal-inner-wrap" style="padding:20px;">
                     <header class="modal-header">
                         <h1 class="modal-title" data-role="title">
-                            Select an entity
+                            <?= $modalTitle ?>
                         </h1>
                         <button
                             @click="closeWrapper"
@@ -96,8 +99,8 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
                                     aria-label="Search by keyword"
                                 />
 
-                                <button class="action-submit" type="button" data-bind="attr: {'aria-label': $t('Search')}, click: apply.bind($data, false)" aria-label="Search">
-                                    <span data-bind="i18n: 'Search'">Search</span>
+                                <button class="action-submit" type="button" aria-label="Search">
+                                    <span>Search</span>
                                 </button>
                             </div>
                         </div>
