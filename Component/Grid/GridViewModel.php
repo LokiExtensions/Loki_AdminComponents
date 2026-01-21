@@ -195,6 +195,10 @@ class GridViewModel extends ComponentViewModel
         }
 
         $item = array_shift($items);
+        if (false === $item instanceof DataObject) {
+            return [];
+        }
+
         $itemData = $item->getData();
         $columns = [];
         foreach (array_keys($itemData) as $columnName) {
