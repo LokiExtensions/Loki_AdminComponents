@@ -40,7 +40,7 @@ if (!empty($depends)) {
     $dependStatement = 'x-show="item.'.$depends['propertyName'] . " == '".$depends['propertyValue']."'\"";
 }
 ?>
-<div class="admin__field" <?= $dependStatement ?>>
+<div class="admin__field" <?= $escaper->escapeHtml($dependStatement) ?>>
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>

@@ -43,9 +43,9 @@ $valueCode = $entitySelect->getValueCode();
 <div
     x-data="LokiAdminFormEntitySelectComponent"
     @keyup.esc="closeWrapper"
-    data-value-code="<?= $valueCode ?>"
+    data-value-code="<?= $escaper->escapeHtml($valueCode) ?>"
 >
-    <script x-ref="initialData" type="text/x-loki-init"><?= $entitySelect->getJsonData() ?></script>
+    <script x-ref="initialData" type="text/x-loki-init"><?= $escaper->escapeHtml($entitySelect->getJsonData()) ?></script>
 
     <div class="input-with-button">
         <input
@@ -60,7 +60,7 @@ $valueCode = $entitySelect->getValueCode();
             @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
         >
 
-        <button @click="showModalWrapper"><?= __($buttonLabel) ?></button>
+        <button @click="showModalWrapper"><?= $escaper->escapeHtml(__($buttonLabel)) ?></button>
     </div>
 
     <template x-teleport="body">
@@ -74,7 +74,7 @@ $valueCode = $entitySelect->getValueCode();
                 <div class="modal-inner-wrap" style="padding:20px;">
                     <header class="modal-header">
                         <h1 class="modal-title" data-role="title">
-                            <?= $modalTitle ?>
+                            <?= $escaper->escapeHtml($modalTitle) ?>
                         </h1>
                         <button
                             @click="closeWrapper"
@@ -115,7 +115,7 @@ $valueCode = $entitySelect->getValueCode();
                                 <?php foreach ($columns as $column) : ?>
                                 <th class="data-grid-th">
                                     <span class="data-grid-cell-content">
-                                        <?= $column->getLabel() ?>
+                                        <?= $escaper->escapeHtml($column->getLabel()) ?>
                                     </span>
                                 </th>
                                 <?php endforeach; ?>
@@ -130,7 +130,7 @@ $valueCode = $entitySelect->getValueCode();
                                 </td>
                                 <?php foreach ($columns as $column) : ?>
                                     <td class="data-grid-cell">
-                                        <div class="data-grid-cell-content" x-html="entity.<?= $column->getCode() ?>"></div>
+                                        <div class="data-grid-cell-content" x-html="entity.<?= $escaper->escapeHtml($column->getCode()) ?>"></div>
                                     </td>
                                 <?php endforeach; ?>
                             </tr>

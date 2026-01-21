@@ -7,7 +7,7 @@
                 const elementId = this.$refs.textarea.getAttribute('id');
                 const componentName = this.$refs.textarea.getAttribute('data-component-scope');
                 
-                const componentConfig = JSON.parse('<?= $editor->getComponentConfigAsJson() ?>');
+                const componentConfig = JSON.parse('<?= $escaper->escapeHtml($editor->getComponentConfigAsJson()) ?>');
 
                 return;
                 require([

@@ -141,7 +141,7 @@ $state = $viewModel->getState();
 
                                         <?php if ($cellAction->hasJsMethod()): ?>
                                             <a
-                                                data-id="<?= $item->getId() ?>"
+                                                data-id="<?= $escaper->escapeHtml($item->getId()) ?>"
                                                 onClick="<?= /* @noEscape */ $cellAction->getJsMethod() ?>"><
                                                 <?= $escaper->escapeHtml( $cellAction->getLabel()) ?>
                                             </a>
@@ -149,7 +149,7 @@ $state = $viewModel->getState();
 
                                         <?php if ($cellAction->hasAlpineMethod()): ?>
                                             <a
-                                                data-id="<?= $item->getId() ?>"
+                                                data-id="<?= $escaper->escapeHtml($item->getId()) ?>"
                                                 @click="<?= /* @noEscape */ $cellAction->getAlpineMethod() ?>">
                                                 <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
                                             </a>
