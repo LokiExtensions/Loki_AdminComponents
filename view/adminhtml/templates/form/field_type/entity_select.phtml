@@ -51,11 +51,14 @@ $columns = $gridViewModel->getColumns();
 $currentId = 1;
 $currentItem = $gridViewModel->getCurrentItem($currentId);
 
-// @todo: Escape key does not close popup
 // @todo: Modal effect with _show does not animate
 $valueCode = $field->getScope() . '.' . $field->getCode();
 ?>
-<div x-data="LokiAdminFormEntitySelectComponent">
+<div
+    x-data="LokiAdminFormEntitySelectComponent"
+    @keyup.esc="closeWrapper"
+    data-value-code="<?= $valueCode ?>"
+>
     <div class="input-with-button">
         <input
             class="admin__control-text"
@@ -77,11 +80,10 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
             <aside
                 role="dialog"
                 x-ref="aside"
-                @keyup.esc="closeWrapper"
                 class="modal-slide"
                 data-role="modal"
                 data-type="popup">
-                <div class="modal-inner-wrap">
+                <div class="modal-inner-wrap" style="padding:20px;">
                     <header class="modal-header">
                         <h1 class="modal-title" data-role="title">
                             Select an entity
@@ -92,13 +94,36 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
                             type="button">
                             <span>Close</span>
                         </button>
+
+
+
                     </header>
 
-                    <template x-if="hasEntities">
-                    <div class="admin__data-grid-wrap" data-role="grid-wrapper">
+                        <div class="admin__data-grid-header">
+                        <div class="admin__data-grid-header-row">
+                            <div class="data-grid-search-control-wrap">
+                                <input
+                                    class="admin__control-text data-grid-search-control"
+                                    type="text"
+                                    :value="search"
+                                    @keyup="setSearch"
+                                    placeholder="Search by keyword"
+                                    aria-label="Search by keyword"
+                                />
+
+                                <button class="action-submit" type="button" data-bind="attr: {'aria-label': $t('Search')}, click: apply.bind($data, false)" aria-label="Search">
+                                    <span data-bind="i18n: 'Search'">Search</span>
+                                </button>
+                            </div>
+                        </div>
+
+                            <div class="admin__data-grid-wrap" data-role="grid-wrapper">
                         <table class="data-grid" data-role="grid">
                             <thead>
                             <tr>
+                                <th class="data-grid-th">
+                                    &nbsp;
+                                </th>
                                 <?php foreach ($columns as $column) : ?>
                                 <th class="data-grid-th">
                                     <span class="data-grid-cell-content">
@@ -109,6 +134,7 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
                             </tr>
                             </thead>
                             <tbody>
+                            <template x-if="hasEntities">
                             <template x-for="entity in entities" :key="entity.entity_id">
                             <tr class="data-row">
                                 <td class="data-grid-cell">
@@ -121,11 +147,18 @@ $valueCode = $field->getScope() . '.' . $field->getCode();
                                 <?php endforeach; ?>
                             </tr>
                             </template>
+                            </template>
+                            <template x-if="hasNoEntities">
+                                <tr class="data-row">
+                                    <td class="data-grid-cell" colspan="<?= count($columns) + 1 ?>">
+                                        No items found
+                                    </td>
+                                </tr>
+                            </template>
                             </tbody>
                         </table>
                     </div>
-                    </template>
-
+                    </div>
                 </div>
             </aside>
             <div class="modals-overlay"></div>

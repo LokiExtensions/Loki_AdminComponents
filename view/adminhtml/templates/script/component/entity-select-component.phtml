@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Loki\AdminComponents\Component\Grid\GridViewModel;
-use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\View\Element\Template;
 
@@ -14,7 +12,6 @@ $ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
     'namespace' => 'customer_listing',
     'sorting[field]' => 'entity_id',
     'sorting[direction]' => 'asc',
-    'search' => '',
     'keywordUpdated' => false,
     'filters[placeholder]' => true,
     'paging[pageSize]' => 20,
@@ -30,17 +27,36 @@ $ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
             currentEntityCode: '',
             currentEntityLabel: '',
             totalEntities: 0,
+            valueCode: 'value',
+            search: '',
             entities: [],
             init() {
+                this.valueCode = this.$root.getAttribute('data-value-code');
+
                 if (this.isModalWrapperVisible) {
                     this.loadEntities();
                 }
+
+                this.$watch('search', () => {
+                    this.loadEntities();
+                });
+            },
+            setSearch(event) {
+                this.search = event.target.value;
             },
             hasEntities() {
                 return this.totalEntities > 0;
             },
+            hasNoEntities() {
+                return !this.hasEntities();
+            },
             loadEntities() {
-                fetch(this.getAjaxUrl(), {
+                let ajaxUrl = this.getAjaxUrl();
+                if (this.search) {
+                    ajaxUrl += '&search=' + this.search;
+                }
+
+                fetch(ajaxUrl, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,10 +92,23 @@ $ajaxUrl =  $block->getUrl('mui/index/render') . '?'.http_build_query([
                 document.getElementsByTagName('body')[0].classList.remove('_has-modal');
                 this.$refs.aside.classList.remove('_show');
             },
+            setNested(obj, path, value) {
+                const parts = path.split(".");
+                let current = obj;
+
+                for (let i = 0; i < parts.length - 1; i++) {
+                    if (current[parts[i]] == null) {
+                        current[parts[i]] = {};
+                    }
+                    current = current[parts[i]];
+                }
+
+                current[parts[parts.length - 1]] = value;
+            },
             selectEntity(entity) {
-                this.value = entity[entity.id_field_name];
+                const value = entity[entity.id_field_name];
+                this.setNested(this, this.valueCode, value);
                 this.currentEntityLabel = entity[entity.name];
-                console.log('selectEntity', this.value);
                 this.closeWrapper();
             }
         }));
