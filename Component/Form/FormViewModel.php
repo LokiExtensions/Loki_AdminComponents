@@ -119,6 +119,22 @@ class FormViewModel extends ComponentViewModel
         foreach ($fields as $field) {
             $fieldsetCode = (string)$field->getFieldset();
 
+            if (isset($fieldDefinitions[$field->getCode()])) {
+                unset($fieldDefinitions[$field->getCode()]);
+            }
+
+            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
+                $fieldsets[$fieldsetCode]->addField($field);
+                continue;
+            }
+
+            $fieldsets['base']->addField($field);
+        }
+
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            $block = $this->getBlock();
+            $field = $this->fieldFactory->create($block, $fieldDefinition);
+
             if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
                 $fieldsets[$fieldsetCode]->addField($field);
                 continue;
@@ -141,10 +157,6 @@ class FormViewModel extends ComponentViewModel
             $this->getRepository(),
             (array)$this->getBlock()->getFields(),
         );
-
-        if (empty($fields)) {
-            return $fields;
-        }
 
         return $fields;
     }
