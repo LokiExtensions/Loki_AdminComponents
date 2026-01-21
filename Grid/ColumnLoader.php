@@ -42,7 +42,7 @@ class ColumnLoader
      *
      * @return Column[]
      */
-    public function getColumns(string $namespace): array
+    public function getColumnsFromNamespace(string $namespace): array
     {
         try {
             $bookmark = $this->bookmarkLoader->getBookmark($namespace);
@@ -52,8 +52,11 @@ class ColumnLoader
             return [];
         }
 
-        if (isset($bookmarkData['views'][$bookmarkIdentifier]['data']['paging'])) {
-            $paging = $bookmarkData['views'][$bookmarkIdentifier]['data']['paging'];
+        $currentBookmark = $bookmarkData['views'][$bookmarkIdentifier];
+
+        // @todo: This should not be part of the ColumnLoader at all!
+        if (isset($currentBookmark['data']['paging'])) {
+            $paging = $currentBookmark['data']['paging'];
             $gridState = $this->stateManager->get($namespace);
 
             if (isset($paging['pageSize'])) {
@@ -65,14 +68,15 @@ class ColumnLoader
             }
         }
 
-        if (false === isset($bookmarkData['views'][$bookmarkIdentifier]['data']['columns'])) {
+        if (false === isset($currentBookmark['data']['columns'])) {
             return [];
         }
 
-        $positions = $bookmarkData['views'][$bookmarkIdentifier]['data']['positions'];
+        $positions = $currentBookmark['data']['positions'];
+
 
         $columns = [];
-        foreach ($bookmarkData['views'][$bookmarkIdentifier]['data']['columns'] as $columnName => $columnData) {
+        foreach ($currentBookmark['data']['columns'] as $columnName => $columnData) {
             if ($columnName === 'actions') {
                 continue;
             }

@@ -57,10 +57,8 @@ $state = $viewModel->getState();
             </th>
             <?php
             $i = 1;
-            foreach ($viewModel->getColumns() as $column): ?>
-                <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
-                    continue;
-                } ?>
+            foreach ($viewModel->getVisibleColumns() as $column): ?>
+                <?php if ($column->getCode() === 'ids') continue; ?>
                 <?php
                 $additionalCss = '';
                 if ($column->getCode() === $state->getSortBy()) {

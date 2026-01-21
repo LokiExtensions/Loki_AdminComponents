@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\ProviderHandler;
 
+use Loki\AdminComponents\Grid\Column\ColumnFactory;
+use Loki\AdminComponents\Util\AbstractEntityColumnLoader;
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\AbstractModel;
@@ -14,7 +17,8 @@ use Loki\AdminComponents\Grid\State as GridState;
 class CollectionHandler implements ProviderHandlerInterface
 {
     public function __construct(
-        private ObjectManagerInterface $objectManager
+        private ObjectManagerInterface $objectManager,
+        private AbstractEntityColumnLoader $abstractEntityColumnLoader
     ) {
     }
 
@@ -123,8 +127,14 @@ class CollectionHandler implements ProviderHandlerInterface
 
     public function getColumns(object $provider): array
     {
-        /** @var AbstractDb $provider */
-        // @todo: Use this to fetch database columns
+        if (false === $provider instanceof AbstractDb) {
+            return [];
+        }
+
+        if ($provider instanceof AbstractCollection) {
+            return $this->abstractEntityColumnLoader->getColumns($provider->getEntity());
+        }
+
         return [];
     }
 

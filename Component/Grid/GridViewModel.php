@@ -179,12 +179,14 @@ class GridViewModel extends ComponentViewModel
      */
     public function getAvailableColumns(): array
     {
-        $columns = $this->columnLoader->getColumns($this->getNamespace());
+        $columns = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
         if (!empty($columns)) {
             return $columns;
         }
 
-        $columns = $this->getRepository()->getProviderHandler()->getColumns($this->getRepository()->getProvider());
+        $providerHandler = $this->getRepository()->getProviderHandler();
+        $provider = $this->getRepository()->getProvider();
+        $columns = $providerHandler->getColumns($provider);
         if (!empty($columns)) {
             return $columns;
         }
@@ -214,8 +216,8 @@ class GridViewModel extends ComponentViewModel
     public function getColumns(): array
     {
         $columns = $this->getAvailableColumns();
-
         $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
+
         if (!empty($columnsFromBlock)) {
             foreach ($columnsFromBlock as $columnFromBlock) {
                 foreach ($columns as $column) {
@@ -229,6 +231,13 @@ class GridViewModel extends ComponentViewModel
         }
 
         return $this->columnLoader->sortColumns($columns);
+    }
+
+    public function getVisibleColumns(): array
+    {
+        return array_filter($this->getColumns(), function(Column $column) {
+            return $column->isVisible();
+        });
     }
 
     public function getIndexUrl(): string

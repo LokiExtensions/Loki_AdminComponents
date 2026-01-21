@@ -47,7 +47,7 @@ class EntitySelect implements ArgumentInterface
 
     public function getColumns(): array
     {
-        $columns = $this->getGridViewModel()->getColumns();
+        $columns = $this->getGridViewModel()->getVisibleColumns();
         return array_filter($columns, function (Column $column) {
             return $column->getCode() !== 'ids';
         });
