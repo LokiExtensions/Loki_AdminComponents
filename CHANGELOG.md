@@ -6,13 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 21 January 2026
+### Added
+- Finalize `entity_select`, add type `product_select` and `customer_select`
+
+### Fixed
+- Allow fields defined in XML layout only (without provider)
+
 ## [0.4.4] - 12 January 2026
 ### Fixed
 - Add new GitHub Action workflows
 - Copy generic CI/CD files
 - Implement required fields in a simple way
 - Implement filtering for array grids
-- Allow using searchable_fields to *restrict* which fields are searched by the ArrayHandler
+- Allow using `searchable_fields` to *restrict* which fields are searched by the ArrayHandler
 
 ## [0.4.3] - 30 December 2025
 ### Fixed
