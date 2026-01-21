@@ -131,9 +131,12 @@ class FormViewModel extends ComponentViewModel
             $fieldsets['base']->addField($field);
         }
 
-        foreach ($fieldDefinitions as $fieldDefinition) {
-            $block = $this->getBlock();
-            $field = $this->fieldFactory->create($block, $fieldDefinition);
+        foreach ($fieldDefinitions as $fieldDefinitionName => $fieldDefinition) {
+            if (!isset($fieldDefinition['code'])) {
+                $fieldDefinition['code'] = $fieldDefinitionName;
+            }
+
+            $field = $this->fieldFactory->create($this->getBlock(), $fieldDefinition);
 
             if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
                 $fieldsets[$fieldsetCode]->addField($field);

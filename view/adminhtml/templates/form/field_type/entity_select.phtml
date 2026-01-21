@@ -1,18 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use Loki\AdminComponents\Component\Grid\GridRepository;
-use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Input;
 use Loki\AdminComponents\ViewModel\Form\Field\EntitySelect;
-use Loki\Components\Component\Component;
-use Loki\Components\Component\ComponentContext;
 use Loki\Components\Factory\ViewModelFactory;
 use Loki\Components\Util\Block\TemplateRenderer;
-use Magento\Customer\Model\ResourceModel\Customer;
-use Magento\Customer\Model\ResourceModel\Customer\Collection;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
@@ -25,50 +18,26 @@ use Magento\Framework\View\Element\Template;
 /** @var ViewModelFactory $viewModelFactory */
 /** @var EntitySelect $entitySelect */
 
-$entitySelect = $viewModelFactory->create(EntitySelect::class);
+$entitySelect = $viewModelFactory->create(EntitySelect::class, [
+    'block' => $block
+]);
 
-$field = $block->getField();
+$field = $entitySelect->getField();
 $fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
 $inputType = $fieldType->getInputType();
+$buttonLabel = $entitySelect->getButtonLabel();
 
 if (isset($fieldAttributes['type'])) {
     $inputType = $fieldAttributes['type'];
     unset($fieldAttributes['type']);
 }
 
-$buttonLabel = $field->getButtonLabel();
-if (empty($buttonLabel)) {
-    $buttonLabel = 'Select entity';
-}
-
-/** @var Component $component */
-$namespace = $field->getNamespace();
-if ($namespace) {
-    $block->setNamespace($namespace);
-}
-
-
-
-$block->setResourceModel(Customer::class);
-$block->setProvider(ObjectManager::getInstance()->get(Collection::class));
-
-$component = ObjectManager::getInstance()->create(Component::class, [
-    'name' => $block->getNameInLayout(),
-    'viewModelClass' => GridViewModel::class,
-    'repositoryClass' => GridRepository::class,
-    'context' => ObjectManager::getInstance()->create(ComponentContext::class),
-]);
-
-/** @var GridViewModel $gridViewModel */
-$gridViewModel = $component->getViewModel();
-$columns = $gridViewModel->getColumns();
-
-$currentId = 1;
-$currentItem = $gridViewModel->getCurrentItem($currentId);
+$columns = $entitySelect->getColumns();
+$currentItem = $entitySelect->getCurrentItem();
+$valueCode = $field->getScope() . '.' . $field->getCode();
 
 // @todo: Modal effect with _show does not animate
-$valueCode = $field->getScope() . '.' . $field->getCode();
 ?>
 <div
     x-data="LokiAdminFormEntitySelectComponent"
