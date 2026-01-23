@@ -6,7 +6,7 @@ namespace Loki\AdminComponents\Form\Field\FieldType;
 use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 use Loki\AdminComponents\ViewModel\Options\ProductOptions;
 
-class ProductId implements FieldTypeInterface
+class ProductId extends FieldTypeAbstract implements FieldTypeInterface
 {
     public function __construct(
         private ProductOptions $productOptions

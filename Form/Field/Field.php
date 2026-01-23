@@ -57,7 +57,7 @@ class Field extends DataObject
 
     public function getFieldType(): FieldTypeInterface
     {
-        return $this->getData('field_type');
+        return $this->getData('field_type')->setField($this);
     }
 
     public function getBlock(): AbstractBlock
