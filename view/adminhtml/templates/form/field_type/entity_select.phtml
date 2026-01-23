@@ -45,7 +45,7 @@ $valueCode = $entitySelect->getValueCode();
     @keyup.esc="closeWrapper"
     data-value-code="<?= $escaper->escapeHtml($valueCode) ?>"
 >
-    <script x-ref="initialData" type="text/x-loki-init"><?= $escaper->escapeHtml($entitySelect->getJsonData()) ?></script>
+    <script x-ref="initialData" type="text/x-loki-init"><?= /* @noEscape */ $entitySelect->getJsonData() ?></script>
 
     <div class="input-with-button">
         <input
