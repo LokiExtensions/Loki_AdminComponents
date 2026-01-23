@@ -19,92 +19,149 @@ class FieldResolver
     public function resolve(FormRepository $formRepository, array $fieldDefinitions): array
     {
         $resourceModel = $formRepository->getResourceModel();
-        if (!$resourceModel) {
+
+        if ($resourceModel === null) {
             return [];
         }
 
-        $fields = [];
-        $tableColumns = $resourceModel->getConnection()->describeTable($resourceModel->getMainTable());
+        $tableColumns = $this->getTableColumns($resourceModel);
+        $fieldColumns = $this->mergeTableAndExtraColumns(
+            $tableColumns,
+            $fieldDefinitions
+        );
 
-        foreach ($tableColumns as $tableColumn) {
-            $columnName = $tableColumn['COLUMN_NAME'];
-            $fieldType = $this->getFieldTypeCodeFromColumn($formRepository, $tableColumn);
-            if ($columnName === $resourceModel->getIdFieldName()) {
-                $fieldType = 'view';
-            }
+        $fields = $this->buildFields(
+            $formRepository,
+            $tableColumns,
+            $fieldColumns,
+            $fieldDefinitions
+        );
 
-            $fieldLabel = $this->getLabelByColumn($tableColumn['COLUMN_NAME']);
-            $code = $tableColumn['COLUMN_NAME'];
-
-            if (empty($fieldType)) {
-                $fieldType = 'input';
-            }
-
-            $block = $this->layout->createBlock(Template::class);
-            $fieldData = [
-                'field_type' => $fieldType,
-                'code' => $code,
-                'label' => $fieldLabel,
-                'required' => false,
-                'sort_order' => 0,
-                'field_attributes' => [],
-                'label_attributes' => [],
-            ];
-
-            if (array_key_exists($columnName, $fieldDefinitions)) {
-                $fieldDefinition = (array)$fieldDefinitions[$columnName];
-                $fieldData = array_merge($fieldData, $fieldDefinition);
-            }
-
-            $fields[$code] = $this->fieldFactory->create(
-                $block,
-                $fieldData,
-            );
-        }
-
-        uasort($fields, function (Field $field1, Field $field2) {
-            return $field1->getSortOrder() <=> $field2->getSortOrder();
-        });
+        $this->sortFieldsBySortOrder($fields);
 
         return $fields;
     }
 
-    private function getFieldTypeCodeFromColumn(FormRepository $formRepository, array $tableColumn): false|string
+    private function getTableColumns(object $resourceModel): array
     {
+        return $resourceModel
+            ->getConnection()
+            ->describeTable($resourceModel->getMainTable());
+    }
+
+    private function mergeTableAndExtraColumns(
+        array $tableColumns,
+        array $fieldDefinitions
+    ): array {
+        $tableColumnNames = array_keys($tableColumns);
+
+        $extraFieldDefinitions = array_filter(
+            $fieldDefinitions,
+            static fn (array $definition, string $fieldCode): bool =>
+            !in_array($fieldCode, $tableColumnNames, true),
+            ARRAY_FILTER_USE_BOTH
+        );
+
+        return array_merge($tableColumns, $extraFieldDefinitions);
+    }
+
+    private function buildFields(
+        FormRepository $formRepository,
+        array $tableColumns,
+        array $fieldColumns,
+        array $fieldDefinitions
+    ): array {
+        $fields = [];
+
+        foreach ($fieldColumns as $fieldCode => $definition) {
+            $columnData = $this->buildBaseColumnData(
+                $formRepository,
+                $tableColumns,
+                $fieldCode
+            );
+
+            if (array_key_exists($fieldCode, $fieldDefinitions)) {
+                $columnData = array_merge(
+                    $columnData,
+                    $fieldDefinitions[$fieldCode]
+                );
+            }
+
+            $fields[$fieldCode] = $this->createField($columnData);
+        }
+
+        return $fields;
+    }
+
+    private function buildBaseColumnData(
+        FormRepository $formRepository,
+        array $tableColumns,
+        string $fieldCode
+    ): array {
+        $columnData = ['code' => $fieldCode];
+
+        if (!array_key_exists($fieldCode, $tableColumns)) {
+            return $columnData;
+        }
+
+        $tableColumn = $tableColumns[$fieldCode];
+        $fieldType = $this->resolveFieldType(
+            $formRepository,
+            $tableColumn
+        );
+
+        return array_merge($columnData, [
+            'field_type' => $fieldType ?: 'input',
+            'label' => $this->getLabelByColumn($tableColumn['COLUMN_NAME']),
+            'required' => false,
+            'sort_order' => 0,
+            'field_attributes' => [],
+            'label_attributes' => [],
+        ]);
+    }
+
+    private function createField(array $columnData): Field
+    {
+        return $this->fieldFactory->create(
+            $this->layout->createBlock(Template::class),
+            $columnData,
+        );
+    }
+
+    private function sortFieldsBySortOrder(array &$fields): void
+    {
+        uasort(
+            $fields,
+            static fn (Field $a, Field $b): int =>
+                $a->getSortOrder() <=> $b->getSortOrder()
+        );
+    }
+
+    private function resolveFieldType(
+        FormRepository $formRepository,
+        array $tableColumn
+    ): false|string {
         if ($tableColumn['COLUMN_NAME'] === $formRepository->getPrimaryKey()) {
             return 'view';
         }
 
-        if (in_array($tableColumn['DATA_TYPE'], ['datetime'])) {
-            return 'datetime';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['date'])) {
-            return 'date';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['tinyint'])) {
-            return 'switch';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['int'])) {
-            return 'number';
-        }
-
-        if (in_array($tableColumn['DATA_TYPE'], ['varchar', 'text', 'smalltext', 'mediumtext'])) {
-            return 'input';
-        }
-
-        return false;
+        return match ($tableColumn['DATA_TYPE']) {
+            'datetime' => 'datetime',
+            'date' => 'date',
+            'tinyint' => 'switch',
+            'int' => 'number',
+            'varchar', 'text', 'smalltext', 'mediumtext' => 'input',
+            default => false,
+        };
     }
 
     private function getLabelByColumn(string $columnName): string
     {
-        $label = (string)__($columnName);
-        if ($label !== $columnName) {
-            return $label;
+        $translated = (string) __($columnName);
+        if ($translated !== $columnName) {
+            return $translated;
         }
 
-        return ucfirst(str_replace('_', ' ', $label));
+        return ucfirst(str_replace('_', ' ', $columnName));
     }
 }
