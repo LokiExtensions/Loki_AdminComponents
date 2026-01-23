@@ -30,5 +30,10 @@
                 template="Loki_AdminComponents::script/entity-select.phtml">
             </block>
         </referenceContainer>
+
+        <block
+            name="loki_admin_components.entity_select"
+            template="Loki_AdminComponents::grid.phtml"
+        />
     </body>
 </page>

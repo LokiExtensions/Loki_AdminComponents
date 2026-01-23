@@ -21,7 +21,10 @@ $state = $viewModel->getState();
     <table class="data-grid" data-role="grid">
         <thead>
         <tr x-sort.ghost="repositionColumns">
-            <th class="data-grid-multicheck-cell">
+            <th class="">
+                &nbsp;
+            </th>
+            <th class="">
                 <div class="action-multicheck-wrap">
                     <input
                         class="admin__control-checkbox"
@@ -102,7 +105,7 @@ $state = $viewModel->getState();
                         <label></label>
                     </label>
                 </td>
-                <?php foreach ($viewModel->getColumns() as $column): ?>
+                <?php foreach ($viewModel->getVisibleColumns() as $column): ?>
                     <?php if ($column->getVisible() === false || $column->getCode() === 'ids') {
                         continue;
                     } ?>

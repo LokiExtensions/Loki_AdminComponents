@@ -1,23 +1,79 @@
 <?php
 declare(strict_types=1);
 
-use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\View\Element\Template;
 
-/** @version 0.4.3 */
+/** @version 0.5.1 */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
-/** @var Editor $editor */
-$editor = $viewModelFactory->create(Editor::class);
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormEntitySelectComponent', () => ({
+            ...LokiLoadDataComponentPartial,
             isModalWrapperVisible: false,
+            currentEntityCode: '',
+            currentEntityLabel: '',
+            totalEntities: 0,
+            ajaxUrl: '',
+            valueCode: 'value',
+            search: '',
+            entities: [],
             init() {
+                this.loadData();
+                this.valueCode = this.$root.getAttribute('data-value-code');
+
+                if (this.isModalWrapperVisible) {
+                    this.loadEntities();
+                }
+
+                this.$watch('search', () => {
+                    this.loadEntities();
+                });
+            },
+            setSearch(event) {
+                this.search = event.target.value;
+            },
+            hasEntities() {
+                return this.totalEntities > 0;
+            },
+            hasNoEntities() {
+                return !this.hasEntities();
+            },
+            loadEntities() {
+                fetch(this.getAjaxUrl(), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.entities = data.items;
+                        this.totalEntities = data.totalRecords;
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
+            },
+            getAjaxUrl() {
+                let ajaxUrl = this.ajaxUrl;
+                if (this.search) {
+                    ajaxUrl += '&search=' + this.search;
+                }
+
+                return ajaxUrl;
             },
             showModalWrapper() {
+                this.loadEntities();
                 this.isModalWrapperVisible = true;
                 document.getElementsByTagName('body')[0].classList.add('_has-modal');
                 this.$refs.aside.classList.add('_show');
@@ -27,8 +83,24 @@ $editor = $viewModelFactory->create(Editor::class);
                 document.getElementsByTagName('body')[0].classList.remove('_has-modal');
                 this.$refs.aside.classList.remove('_show');
             },
-            selectEntity() {
-                console.log('selectEntity');
+            setNested(obj, path, value) {
+                const parts = path.split(".");
+                let current = obj;
+
+                for (let i = 0; i < parts.length - 1; i++) {
+                    if (current[parts[i]] == null) {
+                        current[parts[i]] = {};
+                    }
+                    current = current[parts[i]];
+                }
+
+                current[parts[parts.length - 1]] = value;
+            },
+            selectEntity(entity) {
+                const value = entity[entity.id_field_name];
+                this.setNested(this, this.valueCode, value);
+                this.currentEntityLabel = entity[entity.name];
+                this.closeWrapper();
             }
         }));
     });

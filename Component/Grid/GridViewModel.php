@@ -2,20 +2,16 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
-use Hyva\Admin\ViewModel\HyvaGrid\GridFilterInterface;
 use Loki\AdminComponents\Grid\Column\Column;
-use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
 use Loki\AdminComponents\Ui\ButtonInterface;
-use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
-use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Grid\Cell\CellAction;
 use Loki\AdminComponents\Grid\Cell\CellActionFactory;
@@ -25,11 +21,9 @@ use Loki\AdminComponents\Grid\Filter\FilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionInterface;
 use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
-use Loki\AdminComponents\Ui\Button;
 use Loki\AdminComponents\Ui\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Loki\Components\Util\CamelCaseConvertor;
-use RuntimeException;
 
 /**
  * @method GridRepository getRepository()
@@ -96,6 +90,12 @@ class GridViewModel extends ComponentViewModel
         $this->items[$this->getNamespace()] = $this->getRepository()->getItems();
 
         return $this->items[$this->getNamespace()];
+    }
+
+    // @todo: Move this to child-class EntitySelectViewModel
+    public function getCurrentItem(int|string $currentId)
+    {
+        return $this->getRepository()->getProviderHandler()->getItem($this->getRepository()->getProvider(), $currentId);
     }
 
     public function applyStaticFilters(): void
@@ -179,12 +179,14 @@ class GridViewModel extends ComponentViewModel
      */
     public function getAvailableColumns(): array
     {
-        $columns = $this->columnLoader->getColumns($this->getNamespace());
+        $columns = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
         if (!empty($columns)) {
             return $columns;
         }
 
-        $columns = $this->getRepository()->getProviderHandler()->getColumns($this->getRepository()->getProvider());
+        $providerHandler = $this->getRepository()->getProviderHandler();
+        $provider = $this->getRepository()->getProvider();
+        $columns = $providerHandler->getColumns($provider);
         if (!empty($columns)) {
             return $columns;
         }
@@ -195,6 +197,10 @@ class GridViewModel extends ComponentViewModel
         }
 
         $item = array_shift($items);
+        if (false === $item instanceof DataObject) {
+            return [];
+        }
+
         $itemData = $item->getData();
         $columns = [];
         foreach (array_keys($itemData) as $columnName) {
@@ -210,8 +216,8 @@ class GridViewModel extends ComponentViewModel
     public function getColumns(): array
     {
         $columns = $this->getAvailableColumns();
-
         $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
+
         if (!empty($columnsFromBlock)) {
             foreach ($columnsFromBlock as $columnFromBlock) {
                 foreach ($columns as $column) {
@@ -225,6 +231,13 @@ class GridViewModel extends ComponentViewModel
         }
 
         return $this->columnLoader->sortColumns($columns);
+    }
+
+    public function getVisibleColumns(): array
+    {
+        return array_filter($this->getColumns(), function(Column $column) {
+            return $column->isVisible();
+        });
     }
 
     public function getIndexUrl(): string

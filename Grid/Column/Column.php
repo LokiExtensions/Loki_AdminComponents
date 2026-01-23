@@ -2,9 +2,10 @@
 
 namespace Loki\AdminComponents\Grid\Column;
 
+use JsonSerializable;
 use Magento\Framework\DataObject;
 
-class Column extends DataObject implements \JsonSerializable
+class Column extends DataObject implements JsonSerializable
 {
     public function getLabel(): string
     {
@@ -39,6 +40,11 @@ class Column extends DataObject implements \JsonSerializable
     public function getPosition(): int
     {
         return (int)$this->getData('position');
+    }
+
+    public function isVisible(): bool
+    {
+        return (bool)$this->getData('visible');
     }
 
     public function __toString(): string

@@ -71,6 +71,10 @@ class GridRepository extends ComponentRepository
             return $provider;
         }
 
+        if (empty($provider)) {
+            throw new RuntimeException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        }
+
         $provider = $this->objectManager->get($provider);
 
         if (!empty($provider)) {

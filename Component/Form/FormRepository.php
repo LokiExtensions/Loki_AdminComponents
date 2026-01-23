@@ -46,7 +46,12 @@ class FormRepository extends ComponentRepository
             }
         }
 
-        $item = $this->getFactory()->create();
+        try {
+            $item = $this->getFactory()->create();
+        } catch (RuntimeException $e) {
+            return null;
+        }
+
         $resourceModel = $this->getResourceModel();
         if ($resourceModel) {
             // @todo: Move this into separate class TableSchema (or use core)
@@ -136,13 +141,17 @@ class FormRepository extends ComponentRepository
             return $provider;
         }
 
+        if (empty($provider)) {
+            throw new RuntimeException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        }
+
         $provider = $this->objectManager->get($provider);
 
         if (is_object($provider)) {
             return $provider;
         }
 
-        throw new \RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        throw new RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
     private function getFactory(): object
@@ -195,9 +204,15 @@ class FormRepository extends ComponentRepository
 
     public function getResourceModel(): ?AbstractDb
     {
+        try {
+            $providerHandler = $this->getProviderHandler();
+        } catch (RuntimeException $e) {
+            return null;
+        }
+
         $resourceModelClass = $this->getBlock()->getResourceModel();
         if (empty($resourceModelClass)) {
-            $resourceModelClass = $this->getProviderHandler()->getResourceModelClass($this->getProvider());
+            $resourceModelClass = $providerHandler->getResourceModelClass($this->getProvider());
         }
 
         if (empty($resourceModelClass)) {
@@ -206,11 +221,11 @@ class FormRepository extends ComponentRepository
 
         $resourceModel = $this->objectManager->get($resourceModelClass);
         if (empty($resourceModel)) {
-            throw new \RuntimeException('Unable to instantiate resource model from class "'.$resourceModelClass.'"');
+            throw new RuntimeException('Unable to instantiate resource model from class "'.$resourceModelClass.'"');
         }
 
         if (false === $resourceModel instanceof AbstractDb) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Resource model "'.$resourceModelClass.'" is not an instance of '.AbstractDb::class
             );
         }

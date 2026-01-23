@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.4.3 */
+/** @version 0.5.1 */
 
 use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
@@ -24,9 +24,9 @@ $editor = $viewModelFactory->create(Editor::class);
                     tinymce.init({
                         target: this.$refs.editor,
                         height: 500,
-                        plugins: JSON.parse('<?= $editor->getPluginsAsJson() ?>'),
-                        toolbar: '<?= $editor->getToolbarAsString() ?>',
-                        content_style: '<?= $editor->getContentStyle() ?>',
+                        plugins: JSON.parse('<?= $escaper->escapeHtml($editor->getPluginsAsJson()) ?>'),
+                        toolbar: '<?= $escaper->escapeHtml($editor->getToolbarAsString()) ?>',
+                        content_style: '<?= $escaper->escapeHtml($editor->getContentStyle()) ?>',
                         setup(editor) {
                             editor.on('change keyup input', () => {
                                 item[identifier] = editor.getContent();

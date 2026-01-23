@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.4.3 */
+/** @version 0.5.1 */
 
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
@@ -40,10 +40,13 @@ if (!empty($depends)) {
     $dependStatement = 'x-show="item.'.$depends['propertyName'] . " == '".$depends['propertyValue']."'\"";
 }
 ?>
-<div class="admin__field" <?= $dependStatement ?>>
+<div class="admin__field" <?= $escaper->escapeHtml($dependStatement) ?>>
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
+            <?php if ($field->isRequired()): ?>
+                <span style="color:red">*</span>
+            <?php endif; ?>
         </label>
     </div>
 

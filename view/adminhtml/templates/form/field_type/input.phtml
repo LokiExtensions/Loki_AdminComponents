@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.4.3 */
+/** @version 0.5.1 */
 
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
@@ -30,7 +30,11 @@ if (isset($fieldAttributes['type'])) {
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
-        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+        <?php if ($attributeValue === null): ?>
+            <?= /* @noEscape */ $attributeName ?>
+        <?php else: ?>
+            <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+        <?php endif; ?>
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"

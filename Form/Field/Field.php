@@ -6,6 +6,7 @@ namespace Loki\AdminComponents\Form\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Editor;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
+use RuntimeException;
 
 class Field extends DataObject
 {
@@ -57,7 +58,17 @@ class Field extends DataObject
 
     public function getFieldType(): FieldTypeInterface
     {
-        return $this->getData('field_type')->setField($this);
+        $fieldType = $this->getData('field_type')->setField($this);
+
+        if (false === $fieldType instanceof FieldTypeInterface) {
+            throw new RuntimeException('Field type must be an instance of '.FieldTypeInterface::class);
+        }
+
+        if (method_exists($fieldType, 'prepareField')) {
+            $fieldType->prepareField($this);
+        }
+
+        return $fieldType;
     }
 
     public function getBlock(): AbstractBlock
@@ -67,7 +78,13 @@ class Field extends DataObject
 
     public function getFieldAttributes(): array
     {
-        return (array)$this->getData('field_attributes');
+        $fieldAttributes = (array)$this->getData('field_attributes');
+
+        if ($this->isRequired()) {
+            $fieldAttributes['required'] = null;
+        }
+
+        return $fieldAttributes;
     }
 
     public function getLabelAttributes(): array
