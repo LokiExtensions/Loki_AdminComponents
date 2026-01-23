@@ -17,15 +17,10 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var Escaper $escaper */
 
 $field = $block->getField();
-$options = $field->getOptions();
 $emptyOption = $field->getEmptyOption();
 $fieldType = $field->getFieldType();
+$options = $fieldType->getOptions();
 $fieldAttributes = $field->getFieldAttributes();
-
-if (false === $options instanceof OptionSourceInterface) {
-    echo '$options is not a proper instance: '.gettype($options);
-    return;
-}
 ?>
 <select
     aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
@@ -54,7 +49,7 @@ if (false === $options instanceof OptionSourceInterface) {
         ) ?>
     <?php endif; ?>
 
-    <?php foreach ($options->toOptionArray() as $option) : ?>
+    <?php foreach ($options as $option) : ?>
         <?php $option['level'] = 0; ?>
         <?= /* @noEscape */ $templateRenderer->html(
             $block,
