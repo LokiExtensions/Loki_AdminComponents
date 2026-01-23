@@ -13,6 +13,10 @@ class ColumnFactory
 
     public function create(array $data): Column
     {
+        if (!isset($data['visible'])) {
+            $data['visible'] = true;
+        }
+
         return $this->objectManager->create(Column::class, ['data' => $data]);
     }
 }
