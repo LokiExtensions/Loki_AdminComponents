@@ -58,7 +58,8 @@ class Field extends DataObject
 
     public function getFieldType(): FieldTypeInterface
     {
-        $fieldType = $this->getData('field_type');
+        $fieldType = $this->getData('field_type')->setField($this);
+
         if (false === $fieldType instanceof FieldTypeInterface) {
             throw new RuntimeException('Field type must be an instance of '.FieldTypeInterface::class);
         }

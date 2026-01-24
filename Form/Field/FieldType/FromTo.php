@@ -5,7 +5,7 @@ namespace Loki\AdminComponents\Form\Field\FieldType;
 
 use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 
-class FromTo implements FieldTypeInterface
+class FromTo extends FieldTypeAbstract implements FieldTypeInterface
 {
     public function __construct(
         private int $maximumLength = 255,
