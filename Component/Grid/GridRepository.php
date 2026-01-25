@@ -13,6 +13,9 @@ use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Loki\Components\Component\ComponentRepository;
 
+/**
+ * @method GridViewModel getViewModel()
+ */
 class GridRepository extends ComponentRepository
 {
     public function __construct(
@@ -25,7 +28,7 @@ class GridRepository extends ComponentRepository
 
     public function getNamespace(): string
     {
-        return $this->getComponent()->getViewModel()->getNamespace();
+        return $this->getViewModel()->getNamespace();
     }
 
     // @todo: Remove the requirement for this
@@ -47,7 +50,7 @@ class GridRepository extends ComponentRepository
 
     public function getItems(): array
     {
-        $searchableFields = $this->getComponent()->getViewModel()->getSearchableFields();
+        $searchableFields = $this->getViewModel()->getSearchableFields();
         $this->getState()->setSearchableFields($searchableFields);
 
         return $this->getProviderHandler()->getItems($this->getProvider(), $this->getState());
@@ -102,7 +105,7 @@ class GridRepository extends ComponentRepository
 
     protected function getBlock(): AbstractBlock
     {
-        return $this->getComponent()->getViewModel()->getBlock();
+        return $this->getViewModel()->getBlock();
     }
 
     public function getResourceModel(): ?AbstractDb
