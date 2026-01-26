@@ -31,7 +31,9 @@ class Select extends FieldTypeAbstract implements FieldTypeInterface
             return [];
         }
 
-        $options  = $this->objectManager->get($options);
+        if (is_string($options)) {
+            $options = $this->objectManager->get($options);
+        }
 
         if (!$options instanceof OptionSourceInterface) {
             return [];
