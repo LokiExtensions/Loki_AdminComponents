@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
 use Loki\AdminComponents\Form\Field\Field;
-use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 use Magento\Customer\Model\ResourceModel\Customer\Collection;
 
-class CustomerSelect implements FieldTypeInterface
+class CustomerSelect extends FieldTypeAbstract
 {
     public function getInputType(): string
     {
