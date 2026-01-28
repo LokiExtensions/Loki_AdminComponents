@@ -47,7 +47,7 @@ if (!empty($depends)) {
 
 $cssClass = implode(' ', $cssClass);
 ?>
-<div class="<?= $cssClass ?>" <?= $escaper->escapeHtml($dependStatement) ?>>
+<div class="<?= $escaper->escapeHtml($cssClass) ?>" <?= $escaper->escapeHtml($dependStatement) ?>>
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
