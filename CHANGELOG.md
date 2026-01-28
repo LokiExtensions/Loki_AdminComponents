@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 28 January 2026
+### Fixed
+- Add hidden-attribute to field-blocks
+- Fix new field types not having proper interface
+- Fix when there are no fieldset definitions
+- Allow Options-model to be either string or object
+- #8 Allow to set label for the base fieldset @rajeev-k-tomy
+- #4 Custom fields configured via layout xml file are not appearing in the form @rajeev-k-tomy
+- Resolve select field options from the Select field type class
+- #3 Create an abstract FieldType class to give access Field instance in every FieldType @rajeev-k-tomy
+
 ## [0.5.1] - 23 January 2026
 ### Fixed
 - Do not escape JSON
