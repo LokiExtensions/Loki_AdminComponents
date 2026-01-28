@@ -34,13 +34,20 @@ if (false === $field->isVisible()) {
     return;
 }
 
+$cssClass[] = 'admin__field';
+if ($field->isHidden()) {
+    $cssClass[] = 'hidden';
+}
+
 $depends = $field->getDepends();
 $dependStatement = '';
 if (!empty($depends)) {
     $dependStatement = 'x-show="item.'.$depends['propertyName'] . " == '".$depends['propertyValue']."'\"";
 }
+
+$cssClass = implode(' ', $cssClass);
 ?>
-<div class="admin__field" <?= $escaper->escapeHtml($dependStatement) ?>>
+<div class="<?= $cssClass ?>" <?= $escaper->escapeHtml($dependStatement) ?>>
     <div class="admin__field-label">
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
