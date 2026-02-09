@@ -63,7 +63,7 @@ use Magento\Framework\View\Element\Template;
 </template>
 <template x-if="canShowNoResultMessage">
     <div style="padding: 2rem; text-align: center;">
-        <?= __('No results found.') ?>
+        <?= $escaper->escapeHtml(__('No results found.')) ?>
     </div>
 </template>
 

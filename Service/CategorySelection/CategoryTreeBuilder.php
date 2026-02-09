@@ -226,13 +226,13 @@ class CategoryTreeBuilder
     {
         return array_map(fn (array $nodeData) =>
             new CategoryTreeNode(
-                    id: $nodeData['id'],
-                    label: $nodeData['label'],
-                    isActive: $nodeData['isActive'],
-                    level: $nodeData['level'],
-                    parentId: $nodeData['parentId'],
-                    parentIds: $nodeData['parentIds'],
-                    children: $this->convertArrayToTreeNodes($nodeData['children'] ?? [])
+                id: $nodeData['id'],
+                label: $nodeData['label'],
+                isActive: $nodeData['isActive'],
+                level: $nodeData['level'],
+                parentId: $nodeData['parentId'],
+                parentIds: $nodeData['parentIds'],
+                children: $this->convertArrayToTreeNodes($nodeData['children'] ?? [])
             ),
             $treeData
         );

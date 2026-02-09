@@ -38,6 +38,11 @@ class CategorySelection extends FieldTypeAbstract
         return $this->categoryTreeBuilder->calculateMaxLevel($categoryTreeNodes);
     }
 
+    public function renderMainScript(Field $field): string
+    {
+        return $this->categoryTreeRenderer->renderMainScript($field);
+    }
+
     public function renderChildCategoryNode(CategoryTreeNode $categoryTreeNode, Field $field): string
     {
         return $this->categoryTreeRenderer->renderChildNode($categoryTreeNode, $field);
