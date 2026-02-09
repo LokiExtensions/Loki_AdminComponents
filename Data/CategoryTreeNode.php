@@ -19,7 +19,7 @@ class CategoryTreeNode
 
     public function toUiArray(): array
     {
-        return array_merge(
+        $uiData = array_merge(
             get_object_vars($this),
             [
                 'hasChildren' => $this->children !== [],
@@ -28,5 +28,9 @@ class CategoryTreeNode
                 'parentsPath' => null,
             ]
         );
+
+        unset($uiData['children']);
+
+        return $uiData;
     }
 }
