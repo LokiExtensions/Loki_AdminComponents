@@ -5,7 +5,9 @@ namespace Loki\AdminComponents\ViewModel\Options;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\Website;
 
 class StoreViewOptions implements ArgumentInterface, OptionSourceInterface
 {
@@ -21,7 +23,7 @@ class StoreViewOptions implements ArgumentInterface, OptionSourceInterface
         $options[] = ['label' => __('All Store Views'), 'value' => ''];
 
         $websites = $this->storeManager->getWebsites();
-        uasort($websites, function ($a, $b) {
+        uasort($websites, function (Website $a, Website $b) {
             $soA = (int)$a->getSortOrder();
             $soB = (int)$b->getSortOrder();
 
@@ -42,7 +44,7 @@ class StoreViewOptions implements ArgumentInterface, OptionSourceInterface
                 /** @var \Magento\Store\Model\Group $group */
 
                 $stores = $group->getStores();
-                usort($stores, function ($a, $b) {
+                usort($stores, function (Store $a, Store $b) {
                     $soA = (int)$a->getSortOrder();
                     $soB = (int)$b->getSortOrder();
 

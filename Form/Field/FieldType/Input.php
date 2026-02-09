@@ -2,9 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
-use Loki\AdminComponents\Form\Field\FieldTypeInterface;
-
-class Input extends FieldTypeAbstract implements FieldTypeInterface
+class Input extends FieldTypeAbstract
 {
     public function getTemplate(): string
     {

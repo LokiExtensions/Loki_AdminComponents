@@ -4,6 +4,7 @@ namespace Loki\AdminComponents\ViewModel;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Store\Model\StoreManager;
+use Magento\Store\Model\Website;
 
 class StoreView implements ArgumentInterface
 {
@@ -18,9 +19,11 @@ class StoreView implements ArgumentInterface
 
         foreach ($storeIds as $storeId) {
             $store = $this->storeManager->getStore($storeId);
-            $websites[$store->getWebsiteId()]['selected'] = true;
-            $websites[$store->getWebsiteId()]['groups'][$store->getStoreGroupId()]['selected'] = true;
-            $websites[$store->getWebsiteId()]['groups'][$store->getStoreGroupId()]['stores'][$storeId]['selected'] = true;
+            $websiteId = $store->getWebsiteId();
+            $groupId = $store->getStoreGroupId();
+            $websites[$websiteId]['selected'] = true;
+            $websites[$websiteId]['groups'][$groupId]['selected'] = true;
+            $websites[$websiteId]['groups'][$groupId]['stores'][$storeId]['selected'] = true;
         }
 
         return $websites;
@@ -31,6 +34,10 @@ class StoreView implements ArgumentInterface
     {
         $websites = [];
         foreach ($this->storeManager->getWebsites() as $website) {
+            if (false === $website instanceof Website) {
+                continue;
+            }
+
             $groups = [];
             foreach ($website->getGroups() as $group) {
                 $stores = [];

@@ -5,8 +5,9 @@ declare(strict_types = 1);
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
 use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 
-abstract class FieldTypeAbstract
+abstract class FieldTypeAbstract implements FieldTypeInterface
 {
     protected ?Field $field = null;
 

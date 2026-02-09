@@ -27,7 +27,10 @@
         "Magento_Ui",
         "Yireo_CspUtilities"
     ],
-    "components": [],
+    "components": [
+        "loki_admin_components.entity_select"
+    ],
     "config": [],
-    "tests": []
+    "tests": [],
+    "phpstan_level": "1"
 }

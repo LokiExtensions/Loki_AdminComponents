@@ -1,4 +1,4 @@
-<?php declare(strict_types=1); /** @version 0.5.1 */ use Loki\AdminComponents\ViewModel\Form\Field\Editor; use Loki\Components\Factory\ViewModelFactory; use Magento\Framework\View\Element\Template; /** @var Template $block */ /** @var ViewModelFactory $viewModelFactory */ /** @var Editor $editor */ $editor = $viewModelFactory->create(Editor::class); ?> <script>
+<?php declare(strict_types=1); /** @version 0.5.2 */ use Loki\AdminComponents\ViewModel\Form\Field\Editor; use Loki\Components\Factory\ViewModelFactory; use Magento\Framework\View\Element\Template; /** @var Template $block */ /** @var ViewModelFactory $viewModelFactory */ /** @var Editor $editor */ $editor = $viewModelFactory->create(Editor::class); ?> <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormPagebuilderComponent', () => ({
             wysiwygInstance: null,

@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Loki\AdminComponents\Form\Field\FieldType;
 
-use Loki\AdminComponents\Form\Field\FieldTypeInterface;
-
-class EntitySelect extends FieldTypeAbstract implements FieldTypeInterface
+class EntitySelect extends FieldTypeAbstract
 {
     public function getInputType(): string
     {

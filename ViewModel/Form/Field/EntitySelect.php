@@ -85,6 +85,7 @@ class EntitySelect implements ArgumentInterface
             return $gridViewModel;
         }
 
+        /** @var Template $block */
         $block = $this->block->getLayout()->createBlock(Template::class);
         $block->setNamespace($this->getNamespace());
 

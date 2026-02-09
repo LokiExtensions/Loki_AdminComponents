@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Field;
 
 use Loki\AdminComponents\Form\Field\FieldType\Editor;
+use Loki\AdminComponents\Form\Field\FieldType\Input;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
@@ -84,6 +85,10 @@ class Field extends DataObject
             $fieldAttributes['required'] = null;
         }
 
+        if ($this->isHidden() && $this->getFieldType() instanceof Input) {
+            $fieldAttributes['type'] = 'hidden';
+        }
+
         return $fieldAttributes;
     }
 
@@ -106,5 +111,15 @@ class Field extends DataObject
         }
 
         return true;
+    }
+
+    public function isHidden(): bool
+    {
+        $hidden = $this->getData('hidden');
+        if (is_bool($hidden)) {
+            return $hidden;
+        }
+
+        return false;
     }
 }

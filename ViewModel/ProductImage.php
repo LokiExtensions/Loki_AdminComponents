@@ -2,7 +2,7 @@
 
 namespace Loki\AdminComponents\ViewModel;
 
-use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
@@ -13,7 +13,7 @@ class ProductImage implements ArgumentInterface
     ) {
     }
 
-    public function getThumbnailUrl(ProductInterface $product): string
+    public function getThumbnailUrl(Product $product): string
     {
         return $this->imageHelper->init($product, 'product_page_image_small')
             ->setImageFile($product->getImage()) // image,small_image,thumbnail
@@ -21,7 +21,7 @@ class ProductImage implements ArgumentInterface
             ->getUrl();
     }
 
-    public function getImageUrl(ProductInterface $product): string
+    public function getImageUrl(Product $product): string
     {
         return $this->imageHelper->init($product, 'product_page_image_medium')
             ->setImageFile($product->getImage())
