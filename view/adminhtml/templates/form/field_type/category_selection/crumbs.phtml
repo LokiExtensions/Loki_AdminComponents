@@ -1,0 +1,57 @@
+<?php declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+?>
+<template x-for="categoryId in selectedCategoryIds" :key="categoryId">
+    <span class="admin__action-multiselect-crumb"
+          x-data="CategorySelectionCrumb"
+          :data-id="categoryId"
+    >
+        <span x-text="crumbLabel"></span>
+        <button
+            class="action-close"
+            type="button"
+            data-action="remove-selected-item"
+            tabindex="-1"
+            @click="removeSelected"
+            data-bind="click: $parent.removeSelected.bind($parent, value)
+        ">
+            <span class="action-close-text">
+                <?= $escaper->escapeHtml(__('Close')) ?>
+            </span>
+        </button>
+    </span>
+</template>
+<script>
+    'use strict';
+
+    function CategorySelectionCrumb() {
+        return {
+            root: null,
+            crumbId: null,
+            init() {
+                this.root = this.$el;
+                this.$nextTick(() => {
+                    this.crumbId = parseFloat(this.root.dataset.id);
+                });
+
+            },
+            crumbLabel() {
+                return this.items[this.crumbId]?.label || '';
+            },
+            removeSelected() {
+                this.$event.stopPropagation();
+                this.unselectCategoryId(this.crumbId);
+                console.log(this.selectedCategoryIds, this.crumbId);
+            },
+        };
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('CategorySelectionCrumb', CategorySelectionCrumb);
+    });
+</script>

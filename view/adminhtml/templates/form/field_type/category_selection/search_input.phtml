@@ -1,0 +1,163 @@
+<?php declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+?>
+<div
+    class="admin__action-multiselect-search-wrap"
+    x-data="CategoriesSelectionSearch"
+>
+    <input
+        id="category-search-input"
+        class="admin__control-text admin__action-multiselect-search"
+        data-role="advanced-select-text"
+        type="text"
+        @input="filterInputValue"
+    />
+    <label class="admin__action-multiselect-search-label"
+           data-action="advanced-select-search"
+           for="category-search-input"
+    ></label>
+    <template x-if="canShowSearchResult">
+        <div
+            class="admin__action-multiselect-search-count"
+            x-text="itemsQuantity"
+        ></div>
+    </template>
+</div>
+<template x-if="canShowSearchResult">
+<ul class="admin__action-multiselect-menu-inner _root">
+    <template x-for="search in searchResult" :key="search.id">
+        <li class="admin__action-multiselect-menu-inner-item _root"
+            :data-search-item-id="search.id"
+            x-data="CategoriesSelectionSearchResultItem"
+            data-bind="css: { _parent: $data.optgroup }"
+            data-role="option-group"
+        >
+            <div
+                class="action-menu-item"
+                :class="classActionMenuItem"
+                @click="toggleSelection"
+            >
+                <input
+                    class="admin__control-checkbox"
+                    type="checkbox"
+                    tabindex="-1"
+                    :checked="isSelected"
+                />
+                <label class="admin__action-multiselect-label">
+                    <span x-text="search.label"></span>
+                    <template x-if="hasParent">
+                        <span
+                            class="admin__action-multiselect-item-path"
+                            x-text="parentsPathText"></span>
+                    </template>
+                </label>
+            </div>
+        </li>
+    </template>
+</ul>
+</template>
+<template x-if="canShowNoResultMessage">
+    <div style="padding: 2rem; text-align: center;">
+        <?= __('No results found.') ?>
+    </div>
+</template>
+
+<script>
+    'use strict';
+
+    function CategoriesSelectionSearch() {
+        return {
+            itemsQuantity() {
+                return this.searchResult.length === 1 ?
+                    "1 <?= $escaper->escapeJs(__('option')) ?>" :
+                    this.searchResult.length.toString() + " <?= $escaper->escapeJs(__('options')) ?>";
+            },
+            filterInputValue() {
+                const searchValue = this.$event.target.value.trim().toLowerCase();
+
+                if (!searchValue) {
+                    this.searchResult = [];
+                    return this.switchToTreeView();
+                }
+
+                this.searchResult = this.prepareFilteredResult(searchValue);
+
+                this.switchToSearchView();
+            },
+            switchToSearchView() {
+                if (!this.isSearchView) {
+                    this.isTreeView = false;
+                    this.isSearchView = true;
+                }
+            },
+            switchToTreeView() {
+                if (!this.isTreeView) {
+                    this.isTreeView = true;
+                    this.isSearchView = false;
+                }
+            },
+            prepareFilteredResult(value) {
+                const result = [];
+
+                Object.keys(this.items).forEach((itemId) => {
+                    const item = this.items[itemId];
+                    const currentOption = item.label.toLowerCase();
+
+                    if (currentOption.indexOf(value) > -1) {
+                        result.push(item);
+                    }
+                });
+
+                return result;
+            },
+        };
+    }
+
+    function CategoriesSelectionSearchResultItem() {
+        return {
+            ...CategorySelectItemCommon(),
+            get itemId() {
+                return this.data.id;
+            },
+            init() {
+                this.$nextTick(() => {
+                    const searchItemId = parseFloat(this.$el.dataset.searchItemId);
+                    this.data = this.items[searchItemId];
+                });
+            },
+            hasParent() {
+                return !!this.data?.parentId;
+            },
+            parentsPathText() {
+                if (!this.data) {
+                    return '';
+                }
+
+                const parentsPath = this.items[this.itemId].parentsPath;
+                if (parentsPath !== null) {
+                    return parentsPath;
+                }
+
+                let paths = [];
+
+                this.data.parentIds.forEach((parentId) => {
+                    paths.push(this.items[parentId].label);
+                });
+
+                this.items[this.itemId].parentsPath = paths.join(' / ');
+
+                return this.items[this.itemId].parentsPath;
+            },
+        };
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('CategoriesSelectionSearch', CategoriesSelectionSearch);
+        Alpine.data('CategoriesSelectionSearchResultItem', CategoriesSelectionSearchResultItem);
+    });
+</script>

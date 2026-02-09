@@ -1,0 +1,370 @@
+<?php declare(strict_types=1);
+
+use Loki\AdminComponents\LokiComponent\Admin\Form\Field\FieldType\CategorySelection;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var CategorySelection $fieldType */
+
+$viewModel = $block->getData('view_model');
+$field = $block->getField();
+$fieldType = $field->getFieldType();
+$categoryTreeNodes = $fieldType->getCategoryTree();
+?>
+<div
+    class="admin__field"
+    data-index="container_category_ids"
+    x-data="CategoriesSelection"
+    :class="classAdminField"
+>
+    <div class="admin__field-control admin__control-grouped">
+        <div class="admin__field" data-index="category_ids">
+            <div class="admin__field-label">
+                <label for="category-selection-box">
+                    <span :data-config-scope="scopeLabel">
+                        <?= $field->getLabel() ?>
+                    </span>
+                </label>
+            </div>
+            <div class="admin__field-control">
+                <div
+                    id="category-selection-box"
+                    class="admin__action-multiselect-wrap action-select-wrap admin__action-multiselect-tree"
+                    tabindex="0"
+                    :class="classMultiselectWrap"
+                    @keydown="keydownSwitcher"
+                    @click.outside="closeSelector"
+                    @keydown.escape.window="closeSelector"
+                >
+                    <div class="action-select admin__action-multiselect"
+                         data-role="advanced-select"
+                         :class="classMultiselect"
+                         @click="toggleListVisible"
+                    >
+                        <?= $fieldType->renderCategoriesBreadcrumb() ?>
+                    </div>
+                    <div class="action-menu"
+                         :class="classActionMenu"
+                    >
+                        <?= $fieldType->renderSearchInput() ?>
+                        <?php foreach ($categoryTreeNodes as $rootCategory): ?>
+                        <ul class="admin__action-multiselect-menu-inner _root"
+                            data-item-data="<?= $escaper->escapeHtmlAttr($fieldType->getCategoryNodeJson($rootCategory)) ?>"
+                            x-data="CategorySelectItem"
+                            x-show="isTreeView"
+                            x-cloak
+                            :data-level="itemLevel"
+                            :data-expanded="dataExpanded"
+                        >
+                            <li class="admin__action-multiselect-menu-inner-item _root"
+                                data-role="option-group"
+                                :class="classInnerItem"
+                            >
+                                <div class="action-menu-item"
+                                     :class="classActionMenuItem"
+                                     @mouseenter="handleMouseEnter"
+                                     @mouseleave="handleMouseLeave"
+                                     @click="toggleSelection"
+                                     @keydown.enter.window="toggleSelection"
+                                >
+                                    <template x-if="showIconToOpenLevels">
+                                        <div class="admin__action-multiselect-dropdown"
+                                             @click="toggleExpansion"
+                                        ></div>
+                                    </template>
+                                    <input
+                                        class="admin__control-checkbox"
+                                        type="checkbox"
+                                        tabindex="-1"
+                                        :checked="isSelected"
+                                    />
+                                    <label class="admin__action-multiselect-label">
+                                        <span><?= $escaper->escapeHtml($rootCategory->label) ?></span>
+                                    </label>
+                                </div>
+                                <?php foreach ($rootCategory->children as $childCategory): ?>
+                                    <?= $fieldType->renderChildCategoryNode($childCategory, $field)?>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
+                        <?php endforeach; ?>
+
+                        <div class="admin__action-multiselect-actions-wrap">
+                            <button
+                                class="action-default"
+                                data-action="close-advanced-select"
+                                type="button"
+                                @click="closeSelector"
+                            >
+                                <span><?= $escaper->escapeHtml(__('Done')) ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    'use strict';
+
+    const CategorySelectionSearch = {
+        isSearchView: false,
+        searchResult: [],
+        hasSearchResult() {
+            return !!this.searchResult.length;
+        },
+        canShowNoResultMessage() {
+            return this.isSearchView && !this.hasSearchResult();
+        },
+        canShowSearchResult() {
+            return this.hasSearchResult() && this.isSearchView;
+        },
+    };
+
+    const CategorySelectionHover = {
+        hoverOnFirstItem() {
+            const firstHoverItemId = this.hoverSequence[0];
+            if (firstHoverItemId) {
+                this.items[firstHoverItemId].hovered = true;
+            }
+        },
+        getHoverSequenceByEventKey(key) {
+            const currentHoveredItem = this.getCurrentHoverItem();
+            const sequenceStartIndex = this.hoverSequence.findIndex((seq) => seq === currentHoveredItem.id);
+
+            if (sequenceStartIndex === -1) {
+                return [];
+            }
+
+            if (key === 'ArrowDown') {
+                return this.hoverSequence.slice(sequenceStartIndex + 1);
+            }
+            if (key === 'ArrowUp') {
+                return this.hoverSequence.slice(0, sequenceStartIndex).reverse();
+            }
+
+            return [];
+        },
+        getCurrentHoverItem() {
+            const currentHoveredItemId = Object.keys(this.items).find((itemId) => {
+                return this.items[itemId].hovered;
+            });
+
+            return this.items[currentHoveredItemId];
+        },
+        keydownSwitcher() {
+            this.$event.stopPropagation();
+
+            if (!['ArrowUp', 'ArrowDown'].includes(this.$event.key)) {
+                return;
+            }
+
+            this.$nextTick(() => {
+                this.$el.focus();
+            });
+            const currentHoveredItem = this.getCurrentHoverItem();
+
+            if (!currentHoveredItem) {
+                return this.hoverOnFirstItem();
+            }
+
+            let sequenceItemUsed = false;
+
+            for (const seqId of this.getHoverSequenceByEventKey(this.$event.key)) {
+                const item = this.items[seqId];
+                if (!item) {
+                    continue;
+                }
+
+                if (item.level <= currentHoveredItem.level) {
+                    item.hovered = true;
+                    sequenceItemUsed = true;
+                    break;
+                }
+
+                const parentItem = this.items[item.parentId];
+                if (parentItem.expanded) {
+                    item.hovered = true;
+                    sequenceItemUsed = true;
+                    break;
+                }
+            }
+            currentHoveredItem.hovered = false;
+            if (!sequenceItemUsed) {
+                this.hoverOnFirstItem();
+            }
+        },
+        updateItemHovered(id, hoverValue) {
+            if (!this.items[id]) {
+                return;
+            }
+
+            this.items[id].hovered = hoverValue;
+        },
+        isItemHovered(id) {
+            if (!this.items[id]) {
+                return false;
+            }
+
+            return this.items[id].hovered;
+        },
+    };
+
+    function CategoriesSelection() {
+        return {
+            ...CategorySelectionSearch,
+            ...CategorySelectionHover,
+            items: {},
+            listVisible: false,
+            isTreeView: true,
+            selectedCategoryIds: [],
+            scopeLabel: '[GLOBAL]',
+            hoverSequence: <?= /** @noEscape */$fieldType->getHoverSequenceJson() ?> || [],
+            lastLevel: <?= $fieldType->getMaxCategoryLevel($categoryTreeNodes) ?>,
+            isRequired: !!<?= (int)$field->isRequired() ?>,
+            classAdminField() {
+                return { _required: this.isRequired };
+            },
+            classMultiselectWrap() {
+                return {
+                    _active: this.listVisible,
+                    'admin__action-multiselect-tree': this.isTree(),
+                };
+            },
+            classMultiselect() {
+                return { _active: this.listVisible };
+            },
+            classActionMenu() {
+                return { _active: this.listVisible };
+            },
+            toggleListVisible() {
+                this.listVisible = !this.listVisible;
+            },
+            isTree() {
+                return true;
+            },
+            isItemSelected(id) {
+                return this.selectedCategoryIds.includes(id);
+            },
+            isLastLevel(level) {
+                return this.lastLevel === level;
+            },
+            isItemExpanded(id) {
+                if (!this.items[id]) {
+                    return false;
+                }
+
+                return this.items[id].expanded;
+            },
+            toggleItemExpansion(id) {
+                if (!this.items[id]) {
+                    return;
+                }
+
+                const currentValue = this.items[id].expanded;
+                this.items[id].expanded = !currentValue;
+            },
+            closeSelector() {
+                this.listVisible = false;
+            },
+            unselectCategoryId(id) {
+                this.selectedCategoryIds = this.selectedCategoryIds.filter(
+                    (categoryId) => categoryId !== id
+                );
+            },
+            toggleItemSelection(id) {
+                if (this.isItemSelected(id)) {
+                    return this.unselectCategoryId(id);
+                }
+
+                this.selectedCategoryIds.push(id);
+            },
+        };
+    }
+
+    function CategorySelectItemCommon() {
+        return {
+            data: null,
+            toggleSelection() {
+                if (!this.data) {
+                    return;
+                }
+                this.$event.stopPropagation();
+                this.toggleItemSelection(this.data.id);
+            },
+            isSelected() {
+                if (!this.data) {
+                    return false;
+                }
+                return this.isItemSelected(this.data.id);
+            },
+            classActionMenuItem() {
+                if (!this.data) {
+                    return {};
+                }
+                return {
+                    _selected: this.isItemSelected(this.data.id),
+                    _hover: this.isItemHovered(this.data.id),
+                    _expended: this.isItemExpanded(this.data.id),
+                    // '_unclickable': this.isLabelDecoration($data),
+                    _last: this.isLastLevel(this.data.level),
+                    '_with-checkbox': true,
+                };
+            },
+        }
+    }
+
+    function CategorySelectItem() {
+        return {
+            ...CategorySelectItemCommon(),
+            root: null,
+            init() {
+                this.root = this.$el;
+                const data = this.root.dataset.itemData;
+                if (data) {
+                    this.data = JSON.parse(data);
+                    this.items[this.data.id] = this.data;
+                }
+            },
+            get itemId() {
+                return this.data.id;
+            },
+            classInnerItem() {
+                return { _parent: this.data.hasChildren };
+            },
+            itemLevel() {
+                return this.data.level;
+            },
+            dataExpanded() {
+                return this.isItemExpanded(this.itemId) ? 'true' : 'false';
+            },
+            <?php  // The visibility of a node item depends upon its parent's "expanded" state ?>
+            canShow() {
+                return this.isItemExpanded(this.data.parentId);
+            },
+            showIconToOpenLevels() {
+                return !this.isLastLevel(this.data.level);
+            },
+            handleMouseEnter() {
+                this.updateItemHovered(this.itemId, true);
+            },
+            handleMouseLeave() {
+                this.updateItemHovered(this.itemId, false);
+            },
+            toggleExpansion() {
+                this.$event.stopPropagation();
+                this.toggleItemExpansion(this.itemId);
+            },
+        };
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('CategoriesSelection', CategoriesSelection);
+        Alpine.data('CategorySelectItem', CategorySelectItem);
+    });
+</script>
