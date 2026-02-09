@@ -122,7 +122,7 @@ use Magento\Framework\View\Element\Template;
         return {
             ...CategorySelectItemCommon(),
             get itemId() {
-                return this.data.id;
+                return this.data?.id;
             },
             init() {
                 this.$nextTick(() => {

@@ -237,7 +237,7 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
                 }
             },
             get itemId() {
-                return this.data.id;
+                return this.data?.id;
             },
             classInnerItem() {
                 return { _parent: this.data.hasChildren };
