@@ -98,7 +98,7 @@ class FormViewModel extends ComponentViewModel
     public function getFieldsets(): array
     {
         $fieldsetDefinitions = (array)$this->getBlock()->getFieldsets();
-        $fieldsets['base'] = $this->fieldsetFactory->create('base', $fieldsetDefinitions['base']['label'] ?? null);
+        $fieldsets['base'] = $this->fieldsetFactory->create('base', $fieldsetDefinitions['base']['label'] ?? '');
 
         foreach ($fieldsetDefinitions as $fieldsetCode => $fieldsetDefinition) {
             if (empty($fieldsetCode)) {
