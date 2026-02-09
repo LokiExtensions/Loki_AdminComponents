@@ -120,7 +120,7 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
         },
     };
 
-    function CategoriesSelection() {
+    function CategorySelection() {
         return {
             ...CategorySelectionSearch,
             ...CategorySelectionHover,
@@ -269,7 +269,7 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
     }
 
     document.addEventListener('alpine:init', () => {
-        Alpine.data('CategoriesSelection', CategoriesSelection);
+        Alpine.data('CategorySelection', CategorySelection);
         Alpine.data('CategorySelectItem', CategorySelectItem);
     });
 </script>
