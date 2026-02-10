@@ -1,0 +1,112 @@
+<?php declare(strict_types=1);
+
+use Loki\AdminComponents\Form\Field\FieldType\CategorySelection;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var CategorySelection $fieldType */
+
+$viewModel = $block->getData('view_model');
+$field = $block->getField();
+$fieldType = $field->getFieldType();
+$categoryTreeNodes = $fieldType->getCategoryTree();
+?>
+<div
+    class="admin__field"
+    data-index="container_category_ids"
+    x-data="CategorySelection"
+    :class="classAdminField"
+>
+    <div class="admin__field-control admin__control-grouped">
+        <div class="admin__field" data-index="category_ids">
+            <div class="admin__field-label">
+                <label for="category-selection-box">
+                    <span :data-config-scope="scopeLabel">
+                        <?= $escaper->escapeHtml($field->getLabel()) ?>
+                    </span>
+                </label>
+            </div>
+            <div class="admin__field-control">
+                <div
+                    id="category-selection-box"
+                    class="admin__action-multiselect-wrap action-select-wrap admin__action-multiselect-tree"
+                    tabindex="0"
+                    :class="classMultiselectWrap"
+                    @keydown="keydownSwitcher"
+                    @click.outside="closeSelector"
+                    @keydown.escape.window="closeSelector"
+                >
+                    <div class="action-select admin__action-multiselect"
+                         data-role="advanced-select"
+                         :class="classMultiselect"
+                         @click="toggleListVisible"
+                    >
+                        <?= /** @noEscape */ $fieldType->renderCategoriesBreadcrumb() ?>
+                    </div>
+                    <div class="action-menu"
+                         :class="classActionMenu"
+                    >
+                        <?= /** @noEscape */ $fieldType->renderSearchInput() ?>
+                        <?php foreach ($categoryTreeNodes as $rootCategory): ?>
+                        <ul class="admin__action-multiselect-menu-inner _root"
+                            data-item-data="<?= $escaper->escapeHtmlAttr($fieldType->getCategoryNodeJson($rootCategory)) ?>"
+                            x-data="CategorySelectItem"
+                            x-show="isTreeView"
+                            x-cloak
+                            :data-level="itemLevel"
+                            :data-expanded="dataExpanded"
+                        >
+                            <li class="admin__action-multiselect-menu-inner-item _root"
+                                data-role="option-group"
+                                :class="classInnerItem"
+                            >
+                                <div class="action-menu-item"
+                                     :class="classActionMenuItem"
+                                     @mouseenter="handleMouseEnter"
+                                     @mouseleave="handleMouseLeave"
+                                     @click="toggleSelection"
+                                     @keydown.enter.window="toggleSelection"
+                                >
+                                    <template x-if="showIconToOpenLevels">
+                                        <div class="admin__action-multiselect-dropdown"
+                                             @click="toggleExpansion"
+                                        ></div>
+                                    </template>
+                                    <input
+                                        class="admin__control-checkbox"
+                                        type="checkbox"
+                                        tabindex="-1"
+                                        :checked="isSelected"
+                                    />
+                                    <label class="admin__action-multiselect-label">
+                                        <span><?= $escaper->escapeHtml($rootCategory->label) ?></span>
+                                    </label>
+                                </div>
+                                <?php foreach ($rootCategory->children as $childCategory): ?>
+                                    <?= /** @noEscape */ $fieldType->renderChildCategoryNode($childCategory, $field)?>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
+                        <?php endforeach; ?>
+
+                        <div class="admin__action-multiselect-actions-wrap">
+                            <button
+                                class="action-default"
+                                data-action="close-advanced-select"
+                                type="button"
+                                @click="closeSelector"
+                            >
+                                <span><?= $escaper->escapeHtml(__('Done')) ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?= /** @noEscape */ $fieldType->renderMainScript($field) ?>

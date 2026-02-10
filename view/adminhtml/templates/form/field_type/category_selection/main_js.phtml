@@ -1,0 +1,275 @@
+<?php declare(strict_types=1);
+
+use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\CategorySelection;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var CategorySelection $fieldType */
+
+$field = $block->getData('field');
+$fieldType = $field->getFieldType();
+$maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
+?>
+<script>
+    'use strict';
+
+    const CategorySelectionSearch = {
+        isSearchView: false,
+        searchResult: [],
+        hasSearchResult() {
+            return !!this.searchResult.length;
+        },
+        canShowNoResultMessage() {
+            return this.isSearchView && !this.hasSearchResult();
+        },
+        canShowSearchResult() {
+            return this.hasSearchResult() && this.isSearchView;
+        },
+    };
+
+    const CategorySelectionHover = {
+        hoverOnFirstItem() {
+            const firstHoverItemId = this.hoverSequence[0];
+            if (firstHoverItemId) {
+                this.items[firstHoverItemId].hovered = true;
+            }
+        },
+        getHoverSequenceByEventKey(key) {
+            const currentHoveredItem = this.getCurrentHoverItem();
+            const sequenceStartIndex = this.hoverSequence.findIndex((seq) => seq === currentHoveredItem.id);
+
+            if (sequenceStartIndex === -1) {
+                return [];
+            }
+
+            if (key === 'ArrowDown') {
+                return this.hoverSequence.slice(sequenceStartIndex + 1);
+            }
+            if (key === 'ArrowUp') {
+                return this.hoverSequence.slice(0, sequenceStartIndex).reverse();
+            }
+
+            return [];
+        },
+        getCurrentHoverItem() {
+            const currentHoveredItemId = Object.keys(this.items).find((itemId) => {
+                return this.items[itemId].hovered;
+            });
+
+            return this.items[currentHoveredItemId];
+        },
+        keydownSwitcher() {
+            this.$event.stopPropagation();
+
+            if (!['ArrowUp', 'ArrowDown'].includes(this.$event.key)) {
+                return;
+            }
+
+            this.$nextTick(() => {
+                this.$el.focus();
+            });
+            const currentHoveredItem = this.getCurrentHoverItem();
+
+            if (!currentHoveredItem) {
+                return this.hoverOnFirstItem();
+            }
+
+            let sequenceItemUsed = false;
+
+            for (const seqId of this.getHoverSequenceByEventKey(this.$event.key)) {
+                const item = this.items[seqId];
+                if (!item) {
+                    continue;
+                }
+
+                if (item.level <= currentHoveredItem.level) {
+                    item.hovered = true;
+                    sequenceItemUsed = true;
+                    break;
+                }
+
+                const parentItem = this.items[item.parentId];
+                if (parentItem.expanded) {
+                    item.hovered = true;
+                    sequenceItemUsed = true;
+                    break;
+                }
+            }
+            currentHoveredItem.hovered = false;
+            if (!sequenceItemUsed) {
+                this.hoverOnFirstItem();
+            }
+        },
+        updateItemHovered(id, hoverValue) {
+            if (!this.items[id]) {
+                return;
+            }
+
+            this.items[id].hovered = hoverValue;
+        },
+        isItemHovered(id) {
+            if (!this.items[id]) {
+                return false;
+            }
+
+            return this.items[id].hovered;
+        },
+    };
+
+    function CategorySelection() {
+        return {
+            ...CategorySelectionSearch,
+            ...CategorySelectionHover,
+            items: {},
+            listVisible: false,
+            isTreeView: true,
+            selectedCategoryIds: [],
+            scopeLabel: '[GLOBAL]',
+            hoverSequence: <?= /** @noEscape */$fieldType->getHoverSequenceJson() ?> || [],
+            lastLevel: <?= /** @noEscape */ (int)$maxTreeLevel ?>,
+            isRequired: !!<?= (int)$field->isRequired() ?>,
+            classAdminField() {
+                return { _required: this.isRequired };
+            },
+            classMultiselectWrap() {
+                return {
+                    _active: this.listVisible,
+                    'admin__action-multiselect-tree': this.isTree(),
+                };
+            },
+            classMultiselect() {
+                return { _active: this.listVisible };
+            },
+            classActionMenu() {
+                return { _active: this.listVisible };
+            },
+            toggleListVisible() {
+                this.listVisible = !this.listVisible;
+            },
+            isTree() {
+                return true;
+            },
+            isItemSelected(id) {
+                return this.selectedCategoryIds.includes(id);
+            },
+            isLastLevel(level) {
+                return this.lastLevel === level;
+            },
+            isItemExpanded(id) {
+                if (!this.items[id]) {
+                    return false;
+                }
+
+                return this.items[id].expanded;
+            },
+            toggleItemExpansion(id) {
+                if (!this.items[id]) {
+                    return;
+                }
+
+                const currentValue = this.items[id].expanded;
+                this.items[id].expanded = !currentValue;
+            },
+            closeSelector() {
+                this.listVisible = false;
+            },
+            unselectCategoryId(id) {
+                this.selectedCategoryIds = this.selectedCategoryIds.filter(
+                    (categoryId) => categoryId !== id
+                );
+            },
+            toggleItemSelection(id) {
+                if (this.isItemSelected(id)) {
+                    return this.unselectCategoryId(id);
+                }
+
+                this.selectedCategoryIds.push(id);
+            },
+        };
+    }
+
+    function CategorySelectItemCommon() {
+        return {
+            data: null,
+            toggleSelection() {
+                if (!this.data) {
+                    return;
+                }
+                this.$event.stopPropagation();
+                this.toggleItemSelection(this.data.id);
+            },
+            isSelected() {
+                if (!this.data) {
+                    return false;
+                }
+                return this.isItemSelected(this.data.id);
+            },
+            classActionMenuItem() {
+                if (!this.data) {
+                    return {};
+                }
+                return {
+                    _selected: this.isItemSelected(this.data.id),
+                    _hover: this.isItemHovered(this.data.id),
+                    _expended: this.isItemExpanded(this.data.id),
+                    // '_unclickable': this.isLabelDecoration($data),
+                    _last: this.isLastLevel(this.data.level),
+                    '_with-checkbox': true,
+                };
+            },
+        }
+    }
+
+    function CategorySelectItem() {
+        return {
+            ...CategorySelectItemCommon(),
+            root: null,
+            init() {
+                this.root = this.$el;
+                const data = this.root.dataset.itemData;
+                if (data) {
+                    this.data = JSON.parse(data);
+                    this.items[this.data.id] = this.data;
+                }
+            },
+            get itemId() {
+                return this.data?.id;
+            },
+            classInnerItem() {
+                return { _parent: this.data.hasChildren };
+            },
+            itemLevel() {
+                return this.data.level;
+            },
+            dataExpanded() {
+                return this.isItemExpanded(this.itemId) ? 'true' : 'false';
+            },
+            <?php  // The visibility of a node item depends upon its parent's "expanded" state ?>
+            canShow() {
+                return this.isItemExpanded(this.data.parentId);
+            },
+            showIconToOpenLevels() {
+                return !this.isLastLevel(this.data.level);
+            },
+            handleMouseEnter() {
+                this.updateItemHovered(this.itemId, true);
+            },
+            handleMouseLeave() {
+                this.updateItemHovered(this.itemId, false);
+            },
+            toggleExpansion() {
+                this.$event.stopPropagation();
+                this.toggleItemExpansion(this.itemId);
+            },
+        };
+    }
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('CategorySelection', CategorySelection);
+        Alpine.data('CategorySelectItem', CategorySelectItem);
+    });
+</script>

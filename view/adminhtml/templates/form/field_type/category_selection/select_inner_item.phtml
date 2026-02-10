@@ -1,0 +1,55 @@
+<?php declare(strict_types=1);
+
+use Loki\AdminComponents\Data\CategoryTreeNode;
+use Loki\AdminComponents\Form\Field\FieldType\CategorySelection;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\AdminComponents\Form\Field\Field;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var Field $field */
+/** @var CategorySelection $fieldType */
+/** @var CategoryTreeNode $categoryTreeNode */
+
+$field = $block->getData('field');
+$categoryTreeNode = $block->getData('category_tree_node');
+$fieldType = $field->getFieldType();
+?>
+<ul class="admin__action-multiselect-menu-inner"
+    data-item-data="<?= $escaper->escapeHtmlAttr($fieldType->getCategoryNodeJson($categoryTreeNode)) ?>"
+    x-data="CategorySelectItem"
+    x-show="canShow"
+    :data-level="itemLevel"
+    :data-expanded="dataExpanded"
+>
+    <li class="admin__action-multiselect-menu-inner-item"
+        :class="classInnerItem"
+    >
+        <div class="action-menu-item"
+             :class="classActionMenuItem"
+             @mouseenter="handleMouseEnter"
+             @mouseleave="handleMouseLeave"
+             @click="toggleSelection"
+             @keydown.enter.window="toggleSelection"
+        >
+            <template x-if="showIconToOpenLevels">
+                <div class="admin__action-multiselect-dropdown"
+                     @click="toggleExpansion"
+                ></div>
+            </template>
+            <input
+                class="admin__control-checkbox"
+                type="checkbox"
+                tabindex="-1"
+                :checked="isSelected"
+            />
+            <label class="admin__action-multiselect-label">
+                <?= $escaper->escapeHtmlAttr($categoryTreeNode->label) ?>
+            </label>
+        </div>
+        <?php foreach ($categoryTreeNode->children as $childCategory): ?>
+            <?= /** @noEscape */ $fieldType->renderChildCategoryNode($childCategory, $field)?>
+        <?php endforeach; ?>
+    </li>
+</ul>
