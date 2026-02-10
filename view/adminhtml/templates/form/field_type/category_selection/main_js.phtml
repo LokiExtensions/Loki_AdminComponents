@@ -32,35 +32,12 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
     };
 
     const CategorySelectionHover = {
-        hoverOnFirstItem() {
-            const firstHoverItemId = this.hoverSequence[0];
-            if (firstHoverItemId) {
-                this.items[firstHoverItemId].hovered = true;
-            }
-        },
-        getHoverSequenceByEventKey(key) {
-            const currentHoveredItem = this.getCurrentHoverItem();
-            const sequenceStartIndex = this.hoverSequence.findIndex((seq) => seq === currentHoveredItem.id);
-
-            if (sequenceStartIndex === -1) {
-                return [];
+        isItemHovered(id) {
+            if (!this.items[id]) {
+                return false;
             }
 
-            if (key === 'ArrowDown') {
-                return this.hoverSequence.slice(sequenceStartIndex + 1);
-            }
-            if (key === 'ArrowUp') {
-                return this.hoverSequence.slice(0, sequenceStartIndex).reverse();
-            }
-
-            return [];
-        },
-        getCurrentHoverItem() {
-            const currentHoveredItemId = Object.keys(this.items).find((itemId) => {
-                return this.items[itemId].hovered;
-            });
-
-            return this.items[currentHoveredItemId];
+            return this.items[id].hovered;
         },
         keydownSwitcher() {
             this.$event.stopPropagation();
@@ -72,15 +49,15 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
             this.$nextTick(() => {
                 this.$el.focus();
             });
-            const currentHoveredItem = this.getCurrentHoverItem();
+            const currentHoveredItem = this._getCurrentHoverItem();
 
             if (!currentHoveredItem) {
-                return this.hoverOnFirstItem();
+                return this._hoverOnFirstItem();
             }
 
             let sequenceItemUsed = false;
 
-            for (const seqId of this.getHoverSequenceByEventKey(this.$event.key)) {
+            for (const seqId of this._getHoverSequenceByEventKey(this.$event.key)) {
                 const item = this.items[seqId];
                 if (!item) {
                     continue;
@@ -101,7 +78,7 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
             }
             currentHoveredItem.hovered = false;
             if (!sequenceItemUsed) {
-                this.hoverOnFirstItem();
+                this._hoverOnFirstItem();
             }
         },
         updateItemHovered(id, hoverValue) {
@@ -111,12 +88,35 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
 
             this.items[id].hovered = hoverValue;
         },
-        isItemHovered(id) {
-            if (!this.items[id]) {
-                return false;
+        _getHoverSequenceByEventKey(key) {
+            const currentHoveredItem = this._getCurrentHoverItem();
+            const sequenceStartIndex = this.hoverSequence.findIndex((seq) => seq === currentHoveredItem.id);
+
+            if (sequenceStartIndex === -1) {
+                return [];
             }
 
-            return this.items[id].hovered;
+            if (key === 'ArrowDown') {
+                return this.hoverSequence.slice(sequenceStartIndex + 1);
+            }
+            if (key === 'ArrowUp') {
+                return this.hoverSequence.slice(0, sequenceStartIndex).reverse();
+            }
+
+            return [];
+        },
+        _getCurrentHoverItem() {
+            const currentHoveredItemId = Object.keys(this.items).find((itemId) => {
+                return this.items[itemId].hovered;
+            });
+
+            return this.items[currentHoveredItemId];
+        },
+        _hoverOnFirstItem() {
+            const firstHoverItemId = this.hoverSequence[0];
+            if (firstHoverItemId) {
+                this.items[firstHoverItemId].hovered = true;
+            }
         },
     };
 
@@ -147,8 +147,8 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
             classActionMenu() {
                 return { _active: this.listVisible };
             },
-            toggleListVisible() {
-                this.listVisible = !this.listVisible;
+            itemLabel(id) {
+                return this.items[id]?.label || '';
             },
             isTree() {
                 return true;
@@ -165,6 +165,9 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
                 }
 
                 return this.items[id].expanded;
+            },
+            toggleListVisible() {
+                this.listVisible = !this.listVisible;
             },
             toggleItemExpansion(id) {
                 if (!this.items[id]) {
@@ -195,19 +198,6 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
     function CategorySelectItemCommon() {
         return {
             data: null,
-            toggleSelection() {
-                if (!this.data) {
-                    return;
-                }
-                this.$event.stopPropagation();
-                this.toggleItemSelection(this.data.id);
-            },
-            isSelected() {
-                if (!this.data) {
-                    return false;
-                }
-                return this.isItemSelected(this.data.id);
-            },
             classActionMenuItem() {
                 if (!this.data) {
                     return {};
@@ -220,6 +210,19 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
                     _last: this.isLastLevel(this.data.level),
                     '_with-checkbox': true,
                 };
+            },
+            isSelected() {
+                if (!this.data) {
+                    return false;
+                }
+                return this.isItemSelected(this.data.id);
+            },
+            toggleSelection() {
+                if (!this.data) {
+                    return;
+                }
+                this.$event.stopPropagation();
+                this.toggleItemSelection(this.data.id);
             },
         }
     }
@@ -239,11 +242,11 @@ $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
             get itemId() {
                 return this.data?.id;
             },
-            classInnerItem() {
-                return { _parent: this.data.hasChildren };
-            },
             itemLevel() {
                 return this.data.level;
+            },
+            classInnerItem() {
+                return { _parent: this.data.hasChildren };
             },
             dataExpanded() {
                 return this.isItemExpanded(this.itemId) ? 'true' : 'false';

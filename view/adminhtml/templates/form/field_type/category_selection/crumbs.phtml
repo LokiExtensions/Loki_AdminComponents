@@ -6,6 +6,11 @@ use Magento\Framework\View\Element\Template;
 /** @var Escaper $escaper */
 /** @var Template $block */
 ?>
+<style>
+    .admin__action-multiselect-crumb + .admin__action-multiselect-crumb {
+        margin-left: 1rem;
+    }
+</style>
 <template x-for="categoryId in selectedCategoryIds" :key="categoryId">
     <span class="admin__action-multiselect-crumb"
           x-data="CategorySelectionCrumb"
@@ -18,8 +23,7 @@ use Magento\Framework\View\Element\Template;
             data-action="remove-selected-item"
             tabindex="-1"
             @click="removeSelected"
-            data-bind="click: $parent.removeSelected.bind($parent, value)
-        ">
+        >
             <span class="action-close-text">
                 <?= $escaper->escapeHtml(__('Close')) ?>
             </span>
@@ -38,15 +42,13 @@ use Magento\Framework\View\Element\Template;
                 this.$nextTick(() => {
                     this.crumbId = parseFloat(this.root.dataset.id);
                 });
-
             },
             crumbLabel() {
-                return this.items[this.crumbId]?.label || '';
+                return this.itemLabel(this.crumbId);
             },
             removeSelected() {
                 this.$event.stopPropagation();
                 this.unselectCategoryId(this.crumbId);
-                console.log(this.selectedCategoryIds, this.crumbId);
             },
         };
     }
