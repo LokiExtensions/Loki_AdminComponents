@@ -31,6 +31,5 @@
         "loki_admin_components.entity_select"
     ],
     "config": [],
-    "tests": [],
-    "phpstan_level": "1"
+    "tests": []
 }

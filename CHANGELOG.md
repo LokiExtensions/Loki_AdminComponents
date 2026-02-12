@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 12 February 2026
+### Added
+- Category selection input implementation #14 @rajeev-k-tomy
+
+### Fixed
+- Fix intermittent issues where `this.data.id` is not available with `category_selection` Alpine components @rajeev-k-tomy
+- Avoid sending children infor as part of UI data from CategoryTreeNode DTO @rajeev-k-tomy
+- Change `category_selection` input alpine component name to CategorySelection @rajeev-k-tomy
+- Remove unnecessary classes from `category_selection/select_inner_item.phtml` @rajeev-k-tomy
+- Separate main script from the main template of category selection
+
 ## [0.5.2] - 28 January 2026
 ### Fixed
 - Add hidden-attribute to field-blocks
