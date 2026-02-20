@@ -19,8 +19,9 @@ jobs:
         run: |
           test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
           cd /tmp/magento
-          test -f $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-additional.sh
-          test -f $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh && source $GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh
+          ls ${GITHUB_WORKSPACE}
+          test -f ${GITHUB_WORKSPACE}/.github/workflows/composer-additional.sh && source ${GITHUB_WORKSPACE}/.github/workflows/composer-additional.sh
+          test -f ${GITHUB_WORKSPACE}/.github/workflows/composer-${{ matrix.magento_version }}.sh && source ${GITHUB_WORKSPACE}/.github/workflows/composer-${{ matrix.magento_version }}.sh
           composer config gitlab-domains gitlab.yireo.com
           composer config --global --auth http-basic.gitlab.yireo.com yireo "${{ secrets.GITLAB_TOKEN }}"
           composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
