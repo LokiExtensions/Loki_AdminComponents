@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 20 February 2026
+### Fixed
+- Add `#[\ReturnTypeWillChange]` to allow for removal of `mixed` type hint
+
 ## [0.6.0] - 12 February 2026
 ### Added
 - Category selection input implementation #14 @rajeev-k-tomy
