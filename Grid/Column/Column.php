@@ -52,6 +52,7 @@ class Column extends DataObject implements JsonSerializable
         return $this->getCode();
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
         return [

@@ -45,6 +45,7 @@ class FilterState implements \JsonSerializable
         return $this->value;
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): mixed
     {
         return [
