@@ -1,4 +1,5 @@
 {
+    "integration": true,
     "sequence": [
         "Loki_Components",
         "Loki_CssUtils",
