@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 02 March 2026
+### Fixed
+- Fix JavaScript TypeError: columns initialized as object instead of array
+
 ## [0.6.1] - 20 February 2026
 ### Fixed
 - Add `#[\ReturnTypeWillChange]` to allow for removal of `mixed` type hint
