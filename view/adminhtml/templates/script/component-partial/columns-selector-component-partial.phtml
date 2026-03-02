@@ -12,9 +12,11 @@ use Magento\Framework\View\Element\Template;
         activeColumns: null,
         initActiveColumns() {
             this.activeColumns = new Set();
-            this.columns.forEach(column => {
-                this.activeColumns.add(column.code);
-            })
+            if (Array.isArray(this.columns)) {
+                this.columns.forEach(column => {
+                    this.activeColumns.add(column.code);
+                })
+            }
         },
         isColumnActive() {
             const columnName = this.$el.getAttribute('data-column');
