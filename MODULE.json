@@ -1,5 +1,4 @@
 {
-    "integration": true,
     "sequence": [
         "Loki_Components",
         "Loki_CssUtils",
@@ -23,6 +22,7 @@
         "Magento_Directory",
         "Magento_Eav",
         "Magento_Indexer",
+        "Magento_Quote",
         "Magento_Store",
         "Magento_Theme",
         "Magento_Ui",
