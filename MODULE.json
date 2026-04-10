@@ -36,5 +36,15 @@
     "config": [],
     "tests": [],
     "phpcs_severity": "9",
-    "phpstan_level": "1"
+    "phpstan_level": "1",
+    "module_name": "Loki_AdminComponents",
+    "composer_name": "loki/magento2-admin-components",
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false
 }
