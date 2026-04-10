@@ -1,0 +1,122 @@
+name: Playwright test
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    container:
+      image: yireo/magento2installed:2.4.8-p3
+    env:
+      GIT_DEPTH: 1
+      GIT_STRATEGY: fetch
+      MAGENTO_BASE_URL: "http://127.0.0.1:8888/"
+      MAGENTO_BACKEND_FRONTNAME: "admin"
+      MAGENTO_ADMIN_FIRSTNAME: "CI"
+      MAGENTO_ADMIN_LASTNAME: "User"
+      MAGENTO_ADMIN_EMAIL: "admin@example.com"
+      MAGENTO_ADMIN_USER: "admin"
+      MAGENTO_ADMIN_PASSWORD: "Admin123!@#"
+      MAGENTO_LANGUAGE: "en_US"
+      MAGENTO_CURRENCY: "USD"
+      MAGENTO_TIMEZONE: "UTC"
+      MAGENTO_USE_REWRITES: "1"
+      MAGENTO_SEARCH_ENGINE: "opensearch"
+      COMPOSER_ALLOW_SUPERUSER: "1"
+      COMPOSER_MEMORY_LIMIT: "-1"
+      MYSQL_HOST: "mysql"
+      MYSQL_USER: "magento2"
+      MYSQL_PASSWORD: "magento2"
+      MYSQL_DATABASE: "magento2"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_PORT: "3306"
+      OPENSEARCH_HOST: "opensearch"
+      OPENSEARCH_PORT: "9200"
+      OPENSEARCH_JAVA_OPTS: "-Xms128m -Xmx128m"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "admin"
+      MAGENTO_VERSION: "2.4.8-p3"
+
+      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+
+    services:
+      mysql:
+        image: yireo/mariadb:10
+        env:
+          MYSQL_DATABASE: magento2
+          MYSQL_USER: magento2
+          MYSQL_PASSWORD: magento2
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+      opensearch:
+        image: yireo/opensearch
+        env:
+          OPENSEARCH_JAVA_OPTS: "-Xms128m -Xmx128m"
+          OPENSEARCH_INITIAL_ADMIN_PASSWORD: "admin"
+        ports:
+          - 9200:9200
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Detecting Playwright tests
+        run: |
+          test -d $GITHUB_WORKSPACE/Test/Playwright || exit 0
+
+      - name: Setting up module variables
+        run: |
+          echo COMPOSER_NAME=`jq '.name' composer.json -r` >> $GITHUB_ENV
+          echo MAGENTO_MODULE=`jq '.module_name' MODULE.json -r` >> $GITHUB_ENV
+
+      - name: Configure Yireo GitLab
+        run: |
+          test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
+          cd /tmp/magento
+          composer config gitlab-domains gitlab.yireo.com
+          composer config --global --auth http-basic.gitlab.yireo.com yireo "${GITLAB_TOKEN}"
+          composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
+          composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+
+      - name: Run Magento Playwright setup and tests
+        shell: bash
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          cd /tmp/magento
+
+          test -f "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh"
+          test -f "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh"
+
+          composer config repositories.local-source path "$GITHUB_WORKSPACE"
+          composer require --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence
+
+          source "$GITHUB_WORKSPACE/.github/workflows/magento-install.sh"
+
+          bin/magento module:enable Yireo_EnableModuleSequence
+          bin/magento module:sequence LokiCheckout_FunctionalTests
+          bin/magento module:sequence "${MAGENTO_MODULE}"
+          bin/magento setup:upgrade
+
+          magerun2 config:store:set loki_functional_tests/general/token loki -n
+
+          cd vendor/loki-checkout/magento2-functional-tests/Test/Playwright/
+
+          npm install
+          npx playwright install
+
+          touch .env
+          echo "TEST_URL=${MAGENTO_BASE_URL}" >> .env
+          echo "TEST_TOKEN=loki" >> .env
+
+          npx playwright test --project="${MAGENTO_MODULE}"
