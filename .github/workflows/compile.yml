@@ -21,7 +21,7 @@ jobs:
       - name: Check Magento version
         if: env.SKIP_JOB != 'true'
         run: |
-          jq -e --arg v "${{ matrix.magento_version }}" '.skip_magento_versions[] == $v' MODULE.json && echo "SKIP_JOB=true" >> $GITHUB_ENV || true
+          jq -e --arg v "${{ matrix.magento_version }}" '.skip_magento_versions[]? == $v' MODULE.json && echo "SKIP_JOB=true" >> $GITHUB_ENV || true
 
       - name: Setting up module variables
         if: env.SKIP_JOB != 'true'
