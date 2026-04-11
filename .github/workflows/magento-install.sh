@@ -63,7 +63,7 @@ php -dmemory_limit=-1 bin/magento setup:install \
 cd /tmp/magento/pub/
 nohup php -S 0.0.0.0:8888 >/tmp/php-server.log 2>&1 &
 
-echo "Waiting for Magento front to become reachable"
+echo "Waiting for Magento front to become reachable on ${MAGENTO_BASE_URL}"
 result=0
 for i in {1..60}; do
   if curl -s "${MAGENTO_BASE_URL}" 2>1 >/dev/null; then
@@ -73,3 +73,4 @@ for i in {1..60}; do
   sleep 1
 done
 test $result -eq 0 && echo "Not available" && cat /tmp/php-server.log && exit 1
+exit 0
