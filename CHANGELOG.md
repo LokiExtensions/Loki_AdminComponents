@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 01 May 2026
+### Fixed
+- Fix issue with massactions only selecting first item
+- New multiselect field type (even though this already was possible with select)
+- New Yesno options model
+
 ## [0.6.2] - 02 March 2026
 ### Fixed
 - Fix JavaScript TypeError: columns initialized as object instead of array

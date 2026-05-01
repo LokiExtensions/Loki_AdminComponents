@@ -1,15 +1,12 @@
 name: Playwright test
-
-on:
-  schedule:
-    - cron: '0 2 * * *'
-  workflow_dispatch:
+on: ['push', 'pull_request']
 
 jobs:
   playwright:
     runs-on: ubuntu-latest
     container:
       image: yireo/magento2playwright:2.4.8-p3
+
     env:
       GIT_DEPTH: 1
       GIT_STRATEGY: fetch
@@ -38,7 +35,6 @@ jobs:
       OPENSEARCH_JAVA_OPTS: "-Xms128m -Xmx128m"
       OPENSEARCH_INITIAL_ADMIN_PASSWORD: "admin"
       MAGENTO_VERSION: "2.4.8-p3"
-
       GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
     services:
@@ -49,9 +45,19 @@ jobs:
           MYSQL_USER: magento2
           MYSQL_PASSWORD: magento2
           MYSQL_ROOT_PASSWORD: root
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
       redis:
         image: redis:latest
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
       opensearch:
         image: yireo/opensearch
@@ -75,51 +81,88 @@ jobs:
           echo COMPOSER_NAME=`jq '.name' composer.json -r` >> $GITHUB_ENV
           echo MAGENTO_MODULE=`jq '.module_name' MODULE.json -r` >> $GITHUB_ENV
 
-      - name: Configure Yireo GitLab
+      - name: Setup Magento
         if: env.SKIP_JOB != 'true'
         run: |
-          test -n "${{ secrets.GITLAB_TOKEN }}" || exit 0
           cd /tmp/magento
-          composer config gitlab-domains gitlab.yireo.com
-          composer config --global --auth http-basic.gitlab.yireo.com yireo "${GITLAB_TOKEN}"
-          composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
-          composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
 
-      - name: Prepare Magento Playwright setup
-        if: env.SKIP_JOB != 'true'
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          cd /tmp/magento
+          if [ -n "${GITLAB_TOKEN}" ]; then
+            composer config gitlab-domains gitlab.yireo.com
+            composer config --global --auth http-basic.gitlab.yireo.com yireo "${GITLAB_TOKEN}"
+            composer config repositories.loki-third-party composer https://gitlab.yireo.com/api/v4/group/loki-third-party/-/packages/composer/packages.json
+            composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+          fi
 
           test -f "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-additional.sh"
           test -f "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh" && source "$GITHUB_WORKSPACE/.github/workflows/composer-${MAGENTO_VERSION}.sh"
 
-          composer config repositories.local-source path "$GITHUB_WORKSPACE"
+          composer config repositories.local-source "{\"type\": \"path\", \"url\": \"$GITHUB_WORKSPACE\", \"options\": {\"symlink\": false}}"
           composer require --prefer-source -- "${COMPOSER_NAME}:@dev" loki-checkout/magento2-core-cli:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence
 
           $GITHUB_WORKSPACE/.github/workflows/magento-install.sh
 
+          bin/magento deploy:mode:set developer
           bin/magento module:enable Yireo_EnableModuleSequence
-          bin/magento module:sequence LokiCheckout_FunctionalTests 
+          bin/magento module:sequence LokiCheckout_FunctionalTests
           bin/magento module:sequence LokiCheckout_CoreCli
           bin/magento module:sequence "${MAGENTO_MODULE}"
           bin/magento setup:upgrade
           bin/magento loki-checkout:modules:dump
 
           magerun2 config:store:set loki_functional_tests/general/token loki -n
-          cp -R /tmp/magento $GITHUB_WORKSPACE/magento
 
-      - name: Prepare Magento Playwright setup
+          echo "Copying Magento to workspace..."
+          mkdir -p $GITHUB_WORKSPACE/magento/
+          cp -R /tmp/magento/* $GITHUB_WORKSPACE/magento/
+
+          echo "Magento setup complete"
+
+      - name: Verify Magento installation
         if: env.SKIP_JOB != 'true'
-        uses: docker://mcr.microsoft.com/playwright:v1.57.0-noble
+        run: |
+          echo "Verifying Magento installation in workspace..."
+          ls -la $GITHUB_WORKSPACE/magento/
+          test -f $GITHUB_WORKSPACE/magento/bin/magento || (echo "ERROR: Magento installation verification failed" && exit 1)
+          echo "Magento installation verified successfully"
+
+      - name: Run Playwright tests
+        if: env.SKIP_JOB != 'true'
+        run: |
+          echo "Starting Playwright tests..."
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "MAGENTO_MODULE: $MAGENTO_MODULE"
+
+          if [ ! -d "$GITHUB_WORKSPACE/magento" ]; then
+            echo "ERROR: magento directory not found"
+            exit 1
+          fi
+
+          echo "Navigating to Playwright test directory..."
+          cd $GITHUB_WORKSPACE/magento/vendor/loki-checkout/magento2-functional-tests/Test/Playwright/
+
+          echo "Installing npm dependencies..."
+          npm install
+          npx playwright install chromium
+
+          echo "Creating .env file..."
+          printf "TEST_URL=http://127.0.0.1:8888\nTEST_TOKEN=loki\n" > .env
+          cat .env
+
+          echo "Running Playwright tests for project: ${MAGENTO_MODULE}"
+          CI=true MAGENTO_ROOT=$GITWORK_WORKSPACE/magento npx playwright test --project=${MAGENTO_MODULE}
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
         with:
-          args: >
-            bash -lc "
-              cd $GITHUB_WORKSPACE/magento/vendor/loki-checkout/magento2-functional-tests/Test/Playwright/
-              npm install
-              npx playwright install
-              touch .env
-              echo TEST_URL=$MAGENTO_BASE_URL >> .env
-              echo TEST_TOKEN=loki >> .env
-              npx playwright test --project=$MAGENTO_MODULE
-            "
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload raw test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 14
