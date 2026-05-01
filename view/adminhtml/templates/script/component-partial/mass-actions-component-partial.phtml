@@ -26,7 +26,6 @@ use Magento\Framework\View\Element\Template;
                 return;
             }
 
-            this.$refs.massActionFormIds.value = selectedIds;
             this.$refs.massActionForm.action = this.$el.getAttribute('data-url');
             this.$refs.massActionForm.submit();
         }

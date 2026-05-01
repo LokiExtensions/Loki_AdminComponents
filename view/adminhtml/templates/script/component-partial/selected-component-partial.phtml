@@ -13,6 +13,9 @@ use Magento\Framework\View\Element\Template;
         initSelectedIds() {
             this.selectedIds = new Set([]);
         },
+        getSelectedIds() {
+            return Array.from(this.selectedIds);
+        },
         getSelectedIdCount() {
             if (this.selectedIds.has('ALL')) {
                 return this.totalItems;
