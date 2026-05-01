@@ -38,6 +38,7 @@
                 <item name="datetime" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Datetime</item>
                 <item name="number" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Number</item>
                 <item name="select" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Select</item>
+                <item name="multiselect" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Multiselect</item>
                 <item name="switch" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Switcher</item>
                 <item name="from_to" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\FromTo</item>
                 <item name="product_id" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\ProductId</item>
