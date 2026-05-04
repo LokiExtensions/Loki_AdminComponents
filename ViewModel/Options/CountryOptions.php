@@ -29,7 +29,9 @@ class CountryOptions implements ArgumentInterface, OptionSourceInterface
 
         }
 
-        asort($options);
+        usort($options, function ($a, $b) {
+            return strcasecmp((string)$a['label'], (string)$b['label']);
+        });
 
         return $options;
     }
