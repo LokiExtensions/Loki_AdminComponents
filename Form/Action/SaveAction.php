@@ -28,10 +28,10 @@ class SaveAction implements ActionInterface
                 continue;
             }
 
-            if (is_array($propertyValue)) {
+            //if (is_array($propertyValue)) {
                 // @todo: Fix this because it breaks a lot of logic
                 //continue;
-            }
+            //}
 
             $this->setItemPropertyValue($item, $propertyKey, $propertyValue);
         }

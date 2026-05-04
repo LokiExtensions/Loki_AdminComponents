@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.6.3 */
-
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\Textarea;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @version 0.6.3 */
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
@@ -18,10 +17,12 @@ use Loki\Components\Util\Block\TemplateRenderer;
 $field = $block->getField();
 $fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
+$rows = $fieldAttributes['rows'] ?? 3;
 ?>
 <textarea
     class="admin__control-text"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
+    rows="<?= $rows ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
         <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"

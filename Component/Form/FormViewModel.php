@@ -118,6 +118,7 @@ class FormViewModel extends ComponentViewModel
         }
 
         $fieldDefinitions = (array)$this->getBlock()->getFields();
+
         $fields = $this->fieldResolver->resolve($this->getRepository(), $fieldDefinitions);
 
         foreach ($fields as $field) {
@@ -135,9 +136,9 @@ class FormViewModel extends ComponentViewModel
             $fieldsets['base']->addField($field);
         }
 
-        foreach ($fieldDefinitions as $fieldDefinitionName => $fieldDefinition) {
+        foreach ($fieldDefinitions as $fieldDefinitionCode => $fieldDefinition) {
             if (!isset($fieldDefinition['code'])) {
-                $fieldDefinition['code'] = $fieldDefinitionName;
+                $fieldDefinition['code'] = $fieldDefinitionCode;
             }
 
             $field = $this->fieldFactory->create($this->getBlock(), $fieldDefinition);
