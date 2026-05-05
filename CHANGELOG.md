@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4] - 05 May 2026
+### Fixed
+- Fix sorting of countries
+- Add cell template for just HTML
+- Allow textarea to determine rows
+
 ## [0.6.3] - 01 May 2026
 ### Fixed
 - Fix issue with massactions only selecting first item
