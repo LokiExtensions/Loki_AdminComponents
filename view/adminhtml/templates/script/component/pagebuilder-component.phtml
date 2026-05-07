@@ -1,4 +1,17 @@
-<?php declare(strict_types=1); /** @version 0.6.4 */ use Loki\AdminComponents\ViewModel\Form\Field\Editor; use Loki\Components\Factory\ViewModelFactory; use Magento\Framework\View\Element\Template; /** @var Template $block */ /** @var ViewModelFactory $viewModelFactory */ /** @var Editor $editor */ $editor = $viewModelFactory->create(Editor::class); ?> <script>
+<?php
+declare(strict_types=1);
+
+use Loki\AdminComponents\ViewModel\Form\Field\Editor;
+use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\View\Element\Template;
+
+/** @version 0.6.4 */
+/** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var Editor $editor */
+
+$editor = $viewModelFactory->create(Editor::class); ?>
+<script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormPagebuilderComponent', () => ({
             wysiwygInstance: null,
@@ -6,7 +19,7 @@
                 const item = this.item;
                 const elementId = this.$refs.textarea.getAttribute('id');
                 const componentName = this.$refs.textarea.getAttribute('data-component-scope');
-                
+
                 const componentConfig = JSON.parse('<?= $escaper->escapeHtml($editor->getComponentConfigAsJson()) ?>');
 
                 return;
@@ -26,10 +39,10 @@
 
                     layout(componentsConfig);
 
-                    
-                    
-                    
-                    
+
+
+
+
                     return;
                 })
 
@@ -46,9 +59,9 @@
                         suffixRegExpPattern: false,
                         elementSelector: '#' + elementId,
                         content: this.$refs.textarea.value || '',
-                        dataScope: 'content', 
+                        dataScope: 'content',
                         wysiwygConfigData: Object.assign({
-                            height: '300px', 
+                            height: '300px',
                             add_variables: true,
                             add_widgets: true,
                             add_images: true,
@@ -79,7 +92,7 @@
             },
             setValuePageBuilder(event) {
                 this.setValue(event);
-                event.target.dispatchEvent(new Event('change', { bubbles: true })); 
+                event.target.dispatchEvent(new Event('change', { bubbles: true }));
             }
         }));
     });</script>
