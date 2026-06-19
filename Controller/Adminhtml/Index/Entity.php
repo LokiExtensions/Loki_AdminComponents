@@ -8,10 +8,7 @@ use Magento\Framework\View\Result\PageFactory as ResultPageFactory;
 
 class Entity implements HttpGetActionInterface
 {
-    /**
-     * ACL resource
-     */
-    const ADMIN_RESOURCE = 'Loki_AdminComponents::grid';
+    const ADMIN_RESOURCE = 'Loki_AdminComponents::entity';
 
     public function __construct(
         private ResultPageFactory $resultPageFactory,
