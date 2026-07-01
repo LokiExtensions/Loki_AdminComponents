@@ -29,7 +29,7 @@ class FieldFactory
         AbstractBlock $block,
         array $data = [],
     ): Field {
-        // @todo: Move this to form field data sanitizer
+        // @todo: Move this to form field data sanitizer or just some value object
         if (!isset($data['field_type']) || empty($data['field_type'])) {
             $data['field_type'] = 'input';
         }
