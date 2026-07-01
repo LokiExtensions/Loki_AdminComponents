@@ -10,17 +10,9 @@ use Magento\Framework\View\Element\Template;
 <script>
     const LokiAdminColumnsSelectorComponentPartial = {
         activeColumns: null,
-        initActiveColumns() {
-            this.activeColumns = new Set();
-            if (Array.isArray(this.columns)) {
-                this.columns.forEach(column => {
-                    this.activeColumns.add(column.code);
-                })
-            }
-        },
         isColumnActive() {
             const columnName = this.$el.getAttribute('data-column');
-            return this.activeColumns.has(columnName);
+            return this.activeColumns.includes(columnName);
         },
         showColumnsSelector: false,
         toggleColumnsSelector() {
@@ -28,11 +20,13 @@ use Magento\Framework\View\Element\Template;
         },
         toggleActiveColumn() {
             const columnName = this.$el.getAttribute('data-column');
-            if (this.activeColumns.has(columnName)) {
-                this.activeColumns.delete(columnName);
+            if (this.activeColumns.includes(columnName)) {
+                this.activeColumns = this.activeColumns.filter(item => item !== columnName);
             } else {
-                this.activeColumns.add(columnName);
+                this.activeColumns.push(columnName);
             }
+
+            this.post({activeColumns: this.activeColumns});
         }
     }
 </script>
