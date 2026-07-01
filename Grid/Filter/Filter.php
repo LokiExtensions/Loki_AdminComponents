@@ -78,11 +78,15 @@ class Filter implements FilterInterface
 
     public function getDefaultValue(): mixed
     {
-        if ($this->getConditionType() === 'from_to') {
+        if ($this->getConditionType() === 'from_to' || $this->getFieldType() === 'from_to') {
             return [
                 'from' => null,
                 'to' => null,
             ];
+        }
+
+        if (isset($this->data['default_value'])) {
+            return $this->data['default_value'];
         }
 
         return null;
