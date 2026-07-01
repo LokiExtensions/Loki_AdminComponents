@@ -211,7 +211,12 @@ class State
 
     public function getActiveColumns(): array
     {
-        $bookmarkData = $this->getBookmarkData();
+        try {
+            $bookmarkData = $this->getBookmarkData();
+        } catch(NoSuchEntityException $e) {
+            return [];
+        }
+
         if (false === is_array($bookmarkData['columns'])) {
             return [];
         }
