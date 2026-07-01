@@ -52,7 +52,7 @@ $cssClass = implode(' ', $cssClass);
         <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
             <?php if ($field->isRequired()): ?>
-                <span style="color:red">*</span>
+                <span style="display: inline; color:red">*</span>
             <?php endif; ?>
         </label>
     </div>
