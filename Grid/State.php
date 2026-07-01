@@ -4,19 +4,21 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Grid;
 
 use Loki\AdminComponents\Grid\Column\Column;
-use Loki\AdminComponents\Grid\Filter\Filter;
 use Loki\AdminComponents\Grid\State\FilterState;
 use Loki\AdminComponents\Grid\State\FilterStateFactory;
 use Magento\Backend\Model\Session;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Ui\Api\Data\BookmarkInterface;
 
 class State
 {
     public function __construct(
-        private Session $session,
-        private FilterStateFactory $filterStateFactory,
-        private string $namespace,
-        private int $defaultLimit = 20,
+        private readonly Session $session,
+        private readonly FilterStateFactory $filterStateFactory,
+        private readonly BookmarkLoader $bookmarkLoader,
+        private readonly string $namespace,
+        private readonly int $defaultLimit = 20,
     ) {
     }
 
@@ -47,6 +49,7 @@ class State
     public function setPage(int $page): void
     {
         $this->save('page', $page);
+        $this->saveBookmarkData(['paging' => ['current' => $page]]);
     }
 
     public function getLimit(): int
@@ -64,6 +67,7 @@ class State
     public function setLimit(int $limit): void
     {
         $this->save('limit', $limit);
+        $this->saveBookmarkData(['paging' => ['pageSize' => $limit]]);
     }
 
     public function getSortBy(): string
@@ -79,15 +83,22 @@ class State
     public function getSortDirection(): string
     {
         $sortDirection = strtoupper((string)$this->get('sort_direction'));
-        $sortDirection = $sortDirection === AbstractDb::SORT_ORDER_ASC ? AbstractDb::SORT_ORDER_ASC : AbstractDb::SORT_ORDER_DESC;
+        if (($sortDirection === AbstractDb::SORT_ORDER_ASC)) {
+            return AbstractDb::SORT_ORDER_ASC;
+        }
 
-        return $sortDirection;
+        return AbstractDb::SORT_ORDER_DESC;
     }
 
     public function setSortDirection(string $sortDirection): void
     {
-        $sortDirection = $sortDirection === AbstractDb::SORT_ORDER_ASC ? AbstractDb::SORT_ORDER_ASC : AbstractDb::SORT_ORDER_DESC;
-        $this->save('sort_direction', $sortDirection);
+        if ($sortDirection === AbstractDb::SORT_ORDER_ASC) {
+            $this->save('sort_direction', $sortDirection);
+
+            return;
+        }
+
+        $this->save('sort_direction', AbstractDb::SORT_ORDER_DESC);
     }
 
     public function getTotalItems(): int
@@ -113,6 +124,7 @@ class State
     public function setSearch(string $search): void
     {
         $this->save('search', $search);
+        $this->saveBookmarkData(['search' => ['value' => $search]]);
     }
 
     public function getSearchableFields(): array
@@ -184,6 +196,7 @@ class State
         ];
 
         $this->setFilters($filters);
+        $this->saveBookmarkData(['filters' => ['applied' => [$name => $value]]]);
     }
 
     /**
@@ -194,6 +207,42 @@ class State
     public function setFilters(array $filters): void
     {
         $this->save('filters', json_encode($filters));
+    }
+
+    public function getActiveColumns(): array
+    {
+        $bookmarkData = $this->getBookmarkData();
+        if (false === is_array($bookmarkData['columns'])) {
+            return [];
+        }
+
+        $columns = [];
+        foreach ($bookmarkData['columns'] as $columnName => $columnData) {
+            if (isset($columnData['visible']) && (int)$columnData['visible'] === 1) {
+                $columns[] = $columnName;
+            }
+        }
+
+        return $columns;
+    }
+
+    public function setActiveColumns(array $columns): void
+    {
+        $bookmarkData = $this->getBookmarkData();
+        $columnsData = [];
+
+        if (isset($bookmarkData['columns'])) {
+            foreach ($bookmarkData['columns'] as $columnName => $columnData) {
+                if (!is_array($columnData)) {
+                    $columnData = [];
+                }
+
+                $columnData['visible'] =  (int)in_array($columnName, $columns);
+                $columnsData[$columnName] = $columnData;
+            }
+        }
+
+        $this->saveBookmarkData(['columns' => $columnsData]);
     }
 
     /**
@@ -211,6 +260,7 @@ class State
             'searchableFields' => $this->getSearchableFields(),
             'search' => $this->getSearch(),
             'filters' => $this->getFilters(),
+            'activeColumns' => $this->getActiveColumns(),
         ];
     }
 
@@ -224,9 +274,27 @@ class State
         $this->session->setData($this->namespace.'.'.$name, $value);
     }
 
+    public function saveBookmarkData(array $bookmarkData): void
+    {
+        try {
+            $this->bookmarkLoader->saveBookmark($this->getBookmark(), $bookmarkData);
+        } catch (NoSuchEntityException $e) {
+        }
+    }
+
     public function reset(): void
     {
         $this->setFilters([]);
         $this->setSearch('');
+    }
+
+    private function getBookmark(): BookmarkInterface
+    {
+        return $this->bookmarkLoader->getBookmark($this->namespace);
+    }
+
+    private function getBookmarkData(): array
+    {
+        return $this->bookmarkLoader->getBookmarkData($this->namespace);
     }
 }
