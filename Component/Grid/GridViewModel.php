@@ -150,12 +150,20 @@ class GridViewModel extends ComponentViewModel
 
     public function getJsData(): array
     {
+        $columns = $this->getColumns();
+        $stateData = $this->getState()->toArray();
+        if (empty($stateData['activeColumns'])) {
+            foreach ($columns as $column) {
+                $stateData['activeColumns'][] = $column->getCode();
+            }
+        }
+
         return [
             ...parent::getJsData(),
-            ...$this->getState()->toArray(),
+            ...$stateData,
             'namespace' => $this->getNamespace(),
             'gridFilters' => $this->getGridFilterStateValues(),
-            'columns' => $this->getColumns(),
+            'columns' => $columns,
             'columnPositions' => $this->getColumnPositions(),
             'newUrl' => $this->getNewUrl(),
             'indexUrl' => $this->getIndexUrl(),

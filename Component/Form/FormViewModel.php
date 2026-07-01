@@ -88,7 +88,8 @@ class FormViewModel extends ComponentViewModel
         return [
             $this->buttonFactory->createCloseAction(),
             $this->buttonFactory->createSaveCloseAction(),
-            //$this->buttonFactory->createSaveContinueAction(), // @todo: This looses current changes when creating a new item
+            // @todo: This looses current changes when creating a new item
+            //$this->buttonFactory->createSaveContinueAction(),
         ];
     }
 
