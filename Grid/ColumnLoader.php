@@ -72,8 +72,7 @@ class ColumnLoader
             return [];
         }
 
-        $positions = $currentBookmark['data']['positions'];
-
+        $positions = $currentBookmark['data']['positions'] ?? [];
 
         $columns = [];
         foreach ($currentBookmark['data']['columns'] as $columnName => $columnData) {

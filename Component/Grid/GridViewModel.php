@@ -153,9 +153,13 @@ class GridViewModel extends ComponentViewModel
         $columns = $this->getColumns();
         $stateData = $this->getState()->toArray();
         if (empty($stateData['activeColumns'])) {
+            $columnsData = [];
             foreach ($columns as $column) {
+                $columnsData[$column->getCode()] = ['visible' => 1];
                 $stateData['activeColumns'][] = $column->getCode();
             }
+
+            $this->getState()->saveBookmarkData(['columns' => $columnsData]);
         }
 
         return [

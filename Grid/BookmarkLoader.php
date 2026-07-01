@@ -6,15 +6,19 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Ui\Api\BookmarkManagementInterface;
 use Magento\Ui\Api\BookmarkRepositoryInterface;
+use Magento\Ui\Api\Data\BookmarkInterfaceFactory as BookmarkFactory;
 use Magento\Ui\Api\Data\BookmarkInterface;
 use Magento\Ui\Api\Data\BookmarkSearchResultsInterface;
+use Magento\Backend\Model\Auth\Session as AdminSession;
 
 class BookmarkLoader
 {
     public function __construct(
         private BookmarkManagementInterface $bookmarkManagement,
         private BookmarkRepositoryInterface $bookmarkRepository,
+        private BookmarkFactory $bookmarkFactory,
         private SerializerInterface $serializer,
+        private AdminSession $adminSession,
     ) {
     }
 
@@ -54,6 +58,26 @@ class BookmarkLoader
         $config = $bookmark->getConfig();
         $config['views'][$identifier]['data'] = array_replace_recursive($config['views'][$identifier]['data'], $data);
 
+        $bookmark->setConfig($this->serializer->serialize($config));
+        $this->bookmarkRepository->save($bookmark);
+    }
+
+    public function createBookmark(string $namespace, array $data, string $identifier = 'default'): void
+    {
+        $config = [
+            'views' => [
+                $identifier => [
+                    'data' => $data,
+                ]
+            ]
+        ];
+
+        $bookmark = $this->bookmarkFactory->create();
+        $bookmark->setIdentifier($identifier);
+        $bookmark->setNamespace($namespace);
+        $bookmark->setCurrent(true);
+        $bookmark->setTitle('Default');
+        $bookmark->setUserId($this->adminSession->getUser()->getId());
         $bookmark->setConfig($this->serializer->serialize($config));
         $this->bookmarkRepository->save($bookmark);
     }

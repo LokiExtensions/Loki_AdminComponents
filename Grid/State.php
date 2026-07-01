@@ -245,6 +245,10 @@ class State
                 $columnData['visible'] =  (int)in_array($columnName, $columns);
                 $columnsData[$columnName] = $columnData;
             }
+        } else {
+            foreach ($columns as $columnName => $columnData) {
+                $columnsData[$columnName] = ['visible' => true];
+            }
         }
 
         $this->saveBookmarkData(['columns' => $columnsData]);
@@ -284,6 +288,7 @@ class State
         try {
             $this->bookmarkLoader->saveBookmark($this->getBookmark(), $bookmarkData);
         } catch (NoSuchEntityException $e) {
+            $this->bookmarkLoader->createBookmark($this->namespace, $bookmarkData);
         }
     }
 
