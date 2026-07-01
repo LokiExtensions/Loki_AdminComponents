@@ -74,6 +74,22 @@ class FormViewModel extends ComponentViewModel
      */
     public function getButtons(): array
     {
+        $buttonDefinitions = $this->getBlock()->getButtons();
+        if (!empty($buttonDefinitions)) {
+            $buttons = [];
+            foreach ($buttonDefinitions as $buttonDefinition) {
+                $buttons[] = $this->buttonFactory->create(
+                    method: (string)$buttonDefinition['method'],
+                    label: (string)$buttonDefinition['label'],
+                    cssClass: isset($buttonDefinition['cssClass']) ? (string)$buttonDefinition['cssClass'] : '',
+                    url: isset($buttonDefinition['url']) ? (string)$buttonDefinition['url'] : '',
+                    primary: $buttonDefinition['primary'] ?? false,
+                );
+            }
+
+            return $buttons;
+        }
+
         $item = $this->getValue();
         if ($item instanceof DataObject && $item->getId() > 0) {
             return [
