@@ -13,6 +13,7 @@ use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\Manager as MessageManager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\DataObject;
@@ -65,12 +66,16 @@ class RepositoryHandler implements ProviderHandlerInterface
             throw new RuntimeException('Empty identifier');
         }
 
-        if (method_exists($provider, 'getById')) {
-            return call_user_func([$provider, 'getById'], $identifier);
-        }
+        try {
+            if (method_exists($provider, 'getById')) {
+                return call_user_func([$provider, 'getById'], $identifier);
+            }
 
-        if (method_exists($provider, 'get')) {
-            return call_user_func([$provider, 'get'], $identifier);
+            if (method_exists($provider, 'get')) {
+                return call_user_func([$provider, 'get'], $identifier);
+            }
+        } catch (NoSuchEntityException $e) {
+            throw new RuntimeException('Repository call failed for identifier "'.$identifier.'": '.$e->getMessage());
         }
 
         throw new RuntimeException('Repository has no load-method we know of.');

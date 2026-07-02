@@ -39,15 +39,18 @@ class Fieldset
         return !empty($this->fields);
     }
 
-    public function addFields(array $fields): void
+    public function addFields(array $fields): Fieldset
     {
         foreach ($fields as $field) {
             $this->addField($field);
         }
+
+        return $this;
     }
 
-    public function addField(Field $field): void
+    public function addField(Field $field): Fieldset
     {
         $this->fields[] = $field;
+        return $this;
     }
 }

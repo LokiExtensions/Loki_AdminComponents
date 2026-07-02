@@ -51,7 +51,13 @@ class FormViewModel extends ComponentViewModel
 
     private function getItemData(): array
     {
-        $item = $this->getRepository()->getItem();
+        try {
+            $item = $this->getRepository()->getItem();
+        } catch(\Throwable $e) {
+            $this->getContext()->getMessageManager()->addErrorMessage($e->getMessage());
+            return [];
+        }
+
         if (false === $item instanceof DataObject) {
             return [];
         }

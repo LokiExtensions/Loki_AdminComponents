@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\ViewModel\Form\Field;
 
+use Loki\AdminComponents\Component\Grid\GridContext;
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Form\Field\Field;
@@ -99,7 +100,7 @@ class EntitySelect implements ArgumentInterface
             'name' => $block->getNameInLayout(),
             'viewModelClass' => GridViewModel::class,
             'repositoryClass' => GridRepository::class,
-            'context' => ObjectManager::getInstance()->create(ComponentContext::class),
+            'context' => ObjectManager::getInstance()->create(GridContext::class),
         ]);
 
         /** @var GridViewModel $gridViewModel */
