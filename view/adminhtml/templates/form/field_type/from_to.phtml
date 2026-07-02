@@ -21,18 +21,20 @@ $inputType = $field->getInputType();
 if (empty($inputType)) {
     $inputType = 'text';
 }
+
+$fieldId = $field->getDomId();
 ?>
 <div class="">
     <div class="admin__form-field">
         <label
-            for="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+            for="<?= $escaper->escapeHtml($fieldId) ?>"
             class="admin__form-field-label">
             <span>from</span>
         </label>
 
         <div class="admin__form-field-control">
             <input
-                id="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
+                id="<?= $escaper->escapeHtml($fieldId) ?>"
                 class="admin__control-text"
                 type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.from"
@@ -49,12 +51,16 @@ if (empty($inputType)) {
     </div>
 
     <div class="admin__form-field">
-        <label class="admin__form-field-label">
+        <label
+            for="<?= $escaper->escapeHtml($fieldId) ?>-to"
+            class="admin__form-field-label"
+        >
             <span>to</span>
         </label>
 
         <div class="admin__form-field-control">
             <input
+                id="<?= $escaper->escapeHtml($fieldId) ?>-to"
                 class="admin__control-text"
                 type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.to"

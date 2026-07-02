@@ -16,6 +16,10 @@ use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Loki\Components\Component\ComponentRepository;
 
+/**
+ * @method FormViewModel getViewModel()
+ * @method FormContext getContext()
+ */
 class FormRepository extends ComponentRepository
 {
     public function __construct(

@@ -14,14 +14,20 @@ use Loki\Components\Factory\ViewModelFactory;
 /** @var DataObject $item */
 
 $item = $block->getItem();
+$fieldId = $block->getColumnName().'-'.$item->getId();
 ?>
 <div x-data="LokiAdminInlineEditComponent" @dblclick="toggleInlineEdit">
-    <span @dblclick="toggleInlineEdit" x-show="hideInlineEdit">
+    <label
+        for="<?= $escaper->escapeHtmlAttr($fieldId) ?>"
+        @dblclick="toggleInlineEdit"
+        x-show="hideInlineEdit"
+    >
         <?= $escaper->escapeHtml($block->getValue()) ?>
-    </span>
+    </label>
 
     <span x-show="showInlineEdit">
         <input
+            id="<?= $escaper->escapeHtmlAttr($fieldId) ?>"
             x-ref="inlineEditField"
             type="text"
             class="admin__control-text"

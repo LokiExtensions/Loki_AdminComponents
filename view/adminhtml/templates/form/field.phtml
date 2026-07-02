@@ -46,10 +46,12 @@ if (!empty($depends)) {
 }
 
 $cssClass = implode(' ', $cssClass);
+$fieldId = $field->getDomId();
+
 ?>
 <div class="<?= $escaper->escapeHtml($cssClass) ?>" <?= $escaper->escapeHtml($dependStatement) ?>>
     <div class="admin__field-label">
-        <label for="<?= $escaper->escapeHtml($field->getCode()) ?>">
+        <label for="<?= $escaper->escapeHtml($fieldId) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
             <?php if ($field->isRequired()): ?>
                 <span style="display: inline; color:red">*</span>

@@ -22,8 +22,11 @@ if (isset($fieldAttributes['type'])) {
     $inputType = $fieldAttributes['type'];
     unset($fieldAttributes['type']);
 }
+
+$fieldId = $field->getDomId();
 ?>
 <input
+    id="<?= $escaper->escapeHtml($fieldId) ?>"
     class="admin__control-text"
     type="<?= $escaper->escapeHtml($inputType) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"

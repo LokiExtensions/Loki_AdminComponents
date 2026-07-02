@@ -102,7 +102,6 @@ $state = $viewModel->getState();
                             :checked="isSelected"
                             @change="toggleSelectedId"
                             data-row-id="<?= $escaper->escapeHtml($item->getId()) ?>">
-                        <label></label>
                     </label>
                 </td>
                 <?php foreach ($viewModel->getVisibleColumns() as $column): ?>

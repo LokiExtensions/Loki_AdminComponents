@@ -37,7 +37,7 @@ if (isset($fieldAttributes['type'])) {
 $columns = $entitySelect->getColumns();
 $currentItem = $entitySelect->getCurrentItem();
 $valueCode = $entitySelect->getValueCode();
-
+$fieldId = $field->getDomId();
 // @todo: Modal effect with _show does not animate
 ?>
 <div
@@ -49,6 +49,7 @@ $valueCode = $entitySelect->getValueCode();
 
     <div class="input-with-button">
         <input
+            id="<?= $escaper->escapeHtml($fieldId) ?>"
             class="admin__control-text"
             type="<?= $escaper->escapeHtml($inputType) ?>"
             name="<?= $escaper->escapeHtml($field->getCode()) ?>"

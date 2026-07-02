@@ -23,6 +23,12 @@ class Field extends DataObject
         return (string)$this->getData('label');
     }
 
+    public function getDomId(): string
+    {
+        $domId = strtolower($this->getScope().'-'.$this->getCode());
+        return preg_replace('/([^a-z0-9\-]+)/', '-', $domId);
+    }
+
     public function getCode(): string
     {
         return (string)$this->getData('code');

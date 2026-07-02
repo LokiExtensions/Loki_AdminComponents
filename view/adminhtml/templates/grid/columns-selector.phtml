@@ -45,7 +45,9 @@ $state = $viewModel->getState();
                     :checked="isColumnActive"
                     @change="toggleActiveColumn"
                 >
-                <label class="admin__field-label" for="col-<?= $escaper->escapeHtml($column->getCode()) ?>">
+                <label
+                    class="admin__field-label"
+                    for="col-<?= $escaper->escapeHtml($column->getCode()) ?>">
                     <?= $escaper->escapeHtml($column->getLabel()) ?>
                 </label>
             </div>
@@ -58,7 +60,11 @@ $state = $viewModel->getState();
                 </button>
             </div>
             <div class="admin__action-dropdown-footer-main-actions">
-                <button class="action-tertiary" type="button" @click="toggleColumnsSelector">
+                <button
+                    class="action-tertiary"
+                    type="button"
+                    @click="toggleColumnsSelector"
+                >
                     <?= $escaper->escapeHtml(__('Cancel')) ?>
                 </button>
             </div>

@@ -19,6 +19,7 @@ use Magento\Framework\UrlFactory;
 
 /**
  * @method FormRepository getRepository()
+ * @method FormContext getContext()
  */
 class FormViewModel extends ComponentViewModel
 {
