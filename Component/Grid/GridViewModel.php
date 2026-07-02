@@ -405,7 +405,7 @@ class GridViewModel extends ComponentViewModel
 
         foreach ($gridFilterDefinitions as $gridFilterDefinitionCode => $gridFilterDefinition) {
             if ($gridFilterDefinition instanceof FilterInterface) {
-                $gridFilterDefinitions[$gridFilterDefinition->getCode()] = $gridFilterDefinition;
+                $gridFilters[$gridFilterDefinition->getCode()] = $gridFilterDefinition;
                 continue;
             }
 
