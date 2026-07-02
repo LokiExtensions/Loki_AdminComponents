@@ -3,12 +3,10 @@
 namespace Loki\AdminComponents\Form\Field;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
-use Loki\AdminComponents\Form\Field\Field;
-use Loki\AdminComponents\Form\Field\FieldFactory;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
 
-class FieldResolver
+class FieldsResolver
 {
     public function __construct(
         private FieldFactory $fieldFactory,

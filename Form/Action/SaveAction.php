@@ -2,7 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Action;
 
-use Loki\AdminComponents\Form\ItemConvertorInterface;
+use Loki\AdminComponents\Form\Item\ItemConvertorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
 use Loki\AdminComponents\Component\Form\FormRepository;

@@ -29,6 +29,14 @@ class FieldFactory
         AbstractBlock $block,
         array $data = [],
     ): Field {
+        if (!isset($data['code']) && !empty($data['name'])) {
+            $data['code'] = $data['name'];
+        }
+
+        if (!isset($data['name']) && !empty($data['code'])) {
+            $data['name'] = $data['code'];
+        }
+
         // @todo: Move this to form field data sanitizer or just some value object
         if (!isset($data['field_type']) || empty($data['field_type'])) {
             $data['field_type'] = 'input';

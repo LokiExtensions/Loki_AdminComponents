@@ -10,11 +10,6 @@ use Loki\AdminComponents\Ui\Button\Button;
 class Form
 {
     /**
-     * @var Field[]
-     */
-    private array $fields = [];
-
-    /**
      * @var Fieldset[]
      */
     private array $fieldsets = [];
@@ -23,17 +18,6 @@ class Form
      * @var Button[]
      */
     private array $buttons = [];
-
-    public function addField(Field $field): Form
-    {
-        $this->fields[] = $field;
-        return $this;
-    }
-
-    public function getFields(): array
-    {
-        return $this->fields;
-    }
 
     public function addFieldset(Fieldset $fieldset): Form
     {

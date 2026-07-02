@@ -2,22 +2,21 @@
 
 namespace Loki\AdminComponents\Component\Form;
 
+use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver;
+use Loki\AdminComponents\Form\Item\ItemResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
-use Loki\AdminComponents\Form\Field\FieldResolver;
+use Loki\AdminComponents\Form\Field\FieldsResolver;
 use Loki\AdminComponents\Form\Fieldset\Fieldset;
 use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
-use Loki\AdminComponents\Form\ItemConvertorInterface;
 use Loki\AdminComponents\Ui\Button\Button;
 use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
-use Throwable;
 
 /**
  * @method FormRepository getRepository()
@@ -32,8 +31,10 @@ class FormViewModel extends ComponentViewModel
         protected FieldFactory $fieldFactory,
         protected FieldsetFactory $fieldsetFactory,
         protected RequestInterface $request,
-        protected FieldResolver $fieldResolver,
+        protected FieldsetsResolver $fieldsetsResolver,
+        protected FieldsResolver $fieldsResolver,
         protected ButtonsResolver $buttonsResolver,
+        protected ItemResolver $itemResolver,
         protected array $itemFilters = [],
     ) {
     }
@@ -54,24 +55,12 @@ class FormViewModel extends ComponentViewModel
 
     private function getItemData(): array
     {
-        try {
-            $item = $this->getRepository()->getItem();
-        } catch (Throwable $e) {
-            $this->getContext()->getMessageManager()->addErrorMessage($e->getMessage());
+        $item = $this->itemResolver->resolve(
+            $this->getRepository(),
+            $this->getBlock()
+        );
 
-            return [];
-        }
-
-        if (false === $item instanceof DataObject) {
-            return [];
-        }
-
-        $itemConvertor = $this->getBlock()->getItemConvertor();
-        if ($itemConvertor instanceof ItemConvertorInterface) {
-            $item = $itemConvertor->afterLoad($item);
-        }
-
-        return $item->toArray();
+        return $item->getData();
     }
 
     public function getIndexUrl(): string
@@ -85,9 +74,8 @@ class FormViewModel extends ComponentViewModel
     public function getButtons(): array
     {
         return $this->buttonsResolver->resolve(
+            $this->getRepository(),
             $this->getBlock(),
-            $this->getRepository()->getProvider(),
-            $this->getValue()
         );
     }
 
@@ -96,61 +84,10 @@ class FormViewModel extends ComponentViewModel
      */
     public function getFieldsets(): array
     {
-        $fieldsetDefinitions = (array)$this->getBlock()->getFieldsets();
-        $fieldsetLabel = 'Base';
-        if (isset($fieldsetDefinitions['base'])) {
-            $fieldsetLabel = $fieldsetDefinitions['base']['label'] ?? $fieldsetDefinitions['base']['code'];
-        }
-
-        $fieldsets['base'] = $this->fieldsetFactory->create('base', $fieldsetLabel);
-
-        foreach ($fieldsetDefinitions as $fieldsetCode => $fieldsetDefinition) {
-            if (empty($fieldsetCode)) {
-                $fieldsetCode = 'base';
-            }
-
-            if (array_key_exists($fieldsetCode, $fieldsets)) {
-                continue;
-            }
-
-            $fieldsets[$fieldsetCode] = $this->fieldsetFactory->create($fieldsetCode, $fieldsetDefinition['label']);
-        }
-
-        $fieldDefinitions = (array)$this->getBlock()->getFields();
-
-        $fields = $this->fieldResolver->resolve($this->getRepository(), $fieldDefinitions);
-
-        foreach ($fields as $field) {
-            $fieldsetCode = (string)$field->getFieldset();
-
-            if (isset($fieldDefinitions[$field->getCode()])) {
-                unset($fieldDefinitions[$field->getCode()]);
-            }
-
-            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
-                $fieldsets[$fieldsetCode]->addField($field);
-                continue;
-            }
-
-            $fieldsets['base']->addField($field);
-        }
-
-        foreach ($fieldDefinitions as $fieldDefinitionCode => $fieldDefinition) {
-            if (!isset($fieldDefinition['code'])) {
-                $fieldDefinition['code'] = $fieldDefinitionCode;
-            }
-
-            $field = $this->fieldFactory->create($this->getBlock(), $fieldDefinition);
-
-            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
-                $fieldsets[$fieldsetCode]->addField($field);
-                continue;
-            }
-
-            $fieldsets['base']->addField($field);
-        }
-
-        return $fieldsets;
+        return $this->fieldsetsResolver->resolve(
+            $this->getRepository(),
+            $this->getBlock(),
+        );
     }
 
     /**
@@ -160,12 +97,10 @@ class FormViewModel extends ComponentViewModel
      */
     public function getFields(): array
     {
-        $fields = $this->fieldResolver->resolve(
+        return $this->fieldsResolver->resolve(
             $this->getRepository(),
             (array)$this->getBlock()->getFields(),
         );
-
-        return $fields;
     }
 
     private function getIndexUri(): string
