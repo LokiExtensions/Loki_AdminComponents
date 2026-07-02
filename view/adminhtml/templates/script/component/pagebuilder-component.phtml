@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
 /** @version 0.6.4 */
 /** @var Template $block */
+/** @var Escaper $escaper */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var Editor $editor */
 
-$editor = $viewModelFactory->create(Editor::class); ?>
+$editor = $viewModelFactory->create(Editor::class);
+?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiAdminFormPagebuilderComponent', () => ({
@@ -21,8 +24,6 @@ $editor = $viewModelFactory->create(Editor::class); ?>
                 const componentName = this.$refs.textarea.getAttribute('data-component-scope');
 
                 const componentConfig = JSON.parse('<?= $escaper->escapeHtml($editor->getComponentConfigAsJson()) ?>');
-
-                return;
                 require([
                     'uiLayout',
                     'uiRegistry',
@@ -38,15 +39,8 @@ $editor = $viewModelFactory->create(Editor::class); ?>
                     }];
 
                     layout(componentsConfig);
-
-
-
-
-
-                    return;
                 })
 
-                return;
                 require([
                     'Magento_Ui/js/form/element/wysiwyg',
                     'ko',
@@ -80,7 +74,6 @@ $editor = $viewModelFactory->create(Editor::class); ?>
 
 
                     if (!this.wysiwygInstance) {
-
                         this.wysiwygInstance = new wysiwyg(config, {});
 
                         const component = registry.get(componentName);
@@ -95,4 +88,5 @@ $editor = $viewModelFactory->create(Editor::class); ?>
                 event.target.dispatchEvent(new Event('change', { bubbles: true }));
             }
         }));
-    });</script>
+    });
+</script>
