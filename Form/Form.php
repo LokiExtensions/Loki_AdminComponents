@@ -5,7 +5,7 @@ namespace Loki\AdminComponents\Form;
 
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Fieldset\Fieldset;
-use Loki\AdminComponents\Ui\Button;
+use Loki\AdminComponents\Ui\Button\Button;
 
 class Form
 {

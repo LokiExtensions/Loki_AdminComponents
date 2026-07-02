@@ -6,9 +6,10 @@ use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Form\Fieldset\Fieldset;
 use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
-use Loki\AdminComponents\Ui\Button;
-use Loki\AdminComponents\Ui\ButtonFactory;
+use Loki\AdminComponents\Ui\Button\Button;
+use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
 
 class FormBuilder
@@ -29,7 +30,7 @@ class FormBuilder
 
     public function createField(array $data = []): Field
     {
-        $block = $this->layout->createBlock(AbstractBlock::class);
+        $block = $this->layout->createBlock(Template::class);
         return $this->fieldFactory->create($block, $data);
     }
 

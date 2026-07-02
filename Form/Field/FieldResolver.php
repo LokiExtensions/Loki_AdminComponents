@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Loki\AdminComponents\Form;
+namespace Loki\AdminComponents\Form\Field;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\AdminComponents\Form\Field\Field;
