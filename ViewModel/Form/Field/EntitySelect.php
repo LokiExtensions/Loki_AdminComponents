@@ -80,11 +80,6 @@ class EntitySelect implements ArgumentInterface
 
     private function getGridViewModel(): GridViewModel
     {
-        $gridViewModel = null;
-        if ($gridViewModel instanceof GridViewModel) {
-            return $gridViewModel;
-        }
-
         /** @var Template $block */
         $block = $this->block->getLayout()->createBlock(Template::class);
         $block->setNamespace($this->getNamespace());

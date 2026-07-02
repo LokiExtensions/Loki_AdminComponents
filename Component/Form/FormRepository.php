@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Form;
 
+use Exception;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -117,7 +118,7 @@ class FormRepository extends ComponentRepository
 
         try {
             $factory = $this->getFactory();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $factory = null;
         }
 

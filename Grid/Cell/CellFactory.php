@@ -14,6 +14,10 @@ class CellFactory
     public function create(string $code, string $label): Cell
     {
         return $this->objectManager->create(Cell::class, [
+            'data' => [
+                'code' => $code,
+                'label' => $label,
+            ]
         ]);
     }
 }
