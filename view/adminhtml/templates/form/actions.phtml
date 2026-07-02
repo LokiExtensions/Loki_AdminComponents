@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/** @version 0.6.4 */
-
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\CssUtils\Util\CssClass;
 use Magento\Framework\Escaper;
@@ -10,6 +8,7 @@ use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Form\FormViewModel;
 use Loki\Components\Util\Block\ChildRenderer;
 
+/** @version 0.6.4 */
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
@@ -20,7 +19,7 @@ use Loki\Components\Util\Block\ChildRenderer;
 $viewModel = $block->getViewModel();
 $buttons = $viewModel->getButtons();
 $mainSaveAction = false;
-$otherSaveActions = [];
+$otherSaveActions = (array)$block->getOtherSaveActions(); // @todo: Test whether this is working
 ?>
 <div class="page-main-actions">
     <div class="page-actions-placeholder"></div>
@@ -62,9 +61,7 @@ $otherSaveActions = [];
                             class="dropdown-menu"
                             x-cloak x-show="showOtherActions"
                         >
-                            <?php foreach (
-                                $otherSaveActions as $otherSaveAction
-                            ): ?>
+                            <?php foreach ($otherSaveActions as $otherSaveAction): ?>
                                 <li>
                                     <span
                                         @click.prevent="saveAndDuplicateAction"
