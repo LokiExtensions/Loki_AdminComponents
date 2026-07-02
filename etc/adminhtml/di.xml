@@ -48,4 +48,31 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Loki\AdminComponents\Component\GenericContext">
+        <arguments>
+            <argument name="dependencies" xsi:type="array">
+                <item name="urlFactory" xsi:type="object">Magento\Framework\UrlFactory\Proxy</item>
+                <item name="messageManager" xsi:type="object">Magento\Framework\Message\ManagerInterface\Proxy</item>
+                <item name="scopeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface\Proxy</item>
+                <item name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Loki\AdminComponents\Component\Grid\GridContext">
+        <arguments>
+            <argument name="parentContexts" xsi:type="array">
+                <item name="generic" xsi:type="object">Loki\AdminComponents\Component\GenericContext</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Loki\AdminComponents\Component\Form\FormContext">
+        <arguments>
+            <argument name="parentContexts" xsi:type="array">
+                <item name="generic" xsi:type="object">Loki\AdminComponents\Component\GenericContext</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

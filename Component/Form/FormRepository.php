@@ -43,6 +43,7 @@ class FormRepository extends ComponentRepository
             try {
                 return $this->getProviderHandler()->getItem($this->getProvider(), $id);
             } catch (Throwable $e) {
+                $this->getContext()->getMessageManager()->addErrorMessage($e->getMessage());
             }
         }
 

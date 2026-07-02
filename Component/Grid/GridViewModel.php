@@ -10,7 +10,6 @@ use Loki\AdminComponents\Grid\State\FilterState;
 use Loki\AdminComponents\Ui\ButtonInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Grid\Cell\CellAction;
@@ -39,7 +38,6 @@ class GridViewModel extends ComponentViewModel
         protected CamelCaseConvertor $camelCaseConvertor,
         protected CellTemplateResolver $cellTemplateResolver,
         protected ColumnLoader $columnLoader,
-        protected ObjectManagerInterface $objectManager,
         protected ButtonFactory $buttonFactory,
         protected FieldFactory $fieldFactory,
         protected FilterFactory $filterFactory,

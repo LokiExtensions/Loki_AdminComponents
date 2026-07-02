@@ -3,12 +3,14 @@
     <group
         name="loki_admin.grid"
         viewModel="Loki\AdminComponents\Component\Grid\GridViewModel"
+        context="Loki\AdminComponents\Component\Grid\GridContext"
         repository="Loki\AdminComponents\Component\Grid\GridRepository">
     </group>
 
     <group
         name="loki_admin.form"
         viewModel="Loki\AdminComponents\Component\Form\FormViewModel"
+        context="Loki\AdminComponents\Component\Form\FormContext"
         repository="Loki\AdminComponents\Component\Form\FormRepository">
     </group>
 
