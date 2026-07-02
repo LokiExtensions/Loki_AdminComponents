@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Grid\Action;
 
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Ui\Api\BookmarkRepositoryInterface;
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Grid\BookmarkLoader;
@@ -12,6 +13,7 @@ class RepositionAction implements ActionInterface
     public function __construct(
         private BookmarkRepositoryInterface $bookmarkRepository,
         private BookmarkLoader $bookmarkLoader,
+        private SerializerInterface $serializer,
     ) {
     }
 
@@ -46,7 +48,7 @@ class RepositionAction implements ActionInterface
                 }
 
                 if ($increaseCurrentPosition) {
-                    $positions[$columnName] = $position++;
+                    $positions[$columnName] = ++$position;
                 }
             }
         }
@@ -55,11 +57,10 @@ class RepositionAction implements ActionInterface
         asort($positions);
 
         $positions = array_reverse($positions);
-        $positions = array_reverse($positions);
 
         $bookmarkData['views']['default']['data']['positions'] = $positions;
 
-        $bookmark->setConfig(json_encode($bookmarkData));
+        $bookmark->setConfig($this->serializer->serialize($bookmarkData));
         $this->bookmarkRepository->save($bookmark);
     }
 }
