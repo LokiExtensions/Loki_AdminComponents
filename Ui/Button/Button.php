@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Loki\AdminComponents\Ui;
+namespace Loki\AdminComponents\Ui\Button;
 
 class Button implements ButtonInterface
 {

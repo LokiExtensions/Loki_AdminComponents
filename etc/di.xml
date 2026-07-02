@@ -7,6 +7,7 @@
                 <item name="repository" xsi:type="object">Loki\AdminComponents\ProviderHandler\RepositoryHandler</item>
                 <item name="collection" xsi:type="object">Loki\AdminComponents\ProviderHandler\CollectionHandler</item>
                 <item name="array" xsi:type="object">Loki\AdminComponents\ProviderHandler\ArrayHandler</item>
+                <item name="form" xsi:type="object">Loki\AdminComponents\ProviderHandler\FormHandler</item>
             </argument>
         </arguments>
     </type>

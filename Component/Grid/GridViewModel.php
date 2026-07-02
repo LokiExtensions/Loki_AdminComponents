@@ -7,7 +7,7 @@ use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
-use Loki\AdminComponents\Ui\ButtonInterface;
+use Loki\AdminComponents\Ui\Button\ButtonInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\UrlFactory;
@@ -20,7 +20,7 @@ use Loki\AdminComponents\Grid\Filter\FilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionInterface;
 use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
-use Loki\AdminComponents\Ui\ButtonFactory;
+use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Loki\Components\Util\CamelCaseConvertor;
 

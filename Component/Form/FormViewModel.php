@@ -2,20 +2,22 @@
 
 namespace Loki\AdminComponents\Component\Form;
 
+use Loki\AdminComponents\Ui\Button\ButtonsResolver;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
-use Loki\AdminComponents\Form\FieldResolver;
+use Loki\AdminComponents\Form\Field\FieldResolver;
 use Loki\AdminComponents\Form\Fieldset\Fieldset;
 use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
 use Loki\AdminComponents\Form\ItemConvertorInterface;
-use Loki\AdminComponents\Ui\Button;
-use Loki\AdminComponents\Ui\ButtonFactory;
+use Loki\AdminComponents\Ui\Button\Button;
+use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
+use Throwable;
 
 /**
  * @method FormRepository getRepository()
@@ -31,6 +33,7 @@ class FormViewModel extends ComponentViewModel
         protected FieldsetFactory $fieldsetFactory,
         protected RequestInterface $request,
         protected FieldResolver $fieldResolver,
+        protected ButtonsResolver $buttonsResolver,
         protected array $itemFilters = [],
     ) {
     }
@@ -53,8 +56,9 @@ class FormViewModel extends ComponentViewModel
     {
         try {
             $item = $this->getRepository()->getItem();
-        } catch(\Throwable $e) {
+        } catch (Throwable $e) {
             $this->getContext()->getMessageManager()->addErrorMessage($e->getMessage());
+
             return [];
         }
 
@@ -77,43 +81,14 @@ class FormViewModel extends ComponentViewModel
 
     /**
      * @return Button[]
-     * @todo Move this to Form
      */
     public function getButtons(): array
     {
-        $buttonDefinitions = $this->getBlock()->getButtons();
-        if (!empty($buttonDefinitions)) {
-            $buttons = [];
-            foreach ($buttonDefinitions as $buttonDefinition) {
-                $buttons[] = $this->buttonFactory->create(
-                    method: (string)$buttonDefinition['method'],
-                    label: (string)$buttonDefinition['label'],
-                    cssClass: isset($buttonDefinition['cssClass']) ? (string)$buttonDefinition['cssClass'] : '',
-                    url: isset($buttonDefinition['url']) ? (string)$buttonDefinition['url'] : '',
-                    primary: $buttonDefinition['primary'] ?? false,
-                );
-            }
-
-            return $buttons;
-        }
-
-        $item = $this->getValue();
-        if ($item instanceof DataObject && $item->getId() > 0) {
-            return [
-                $this->buttonFactory->createCloseAction(),
-                $this->buttonFactory->createDeleteAction(),
-                $this->buttonFactory->createSaveContinueAction(),
-                $this->buttonFactory->createSaveDuplicateAction(),
-                $this->buttonFactory->createSaveCloseAction(),
-            ];
-        }
-
-        return [
-            $this->buttonFactory->createCloseAction(),
-            $this->buttonFactory->createSaveCloseAction(),
-            // @todo: This looses current changes when creating a new item
-            //$this->buttonFactory->createSaveContinueAction(),
-        ];
+        return $this->buttonsResolver->resolve(
+            $this->getBlock(),
+            $this->getRepository()->getProvider(),
+            $this->getValue()
+        );
     }
 
     /**
