@@ -50,7 +50,7 @@ class FilterState implements \JsonSerializable
     {
         return [
             'field' => $this->field,
-            'value' => $this->value,
+            'value' => $this->renderValue(),
             'condition_type' => $this->conditionType,
         ];
     }
