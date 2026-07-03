@@ -48,10 +48,13 @@ $fieldId = $field->getDomId();
     <data hidden x-ref="initialData" type="text/x-loki-init"><?= /* @noEscape */ $entitySelect->getJsonData() ?></data>
 
     <div class="input-with-button">
+        <span
+            class="admin__control-text"
+        >
         <input
             id="<?= $escaper->escapeHtml($fieldId) ?>"
-            class="admin__control-text"
             type="<?= $escaper->escapeHtml($inputType) ?>"
+            style="padding:0; border:none;"
             name="<?= $escaper->escapeHtml($field->getCode()) ?>"
             data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
             <?php foreach ($fieldAttributes as $attributeName => $attributeValue) :?>
@@ -60,6 +63,8 @@ $fieldId = $field->getDomId();
             :value="<?= $escaper->escapeHtml($valueCode) ?>"
             @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
         >
+            <span style="float: right; color: #777; font-size: 80%;" x-html="previewValue"></span>
+        </span>
 
         <button @click="showModalWrapper"><?= $escaper->escapeHtml(__($buttonLabel)) ?></button>
     </div>

@@ -6,10 +6,12 @@ use Loki\AdminComponents\Component\Grid\GridContext;
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldType\EntitySelectInterface;
+use Loki\AdminComponents\Form\Field\FieldTypeInterface;
 use Loki\AdminComponents\Grid\Column\Column;
 use Loki\Components\Component\Component;
-use Loki\Components\Component\ComponentContext;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\Element\Template;
@@ -54,18 +56,36 @@ class EntitySelect implements ArgumentInterface
         });
     }
 
-    public function getCurrentItem()
+    public function getCurrentItem(): ?DataObject
     {
-        $currentId = 1;
-        $currentItem = $this->getGridViewModel()->getCurrentItem($currentId);
-        return $currentItem;
+        $items = $this->getGridViewModel()->getValue();
+        if (empty($items)) {
+            return null;
+        }
+
+        $item = array_shift($items);
+        if (false === $item instanceof DataObject) {
+            return null;
+        }
+
+        return $item;
+    }
+
+    public function getFieldType(): FieldTypeInterface|EntitySelectInterface
+    {
+        return $this->getField()->getFieldType();
     }
 
     public function getJsData(): array
     {
+        $item = $this->getCurrentItem();
+
         return [
             'ajaxUrl' => $this->getAjaxUrl(),
             'valueCode' => $this->getValueCode(),
+            'idField' => $this->getFieldType()->getIdField(),
+            'previewValue' => $this->getFieldType()->getPreviewValue($item),
+            'previewTemplate' => $this->getFieldType()->getPreviewTemplate(),
         ];
     }
 

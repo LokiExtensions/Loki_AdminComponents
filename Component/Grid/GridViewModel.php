@@ -91,7 +91,7 @@ class GridViewModel extends ComponentViewModel
     }
 
     // @todo: Move this to child-class EntitySelectViewModel
-    public function getCurrentItem(int|string $currentId)
+    public function getCurrentItem(int|string $currentId): ?DataObject
     {
         try {
             return $this->getRepository()->getProviderHandler()->getItem($this->getRepository()->getProvider(), $currentId);

@@ -13,12 +13,15 @@ use Magento\Framework\View\Element\Template;
         Alpine.data('LokiAdminFormEntitySelectComponent', () => ({
             ...LokiLoadDataComponentPartial,
             isModalWrapperVisible: false,
+            idField: 'entity_id',
             currentEntityCode: '',
-            currentEntityLabel: '',
+            previewValue: '',
+            previewTemplate: '',
             totalEntities: 0,
             ajaxUrl: '',
             valueCode: 'value',
             search: '',
+            currentEntity: null,
             entities: [],
             init() {
                 this.loadData();
@@ -96,10 +99,14 @@ use Magento\Framework\View\Element\Template;
 
                 current[parts[parts.length - 1]] = value;
             },
+            setPreviewValueFromTemplate() {
+                this.previewValue = this.previewTemplate.replace(/%([^%]+)%/g, (_, key) => this.currentEntity?.[key] ?? '');
+            },
             selectEntity(entity) {
-                const value = entity[entity.id_field_name];
+                this.currentEntity = entity;
+                this.setPreviewValueFromTemplate();
+                const value = entity[this.idField];
                 this.setNested(this, this.valueCode, value);
-                this.currentEntityLabel = entity[entity.name];
                 this.closeWrapper();
             }
         }));
