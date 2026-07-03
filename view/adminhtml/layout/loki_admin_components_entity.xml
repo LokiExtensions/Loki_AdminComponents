@@ -13,7 +13,6 @@
                 name="loki_admin_components.entity_select"
                 template="Loki_AdminComponents::grid.phtml">
                 <arguments>
-                    <argument name="provider" xsi:type="string">Magento\Customer\Model\ResourceModel\Customer\Collection</argument>
                     <argument name="row_actions" xsi:type="array">
                         <item name="select" xsi:type="array">
                             <item name="label" xsi:type="string">Select</item>

@@ -8,6 +8,7 @@ use Loki\AdminComponents\Form\Fieldset\Fieldset;
 use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
 use Loki\AdminComponents\Ui\Button\Button;
 use Loki\AdminComponents\Ui\Button\ButtonFactory;
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
 
@@ -27,16 +28,33 @@ class FormBuilder
         return $this->formFactory->create($code);
     }
 
-    public function createField(array $data = []): Field
-    {
-        $block = $this->layout->createBlock(Template::class);
+    public function createField(
+        string $name,
+        string $label = '',
+        bool $required = false,
+        string $fieldType = 'input',
+        array $fieldAttributes = [],
+        ?OptionSourceInterface $options = null
+    ): Field {
+        $data = [
+            'name' => $name,
+            'label' => $label,
+            'required' => $required,
+            'field_type' => $fieldType,
+            'field_attributes' => $fieldAttributes,
+            'options' => $options,
+        ];
 
+        $block = $this->layout->createBlock(Template::class);
         return $this->fieldFactory->create($block, $data);
     }
 
-    public function createFieldset(string $code, string $label = '', array $fields = []): Fieldset
-    {
-        return $this->fieldsetFactory->create($code, $label, $fields);
+    public function createFieldset(
+        string $name,
+        string $label = '',
+        array $fields = []
+    ): Fieldset {
+        return $this->fieldsetFactory->create($name, $label, $fields);
     }
 
     public function createButton(

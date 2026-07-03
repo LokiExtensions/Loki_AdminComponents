@@ -8,7 +8,8 @@ class FormFactory
 {
     public function __construct(
         private ObjectManagerInterface $objectManager,
-    ) {}
+    ) {
+    }
 
     public function create(string $code): Form
     {
