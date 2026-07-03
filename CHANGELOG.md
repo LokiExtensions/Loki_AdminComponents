@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 03 July 2026
+### Added
+- Entity selection
+- First draft of FormBuilder API
+- Functioning active columns in grid
+
+### Fixed
+- Refactor ButtonsResolver for cleariy
+- Fix a11y issues
+- Require PHP 8.1 as a minimum
+- Add form context and repository context class
+- Fix issue when filter state contains a non-serializable value
+- Fix issue with preconfigured filter objects not being added properly
+- Fix possible issues in RepositionAction
+- Fix required star with quick hack in inline style
+- Allow form buttons to be defined via XML layout
+- Allow for bookmarks of non-bookmark entities
+- Prevent exception when grid namespace doesn't have bookmark record
+- Fix issue with pagination in bookmark grid
+- Set default gridFilter value via XML layout
+- Rename `script x-ref="initialData"` to `data` element for browser compliance
+
 ## [0.6.4] - 05 May 2026
 ### Fixed
 - Fix sorting of countries
