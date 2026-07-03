@@ -26,6 +26,7 @@ class Field extends DataObject
     public function getDomId(): string
     {
         $domId = strtolower($this->getScope().'-'.$this->getCode());
+
         return preg_replace('/([^a-z0-9\-]+)/', '-', $domId);
     }
 
@@ -128,5 +129,41 @@ class Field extends DataObject
         }
 
         return false;
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function setProvider(string|object $className)
+    {
+        $this->setData('provider', $className);
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function getProvider(): string|object
+    {
+        return $this->getData('provider');
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function setButtonLabel(string $buttonLabel)
+    {
+        $this->setData('button_label', $buttonLabel);
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function getButtonLabel(): string
+    {
+        return $this->getData('button_label');
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function setNamespace(string $namespace)
+    {
+        $this->setData('namespace', $namespace);
+    }
+
+    // @todo: Move this to EntitySelectField
+    public function getNamespace(): string
+    {
+        return $this->getData('namespace');
     }
 }

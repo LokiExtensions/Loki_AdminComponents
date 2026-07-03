@@ -46,6 +46,7 @@
                 <item name="product_id" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\ProductId</item>
                 <item name="product_select" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\ProductSelect</item>
                 <item name="customer_select" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\CustomerSelect</item>
+                <item name="order_select" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\OrderSelect</item>
                 <item name="entity_select" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\EntitySelect</item>
                 <item name="category_selection" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\CategorySelection</item>
                 <item name="pagebuilder" xsi:type="object">Loki\AdminComponents\Form\Field\FieldType\Pagebuilder</item>
