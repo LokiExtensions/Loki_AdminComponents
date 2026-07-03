@@ -75,7 +75,7 @@ class FieldsetsResolver
                 $fieldDefinition['code'] = $fieldDefinitionCode;
             }
 
-            $field = $this->fieldFactory->create($this->getBlock(), $fieldDefinition);
+            $field = $this->fieldFactory->create($block, $fieldDefinition);
 
             if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
                 $fieldsets[$fieldsetCode]->addField($field);
