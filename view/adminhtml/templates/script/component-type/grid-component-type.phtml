@@ -17,10 +17,15 @@ use Magento\Framework\View\Element\Template;
         ...LokiAdminFiltersComponentPartial,
         ...LokiAdminMassActionsComponentPartial,
         ...LokiComponentType,
+        namespace: '',
+        aclResource: '',
         columns: [],
         columnPositions: {},
         showOtherActions: false,
         gridFilters: {},
+        submit(data) {
+            this.post({...data, aclResource: this.aclResource});
+        },
         toggleOtherActions() {
             this.showOtherActions = !this.showOtherActions;
         },
@@ -34,10 +39,10 @@ use Magento\Framework\View\Element\Template;
             }
         },
         applyFilters() {
-            this.post({filters: this.gridFilters});
+            this.submit({filters: this.gridFilters});
         },
         clearFilters() { // @todo: Rename to clearGridFilters
-            this.post({
+            this.submit({
                 clearFilters: true
             });
         },
@@ -47,7 +52,7 @@ use Magento\Framework\View\Element\Template;
                 return;
             }
 
-            this.post({
+            this.submit({
                 removeFilter: targetFilter
             });
         },
@@ -56,7 +61,7 @@ use Magento\Framework\View\Element\Template;
                 return;
             }
 
-            this.post({
+            this.submit({
                 sort: {
                     sortBy: this.$el.getAttribute('data-column'),
                     sortDirection: this.sortDirection === 'ASC' ? 'DESC' : 'ASC',
@@ -75,8 +80,7 @@ use Magento\Framework\View\Element\Template;
                 return;
             }
 
-            this.post({search: this.$el.value});
+            this.submit({search: this.$el.value});
         },
-
     }
 </script>

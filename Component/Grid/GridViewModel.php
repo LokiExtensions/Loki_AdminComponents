@@ -55,6 +55,16 @@ class GridViewModel extends ComponentViewModel
         return $this->getBlock()->getNameInLayout();
     }
 
+    public function getAclResource(): string
+    {
+        $aclResource = (string) $this->getBlock()->getAclResource();
+        if (!empty($aclResource)) {
+            return $aclResource;
+        }
+
+        return 'Magento_Backend::admin';
+    }
+
     public function getCurrentUrl(): string
     {
         return (string)$this->urlFactory->create()->getUrl('*/*/*');
@@ -170,6 +180,7 @@ class GridViewModel extends ComponentViewModel
             ...parent::getJsData(),
             ...$stateData,
             'namespace' => $this->getNamespace(),
+            'aclResource' => $this->getAclResource(),
             'gridFilters' => $this->getGridFilterStateValues(),
             'columns' => $columns,
             'columnPositions' => $this->getColumnPositions(),

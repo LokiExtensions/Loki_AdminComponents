@@ -14,13 +14,13 @@ use Magento\Framework\View\Element\Template;
                 return;
             }
 
-            this.post({page: event.target.value});
+            this.submit({page: event.target.value});
         },
         nextPage() {
-            this.post({page: this.page + 1});
+            this.submit({page: this.page + 1});
         },
         previousPage(event) {
-            this.post({page: this.page - 1});
+            this.submit({page: this.page - 1});
         }
     }
 </script>

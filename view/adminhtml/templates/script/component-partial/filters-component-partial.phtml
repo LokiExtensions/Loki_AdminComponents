@@ -18,7 +18,7 @@ use Magento\Framework\View\Element\Template;
             return this.showFilters ? '_active' : '';
         },
         applyFilters() {
-            this.post({filters: this.filters});
+            this.submit({filters: this.filters});
         }
     }
 </script>

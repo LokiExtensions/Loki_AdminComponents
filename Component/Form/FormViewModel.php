@@ -17,6 +17,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
+use Magento\Tests\NamingConvention\true\string;
 
 /**
  * @method FormRepository getRepository()
@@ -48,6 +49,7 @@ class FormViewModel extends ComponentViewModel
     {
         return [
             ...parent::getJsData(),
+            'aclResource' => $this->getAclResource(),
             'item' => $this->getItemData(),
             'indexUrl' => $this->getIndexUrl(),
         ];
@@ -101,6 +103,16 @@ class FormViewModel extends ComponentViewModel
             $this->getRepository(),
             (array)$this->getBlock()->getFields(),
         );
+    }
+
+    public function getAclResource(): string
+    {
+        $aclResource = (string) $this->getBlock()->getAclResource();
+        if (!empty($aclResource)) {
+            return $aclResource;
+        }
+
+        return 'Magento_Backend::admin';
     }
 
     private function getIndexUri(): string
