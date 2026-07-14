@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 14 July 2026
+### Fixed
+- Remove faulty namespace import
+- Allow admin component to define `acl_resource` for added security
+
 ## [0.7.0] - 03 July 2026
 ### Added
 - Entity selection

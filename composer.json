@@ -1,6 +1,6 @@
 {
     "name": "loki/magento2-admin-components",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "Admin Panel grids and forms created via Loki Components",
     "type": "magento2-module",
     "keywords": [
