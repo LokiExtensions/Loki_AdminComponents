@@ -43,7 +43,7 @@ class Security implements FilterInterface
             return true;
         }
 
-        $field = $this->getFieldByPropertyName($repository, $property);
+        $field = $this->getFieldByPropertyName($repository, (string)$property);
         if (empty($field)) {
             return true;
         }
