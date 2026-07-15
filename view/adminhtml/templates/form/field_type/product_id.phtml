@@ -23,8 +23,10 @@ $options = $field->getFieldType()->getOptions();
 $emptyOption = $field->getEmptyOption();
 $fieldType = $field->getFieldType();
 $fieldAttributes = $field->getFieldAttributes();
+$fieldId = $field->getDomId();
 ?>
 <select
+    id="<?= $escaper->escapeHtml($fieldId) ?>"
     aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
     class="admin__control-select"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
