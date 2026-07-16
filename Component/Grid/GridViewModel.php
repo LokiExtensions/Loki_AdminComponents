@@ -206,16 +206,13 @@ class GridViewModel extends ComponentViewModel
      */
     public function getAvailableColumns(): array
     {
-        $columns = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
-        if (!empty($columns)) {
-            return $columns;
-        }
+        $columnsFromNamespace = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
 
         $providerHandler = $this->getRepository()->getProviderHandler();
         $provider = $this->getRepository()->getProvider();
         $columns = $providerHandler->getColumns($provider);
         if (!empty($columns)) {
-            return $columns;
+            return array_merge_recursive($columnsFromNamespace, $columns);
         }
 
         $items = $this->getItems();
@@ -234,7 +231,7 @@ class GridViewModel extends ComponentViewModel
             $columns[$columnName] = $this->columnLoader->createColumn($columnName);
         }
 
-        return $columns;
+        return array_merge_recursive($columnsFromNamespace, $columns);
     }
 
     /**
