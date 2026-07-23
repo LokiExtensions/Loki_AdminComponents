@@ -105,8 +105,8 @@ As a demo, you could opt to install the following examples:
 
 ### Form features
 - Autodetection of columns
-- Field-types (select, text, number, datetime, etc) with option to configure more
-- Form actions (Back, Save and Close, Save and Continue, Delete, etc)
+- Field-types (`select`, `input`, `number`, `datetime`, etc) with option to configure more
+- Form actions (*Back, Save and Close, Save and Continue, Delete, etc)
 - ... (more docs coming soon)
 
 ### Documentation
