@@ -63,7 +63,7 @@ $fieldId = $field->getDomId();
             :value="<?= $escaper->escapeHtml($valueCode) ?>"
             @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
         >
-            <span style="float: right; color: #777; font-size: 80%;" x-html="previewValue"></span>
+            <span style="float: right; color: #777; font-size: 80%;" x-text="previewValue"></span>
         </span>
 
         <button @click="showModalWrapper"><?= $escaper->escapeHtml(__($buttonLabel)) ?></button>
@@ -136,7 +136,7 @@ $fieldId = $field->getDomId();
                                 </td>
                                 <?php foreach ($columns as $column) : ?>
                                     <td class="data-grid-cell">
-                                        <div class="data-grid-cell-content" x-html="entity.<?= $escaper->escapeHtml($column->getCode()) ?>"></div>
+                                        <div class="data-grid-cell-content" x-text="entity.<?= $escaper->escapeHtml($column->getCode()) ?>"></div>
                                     </td>
                                 <?php endforeach; ?>
                             </tr>
