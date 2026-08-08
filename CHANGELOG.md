@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 08 August 2026
+### Security
+- Rewrite `x-html` to `x-text` because of CSP
+
+### Fixed
+- Allow for field type `text` anyway
+- Fix README for using `text` field type (which ideally is `input`)
+- Make sure to merge uiBookmark based columns with detected ones
+- Prevent PHP notice with non-string property names
+- Properly set DOM ID for product ID field type
+
 ## [0.7.1] - 14 July 2026
 ### Fixed
 - Remove faulty namespace import
