@@ -27,8 +27,8 @@ class CategoryTreeRenderer
     {
         return $this->layout->createBlock(Template::class, 'category_selection_main_script')
             ->setData('field', $field)
-            ->setTemplate($this->getMainScript()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
-            ->toHtml();
+            ->setTemplate($this->getMainScript())
+            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
     }
 
     public function renderChildNode(CategoryTreeNode $categoryTreeNode, Field $field): string
@@ -36,22 +36,22 @@ class CategoryTreeRenderer
         return $this->layout->createBlock(Template::class, 'category_selection_inner_item_' . $categoryTreeNode->id)
             ->setData('category_tree_node', $categoryTreeNode)
             ->setData('field', $field)
-            ->setTemplate($this->getChildItemTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
-            ->toHtml();
+            ->setTemplate($this->getChildItemTemplate())
+            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
     }
 
     public function renderBreadcrumb(): string
     {
         return $this->layout->createBlock(Template::class, 'categories_selection_crumbs')
-            ->setTemplate($this->getBreadcrumbsTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
-            ->toHtml();
+            ->setTemplate($this->getBreadcrumbsTemplate())
+            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
     }
 
     public function renderSearchInput(): string
     {
         return $this->layout->createBlock(Template::class, 'category_selection_search_input')
-            ->setTemplate($this->getSearchInputTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
-            ->toHtml();
+            ->setTemplate($this->getSearchInputTemplate())
+            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
     }
 
     /**
