@@ -37,7 +37,7 @@ class Filter implements FilterInterface
     public function render(): string
     {
         $block = $this->layout->createBlock(Template::class);
-        $block->setTemplate('Loki_AdminComponents::form/field.phtml');
+        $block->setTemplate('Loki_AdminComponents::form/field.phtml'); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
         $block->setField($this->getFormField($block));
 
         return $block->toHtml();

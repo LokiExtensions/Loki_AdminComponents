@@ -27,7 +27,7 @@ class CategoryTreeRenderer
     {
         return $this->layout->createBlock(Template::class, 'category_selection_main_script')
             ->setData('field', $field)
-            ->setTemplate($this->getMainScript())
+            ->setTemplate($this->getMainScript()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
             ->toHtml();
     }
 
@@ -36,21 +36,21 @@ class CategoryTreeRenderer
         return $this->layout->createBlock(Template::class, 'category_selection_inner_item_' . $categoryTreeNode->id)
             ->setData('category_tree_node', $categoryTreeNode)
             ->setData('field', $field)
-            ->setTemplate($this->getChildItemTemplate())
+            ->setTemplate($this->getChildItemTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
             ->toHtml();
     }
 
     public function renderBreadcrumb(): string
     {
         return $this->layout->createBlock(Template::class, 'categories_selection_crumbs')
-            ->setTemplate($this->getBreadcrumbsTemplate())
+            ->setTemplate($this->getBreadcrumbsTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
             ->toHtml();
     }
 
     public function renderSearchInput(): string
     {
         return $this->layout->createBlock(Template::class, 'category_selection_search_input')
-            ->setTemplate($this->getSearchInputTemplate())
+            ->setTemplate($this->getSearchInputTemplate()) // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
             ->toHtml();
     }
 
