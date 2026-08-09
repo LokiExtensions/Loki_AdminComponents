@@ -25,33 +25,45 @@ class CategoryTreeRenderer
 
     public function renderMainScript(Field $field): string
     {
-        return $this->layout->createBlock(Template::class, 'category_selection_main_script')
-            ->setData('field', $field)
-            ->setTemplate($this->getMainScript())
-            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
+        return $this->layout->createBlock(Template::class, 'category_selection_main_script', [
+                'data' => [
+                    'field' => $field,
+                    'template' => $this->getMainScript(),
+                ]
+            ])
+            ->toHtml();
     }
 
     public function renderChildNode(CategoryTreeNode $categoryTreeNode, Field $field): string
     {
-        return $this->layout->createBlock(Template::class, 'category_selection_inner_item_' . $categoryTreeNode->id)
-            ->setData('category_tree_node', $categoryTreeNode)
-            ->setData('field', $field)
-            ->setTemplate($this->getChildItemTemplate())
-            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
+        return $this->layout->createBlock(Template::class, 'category_selection_inner_item_' . $categoryTreeNode->id, [
+                'data' => [
+                    'category_tree_node' => $categoryTreeNode,
+                    'field' => $field,
+                    'template' => $this->getChildItemTemplate(),
+                ]
+            ])
+            ->toHtml();
     }
 
     public function renderBreadcrumb(): string
     {
-        return $this->layout->createBlock(Template::class, 'categories_selection_crumbs')
-            ->setTemplate($this->getBreadcrumbsTemplate())
-            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
+        return $this->layout->createBlock(Template::class, 'categories_selection_crumbs', [
+                'data' => [
+                    'template' => $this->getBreadcrumbsTemplate(),
+                ]
+            ])
+            ->toHtml();
     }
 
     public function renderSearchInput(): string
     {
-        return $this->layout->createBlock(Template::class, 'category_selection_search_input')
-            ->setTemplate($this->getSearchInputTemplate())
-            ->toHtml(); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
+        return $this->layout->createBlock(Template::class, 'category_selection_search_input', [
+                'data' => [
+                    'template' => $this->getSearchInputTemplate(),
+                ]
+            ])
+            ->toHtml();
     }
 
     /**

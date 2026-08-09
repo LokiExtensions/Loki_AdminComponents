@@ -20,8 +20,11 @@ class FieldFactory
     public function createWithBlock(
         array $data = []
     ) {
-        $block = $this->layout->createBlock(Template::class);
-        $block->setTemplate('Loki_AdminComponents::form/field.phtml'); // @phpstan-ignore bitExpertMagento.setTemplateDisallowedForBlock
+        $block = $this->layout->createBlock(Template::class, '', [
+            'data' => [
+                'template' => 'Loki_AdminComponents::form/field.phtml',
+            ]
+        ]);
         return $this->create($block, $data);
     }
 
