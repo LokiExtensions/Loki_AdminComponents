@@ -3,16 +3,18 @@
 namespace Loki\AdminComponents\Component\Form;
 
 use Exception;
+use Loki\AdminComponents\Exception\FormActionException;
 use Loki\AdminComponents\Exception\NoProviderException;
+use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Loki\Components\Exception\RedirectException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Message\Manager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use RuntimeException;
 use Throwable;
-use Loki\AdminComponents\Form\Action\ActionInterface;
 use Loki\AdminComponents\Form\Action\ActionListing;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
@@ -29,6 +31,7 @@ class FormRepository extends ComponentRepository
         private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing,
+        private Manager $messageManager,
     ) {
     }
 
@@ -100,19 +103,47 @@ class FormRepository extends ComponentRepository
         }
 
         $actions = $this->actionListing->getActions();
+        $actionSuccess = false;
+
         foreach ($value['actions'] as $actionName) {
             if (false === array_key_exists($actionName, $actions)) {
                 continue;
             }
 
-            /** @var ActionInterface $action */
             $action = $actions[$actionName];
-            $action->execute($this, $value);
+            try {
+                $action->execute($this, $value);
+            } catch (FormActionException $e) {
+            }
+        }
+
+        if (false === $actionSuccess) {
+            return;
         }
 
         if (isset($value['redirect'])) {
             throw (new RedirectException)->setUrl($value['redirect']);
         }
+    }
+
+    /**
+     * @return ItemValidatorInterface[]
+     */
+    public function getItemValidators(): array
+    {
+        $itemValidatorsFromBlock = $this->getBlock()->getItemValidators();
+        if (empty($itemValidatorsFromBlock)) {
+            return [];
+        }
+
+        $itemValidators = [];
+        foreach ($itemValidatorsFromBlock as $itemValidator) {
+            if ($itemValidator instanceof ItemValidatorInterface) {
+                $itemValidators[] = $itemValidator;
+            }
+        }
+
+        return $itemValidators;
     }
 
     public function getItemFromData(array $data): DataObject
