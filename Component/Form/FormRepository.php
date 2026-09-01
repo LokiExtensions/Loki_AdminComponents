@@ -113,6 +113,7 @@ class FormRepository extends ComponentRepository
             $action = $actions[$actionName];
             try {
                 $action->execute($this, $value);
+                $actionSuccess = true;
             } catch (FormActionException $e) {
             }
         }
