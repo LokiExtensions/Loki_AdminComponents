@@ -14,6 +14,7 @@ use Loki\AdminComponents\Ui\Button\Button;
 use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Loki\Components\Component\ComponentViewModel;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\UrlFactory;
@@ -60,6 +61,10 @@ class FormViewModel extends ComponentViewModel
             $this->getRepository(),
             $this->getBlock()
         );
+
+        if (false === $item instanceof DataObject) {
+            return [];
+        }
 
         return $item->getData();
     }

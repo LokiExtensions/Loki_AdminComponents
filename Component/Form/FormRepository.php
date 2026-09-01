@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Component\Form;
 
 use Exception;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -54,7 +55,7 @@ class FormRepository extends ComponentRepository
 
         try {
             $item = $this->getFactory()->create();
-        } catch (RuntimeException $e) {
+        } catch (NoProviderException|RuntimeException $e) {
             return null;
         }
 
@@ -148,7 +149,7 @@ class FormRepository extends ComponentRepository
         }
 
         if (empty($provider)) {
-            throw new RuntimeException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
+            throw new NoProviderException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
         }
 
         $provider = $this->objectManager->get($provider);
@@ -157,7 +158,7 @@ class FormRepository extends ComponentRepository
             return $provider;
         }
 
-        throw new RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        throw new NoProviderException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
     private function getFactory(): object
@@ -212,7 +213,7 @@ class FormRepository extends ComponentRepository
     {
         try {
             $providerHandler = $this->getProviderHandler();
-        } catch (RuntimeException $e) {
+        } catch (NoProviderException $e) {
             return null;
         }
 

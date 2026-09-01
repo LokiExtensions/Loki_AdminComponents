@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Item;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Provider\ItemProviderInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\ManagerInterface;
@@ -21,9 +22,12 @@ class ItemResolver
         FormRepository $formRepository,
         AbstractBlock $block,
     ): ?DataObject {
-        $provider = $formRepository->getProvider();
-        if ($provider instanceof ItemProviderInterface) {
-            return $provider->getItem((int)$formRepository->getValue());
+        try {
+            $provider = $formRepository->getProvider();
+            if ($provider instanceof ItemProviderInterface) {
+                return $provider->getItem((int)$formRepository->getValue());
+            }
+        } catch (NoProviderException $e) {
         }
 
         try {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Fieldset;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Form\Field\FieldsResolver;
 use Loki\AdminComponents\Provider\FormProviderInterface;
@@ -25,9 +26,12 @@ class FieldsetsResolver
         FormRepository $formRepository,
         AbstractBlock $block,
     ): array {
-        $provider = $formRepository->getProvider();
-        if ($provider instanceof FormProviderInterface) {
-            return $provider->getForm()->getFieldsets();
+        try {
+            $provider = $formRepository->getProvider();
+            if ($provider instanceof FormProviderInterface) {
+                return $provider->getForm()->getFieldsets();
+            }
+        } catch (NoProviderException $e) {
         }
 
         $fieldsetDefinitions = (array)$block->getFieldsets();

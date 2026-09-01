@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Ui\Button;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Provider\FormProviderInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -23,9 +24,13 @@ class ButtonsResolver
         FormRepository|GridRepository $repository,
         AbstractBlock $block,
     ): array {
-        $provider = $repository->getProvider();
-        if ($provider instanceof FormProviderInterface) {
-            return $provider->getForm()->getButtons();
+        try {
+            $provider = $repository->getProvider();
+            if ($provider instanceof FormProviderInterface) {
+                return $provider->getForm()->getButtons();
+            }
+        } catch (NoProviderException $e) {
+
         }
 
         $buttons = $this->getButtonsFromBlock($block);
