@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Form\Action;
 
+use Loki\AdminComponents\Exception\FormValidationException;
 use Loki\AdminComponents\Form\Item\ItemConvertorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
@@ -34,6 +35,24 @@ class SaveAction implements ActionInterface
         $itemConvertor = $formRepository->getComponent()->getViewModel()->getBlock()->getItemConvertor();
         if ($itemConvertor instanceof ItemConvertorInterface) {
             $item = $itemConvertor->beforeSave($item);
+        }
+
+        $errorMessages = [];
+        foreach ($formRepository->getItemValidators() as $itemValidator) {
+            $validationResult = $itemValidator->validate($item);
+            if ($validationResult === true) {
+                continue;
+            }
+
+            $errorMessages = array_merge($errorMessages, $validationResult);
+        }
+
+        if (!empty($errorMessages)) {
+            foreach ($errorMessages as $errorMessage) {
+                $this->messageManager->addErrorMessage($errorMessage);
+            }
+
+            throw new FormValidationException();
         }
 
         $providerHandler->saveItem($provider, $item);
