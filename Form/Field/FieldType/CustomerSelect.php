@@ -30,6 +30,10 @@ class CustomerSelect extends FieldTypeAbstract implements EntitySelectInterface
     public function getPreviewValue($item): string
     {
         /** @var Customer $item */
+        if (false === $item instanceof Customer) {
+            return '';
+        }
+
         return $item->getFirstname().' '.$item->getLastname().' ('.$item->getEmail().')';
     }
 
