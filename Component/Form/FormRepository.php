@@ -4,6 +4,7 @@ namespace Loki\AdminComponents\Component\Form;
 
 use Exception;
 use Loki\AdminComponents\Exception\NoProviderException;
+use Loki\Components\Exception\RedirectException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -107,6 +108,10 @@ class FormRepository extends ComponentRepository
             /** @var ActionInterface $action */
             $action = $actions[$actionName];
             $action->execute($this, $value);
+        }
+
+        if (isset($value['redirect'])) {
+            throw (new RedirectException)->setUrl($value['redirect']);
         }
     }
 
