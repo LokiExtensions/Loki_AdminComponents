@@ -12,7 +12,7 @@ use RuntimeException;
 class Field extends DataObject
 {
     public function __construct(
-        private AbstractBlock $block,
+        private ?AbstractBlock $block = null,
         array $data = [],
     ) {
         parent::__construct($data);
@@ -80,7 +80,12 @@ class Field extends DataObject
         return $fieldType;
     }
 
-    public function getBlock(): AbstractBlock
+    public function setBlock(AbstractBlock $block): self
+    {
+        $this->block = $block;
+    }
+
+    public function getBlock(): ?AbstractBlock
     {
         return $this->block;
     }

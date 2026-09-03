@@ -7,6 +7,7 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
+use RuntimeException;
 
 class FieldFactory
 {
@@ -29,7 +30,7 @@ class FieldFactory
     }
 
     public function create(
-        AbstractBlock $block,
+        ?AbstractBlock $block = null,
         array $data = [],
     ): Field {
         if (!isset($data['code']) && !empty($data['name'])) {
@@ -50,7 +51,7 @@ class FieldFactory
         }
 
         if (false === $data['field_type'] instanceof FieldTypeInterface) {
-            throw new \RuntimeException((string)__('Field type "%1" could not be resolved', $data['field_type']));
+            throw new RuntimeException((string)__('Field type "%1" could not be resolved', $data['field_type']));
         }
 
         if (!isset($data['scope'])) {
