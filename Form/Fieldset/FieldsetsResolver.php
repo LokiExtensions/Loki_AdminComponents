@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Fieldset;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
-use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Form\Field\FieldsResolver;
-use Loki\AdminComponents\Provider\FormProviderInterface;
+use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\FieldsetsResolverInterface;
 use Magento\Framework\View\Element\AbstractBlock;
 
 class FieldsetsResolver
@@ -15,7 +14,8 @@ class FieldsetsResolver
     public function __construct(
         private FieldsetFactory $fieldsetFactory,
         private FieldsResolver $fieldsResolver,
-        private FieldFactory $fieldFactory
+        private FieldFactory $fieldFactory,
+        /** @var FieldsetsResolverInterface[] */ private array $fieldsetsResolvers = []
     ) {
     }
 
@@ -26,12 +26,9 @@ class FieldsetsResolver
         FormRepository $formRepository,
         AbstractBlock $block,
     ): array {
-        try {
-            $provider = $formRepository->getProvider();
-            if ($provider instanceof FormProviderInterface) {
-                return $provider->getForm()->getFieldsets();
-            }
-        } catch (NoProviderException $e) {
+        $fieldsets = [];
+        foreach ($this->fieldsetsResolvers as $fieldsetsResolver) {
+            $fieldsets = $fieldsetsResolver->resolve($formRepository, $fieldsets);
         }
 
         $fieldsetDefinitions = (array)$block->getFieldsets();

@@ -25,6 +25,11 @@ class Form
     private array $fieldsets = [];
 
     /**
+     * @var Field[]
+     */
+    private array $fields = [];
+
+    /**
      * @var Button[]
      */
     private array $buttons = [];
@@ -38,6 +43,17 @@ class Form
     public function getFieldsets(): array
     {
         return $this->fieldsets;
+    }
+
+    public function addField(Field $field): Form
+    {
+        $this->fields[] = $field;
+        return $this;
+    }
+
+    public function getFields(): array
+    {
+        return $this->fields;
     }
 
     public function addButton(Button $button): Form

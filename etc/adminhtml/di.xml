@@ -76,7 +76,25 @@
         </arguments>
     </type>
 
-    <type name="\Loki\AdminComponents\Ui\Button\ButtonsResolver">
+    <type name="Loki\AdminComponents\Form\Fieldset\FieldsetsResolver">
+        <arguments>
+            <argument name="fieldsetsResolvers" xsi:type="array">
+                <item name="provider" xsi:type="object">Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver</item>
+                <item name="block" xsi:type="object">Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Loki\AdminComponents\Form\Field\FieldsResolver">
+        <arguments>
+            <argument name="fieldsResolvers" xsi:type="array">
+                <item name="provider" xsi:type="object">Loki\AdminComponents\Form\Field\FieldsResolver\ProviderFieldsResolver</item>
+                <item name="block" xsi:type="object">Loki\AdminComponents\Form\Field\FieldsResolver\BlockFieldsResolver</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Loki\AdminComponents\Ui\Button\ButtonsResolver">
         <arguments>
             <argument name="buttonsResolvers" xsi:type="array">
                 <item name="provider" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\ProviderButtonsResolver</item>
