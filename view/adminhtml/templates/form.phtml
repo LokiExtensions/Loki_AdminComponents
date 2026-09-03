@@ -16,6 +16,7 @@ use Loki\Components\Util\Block\TemplateRenderer;
 /** @var BlockRenderer $blockRenderer */
 /** @var ChildRenderer $childRenderer */
 /** @var TemplateRenderer $templateRenderer */
+
 if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }

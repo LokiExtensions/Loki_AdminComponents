@@ -81,7 +81,6 @@ class FormViewModel extends ComponentViewModel
     {
         return $this->buttonsResolver->resolve(
             $this->getRepository(),
-            $this->getBlock(),
         );
     }
 

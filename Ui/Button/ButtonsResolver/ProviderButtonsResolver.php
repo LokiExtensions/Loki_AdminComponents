@@ -7,6 +7,7 @@ use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Provider\ButtonsProviderInterface;
 use Loki\AdminComponents\Provider\FormProviderInterface;
+use Loki\AdminComponents\Provider\GridProviderInterface;
 use Loki\Components\Component\ComponentRepository;
 
 class ProviderButtonsResolver implements ButtonsResolverInterface
@@ -18,8 +19,14 @@ class ProviderButtonsResolver implements ButtonsResolverInterface
         }
 
         $provider = $repository->getProvider();
-        if ($provider instanceof FormProviderInterface) {
+        if ($repository instanceof FormRepository && $provider instanceof FormProviderInterface) {
             foreach ($provider->getForm()->getButtons() as $buttonIndex => $button) {
+                $buttons[$buttonIndex] = $button;
+            }
+        }
+
+        if ($repository instanceof GridRepository && $provider instanceof GridProviderInterface) {
+            foreach ($provider->getGrid()->getButtons() as $buttonIndex => $button) {
                 $buttons[$buttonIndex] = $button;
             }
         }

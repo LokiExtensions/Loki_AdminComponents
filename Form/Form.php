@@ -4,11 +4,21 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form;
 
 use Loki\AdminComponents\Form\Field\Field;
+use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Form\Fieldset\Fieldset;
+use Loki\AdminComponents\Form\Fieldset\FieldsetFactory;
 use Loki\AdminComponents\Ui\Button\Button;
+use Loki\AdminComponents\Ui\Button\ButtonFactory;
 
 class Form
 {
+    public function __construct(
+        protected FieldFactory $fieldFactory,
+        protected FieldsetFactory $fieldsetFactory,
+        protected ButtonFactory $buttonFactory,
+    ) {
+    }
+
     /**
      * @var Fieldset[]
      */
