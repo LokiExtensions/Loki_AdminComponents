@@ -7,7 +7,9 @@ use Loki\AdminComponents\Grid\Filter\FilterFactory;
 use Loki\AdminComponents\Grid\Filter\StaticFilterInterface;
 use Loki\AdminComponents\Grid\MassAction\MassActionFactory;
 use Loki\AdminComponents\Grid\State\FilterState;
+use Loki\AdminComponents\Provider\ButtonsProviderInterface;
 use Loki\AdminComponents\Ui\Button\ButtonInterface;
+use Loki\AdminComponents\Ui\Button\ButtonsResolver;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\UrlFactory;
@@ -42,6 +44,7 @@ class GridViewModel extends ComponentViewModel
         protected FieldFactory $fieldFactory,
         protected FilterFactory $filterFactory,
         protected MassActionFactory $massActionFactory,
+        protected ButtonsResolver $buttonsResolver,
     ) {
     }
 
@@ -211,8 +214,17 @@ class GridViewModel extends ComponentViewModel
         $providerHandler = $this->getRepository()->getProviderHandler();
         $provider = $this->getRepository()->getProvider();
         $columns = $providerHandler->getColumns($provider);
+
         if (!empty($columns)) {
-            return array_merge_recursive($columnsFromNamespace, $columns);
+            foreach ($columns as $column) {
+                foreach ($columnsFromNamespace as $columnFromNamespace) {
+                    if ($column->getCode() == $columnFromNamespace->getCode()) {
+                        $column->addData($columnFromNamespace->getData());
+                    }
+                }
+            }
+
+            return $columns;
         }
 
         $items = $this->getItems();
@@ -319,38 +331,7 @@ class GridViewModel extends ComponentViewModel
      */
     public function getButtons(): array
     {
-        $buttonActions = (array)$this->getBlock()->getButtonActions();
-        if (empty($buttonActions)) {
-            return [];
-        }
-
-        $buttons = [];
-
-        foreach ($buttonActions as $buttonAction) {
-            if ($buttonAction instanceof ButtonInterface) {
-                $buttons[] = $buttonAction;
-                continue;
-            }
-
-            if (!is_array($buttonAction)) {
-                continue;
-            }
-
-            if (!isset($buttonAction['method']) || !isset($buttonAction['label'])) {
-                continue;
-            }
-
-            $buttons[] = $this->buttonFactory->create(
-                (string)$buttonAction['method'],
-                (string)$buttonAction['label'],
-                isset($buttonAction['cssClass']) ? (string)$buttonAction['cssClass'] : '',
-                isset($buttonAction['url']) ? (string)$buttonAction['url'] : '',
-                isset($buttonAction['subButtons']) ? (string)$buttonAction['subButtons'] : [],
-                isset($buttonAction['primary']) ? (bool)$buttonAction['primary'] : false,
-            );
-        }
-
-        return $buttons;
+        return $this->buttonsResolver->resolve($this->getRepository());
     }
 
     /**

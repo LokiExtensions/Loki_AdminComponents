@@ -16,7 +16,7 @@ if (!isset($viewModel)) {
 ?>
 <div class="loki-grid grid">
     <?php if ($viewModel->allowActions()): ?>
-    <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.grid.actions') ?>
+        <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.grid.actions') ?>
     <?php endif; ?>
 
     <div class="page-columns">

@@ -16,4 +16,16 @@ interface ButtonInterface
     public function getSubButtons(): array;
 
     public function getUrl(): string;
+
+    public function setId(string $id): void;
+
+    public function setMethod(string $method): void;
+
+    public function setLabel(string $label): void;
+
+    public function setCssClass(string $cssClass): void;
+
+    public function setUrl(string $url): void;
+
+    public function setSubButtons(array $subButtons): void;
 }

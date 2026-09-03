@@ -75,4 +75,15 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="\Loki\AdminComponents\Ui\Button\ButtonsResolver">
+        <arguments>
+            <argument name="buttonsResolvers" xsi:type="array">
+                <item name="provider" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\ProviderButtonsResolver</item>
+                <item name="block" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\BlockButtonsResolver</item>
+                <item name="default_grid" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultGridButtonsResolver</item>
+                <item name="default_form" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultFormButtonsResolver</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
