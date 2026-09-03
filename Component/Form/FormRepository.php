@@ -9,7 +9,6 @@ use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Loki\Components\Exception\RedirectException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
-use Magento\Framework\Message\Manager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -31,7 +30,6 @@ class FormRepository extends ComponentRepository
         private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing,
-        private Manager $messageManager,
     ) {
     }
 
