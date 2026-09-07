@@ -25,7 +25,7 @@ $fieldId = $field->getDomId();
 ?>
 <select
     id="<?= $escaper->escapeHtml($fieldId) ?>"
-    aria-label="<?= $escaper->escapeHtml($field->getLabel()) ?>"
+    aria-label="<?= $escaper->escapeHtml(__($field->getLabel())) ?>"
     class="admin__control-select"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"

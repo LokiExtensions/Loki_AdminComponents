@@ -80,13 +80,13 @@ $fieldId = $field->getDomId();
                 <div class="modal-inner-wrap" style="padding:20px;">
                     <header class="modal-header">
                         <h1 class="modal-title" data-role="title">
-                            <?= $escaper->escapeHtml($modalTitle) ?>
+                            <?= $escaper->escapeHtml(__($modalTitle)) ?>
                         </h1>
                         <button
                             @click="closeWrapper"
                             class="action-close"
                             type="button">
-                            <span>Close</span>
+                            <span><?= __('Close') ?></span>
                         </button>
 
 
@@ -101,12 +101,12 @@ $fieldId = $field->getDomId();
                                     type="text"
                                     :value="search"
                                     @keyup="setSearch"
-                                    placeholder="Search by keyword"
-                                    aria-label="Search by keyword"
+                                    placeholder="<?= __('Search by keyword') ?>"
+                                    aria-label="<?= __('Search by keyword') ?>"
                                 />
 
-                                <button class="action-submit" type="button" aria-label="Search">
-                                    <span>Search</span>
+                                <button class="action-submit" type="button" aria-label="<?= __('Search') ?>">
+                                    <span><?= __('Search') ?></span>
                                 </button>
                             </div>
                         </div>
@@ -145,7 +145,7 @@ $fieldId = $field->getDomId();
                             <template x-if="hasNoEntities">
                                 <tr class="data-row">
                                     <td class="data-grid-cell" colspan="<?= count($columns) + 1 ?>">
-                                        No items found
+                                        <?= __('No items found') ?>
                                     </td>
                                 </tr>
                             </template>
