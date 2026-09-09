@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-
 use Magento\Framework\Escaper;
 
-/** @var Escaper $escaper */
 /** @version 0.7.2 */
+/** @var Escaper $escaper */
+
 ?>
 <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-wrap admin__data-grid-action-bookmarks', '@todo')) ?>">
     <button class="<?= $escaper->escapeHtml($css('admin__action-dropdown', '@todo')) ?>" type="button" @click="toggleViewSelector">

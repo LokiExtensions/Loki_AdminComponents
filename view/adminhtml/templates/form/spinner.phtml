@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @version 0.7.2 */
 /** @var Escaper $escaper */
 /** @var Template $block */
-/** @version 0.7.2 */
+
 ?>
 <div x-show="loading" data-role="spinner" class="<?= $escaper->escapeHtml($css('admin__data-grid-loading-mask', '@todo')) ?>" >
     <div class="<?= $escaper->escapeHtml($css('spinner', '@todo')) ?>">
