@@ -19,7 +19,7 @@ $fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
 ?>
 <textarea
-    class="admin__control-text"
+    class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>

@@ -26,7 +26,7 @@ $fieldId = $field->getDomId();
 <select
     id="<?= $escaper->escapeHtml($fieldId) ?>"
     aria-label="<?= $escaper->escapeHtml(__($field->getLabel())) ?>"
-    class="admin__control-select"
+    class="<?= $escaper->escapeHtml($css('admin__control-select', '@todo')) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php if ($field->getMultiple()) : ?>multiple<?php endif; ?>

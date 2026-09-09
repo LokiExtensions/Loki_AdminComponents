@@ -14,19 +14,19 @@ use Magento\Framework\View\Element\Template;
     }
 </style>
 <template x-for="categoryId in selectedCategoryIds" :key="categoryId">
-    <span class="admin__action-multiselect-crumb"
+    <span class="<?= $escaper->escapeHtml($css('admin__action-multiselect-crumb', '@todo')) ?>"
           x-data="CategorySelectionCrumb"
           :data-id="categoryId"
     >
         <span x-text="crumbLabel"></span>
         <button
-            class="action-close"
+            class="<?= $escaper->escapeHtml($css('action-close', '@todo')) ?>"
             type="button"
             data-action="remove-selected-item"
             tabindex="-1"
             @click="removeSelected"
         >
-            <span class="action-close-text">
+            <span class="<?= $escaper->escapeHtml($css('action-close-text', '@todo')) ?>">
                 <?= $escaper->escapeHtml(__('Close')) ?>
             </span>
         </button>

@@ -27,7 +27,7 @@ $fieldId = $field->getDomId();
 ?>
 <input
     id="<?= $escaper->escapeHtml($fieldId) ?>"
-    class="admin__control-text"
+    class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
     type="<?= $escaper->escapeHtml($inputType) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"

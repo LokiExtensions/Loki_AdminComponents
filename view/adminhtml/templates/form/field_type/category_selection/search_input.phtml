@@ -9,52 +9,52 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 ?>
 <div
-    class="admin__action-multiselect-search-wrap"
+    class="<?= $escaper->escapeHtml($css('admin__action-multiselect-search-wrap', '@todo')) ?>"
     x-data="CategoriesSelectionSearch"
 >
     <input
         id="category-search-input"
-        class="admin__control-text admin__action-multiselect-search"
+        class="<?= $escaper->escapeHtml($css('admin__control-text admin__action-multiselect-search', '@todo')) ?>"
         data-role="advanced-select-text"
         type="text"
         @input="filterInputValue"
     />
-    <label class="admin__action-multiselect-search-label"
+    <label class="<?= $escaper->escapeHtml($css('admin__action-multiselect-search-label', '@todo')) ?>"
            data-action="advanced-select-search"
            for="category-search-input"
     ></label>
     <template x-if="canShowSearchResult">
         <div
-            class="admin__action-multiselect-search-count"
+            class="<?= $escaper->escapeHtml($css('admin__action-multiselect-search-count', '@todo')) ?>"
             x-text="itemsQuantity"
         ></div>
     </template>
 </div>
 <template x-if="canShowSearchResult">
-<ul class="admin__action-multiselect-menu-inner _root">
+<ul class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner _root', '@todo')) ?>">
     <template x-for="search in searchResult" :key="search.id">
-        <li class="admin__action-multiselect-menu-inner-item _root"
+        <li class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner-item _root', '@todo')) ?>"
             :data-search-item-id="search.id"
             x-data="CategoriesSelectionSearchResultItem"
             data-bind="css: { _parent: $data.optgroup }"
             data-role="option-group"
         >
             <div
-                class="action-menu-item"
-                :class="classActionMenuItem"
+                class="<?= $escaper->escapeHtml($css('action-menu-item', '@todo')) ?>"
+                :class="<?= $escaper->escapeHtml($css('classActionMenuItem', '@todo')) ?>"
                 @click="toggleSelection"
             >
                 <input
-                    class="admin__control-checkbox"
+                    class="<?= $escaper->escapeHtml($css('admin__control-checkbox', '@todo')) ?>"
                     type="checkbox"
                     tabindex="-1"
                     :checked="isSelected"
                 />
-                <label class="admin__action-multiselect-label">
+                <label class="<?= $escaper->escapeHtml($css('admin__action-multiselect-label', '@todo')) ?>">
                     <span x-text="search.label"></span>
                     <template x-if="hasParent">
                         <span
-                            class="admin__action-multiselect-item-path"
+                            class="<?= $escaper->escapeHtml($css('admin__action-multiselect-item-path', '@todo')) ?>"
                             x-text="parentsPathText"></span>
                     </template>
                 </label>

@@ -3,24 +3,24 @@ declare(strict_types=1);
 
 /** @version 0.7.2 */
 ?>
-<div class="admin__action-dropdown-wrap admin__data-grid-action-bookmarks">
-    <button class="admin__action-dropdown" type="button" @click="toggleViewSelector">
-        <span class="admin__action-dropdown-text"><?= __('Default View') ?></span>
+<div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-wrap admin__data-grid-action-bookmarks', '@todo')) ?>">
+    <button class="<?= $escaper->escapeHtml($css('admin__action-dropdown', '@todo')) ?>" type="button" @click="toggleViewSelector">
+        <span class="<?= $escaper->escapeHtml($css('admin__action-dropdown-text', '@todo')) ?>"><?= $escaper->escapeHtml(__('Default View')) ?></span>
     </button>
-    <ul class="admin__action-dropdown-menu" x-show="showViewSelector">
+    <ul class="<?= $escaper->escapeHtml($css('admin__action-dropdown-menu', '@todo')) ?>" x-show="showViewSelector">
         <li>
-            <div class="action-dropdown-menu-item">
-                <a class="action-dropdown-menu-link"><?= __('Default View') ?></a>
+            <div class="<?= $escaper->escapeHtml($css('action-dropdown-menu-item', '@todo')) ?>">
+                <a class="<?= $escaper->escapeHtml($css('action-dropdown-menu-link', '@todo')) ?>"><?= $escaper->escapeHtml(__('Default View')) ?></a>
             </div>
         </li>
 
-        <li class="action-dropdown-menu-action action-dropdown-menu-item-last" style="display: none;">
-            <a href=""><?= __('Save View As...') ?></a>
-            <div class="action-dropdown-menu-item-edit" style="display: none;">
-                <input id="new-view" class="admin__control-text" type="text" aria-label="<?= __('New View') ?>">
-                <div class="action-dropdown-menu-item-actions">
-                    <button class="action-submit" type="button" title="<?= __('Save all changes') ?>">
-                        <span><?= __('Submit') ?></span>
+        <li class="<?= $escaper->escapeHtml($css('action-dropdown-menu-action action-dropdown-menu-item-last', '@todo')) ?>" style="display: none;">
+            <a href=""><?= $escaper->escapeHtml(__('Save View As...')) ?></a>
+            <div class="<?= $escaper->escapeHtml($css('action-dropdown-menu-item-edit', '@todo')) ?>" style="display: none;">
+                <input id="new-view" class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>" type="text" aria-label="<?= $escaper->escapeHtml(__('New View')) ?>">
+                <div class="<?= $escaper->escapeHtml($css('action-dropdown-menu-item-actions', '@todo')) ?>">
+                    <button class="<?= $escaper->escapeHtml($css('action-submit', '@todo')) ?>" type="button" title="<?= $escaper->escapeHtml(__('Save all changes')) ?>">
+                        <span><?= $escaper->escapeHtml(__('Submit')) ?></span>
                     </button>
                 </div>
             </div>

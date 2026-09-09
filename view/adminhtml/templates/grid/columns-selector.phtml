@@ -20,25 +20,25 @@ $columns = $viewModel->getColumns();
 $state = $viewModel->getState();
 ?>
 
-<div class="admin__action-dropdown-wrap admin__data-grid-action-columns">
-    <button class="admin__action-dropdown" type="button" @click="toggleColumnsSelector">
-        <span class="admin__action-dropdown-text">
+<div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-wrap admin__data-grid-action-columns', '@todo')) ?>">
+    <button class="<?= $escaper->escapeHtml($css('admin__action-dropdown', '@todo')) ?>" type="button" @click="toggleColumnsSelector">
+        <span class="<?= $escaper->escapeHtml($css('admin__action-dropdown-text', '@todo')) ?>">
             <?= $escaper->escapeHtml(__('Columns')) ?>
         </span>
     </button>
-    <div class="admin__action-dropdown-menu admin__data-grid-action-columns-menu _overflow" x-show="showColumnsSelector">
-        <div class="admin__action-dropdown-menu-header">
+    <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-menu admin__data-grid-action-columns-menu _overflow', '@todo')) ?>" x-show="showColumnsSelector">
+        <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-menu-header', '@todo')) ?>">
             <?= $escaper->escapeHtml(__(
                 '%1 out of %1 visible',
                 count($columns),
                 count($availableColumns),
             )) ?>
         </div>
-        <div class="admin__action-dropdown-menu-content">
+        <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-menu-content', '@todo')) ?>">
             <?php foreach($availableColumns as $name => $column): ?>
-            <div class="admin__field-option">
+            <div class="<?= $escaper->escapeHtml($css('admin__field-option', '@todo')) ?>">
                 <input
-                    class="admin__control-checkbox"
+                    class="<?= $escaper->escapeHtml($css('admin__control-checkbox', '@todo')) ?>"
                     type="checkbox"
                     id="col-<?= $escaper->escapeHtml($column->getCode()) ?>"
                     data-column="<?= $escaper->escapeHtml($column->getCode()) ?>"
@@ -46,22 +46,22 @@ $state = $viewModel->getState();
                     @change="toggleActiveColumn"
                 >
                 <label
-                    class="admin__field-label"
+                    class="<?= $escaper->escapeHtml($css('admin__field-label', '@todo')) ?>"
                     for="col-<?= $escaper->escapeHtml($column->getCode()) ?>">
                     <?= $escaper->escapeHtml($column->getLabel()) ?>
                 </label>
             </div>
             <?php endforeach; ?>
         </div>
-        <div class="admin__action-dropdown-menu-footer">
-            <div class="admin__action-dropdown-footer-secondary-actions">
-                <button class="action-tertiary" type="button">
+        <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-menu-footer', '@todo')) ?>">
+            <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-footer-secondary-actions', '@todo')) ?>">
+                <button class="<?= $escaper->escapeHtml($css('action-tertiary', '@todo')) ?>" type="button">
                     <?= $escaper->escapeHtml(__('Reset')) ?>
                 </button>
             </div>
-            <div class="admin__action-dropdown-footer-main-actions">
+            <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-footer-main-actions', '@todo')) ?>">
                 <button
-                    class="action-tertiary"
+                    class="<?= $escaper->escapeHtml($css('action-tertiary', '@todo')) ?>"
                     type="button"
                     @click="toggleColumnsSelector"
                 >

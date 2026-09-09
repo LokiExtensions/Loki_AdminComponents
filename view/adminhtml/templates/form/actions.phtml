@@ -21,10 +21,10 @@ $buttons = $viewModel->getButtons();
 $mainSaveAction = false;
 $otherSaveActions = (array)$block->getOtherSaveActions(); // @todo: Test whether this is working
 ?>
-<div class="page-main-actions">
-    <div class="page-actions">
-        <div class="page-actions-inner">
-            <div class="page-actions-buttons">
+<div class="<?= $escaper->escapeHtml($css('page-main-actions', '@todo')) ?>">
+    <div class="<?= $escaper->escapeHtml($css('page-actions', '@todo')) ?>">
+        <div class="<?= $escaper->escapeHtml($css('page-actions-inner', '@todo')) ?>">
+            <div class="<?= $escaper->escapeHtml($css('page-actions-buttons', '@todo')) ?>">
                 <?php foreach ($buttons as $button) : ?>
                     <?php $subButtons = $button->getSubButtons(); ?>
                     <button
@@ -39,24 +39,24 @@ $otherSaveActions = (array)$block->getOtherSaveActions(); // @todo: Test whether
                 <?php if (!empty($otherSaveActions)) : ?>
                     <div
                         title="Save and Continue"
-                        class="actions-split save primary"
+                        class="<?= $escaper->escapeHtml($css('actions-split save primary', '@todo')) ?>"
                     >
                         <button
                             @click.prevent="saveAndContinueAction"
                             title="Save and Continue"
-                            class="action-default primary"
+                            class="<?= $escaper->escapeHtml($css('action-default primary', '@todo')) ?>"
                         >
                             <span>Save and Continue</span>
                         </button>
 
                         <button @click.prevent="toggleOtherActions"
                                 title="Save and Continue"
-                                class="action-toggle primary save">
+                                class="<?= $escaper->escapeHtml($css('action-toggle primary save', '@todo')) ?>">
                             <span>Select</span>
                         </button>
 
                         <ul
-                            class="dropdown-menu"
+                            class="<?= $escaper->escapeHtml($css('dropdown-menu', '@todo')) ?>"
                             x-cloak x-show="showOtherActions"
                         >
                             <?php foreach ($otherSaveActions as $otherSaveAction): ?>
@@ -64,7 +64,7 @@ $otherSaveActions = (array)$block->getOtherSaveActions(); // @todo: Test whether
                                     <span
                                         @click.prevent="saveAndDuplicateAction"
                                         title="Save &amp; Duplicate"
-                                        class="item"
+                                        class="<?= $escaper->escapeHtml($css('item', '@todo')) ?>"
                                     >
                                         Save &amp;amp; Duplicate
                                     </span>

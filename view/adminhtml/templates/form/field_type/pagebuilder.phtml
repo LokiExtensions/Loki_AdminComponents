@@ -46,7 +46,7 @@ $domId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $block->getNameInLayout().'-'.
         }</script>
     <textarea
         x-ref="textarea"
-        class="admin__control-text"
+        class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
         name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         id="<?= $escaper->escapeHtml($domId) ?>"
         data-scope="<?= $escaper->escapeHtml($field->getScope()) ?>"

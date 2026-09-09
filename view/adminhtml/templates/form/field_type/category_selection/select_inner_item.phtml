@@ -18,35 +18,35 @@ $field = $block->getData('field');
 $categoryTreeNode = $block->getData('category_tree_node');
 $fieldType = $field->getFieldType();
 ?>
-<ul class="admin__action-multiselect-menu-inner"
+<ul class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner', '@todo')) ?>"
     data-item-data="<?= $escaper->escapeHtmlAttr($fieldType->getCategoryNodeJson($categoryTreeNode)) ?>"
     x-data="CategorySelectItem"
     x-show="canShow"
     :data-level="itemLevel"
     :data-expanded="dataExpanded"
 >
-    <li class="admin__action-multiselect-menu-inner-item"
-        :class="classInnerItem"
+    <li class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner-item', '@todo')) ?>"
+        :class="<?= $escaper->escapeHtml($css('classInnerItem', '@todo')) ?>"
     >
-        <div class="action-menu-item"
-             :class="classActionMenuItem"
+        <div class="<?= $escaper->escapeHtml($css('action-menu-item', '@todo')) ?>"
+             :class="<?= $escaper->escapeHtml($css('classActionMenuItem', '@todo')) ?>"
              @mouseenter="handleMouseEnter"
              @mouseleave="handleMouseLeave"
              @click="toggleSelection"
              @keydown.enter.window="toggleSelection"
         >
             <template x-if="showIconToOpenLevels">
-                <div class="admin__action-multiselect-dropdown"
+                <div class="<?= $escaper->escapeHtml($css('admin__action-multiselect-dropdown', '@todo')) ?>"
                      @click="toggleExpansion"
                 ></div>
             </template>
             <input
-                class="admin__control-checkbox"
+                class="<?= $escaper->escapeHtml($css('admin__control-checkbox', '@todo')) ?>"
                 type="checkbox"
                 tabindex="-1"
                 :checked="isSelected"
             />
-            <label class="admin__action-multiselect-label">
+            <label class="<?= $escaper->escapeHtml($css('admin__action-multiselect-label', '@todo')) ?>">
                 <?= $escaper->escapeHtmlAttr($categoryTreeNode->label) ?>
             </label>
         </div>

@@ -50,7 +50,7 @@ $fieldId = $field->getDomId();
 
 ?>
 <div class="<?= $escaper->escapeHtml($cssClass) ?>" <?= $escaper->escapeHtml($dependStatement) ?>>
-    <div class="admin__field-label">
+    <div class="<?= $escaper->escapeHtml($css('admin__field-label', '@todo')) ?>">
         <label for="<?= $escaper->escapeHtml($fieldId) ?>">
             <span><?= $escaper->escapeHtml($field->getLabel()) ?></span>
             <?php if ($field->isRequired()): ?>
@@ -59,7 +59,7 @@ $fieldId = $field->getDomId();
         </label>
     </div>
 
-    <div class="admin__field-control">
+    <div class="<?= $escaper->escapeHtml($css('admin__field-control', '@todo')) ?>">
         <?= /* @noEscape */ $templateRenderer->html(
             $block,
             $field->getFieldType()->getTemplate(),

@@ -21,21 +21,21 @@ $field = $block->getField();
 $options = $field->getOptions();
 $fieldType = $field->getFieldType();
 ?>
-<div class="admin__actions-switch">
+<div class="<?= $escaper->escapeHtml($css('admin__actions-switch', '@todo')) ?>">
     <input
         type="checkbox"
         name="<?= $escaper->escapeHtml($field->getCode()) ?>"
-        class="admin__actions-switch-checkbox"
+        class="<?= $escaper->escapeHtml($css('admin__actions-switch-checkbox', '@todo')) ?>"
         :checked="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
         @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
     >
     <label
-        class="admin__actions-switch-label"
+        class="<?= $escaper->escapeHtml($css('admin__actions-switch-label', '@todo')) ?>"
         @click.prevent="toggleValueByClick"
         data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
         data-value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     >
-        <span class="admin__actions-switch-text" x-show="item.<?= $escaper->escapeHtml($field->getCode()) ?>">Yes</span>
-        <span class="admin__actions-switch-text" x-show="!item.<?= $escaper->escapeHtml($field->getCode()) ?>">No</span>
+        <span class="<?= $escaper->escapeHtml($css('admin__actions-switch-text', '@todo')) ?>" x-show="item.<?= $escaper->escapeHtml($field->getCode()) ?>">Yes</span>
+        <span class="<?= $escaper->escapeHtml($css('admin__actions-switch-text', '@todo')) ?>" x-show="!item.<?= $escaper->escapeHtml($field->getCode()) ?>">No</span>
     </label>
 </div>

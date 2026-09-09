@@ -25,17 +25,17 @@ if (empty($inputType)) {
 $fieldId = $field->getDomId();
 ?>
 <div class="">
-    <div class="admin__form-field">
+    <div class="<?= $escaper->escapeHtml($css('admin__form-field', '@todo')) ?>">
         <label
             for="<?= $escaper->escapeHtml($fieldId) ?>"
-            class="admin__form-field-label">
+            class="<?= $escaper->escapeHtml($css('admin__form-field-label', '@todo')) ?>">
             <span>from</span>
         </label>
 
-        <div class="admin__form-field-control">
+        <div class="<?= $escaper->escapeHtml($css('admin__form-field-control', '@todo')) ?>">
             <input
                 id="<?= $escaper->escapeHtml($fieldId) ?>"
-                class="admin__control-text"
+                class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
                 type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.from"
                 maxlength="<?= $escaper->escapeHtml(
@@ -50,18 +50,18 @@ $fieldId = $field->getDomId();
         </div>
     </div>
 
-    <div class="admin__form-field">
+    <div class="<?= $escaper->escapeHtml($css('admin__form-field', '@todo')) ?>">
         <label
             for="<?= $escaper->escapeHtml($fieldId) ?>-to"
-            class="admin__form-field-label"
+            class="<?= $escaper->escapeHtml($css('admin__form-field-label', '@todo')) ?>"
         >
             <span>to</span>
         </label>
 
-        <div class="admin__form-field-control">
+        <div class="<?= $escaper->escapeHtml($css('admin__form-field-control', '@todo')) ?>">
             <input
                 id="<?= $escaper->escapeHtml($fieldId) ?>-to"
-                class="admin__control-text"
+                class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
                 type="<?= $escaper->escapeHtml($inputType) ?>"
                 data-name="<?= $escaper->escapeHtml($field->getCode()) ?>.to"
                 maxlength="<?= $escaper->escapeHtml(

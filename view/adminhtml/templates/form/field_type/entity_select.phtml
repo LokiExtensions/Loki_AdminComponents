@@ -47,9 +47,9 @@ $fieldId = $field->getDomId();
 >
     <data hidden x-ref="initialData" type="text/x-loki-init"><?= /* @noEscape */ $entitySelect->getJsonData() ?></data>
 
-    <div class="input-with-button">
+    <div class="<?= $escaper->escapeHtml($css('input-with-button', '@todo')) ?>">
         <span
-            class="admin__control-text"
+            class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
         >
         <input
             id="<?= $escaper->escapeHtml($fieldId) ?>"
@@ -70,57 +70,57 @@ $fieldId = $field->getDomId();
     </div>
 
     <template x-teleport="body">
-        <div class="modals-wrapper" x-show="isModalWrapperVisible">
+        <div class="<?= $escaper->escapeHtml($css('modals-wrapper', '@todo')) ?>" x-show="isModalWrapperVisible">
             <aside
                 role="dialog"
                 x-ref="aside"
-                class="modal-slide"
+                class="<?= $escaper->escapeHtml($css('modal-slide', '@todo')) ?>"
                 data-role="modal"
                 data-type="popup">
-                <div class="modal-inner-wrap" style="padding:20px;">
-                    <header class="modal-header">
-                        <h1 class="modal-title" data-role="title">
+                <div class="<?= $escaper->escapeHtml($css('modal-inner-wrap', '@todo')) ?>" style="padding:20px;">
+                    <header class="<?= $escaper->escapeHtml($css('modal-header', '@todo')) ?>">
+                        <h1 class="<?= $escaper->escapeHtml($css('modal-title', '@todo')) ?>" data-role="title">
                             <?= $escaper->escapeHtml(__($modalTitle)) ?>
                         </h1>
                         <button
                             @click="closeWrapper"
-                            class="action-close"
+                            class="<?= $escaper->escapeHtml($css('action-close', '@todo')) ?>"
                             type="button">
-                            <span><?= __('Close') ?></span>
+                            <span><?= $escaper->escapeHtml(__('Close')) ?></span>
                         </button>
 
 
 
                     </header>
 
-                        <div class="admin__data-grid-header">
-                        <div class="admin__data-grid-header-row">
-                            <div class="data-grid-search-control-wrap">
+                        <div class="<?= $escaper->escapeHtml($css('admin__data-grid-header', '@todo')) ?>">
+                        <div class="<?= $escaper->escapeHtml($css('admin__data-grid-header-row', '@todo')) ?>">
+                            <div class="<?= $escaper->escapeHtml($css('data-grid-search-control-wrap', '@todo')) ?>">
                                 <input
-                                    class="admin__control-text data-grid-search-control"
+                                    class="<?= $escaper->escapeHtml($css('admin__control-text data-grid-search-control', '@todo')) ?>"
                                     type="text"
                                     :value="search"
                                     @keyup="setSearch"
-                                    placeholder="<?= __('Search by keyword') ?>"
-                                    aria-label="<?= __('Search by keyword') ?>"
+                                    placeholder="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
+                                    aria-label="<?= $escaper->escapeHtml(__('Search by keyword')) ?>"
                                 />
 
-                                <button class="action-submit" type="button" aria-label="<?= __('Search') ?>">
-                                    <span><?= __('Search') ?></span>
+                                <button class="<?= $escaper->escapeHtml($css('action-submit', '@todo')) ?>" type="button" aria-label="<?= $escaper->escapeHtml(__('Search')) ?>">
+                                    <span><?= $escaper->escapeHtml(__('Search')) ?></span>
                                 </button>
                             </div>
                         </div>
 
-                            <div class="admin__data-grid-wrap" data-role="grid-wrapper">
-                        <table class="data-grid" data-role="grid">
+                            <div class="<?= $escaper->escapeHtml($css('admin__data-grid-wrap', '@todo')) ?>" data-role="grid-wrapper">
+                        <table class="<?= $escaper->escapeHtml($css('data-grid', '@todo')) ?>" data-role="grid">
                             <thead>
                             <tr>
-                                <th class="data-grid-th">
+                                <th class="<?= $escaper->escapeHtml($css('data-grid-th', '@todo')) ?>">
                                     &nbsp;
                                 </th>
                                 <?php foreach ($columns as $column) : ?>
-                                <th class="data-grid-th">
-                                    <span class="data-grid-cell-content">
+                                <th class="<?= $escaper->escapeHtml($css('data-grid-th', '@todo')) ?>">
+                                    <span class="<?= $escaper->escapeHtml($css('data-grid-cell-content', '@todo')) ?>">
                                         <?= $escaper->escapeHtml($column->getLabel()) ?>
                                     </span>
                                 </th>
@@ -130,22 +130,22 @@ $fieldId = $field->getDomId();
                             <tbody>
                             <template x-if="hasEntities">
                             <template x-for="entity in entities" :key="entity.entity_id">
-                            <tr class="data-row">
-                                <td class="data-grid-cell">
+                            <tr class="<?= $escaper->escapeHtml($css('data-row', '@todo')) ?>">
+                                <td class="<?= $escaper->escapeHtml($css('data-grid-cell', '@todo')) ?>">
                                     <button @click="selectEntity(entity)">Select</button>
                                 </td>
                                 <?php foreach ($columns as $column) : ?>
-                                    <td class="data-grid-cell">
-                                        <div class="data-grid-cell-content" x-text="entity.<?= $escaper->escapeHtml($column->getCode()) ?>"></div>
+                                    <td class="<?= $escaper->escapeHtml($css('data-grid-cell', '@todo')) ?>">
+                                        <div class="<?= $escaper->escapeHtml($css('data-grid-cell-content', '@todo')) ?>" x-text="entity.<?= $escaper->escapeHtml($column->getCode()) ?>"></div>
                                     </td>
                                 <?php endforeach; ?>
                             </tr>
                             </template>
                             </template>
                             <template x-if="hasNoEntities">
-                                <tr class="data-row">
-                                    <td class="data-grid-cell" colspan="<?= count($columns) + 1 ?>">
-                                        <?= __('No items found') ?>
+                                <tr class="<?= $escaper->escapeHtml($css('data-row', '@todo')) ?>">
+                                    <td class="<?= $escaper->escapeHtml($css('data-grid-cell', '@todo')) ?>" colspan="<?= count($columns) + 1 ?>">
+                                        <?= $escaper->escapeHtml(__('No items found')) ?>
                                     </td>
                                 </tr>
                             </template>
@@ -155,7 +155,7 @@ $fieldId = $field->getDomId();
                     </div>
                 </div>
             </aside>
-            <div class="modals-overlay"></div>
+            <div class="<?= $escaper->escapeHtml($css('modals-overlay', '@todo')) ?>"></div>
         </div>
     </template>
 </div>

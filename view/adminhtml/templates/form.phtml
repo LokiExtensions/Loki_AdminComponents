@@ -21,34 +21,34 @@ if (!isset($viewModel)) {
     throw new RuntimeException('Did you make sure to declare the block "'.$block->getNameInLayout().'" as a Loki Component via "etc/loki_components.xml"?');
 }
 ?>
-<div class="loki-form form">
+<div class="<?= $escaper->escapeHtml($css('loki-form form', '@todo')) ?>">
     <?= /* @noEscape */ $blockRenderer->html(
         $block,
         'loki-admin.form.actions',
         ['view_model' => $viewModel]
     ) ?>
 
-    <div class="page-columns">
-        <div class="main-col">
+    <div class="<?= $escaper->escapeHtml($css('page-columns', '@todo')) ?>">
+        <div class="<?= $escaper->escapeHtml($css('main-col', '@todo')) ?>">
             <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.form.spinner') ?>
             <?= /* @noEscape */ $blockRenderer->html( $block, 'loki-admin.form.inner') ?>
 
-            <div class="entry-edit form-inline">
-                <div class="fieldset-wrapper">
+            <div class="<?= $escaper->escapeHtml($css('entry-edit form-inline', '@todo')) ?>">
+                <div class="<?= $escaper->escapeHtml($css('fieldset-wrapper', '@todo')) ?>">
                     <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
 
                     <?php foreach ($viewModel->getFieldsets() as $fieldset): ?>
-                    <div class="admin__fieldset-wrapper-content">
+                    <div class="<?= $escaper->escapeHtml($css('admin__fieldset-wrapper-content', '@todo')) ?>">
                         <?php if ($fieldset->hasLabel()): ?>
-                        <div class="fieldset-wrapper-title">
-                            <strong class="admin__collapsible-title">
+                        <div class="<?= $escaper->escapeHtml($css('fieldset-wrapper-title', '@todo')) ?>">
+                            <strong class="<?= $escaper->escapeHtml($css('admin__collapsible-title', '@todo')) ?>">
                                 <?= $escaper->escapeHtml($fieldset->getLabel()) ?>
                             </strong>
                         </div>
                         <?php endif; ?>
 
                         <?php if ($fieldset->hasFields()): ?>
-                        <fieldset class="admin__fieldset">
+                        <fieldset class="<?= $escaper->escapeHtml($css('admin__fieldset', '@todo')) ?>">
                             <?php foreach ($fieldset->getFields() as $field) : ?>
                                 <?php if (false === $field->isVisible()) continue; ?>
                                 <?= /* @noEscape */ $templateRenderer->html(

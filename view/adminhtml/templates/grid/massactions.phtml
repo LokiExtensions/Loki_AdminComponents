@@ -19,17 +19,17 @@ if (empty($massActions)) {
     return;
 }
 ?>
-<div class="col-xs-2">
-    <div class="action-select-wrap">
-        <button class="action-select" title="Select Items" @click.prevent="toggleMassActions">
+<div class="<?= $escaper->escapeHtml($css('col-xs-2', '@todo')) ?>">
+    <div class="<?= $escaper->escapeHtml($css('action-select-wrap', '@todo')) ?>">
+        <button class="<?= $escaper->escapeHtml($css('action-select', '@todo')) ?>" title="Select Items" @click.prevent="toggleMassActions">
             <span>Actions</span>
         </button>
 
-        <div class="action-menu-items" x-cloak x-show="showMassActions" style="z-index:300">
-            <ul class="action-menu">
+        <div class="<?= $escaper->escapeHtml($css('action-menu-items', '@todo')) ?>" x-cloak x-show="showMassActions" style="z-index:300">
+            <ul class="<?= $escaper->escapeHtml($css('action-menu', '@todo')) ?>">
                 <?php foreach ($massActions as $massAction): ?>
                     <li @click.prevent="massAction" data-url="<?= /* @noEscape */ $massAction->getUrl() ?>">
-                        <span class="action-menu-item"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
+                        <span class="<?= $escaper->escapeHtml($css('action-menu-item', '@todo')) ?>"><?= $escaper->escapeHtml($massAction->getLabel()) ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>

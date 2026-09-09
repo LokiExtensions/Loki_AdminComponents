@@ -18,43 +18,43 @@ $fieldType = $field->getFieldType();
 $categoryTreeNodes = $fieldType->getCategoryTree();
 ?>
 <div
-    class="admin__field"
+    class="<?= $escaper->escapeHtml($css('admin__field', '@todo')) ?>"
     data-index="container_category_ids"
     x-data="CategorySelection"
-    :class="classAdminField"
+    :class="<?= $escaper->escapeHtml($css('classAdminField', '@todo')) ?>"
 >
-    <div class="admin__field-control admin__control-grouped">
-        <div class="admin__field" data-index="category_ids">
-            <div class="admin__field-label">
+    <div class="<?= $escaper->escapeHtml($css('admin__field-control admin__control-grouped', '@todo')) ?>">
+        <div class="<?= $escaper->escapeHtml($css('admin__field', '@todo')) ?>" data-index="category_ids">
+            <div class="<?= $escaper->escapeHtml($css('admin__field-label', '@todo')) ?>">
                 <label for="category-selection-box">
                     <span :data-config-scope="scopeLabel">
                         <?= $escaper->escapeHtml($field->getLabel()) ?>
                     </span>
                 </label>
             </div>
-            <div class="admin__field-control">
+            <div class="<?= $escaper->escapeHtml($css('admin__field-control', '@todo')) ?>">
                 <div
                     id="category-selection-box"
-                    class="admin__action-multiselect-wrap action-select-wrap admin__action-multiselect-tree"
+                    class="<?= $escaper->escapeHtml($css('admin__action-multiselect-wrap action-select-wrap admin__action-multiselect-tree', '@todo')) ?>"
                     tabindex="0"
-                    :class="classMultiselectWrap"
+                    :class="<?= $escaper->escapeHtml($css('classMultiselectWrap', '@todo')) ?>"
                     @keydown="keydownSwitcher"
                     @click.outside="closeSelector"
                     @keydown.escape.window="closeSelector"
                 >
-                    <div class="action-select admin__action-multiselect"
+                    <div class="<?= $escaper->escapeHtml($css('action-select admin__action-multiselect', '@todo')) ?>"
                          data-role="advanced-select"
-                         :class="classMultiselect"
+                         :class="<?= $escaper->escapeHtml($css('classMultiselect', '@todo')) ?>"
                          @click="toggleListVisible"
                     >
                         <?= /** @noEscape */ $fieldType->renderCategoriesBreadcrumb() ?>
                     </div>
-                    <div class="action-menu"
-                         :class="classActionMenu"
+                    <div class="<?= $escaper->escapeHtml($css('action-menu', '@todo')) ?>"
+                         :class="<?= $escaper->escapeHtml($css('classActionMenu', '@todo')) ?>"
                     >
                         <?= /** @noEscape */ $fieldType->renderSearchInput() ?>
                         <?php foreach ($categoryTreeNodes as $rootCategory): ?>
-                        <ul class="admin__action-multiselect-menu-inner _root"
+                        <ul class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner _root', '@todo')) ?>"
                             data-item-data="<?= $escaper->escapeHtmlAttr($fieldType->getCategoryNodeJson($rootCategory)) ?>"
                             x-data="CategorySelectItem"
                             x-show="isTreeView"
@@ -62,29 +62,29 @@ $categoryTreeNodes = $fieldType->getCategoryTree();
                             :data-level="itemLevel"
                             :data-expanded="dataExpanded"
                         >
-                            <li class="admin__action-multiselect-menu-inner-item _root"
+                            <li class="<?= $escaper->escapeHtml($css('admin__action-multiselect-menu-inner-item _root', '@todo')) ?>"
                                 data-role="option-group"
-                                :class="classInnerItem"
+                                :class="<?= $escaper->escapeHtml($css('classInnerItem', '@todo')) ?>"
                             >
-                                <div class="action-menu-item"
-                                     :class="classActionMenuItem"
+                                <div class="<?= $escaper->escapeHtml($css('action-menu-item', '@todo')) ?>"
+                                     :class="<?= $escaper->escapeHtml($css('classActionMenuItem', '@todo')) ?>"
                                      @mouseenter="handleMouseEnter"
                                      @mouseleave="handleMouseLeave"
                                      @click="toggleSelection"
                                      @keydown.enter.window="toggleSelection"
                                 >
                                     <template x-if="showIconToOpenLevels">
-                                        <div class="admin__action-multiselect-dropdown"
+                                        <div class="<?= $escaper->escapeHtml($css('admin__action-multiselect-dropdown', '@todo')) ?>"
                                              @click="toggleExpansion"
                                         ></div>
                                     </template>
                                     <input
-                                        class="admin__control-checkbox"
+                                        class="<?= $escaper->escapeHtml($css('admin__control-checkbox', '@todo')) ?>"
                                         type="checkbox"
                                         tabindex="-1"
                                         :checked="isSelected"
                                     />
-                                    <label class="admin__action-multiselect-label">
+                                    <label class="<?= $escaper->escapeHtml($css('admin__action-multiselect-label', '@todo')) ?>">
                                         <span><?= $escaper->escapeHtml($rootCategory->label) ?></span>
                                     </label>
                                 </div>
@@ -95,9 +95,9 @@ $categoryTreeNodes = $fieldType->getCategoryTree();
                         </ul>
                         <?php endforeach; ?>
 
-                        <div class="admin__action-multiselect-actions-wrap">
+                        <div class="<?= $escaper->escapeHtml($css('admin__action-multiselect-actions-wrap', '@todo')) ?>">
                             <button
-                                class="action-default"
+                                class="<?= $escaper->escapeHtml($css('action-default', '@todo')) ?>"
                                 data-action="close-advanced-select"
                                 type="button"
                                 @click="closeSelector"

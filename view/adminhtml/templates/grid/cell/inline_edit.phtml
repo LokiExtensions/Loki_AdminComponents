@@ -30,19 +30,19 @@ $fieldId = $block->getColumnName().'-'.$item->getId();
             id="<?= $escaper->escapeHtmlAttr($fieldId) ?>"
             x-ref="inlineEditField"
             type="text"
-            class="admin__control-text"
+            class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
             value="<?= $escaper->escapeHtml($block->getValue()) ?>"
         />
 
         <button
-            class="action-close2"
+            class="<?= $escaper->escapeHtml($css('action-close2', '@todo')) ?>"
             @click.prevent="toggleInlineEdit"
         >
             <?= $escaper->escapeHtml(__('Close')) ?>
         </button>
 
         <button
-            class="action-save"
+            class="<?= $escaper->escapeHtml($css('action-save', '@todo')) ?>"
             @click.prevent="saveInlineEdit"
             data-identifier="<?= $escaper->escapeHtml($item->getId()) ?>"
             data-property="<?= $escaper->escapeHtml($block->getColumnName()) ?>"

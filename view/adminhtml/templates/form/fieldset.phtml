@@ -9,12 +9,12 @@ use Magento\Framework\View\Element\Template;
 /** @var Escaper $escaper */
 /** @var Template $block */
 ?>
-<div class="entry-edit form-inline">
-    <div class="fieldset-wrapper">
+<div class="<?= $escaper->escapeHtml($css('entry-edit form-inline', '@todo')) ?>">
+    <div class="<?= $escaper->escapeHtml($css('fieldset-wrapper', '@todo')) ?>">
         <h1><?= $escaper->escapeHtml($block->getLabel()) ?></h1>
 
-        <div class="admin__fieldset-wrapper-content">
-            <fieldset class="admin__fieldset">
+        <div class="<?= $escaper->escapeHtml($css('admin__fieldset-wrapper-content', '@todo')) ?>">
+            <fieldset class="<?= $escaper->escapeHtml($css('admin__fieldset', '@todo')) ?>">
                 <?= /* @noEscape */ $block->getChildHtml() ?>
             </fieldset>
         </div>
