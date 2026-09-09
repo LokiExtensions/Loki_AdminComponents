@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 /** @version 0.7.2 */
 
+use Magento\Framework\Escaper;
+use Loki\Components\Component\ComponentViewModelInterface;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var Escaper $escaper */
+/** @var ComponentViewModelInterface $viewModel */
 /** @var Template $block */
 /** @var GridViewModel $viewModel */
 /** @var TemplateRenderer $templateRenderer */

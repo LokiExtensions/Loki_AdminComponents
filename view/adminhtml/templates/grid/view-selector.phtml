@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
 /** @version 0.7.2 */
 ?>
 <div class="<?= $escaper->escapeHtml($css('admin__action-dropdown-wrap admin__data-grid-action-bookmarks', '@todo')) ?>">

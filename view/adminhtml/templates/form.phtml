@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 /** @version 0.7.2 */
 
+use Loki\Components\Component\ComponentViewModelInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Form\FormViewModel;
@@ -10,6 +11,7 @@ use Loki\Components\Util\Block\BlockRenderer;
 use Loki\Components\Util\Block\ChildRenderer;
 use Loki\Components\Util\Block\TemplateRenderer;
 
+/** @var ComponentViewModelInterface $viewModel */
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var FormViewModel $viewModel */

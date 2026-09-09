@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 /** @version 0.7.2 */
 
+use Magento\Framework\Escaper;
 use Loki\AdminComponents\ViewModel\Form\Field\Editor;
 use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\View\Element\Template;
 
+/** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelFactory $viewModelFactory */
 /** @var Editor $editor */

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Loki\Components\Component\ComponentViewModelInterface;
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\CssUtils\Util\CssClass;
 use Magento\Framework\Escaper;
@@ -9,6 +10,7 @@ use Loki\AdminComponents\Component\Form\FormViewModel;
 use Loki\Components\Util\Block\ChildRenderer;
 
 /** @version 0.7.2 */
+/** @var ComponentViewModelInterface $viewModel */
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var Field $field */
