@@ -83,6 +83,8 @@ class Field extends DataObject
     public function setBlock(AbstractBlock $block): self
     {
         $this->block = $block;
+
+        return $this;
     }
 
     public function getBlock(): ?AbstractBlock
