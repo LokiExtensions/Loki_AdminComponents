@@ -20,6 +20,6 @@ class SearchAction implements ActionInterface
         }
 
         $state = $this->stateManager->get($gridRepository->getNamespace());
-        $state->setSearch(trim((string)$value['search']));
+        $state->setSearch(trim((string)$value['search'], " \f\n\r\t\v\x00"));
     }
 }
