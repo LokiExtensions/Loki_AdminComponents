@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Form\Action;
 use Loki\AdminComponents\Exception\FormValidationException;
 use Loki\AdminComponents\Form\Item\ItemConvertorInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\Manager;
 use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\Components\Util\CamelCaseConvertor;
@@ -55,7 +56,13 @@ class SaveAction implements ActionInterface
             throw new FormValidationException();
         }
 
-        $providerHandler->saveItem($provider, $item);
+        try {
+            $providerHandler->saveItem($provider, $item);
+        } catch (LocalizedException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+            throw new FormValidationException();
+        }
+
         $this->messageManager->addSuccessMessage('Item saved');
     }
 
