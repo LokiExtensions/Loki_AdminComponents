@@ -243,7 +243,17 @@ class GridViewModel extends ComponentViewModel
             $columns[$columnName] = $this->columnLoader->createColumn($columnName);
         }
 
-        return array_merge_recursive($columnsFromNamespace, $columns);
+        foreach ($columnsFromNamespace as $columnFromNamespace) {
+            $columnCode = $columnFromNamespace->getCode();
+            if (isset($columns[$columnCode])) {
+                $columns[$columnCode]->addData($columnFromNamespace->getData());
+                continue;
+            }
+
+            $columns[$columnCode] = $columnFromNamespace;
+        }
+
+        return $columns;
     }
 
     /**
