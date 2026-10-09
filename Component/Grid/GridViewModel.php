@@ -216,15 +216,7 @@ class GridViewModel extends ComponentViewModel
         $columns = $providerHandler->getColumns($provider);
 
         if (!empty($columns)) {
-            foreach ($columns as $column) {
-                foreach ($columnsFromNamespace as $columnFromNamespace) {
-                    if ($column->getCode() == $columnFromNamespace->getCode()) {
-                        $column->addData($columnFromNamespace->getData());
-                    }
-                }
-            }
-
-            return $columns;
+            return $this->mergeColumnsFromNamespace($columns, $columnsFromNamespace);
         }
 
         $items = $this->getItems();
@@ -243,7 +235,26 @@ class GridViewModel extends ComponentViewModel
             $columns[$columnName] = $this->columnLoader->createColumn($columnName);
         }
 
-        return array_merge_recursive($columnsFromNamespace, $columns);
+        return $this->mergeColumnsFromNamespace($columns, $columnsFromNamespace);
+    }
+
+    /**
+     * @param Column[] $columns
+     * @param Column[] $columnsFromNamespace
+     *
+     * @return Column[]
+     */
+    private function mergeColumnsFromNamespace(array $columns, array $columnsFromNamespace): array
+    {
+        foreach ($columns as $column) {
+            foreach ($columnsFromNamespace as $columnFromNamespace) {
+                if ($column->getCode() === $columnFromNamespace->getCode()) {
+                    $column->addData($columnFromNamespace->getData());
+                }
+            }
+        }
+
+        return $columns;
     }
 
     /**
@@ -253,15 +264,23 @@ class GridViewModel extends ComponentViewModel
     {
         $columns = $this->getAvailableColumns();
         $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
+        $columnDefinitions = (array)$this->block->getColumns();
 
         if (!empty($columnsFromBlock)) {
             foreach ($columnsFromBlock as $columnFromBlock) {
+                $columnData = $columnFromBlock->getData();
+
+                // Only an explicit visibility in the layout overrides the visibility from the bookmark
+                if (false === isset($columnDefinitions[$columnFromBlock->getCode()]['visible'])) {
+                    unset($columnData['visible']);
+                }
+
                 foreach ($columns as $column) {
                     if ($column->getCode() !== $columnFromBlock->getCode()) {
                         continue;
                     }
 
-                    $column->setData(array_merge($column->getData(), $columnFromBlock->getData()));
+                    $column->setData(array_merge($column->getData(), $columnData));
                 }
             }
         }

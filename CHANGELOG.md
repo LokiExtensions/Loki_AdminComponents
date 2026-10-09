@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Prevent grid columns from being displayed twice once a uiBookmark exists for a grid without provider columns
+- Allow hiding a column via the columns selector when the column is also defined in the layout
 
 ## [0.7.2] - 08 August 2026
 ### Security
