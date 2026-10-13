@@ -16,6 +16,7 @@
         "Loki_Base",
         "Loki_Components",
         "Loki_CssUtils",
+        "Magento_AdminNotification",
         "Magento_Backend",
         "Magento_Catalog",
         "Magento_Cms",
@@ -33,13 +34,18 @@
         "Magento_Store",
         "Magento_Theme",
         "Magento_Ui",
+        "Magento_Variable",
         "Yireo_CspUtilities"
     ],
     "components": [
         "loki_admin_components.entity_select"
     ],
     "config": [],
-    "tests": [],
+    "tests": {
+        "unit": 0,
+        "integration": 1,
+        "functional": 0
+    },
     "phpcs_severity": "9",
     "phpstan_level": "1",
     "module_name": "Loki_AdminComponents",
