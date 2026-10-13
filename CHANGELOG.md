@@ -5,9 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.8.0] - 13 October 2026
 ### Fixed
 - Prevent grid columns from being displayed twice once a uiBookmark exists for a grid without provider columns
-- Allow hiding a column via the columns selector when the column is also defined in the layout
+- Add `trim()` its second argument for PHP 8.6 compatibility
+- Fix missing return type in `\Loki\AdminComponents\Form\Field\Field::setBlock`
+- Make system strings translatable
+- Make block optional in Field class
+- Implement multiple FieldsResolvers and FieldsetsResolvers
+- Resolve form buttons via ButtonsResolver
+- Add new Grid object to be used with GridProviderInterface
+- Rewrite button resolver mechanism for both form and grid
+- Remove unneeded message manager from FormRepository
+- When actions are not successfull, do not redirect back to `index_url`
+- When item validators fail, do not redirect to `index_url`
+- Add option for `item_validators` when saving a form
+- Change form redirect to use RedirectException
+- Implement NoProviderException in various places
+- Field type `customer_select`: When customer is empty, return empty string
 
 ## [0.7.2] - 08 August 2026
 ### Security
