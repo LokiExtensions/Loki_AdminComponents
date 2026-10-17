@@ -102,10 +102,14 @@ class FormViewModel extends ComponentViewModel
      */
     public function getFields(): array
     {
-        return $this->fieldsResolver->resolve(
-            $this->getRepository(),
-            (array)$this->getBlock()->getFields(),
-        );
+        $fields = [];
+        foreach ($this->getFieldsets() as $fieldset) {
+            foreach ($fieldset->getFields() as $field) {
+                $fields[$field->getCode()] = $field;
+            }
+        }
+
+        return $fields;
     }
 
     public function getAclResource(): string
