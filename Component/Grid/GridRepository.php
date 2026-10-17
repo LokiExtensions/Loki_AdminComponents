@@ -5,7 +5,7 @@ namespace Loki\AdminComponents\Component\Grid;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
-use RuntimeException;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Grid\Action\ActionListing;
 use Loki\AdminComponents\Grid\State;
 use Loki\AdminComponents\Grid\StateManager;
@@ -75,7 +75,7 @@ class GridRepository extends ComponentRepository
         }
 
         if (empty($provider)) {
-            throw new RuntimeException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
+            throw new NoProviderException('No provider for block "'.$this->getBlock()->getNameInLayout().'"');
         }
 
         $provider = $this->objectManager->get($provider);
@@ -84,7 +84,7 @@ class GridRepository extends ComponentRepository
             return $provider;
         }
 
-        throw new RuntimeException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
+        throw new NoProviderException('Empty grid provider for block "'.$this->getBlock()->getNameInLayout().'"');
     }
 
     public function saveValue(mixed $value): void

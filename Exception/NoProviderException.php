@@ -2,9 +2,9 @@
 
 namespace Loki\AdminComponents\Exception;
 
-use Exception;
+use RuntimeException;
 
-class NoProviderException extends Exception
+class NoProviderException extends RuntimeException
 {
 
 }

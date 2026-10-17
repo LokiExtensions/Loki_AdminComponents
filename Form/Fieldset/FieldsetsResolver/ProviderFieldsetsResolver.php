@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Form\Fieldset\FieldsetsResolver;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Provider\FormProviderInterface;
 use Loki\Components\Component\ComponentRepository;
 
@@ -16,7 +17,12 @@ class ProviderFieldsetsResolver implements FieldsetsResolverInterface
             return $fieldsets;
         }
 
-        $provider = $repository->getProvider();
+        try {
+            $provider = $repository->getProvider();
+        } catch (NoProviderException $e) {
+            return $fieldsets;
+        }
+
         if ($repository instanceof FormRepository && $provider instanceof FormProviderInterface) {
             foreach ($provider->getForm()->getFieldsets() as $fieldsetIndex => $fieldset) {
                 $fieldsets[$fieldsetIndex] = $fieldset;
