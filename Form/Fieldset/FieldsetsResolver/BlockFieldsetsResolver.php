@@ -9,6 +9,9 @@ use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Provider\FormProviderInterface;
 use Loki\Components\Component\ComponentRepository;
 
+/**
+ * @deprecated Duplicate of ProviderFieldsetsResolver; block fieldsets are handled by FieldsetsResolver itself
+ */
 class BlockFieldsetsResolver implements FieldsetsResolverInterface
 {
     public function resolve(ComponentRepository $repository, array $fieldsets = []): array

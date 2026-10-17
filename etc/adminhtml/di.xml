@@ -80,7 +80,6 @@
         <arguments>
             <argument name="fieldsetsResolvers" xsi:type="array">
                 <item name="provider" xsi:type="object">Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver</item>
-                <item name="block" xsi:type="object">Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver</item>
             </argument>
         </arguments>
     </type>
