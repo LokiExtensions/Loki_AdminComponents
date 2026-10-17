@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Form\Field;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Form\Field\FieldsResolver\FieldsResolverInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
 
@@ -11,10 +12,36 @@ class FieldsResolver
     public function __construct(
         private FieldFactory $fieldFactory,
         private LayoutInterface $layout,
+        /** @var FieldsResolverInterface[] */ private array $fieldsResolvers = [],
     ) {
     }
 
+    /**
+     * @return Field[]
+     */
     public function resolve(FormRepository $formRepository, array $fieldDefinitions): array
+    {
+        $fields = [];
+        foreach ($this->fieldsResolvers as $fieldsResolver) {
+            $fields = $fieldsResolver->resolve($formRepository, $fields);
+        }
+
+        // Fields from the resolvers take precedence over fields detected from the database table
+        foreach ($this->getTableFields($formRepository, $fieldDefinitions) as $fieldCode => $field) {
+            if (!array_key_exists($fieldCode, $fields)) {
+                $fields[$fieldCode] = $field;
+            }
+        }
+
+        $this->sortFieldsBySortOrder($fields);
+
+        return $fields;
+    }
+
+    /**
+     * @return Field[]
+     */
+    private function getTableFields(FormRepository $formRepository, array $fieldDefinitions): array
     {
         $resourceModel = $formRepository->getResourceModel();
 
@@ -28,16 +55,12 @@ class FieldsResolver
             $fieldDefinitions
         );
 
-        $fields = $this->buildFields(
+        return $this->buildFields(
             $formRepository,
             $tableColumns,
             $fieldColumns,
             $fieldDefinitions
         );
-
-        $this->sortFieldsBySortOrder($fields);
-
-        return $fields;
     }
 
     private function getTableColumns(object $resourceModel): array

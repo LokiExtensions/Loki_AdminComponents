@@ -9,6 +9,9 @@ use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Provider\FormProviderInterface;
 use Loki\Components\Component\ComponentRepository;
 
+/**
+ * @deprecated Duplicate of ProviderFieldsResolver
+ */
 class BlockFieldsResolver implements FieldsResolverInterface
 {
     public function resolve(ComponentRepository $repository, array $fields = []): array

@@ -88,7 +88,6 @@
         <arguments>
             <argument name="fieldsResolvers" xsi:type="array">
                 <item name="provider" xsi:type="object">Loki\AdminComponents\Form\Field\FieldsResolver\ProviderFieldsResolver</item>
-                <item name="block" xsi:type="object">Loki\AdminComponents\Form\Field\FieldsResolver\BlockFieldsResolver</item>
             </argument>
         </arguments>
     </type>

@@ -2,6 +2,8 @@
 
 namespace Loki\AdminComponents\Test\Integration;
 
+use Loki\AdminComponents\Form\Field\FieldsResolver;
+use Loki\AdminComponents\Form\Field\FieldsResolver\ProviderFieldsResolver;
 use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver;
 use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver;
@@ -39,6 +41,15 @@ class DiConfigurationTest extends TestCase
 
         $resolverClasses = array_map(fn (object $resolver) => get_class($resolver), $resolvers);
         $this->assertSame(array_unique($resolverClasses), $resolverClasses);
+    }
+
+    public function testFieldsResolversAreConfigured(): void
+    {
+        $fieldsResolver = ObjectManager::getInstance()->create(FieldsResolver::class);
+        $resolvers = $this->getPrivateProperty($fieldsResolver, 'fieldsResolvers');
+
+        $this->assertSame(['provider'], array_keys($resolvers));
+        $this->assertInstanceOf(ProviderFieldsResolver::class, $resolvers['provider']);
     }
 
     private function getPrivateProperty(object $object, string $propertyName): array

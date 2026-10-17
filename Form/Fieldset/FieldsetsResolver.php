@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Loki\AdminComponents\Form\Fieldset;
 
 use Loki\AdminComponents\Component\Form\FormRepository;
+use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Form\Field\FieldsResolver;
 use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\FieldsetsResolverInterface;
@@ -33,12 +34,12 @@ class FieldsetsResolver
 
         $fieldsetDefinitions = (array)$block->getFieldsets();
 
-        $fieldsetLabel = 'Base';
-        if (isset($fieldsetDefinitions['base'])) {
-            $fieldsetLabel = $fieldsetDefinitions['base']['label'] ?? $fieldsetDefinitions['base']['code'];
+        if (!array_key_exists('base', $fieldsets)) {
+            $fieldsets['base'] = $this->fieldsetFactory->create(
+                'base',
+                $this->getFieldsetLabel('base', $fieldsetDefinitions['base'] ?? [])
+            );
         }
-
-        $fieldsets['base'] = $this->fieldsetFactory->create('base', $fieldsetLabel);
 
         foreach ($fieldsetDefinitions as $fieldsetCode => $fieldsetDefinition) {
             if (empty($fieldsetCode)) {
@@ -49,7 +50,10 @@ class FieldsetsResolver
                 continue;
             }
 
-            $fieldsets[$fieldsetCode] = $this->fieldsetFactory->create($fieldsetCode, $fieldsetDefinition['label']);
+            $fieldsets[$fieldsetCode] = $this->fieldsetFactory->create(
+                (string)$fieldsetCode,
+                $this->getFieldsetLabel((string)$fieldsetCode, (array)$fieldsetDefinition)
+            );
         }
 
         $fieldDefinitions = (array)$block->getFields();
@@ -57,18 +61,11 @@ class FieldsetsResolver
         $fields = $this->fieldsResolver->resolve($formRepository, $fieldDefinitions);
 
         foreach ($fields as $field) {
-            $fieldsetCode = (string)$field->getFieldset();
-
             if (isset($fieldDefinitions[$field->getCode()])) {
                 unset($fieldDefinitions[$field->getCode()]);
             }
 
-            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
-                $fieldsets[$fieldsetCode]->addField($field);
-                continue;
-            }
-
-            $fieldsets['base']->addField($field);
+            $this->addFieldToFieldsets($fieldsets, $field, (string)$field->getFieldset());
         }
 
         foreach ($fieldDefinitions as $fieldDefinitionCode => $fieldDefinition) {
@@ -77,15 +74,35 @@ class FieldsetsResolver
             }
 
             $field = $this->fieldFactory->create($block, $fieldDefinition);
-
-            if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
-                $fieldsets[$fieldsetCode]->addField($field);
-                continue;
-            }
-
-            $fieldsets['base']->addField($field);
+            $this->addFieldToFieldsets($fieldsets, $field, (string)($fieldDefinition['fieldset'] ?? ''));
         }
 
-        return $fieldsets;
+        return array_filter($fieldsets, fn (Fieldset $fieldset) => $fieldset->hasFields());
+    }
+
+    /**
+     * @param Fieldset[] $fieldsets
+     */
+    private function addFieldToFieldsets(array $fieldsets, Field $field, string $fieldsetCode): void
+    {
+        if (!empty($fieldsetCode) && array_key_exists($fieldsetCode, $fieldsets)) {
+            $fieldsets[$fieldsetCode]->addField($field);
+            return;
+        }
+
+        $fieldsets['base']->addField($field);
+    }
+
+    private function getFieldsetLabel(string $fieldsetCode, array $fieldsetDefinition): string
+    {
+        if (!empty($fieldsetDefinition['label'])) {
+            return (string)$fieldsetDefinition['label'];
+        }
+
+        if ($fieldsetCode === 'base') {
+            return 'Base';
+        }
+
+        return (string)($fieldsetDefinition['code'] ?? $fieldsetCode);
     }
 }

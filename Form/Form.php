@@ -36,7 +36,7 @@ class Form
 
     public function addFieldset(Fieldset $fieldset): Form
     {
-        $this->fieldsets[] = $fieldset;
+        $this->fieldsets[$fieldset->getCode()] = $fieldset;
         return $this;
     }
 
@@ -47,7 +47,7 @@ class Form
 
     public function addField(Field $field): Form
     {
-        $this->fields[] = $field;
+        $this->fields[$field->getCode()] = $field;
         return $this;
     }
 
