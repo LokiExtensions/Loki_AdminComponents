@@ -5,7 +5,7 @@ use Loki\AdminComponents\Ui\Button\ButtonInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
-/** @version 0.8.0 */
+/** @version 0.8.1 */
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ButtonInterface $button */
@@ -14,15 +14,15 @@ $button = $block->getButton();
 <?php if ($button->getSubButtons()): ?>
     <div
         title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
-        class="actions-split <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
+        class="actions-split <?= $escaper->escapeHtml($button->getCssClass()) ?>"
     >
         <button
-            @click.prevent="<?= $escaper->escapeHtml(__($button->getMethod())) ?>"
+            @click.prevent="<?= $escaper->escapeHtml($button->getMethod()) ?>"
             title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
             <?php if ($button->getUrl()): ?>
-                data-url="<?= /* @noEscape */ $button->getUrl() ?>"
+                data-url="<?= $escaper->escapeUrl($button->getUrl()) ?>"
             <?php endif; ?>
-            class="action-default <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
+            class="action-default <?= $escaper->escapeHtml($button->getCssClass()) ?>"
         >
             <?= $escaper->escapeHtml(__($button->getLabel())) ?>
         </button>
@@ -30,7 +30,7 @@ $button = $block->getButton();
         <button
             @click.prevent="toggleOtherActions"
             title="Toggle other actions"
-            class="action-toggle <?= $escaper->escapeHtml(__($button->getCssClass())) ?>"
+            class="action-toggle <?= $escaper->escapeHtml($button->getCssClass()) ?>"
         >
             <span>Select</span>
         </button>
@@ -39,9 +39,9 @@ $button = $block->getButton();
             <?php foreach ($button->getSubButtons() as $subButton): ?>
                 <li>
                     <span
-                        @click.prevent="<?= $escaper->escapeHtml(__($subButton->getMethod())) ?>"
-                        <?php if ($button->getUrl()): ?>
-                            data-url="<?= /* @noEscape */ $button->getUrl() ?>"
+                        @click.prevent="<?= $escaper->escapeHtml($subButton->getMethod()) ?>"
+                        <?php if ($subButton->getUrl()): ?>
+                            data-url="<?= $escaper->escapeUrl($subButton->getUrl()) ?>"
                         <?php endif; ?>
                         title="<?= $escaper->escapeHtml(__($subButton->getLabel())) ?>"
                         class="<?= $escaper->escapeHtml($css('item', '@todo')) ?>"
@@ -57,7 +57,7 @@ $button = $block->getButton();
     <button
         @click.prevent="<?= $escaper->escapeHtml($button->getMethod()) ?>"
         <?php if ($button->getUrl()): ?>
-            data-url="<?= /* @noEscape */ $button->getUrl() ?>"
+            data-url="<?= $escaper->escapeUrl($button->getUrl()) ?>"
         <?php endif; ?>
         title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
         type="button"
