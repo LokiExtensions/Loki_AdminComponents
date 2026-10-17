@@ -2,86 +2,35 @@
 declare(strict_types=1);
 
 use Loki\Components\Component\ComponentViewModelInterface;
-use Loki\AdminComponents\Form\Field\Field;
 use Loki\CssUtils\Util\CssClass;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\AdminComponents\Component\Form\FormViewModel;
-use Loki\Components\Util\Block\ChildRenderer;
+use Loki\Components\Util\Block\TemplateRenderer;
 
-/** @version 0.8.0 */
+/** @version 0.8.1 */
 /** @var ComponentViewModelInterface $viewModel */
 /** @var Escaper $escaper */
 /** @var Template $block */
-/** @var Field $field */
 /** @var FormViewModel $viewModel */
-/** @var ChildRenderer $childRenderer */
+/** @var TemplateRenderer $templateRenderer */
 /** @var CssClass $css */
 
 $viewModel = $block->getViewModel();
 $buttons = $viewModel->getButtons();
-$mainSaveAction = false;
-$otherSaveActions = (array)$block->getOtherSaveActions(); // @todo: Test whether this is working
 ?>
 <div class="<?= $escaper->escapeHtml($css('page-main-actions', '@todo')) ?>">
     <div class="<?= $escaper->escapeHtml($css('page-actions', '@todo')) ?>">
         <div class="<?= $escaper->escapeHtml($css('page-actions-inner', '@todo')) ?>">
             <div class="<?= $escaper->escapeHtml($css('page-actions-buttons', '@todo')) ?>">
                 <?php foreach ($buttons as $button) : ?>
-                    <?php $subButtons = $button->getSubButtons(); ?>
-                    <button
-                        @click.prevent="<?= $escaper->escapeHtml($button->getMethod()) ?>"
-                        title="<?= $escaper->escapeHtml(__($button->getLabel())) ?>"
-                        type="button"
-                        class="action- scalable <?= $escaper->escapeHtml($button->getCssClass()) ?>">
-                        <span><?= $escaper->escapeHtml(__($button->getLabel())) ?></span>
-                    </button>
+                    <?= /* @noEscape */ $templateRenderer->html(
+                        $block,
+                        'Loki_AdminComponents::ui/button.phtml',
+                        ['button' => $button]
+                    ) ?>
                 <?php endforeach; ?>
-
-                <?php if (!empty($otherSaveActions)) : ?>
-                    <div
-                        title="Save and Continue"
-                        class="<?= $escaper->escapeHtml($css('actions-split save primary', '@todo')) ?>"
-                    >
-                        <button
-                            @click.prevent="saveAndContinueAction"
-                            title="Save and Continue"
-                            class="<?= $escaper->escapeHtml($css('action-default primary', '@todo')) ?>"
-                        >
-                            <span>Save and Continue</span>
-                        </button>
-
-                        <button @click.prevent="toggleOtherActions"
-                                title="Save and Continue"
-                                class="<?= $escaper->escapeHtml($css('action-toggle primary save', '@todo')) ?>">
-                            <span>Select</span>
-                        </button>
-
-                        <ul
-                            class="<?= $escaper->escapeHtml($css('dropdown-menu', '@todo')) ?>"
-                            x-cloak x-show="showOtherActions"
-                        >
-                            <?php foreach ($otherSaveActions as $otherSaveAction): ?>
-                                <li>
-                                    <span
-                                        @click.prevent="saveAndDuplicateAction"
-                                        title="Save &amp; Duplicate"
-                                        class="<?= $escaper->escapeHtml($css('item', '@todo')) ?>"
-                                    >
-                                        Save &amp;amp; Duplicate
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </div>
-
-    <style>
-        .loki-form .dropdown-menu {
-            display: block;
-        }
-    </style>
 </div>
