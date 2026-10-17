@@ -4,6 +4,8 @@ namespace Loki\AdminComponents\Ui\Button;
 
 interface ButtonInterface
 {
+    public function getId(): string;
+
     public function getMethod(): string;
 
     public function getLabel(): string;

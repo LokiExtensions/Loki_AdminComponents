@@ -20,8 +20,12 @@ class ButtonFactory
         array $subButtons = [],
         bool $primary = false,
     ): Button {
+        if (empty($id)) {
+            $id = $method;
+        }
+
         if ($primary) {
-            $cssClass .= ' primary';
+            $cssClass = trim($cssClass.' primary');
         }
 
         return $this->objectManager->create(Button::class, [
@@ -40,9 +44,14 @@ class ButtonFactory
         string $cssClass = '',
         array $subButtons = [],
         bool $primary = false,
+        string $id = '',
     ): Button {
+        if (empty($id)) {
+            $id = 'link:'.$url;
+        }
+
         return $this->create(
-            'create',
+            $id,
             'redirectAction',
             $label,
             $cssClass,

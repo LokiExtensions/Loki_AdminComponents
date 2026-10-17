@@ -64,14 +64,16 @@ class FormBuilder
         string $url = '',
         array $subButtons = [],
         bool $primary = false,
+        string $id = '',
     ): Button {
         return $this->buttonFactory->create(
-            $method,
-            $label,
-            $cssClass,
-            $url,
-            $subButtons,
-            $primary
+            id: $id,
+            method: $method,
+            label: $label,
+            cssClass: $cssClass,
+            url: $url,
+            subButtons: $subButtons,
+            primary: $primary
         );
     }
 }

@@ -28,7 +28,7 @@ class Grid
 
     public function addButton(Button $button): Grid
     {
-        $this->buttons[] = $button;
+        $this->buttons[$button->getId()] = $button;
         return $this;
     }
 

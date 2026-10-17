@@ -58,7 +58,7 @@ class Form
 
     public function addButton(Button $button): Form
     {
-        $this->buttons[] = $button;
+        $this->buttons[$button->getId()] = $button;
         return $this;
     }
 
