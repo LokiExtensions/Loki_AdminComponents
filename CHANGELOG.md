@@ -5,6 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fix `TypeError` in `FormBuilder::createButton()` caused by new `$id` argument of `ButtonFactory::create()` (issue #20)
+- Add optional `$id` argument to `FormBuilder::createButton()` and `ButtonFactory::createLinkAction()`
+- Default button ID to its method in `ButtonFactory::create()`, and to its URL in `createLinkAction()`
+- Add `getId()` to `ButtonInterface`
+- Key buttons of `Form` and `Grid` by button ID
+- Fix `subButtons` of XML layout buttons causing a `TypeError`; they are now converted into button objects
+- Properly cast XML layout `primary` flag to boolean (also when overriding existing buttons)
+- Allow overriding existing buttons by ID via XML layout `buttons` or `button_actions`
+- Prevent XML layout buttons with numeric keys from overwriting other buttons
+- Do not throw exceptions when a form or grid has no provider while resolving buttons, fields or fieldsets
+- Throw `NoProviderException` (now extending `RuntimeException`) from `GridRepository::getProvider()`
+- Use the URL of sub-buttons themselves in template `ui/button.phtml`
+- Do not translate button methods and CSS classes, and escape button URLs in template `ui/button.phtml`
+- Prevent provider fieldsets from being resolved twice
+- Deprecate `BlockFieldsetsResolver`, a duplicate of `ProviderFieldsetsResolver`
+- Actually use the configured `fieldsResolvers` in `Form\Field\FieldsResolver`, so that fields added via `Form::addField()` are displayed
+- Deprecate `BlockFieldsResolver`, a duplicate of `ProviderFieldsResolver`
+- Key fields and fieldsets of `Form` by their code
+- Do not replace a provider fieldset `base` with an empty fieldset
+- Place XML layout fields into their own `fieldset` instead of the fieldset of a previous field
+- Skip empty fieldsets
+- Return all fields of all fieldsets in `FormViewModel::getFields()` (so the security filter also knows about provider fields)
+- Render form buttons via `ui/button.phtml`, adding support for button URLs and sub-buttons in forms
+- Add `redirectAction()` to the form component type
+- Remove the non-working hard-coded `other_save_actions` from template `form/actions.phtml` (use sub-buttons instead)
+- Add unit tests and integration tests for buttons and resolvers
 
 ## [0.8.0] - 13 October 2026
 ### Fixed
