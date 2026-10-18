@@ -42,8 +42,8 @@
     ],
     "config": [],
     "tests": {
-        "unit": 0,
-        "integration": 1,
+        "unit": 74,
+        "integration": 14,
         "functional": 0
     },
     "phpcs_severity": "9",
