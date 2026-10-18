@@ -24,6 +24,7 @@
         "yireo/magento2-csp-utilities": "^1.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "^10.5",
         "yireo/magento2-integration-test-helper": "~0.0"
     },
     "license": [
