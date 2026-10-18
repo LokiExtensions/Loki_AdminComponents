@@ -5,7 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.8.1] - 18 October 2026
+### Added
+- support button URLs and sub-buttons in forms
+
 ### Fixed
+- document button, field and fieldset fixes
+- let security filter know about all form fields
+- display fields and fieldsets added by a form provider
+- prevent provider fieldsets from being resolved twice
+- use URL of sub-button itself in button template
+- add unit tests for ButtonsResolver and default resolvers
+- do not fail on missing provider when resolving buttons and fields
+- resolve buttons from XML layout correctly
+- fix button argument mismatch in FormBuilder::createButton
 - Fix `TypeError` in `FormBuilder::createButton()` caused by new `$id` argument of `ButtonFactory::create()` (issue #20)
 - Add optional `$id` argument to `FormBuilder::createButton()` and `ButtonFactory::createLinkAction()`
 - Default button ID to its method in `ButtonFactory::create()`, and to its URL in `createLinkAction()`
