@@ -25,7 +25,7 @@ class ButtonFactory
         }
 
         if ($primary) {
-            $cssClass = trim($cssClass.' primary');
+            $cssClass = trim($cssClass.' primary', " \f\n\r\t\v\x00");
         }
 
         return $this->objectManager->create(Button::class, [
