@@ -34,7 +34,10 @@ class OrderSelect extends FieldTypeAbstract implements EntitySelectInterface
 
     public function getPreviewValue($item): string
     {
-        /** @var OrderInterface $item */
+        if (false === $item instanceof OrderInterface) {
+            return '';
+        }
+
         return '#'.$item->getIncrementId();
     }
 

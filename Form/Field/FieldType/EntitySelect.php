@@ -24,7 +24,10 @@ class EntitySelect extends FieldTypeAbstract implements EntitySelectInterface
 
     public function getPreviewValue($item): string
     {
-        /** @var DataObject $item */
+        if (false === $item instanceof DataObject) {
+            return '';
+        }
+
         return (string)$item->getName();
     }
 

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fix `Call to a member function getName() on null` when rendering a `product_select`, `order_select` or `entity_select` field without a selected entity
 
 ## [0.8.1] - 18 October 2026
 ### Added

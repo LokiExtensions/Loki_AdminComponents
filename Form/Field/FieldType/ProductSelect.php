@@ -30,7 +30,10 @@ class ProductSelect extends FieldTypeAbstract implements EntitySelectInterface
 
     public function getPreviewValue($item): string
     {
-        /** @var ProductInterface $item */
+        if (false === $item instanceof ProductInterface) {
+            return '';
+        }
+
         return $item->getName().' ('.$item->getSku().')';
     }
 
