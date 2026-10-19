@@ -42,7 +42,7 @@
     ],
     "config": [],
     "tests": {
-        "unit": 74,
+        "unit": 80,
         "integration": 14,
         "functional": 0
     },
