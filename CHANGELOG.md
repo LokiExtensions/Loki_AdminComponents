@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.3] - 25 October 2026
+### Fixed
+- Redirect after delete instead of before the request is processed
+
 ## [0.8.2] - 19 October 2026
 ### Fixed
 - Fix `Call to a member function getName() on null` when rendering a `product_select`, `order_select` or `entity_select` field without a selected entity
