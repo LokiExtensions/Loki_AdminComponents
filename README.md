@@ -82,6 +82,21 @@ And you're done. After refreshing the Magento cache, you now have a basic produc
 
 Refer to the [documentation](https://loki-extensions.com/docs/admin-components/form) for fine-tuning this form.
 
+## Permissions (ACL)
+Every AJAX request of a grid or form requires an admin login. Use the following block arguments to require extra ACL resources:
+
+- `acl_resource`: Required for every request of the component (viewing, searching, saving);
+- `save_acl_resource`: Required for the form actions `save` and `duplicate` and for inline editing in a grid;
+- `delete_acl_resource`: Required for the form action `delete`;
+
+Buttons of actions that the current admin user is not allowed to perform (like **Delete**) are hidden. Mass actions and cell actions point to your own controllers, so protect those via their `ADMIN_RESOURCE`.
+
+```xml
+<argument name="acl_resource" xsi:type="string">Vendor_Module::items</argument>
+<argument name="save_acl_resource" xsi:type="string">Vendor_Module::items_save</argument>
+<argument name="delete_acl_resource" xsi:type="string">Vendor_Module::items_delete</argument>
+```
+
 ## Examples
 As a demo, you could opt to install the following examples:
 

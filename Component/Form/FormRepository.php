@@ -3,12 +3,14 @@
 namespace Loki\AdminComponents\Component\Form;
 
 use Exception;
+use Loki\AdminComponents\Acl\ActionAuthorization;
 use Loki\AdminComponents\Exception\FormActionException;
 use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Loki\Components\Exception\RedirectException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -30,6 +32,8 @@ class FormRepository extends ComponentRepository
         private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing,
+        private ActionAuthorization $actionAuthorization,
+        private MessageManagerInterface $messageManager,
     ) {
     }
 
@@ -105,6 +109,13 @@ class FormRepository extends ComponentRepository
 
         foreach ($value['actions'] as $actionName) {
             if (false === array_key_exists($actionName, $actions)) {
+                continue;
+            }
+
+            if (false === $this->actionAuthorization->isAllowed($this->getBlock(), (string)$actionName)) {
+                $this->messageManager->addErrorMessage(
+                    __('You are not allowed to perform the action "%1".', $actionName)
+                );
                 continue;
             }
 

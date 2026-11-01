@@ -99,6 +99,7 @@
                 <item name="block" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\BlockButtonsResolver</item>
                 <item name="default_grid" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultGridButtonsResolver</item>
                 <item name="default_form" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultFormButtonsResolver</item>
+                <item name="acl" xsi:type="object">Loki\AdminComponents\Ui\Button\ButtonsResolver\AclButtonsResolver</item>
             </argument>
         </arguments>
     </type>

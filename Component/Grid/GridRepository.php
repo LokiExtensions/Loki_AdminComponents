@@ -2,6 +2,7 @@
 
 namespace Loki\AdminComponents\Component\Grid;
 
+use Loki\AdminComponents\Acl\ActionAuthorization;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -22,7 +23,8 @@ class GridRepository extends ComponentRepository
         private StateManager $stateManager,
         private ProviderHandlerListing $providerHandlerListing,
         private ObjectManagerInterface $objectManager,
-        private ActionListing $actionListing
+        private ActionListing $actionListing,
+        private ActionAuthorization $actionAuthorization,
     ) {
     }
 
@@ -93,7 +95,11 @@ class GridRepository extends ComponentRepository
             return;
         }
 
-        foreach ($this->actionListing->getActions() as $action) {
+        foreach ($this->actionListing->getActions() as $actionName => $action) {
+            if (false === $this->actionAuthorization->isAllowed($this->getBlock(), (string)$actionName)) {
+                continue;
+            }
+
             $action->execute($this, $value);
         }
     }
