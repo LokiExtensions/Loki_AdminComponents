@@ -7,6 +7,7 @@ use Loki\AdminComponents\Form\Field\FieldsResolver\ProviderFieldsResolver;
 use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver;
 use Loki\AdminComponents\Form\Fieldset\FieldsetsResolver\ProviderFieldsetsResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver;
+use Loki\AdminComponents\Ui\Button\ButtonsResolver\AclButtonsResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver\BlockButtonsResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultFormButtonsResolver;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver\DefaultGridButtonsResolver;
@@ -24,11 +25,12 @@ class DiConfigurationTest extends TestCase
         $buttonsResolver = ObjectManager::getInstance()->create(ButtonsResolver::class);
         $resolvers = $this->getPrivateProperty($buttonsResolver, 'buttonsResolvers');
 
-        $this->assertSame(['provider', 'block', 'default_grid', 'default_form'], array_keys($resolvers));
+        $this->assertSame(['provider', 'block', 'default_grid', 'default_form', 'acl'], array_keys($resolvers));
         $this->assertInstanceOf(ProviderButtonsResolver::class, $resolvers['provider']);
         $this->assertInstanceOf(BlockButtonsResolver::class, $resolvers['block']);
         $this->assertInstanceOf(DefaultGridButtonsResolver::class, $resolvers['default_grid']);
         $this->assertInstanceOf(DefaultFormButtonsResolver::class, $resolvers['default_form']);
+        $this->assertInstanceOf(AclButtonsResolver::class, $resolvers['acl']);
     }
 
     public function testFieldsetsResolversDoNotResolveProviderFieldsetsTwice(): void
