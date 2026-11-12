@@ -19,7 +19,6 @@ $fieldId = $block->getColumnName().'-'.$item->getId();
 <div x-data="LokiAdminInlineEditComponent" @dblclick="toggleInlineEdit">
     <label
         for="<?= $escaper->escapeHtmlAttr($fieldId) ?>"
-        @dblclick="toggleInlineEdit"
         x-show="hideInlineEdit"
     >
         <?= $escaper->escapeHtml($block->getValue()) ?>
