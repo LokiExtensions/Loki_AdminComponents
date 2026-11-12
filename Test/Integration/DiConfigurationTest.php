@@ -57,7 +57,6 @@ class DiConfigurationTest extends TestCase
     private function getPrivateProperty(object $object, string $propertyName): array
     {
         $property = new ReflectionProperty($object, $propertyName);
-        $property->setAccessible(true);
         return $property->getValue($object);
     }
 }
