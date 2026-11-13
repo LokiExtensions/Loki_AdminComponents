@@ -3,6 +3,7 @@
 namespace Loki\AdminComponents\Component\Grid;
 
 use Loki\AdminComponents\Acl\ActionAuthorization;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -25,6 +26,7 @@ class GridRepository extends ComponentRepository
         private ObjectManagerInterface $objectManager,
         private ActionListing $actionListing,
         private ActionAuthorization $actionAuthorization,
+        private MessageManagerInterface $messageManager,
     ) {
     }
 
@@ -97,6 +99,12 @@ class GridRepository extends ComponentRepository
 
         foreach ($this->actionListing->getActions() as $actionName => $action) {
             if (false === $this->actionAuthorization->isAllowed($this->getBlock(), (string)$actionName)) {
+                if (array_key_exists($actionName, $value)) {
+                    $this->messageManager->addErrorMessage(
+                        __('You are not allowed to perform the action "%1".', $actionName)
+                    );
+                }
+
                 continue;
             }
 

@@ -11,6 +11,7 @@ use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
 use Loki\Components\Component\ComponentInterface;
 use Loki\Components\Component\ComponentViewModelInterface;
 use Magento\Framework\AuthorizationInterface;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\Template;
 use PHPUnit\Framework\TestCase;
@@ -24,8 +25,23 @@ class GridRepositoryAclTest extends TestCase
         $search = $this->createMock(ActionInterface::class);
         $search->expects($this->once())->method('execute');
 
-        $this->getRepository(['inline_edit' => $inlineEdit, 'search' => $search], false)
+        $messageManager = $this->createMock(MessageManagerInterface::class);
+        $messageManager->expects($this->once())->method('addErrorMessage')
+            ->with($this->callback(fn ($message) => (string)$message === 'You are not allowed to perform the action "inline_edit".'));
+
+        $this->getRepository(['inline_edit' => $inlineEdit, 'search' => $search], false, $messageManager)
             ->saveValue(['inline_edit' => ['identifier' => 1, 'property' => 'name', 'value' => 'x']]);
+    }
+
+    public function testNoErrorWithoutSavePermissionWhenInlineEditIsNotRequested(): void
+    {
+        $inlineEdit = $this->createMock(ActionInterface::class);
+        $inlineEdit->expects($this->never())->method('execute');
+        $messageManager = $this->createMock(MessageManagerInterface::class);
+        $messageManager->expects($this->never())->method('addErrorMessage');
+
+        $this->getRepository(['inline_edit' => $inlineEdit], false, $messageManager)
+            ->saveValue(['search' => 'foo']);
     }
 
     public function testInlineEditIsExecutedWithSavePermission(): void
@@ -37,7 +53,11 @@ class GridRepositoryAclTest extends TestCase
             ->saveValue(['inline_edit' => ['identifier' => 1, 'property' => 'name', 'value' => 'x']]);
     }
 
-    private function getRepository(array $actions, bool $isAllowed): GridRepository
+    private function getRepository(
+        array $actions,
+        bool $isAllowed,
+        ?MessageManagerInterface $messageManager = null
+    ): GridRepository
     {
         $authorization = $this->createStub(AuthorizationInterface::class);
         $authorization->method('isAllowed')->willReturn($isAllowed);
@@ -47,7 +67,8 @@ class GridRepositoryAclTest extends TestCase
             $this->createStub(ProviderHandlerListing::class),
             $this->createStub(ObjectManagerInterface::class),
             new ActionListing($actions),
-            new ActionAuthorization($authorization)
+            new ActionAuthorization($authorization),
+            $messageManager ?? $this->createStub(MessageManagerInterface::class)
         );
 
         $block = $this->createPartialMock(Template::class, []);
