@@ -17,8 +17,10 @@ use Loki\Components\Util\Block\TemplateRenderer;
 $field = $block->getField();
 $fieldAttributes = $field->getFieldAttributes();
 $fieldType = $field->getFieldType();
+$fieldId = $field->getDomId();
 ?>
 <textarea
+    id="<?= $escaper->escapeHtml($fieldId) ?>"
     class="<?= $escaper->escapeHtml($css('admin__control-text', '@todo')) ?>"
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
