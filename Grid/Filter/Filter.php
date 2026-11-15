@@ -104,6 +104,6 @@ class Filter implements FilterInterface
             return true;
         }
 
-        return $value === null;
+        return $value === null || $value === '' || $value === [];
     }
 }
