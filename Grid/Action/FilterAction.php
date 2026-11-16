@@ -33,11 +33,12 @@ class FilterAction implements ActionInterface
             }
 
             $gridFilter = $gridFilters[$filterName];
+            $state = $this->stateManager->get($gridRepository->getNamespace());
             if ($gridFilter->isEmpty($filterValue)) {
+                $state->removeFilter($filterName);
                 continue;
             }
 
-            $state = $this->stateManager->get($gridRepository->getNamespace());
             $state->setFilter(
                 $filterName,
                 $filterValue,

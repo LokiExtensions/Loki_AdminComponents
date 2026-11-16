@@ -199,6 +199,19 @@ class State
         $this->saveBookmarkData(['filters' => ['applied' => [$name => $value]]]);
     }
 
+    public function removeFilter(string $name): void
+    {
+        $filters = $this->getFilters();
+        if (!isset($filters[$name])) {
+            return;
+        }
+
+        unset($filters[$name]);
+
+        $this->setFilters($filters);
+        $this->saveBookmarkData(['filters' => ['applied' => [$name => null]]]);
+    }
+
     /**
      * @param mixed[] $filters
      *
