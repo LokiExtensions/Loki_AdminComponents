@@ -6,6 +6,7 @@ use Yireo\IntegrationTestHelper\Utilities\InstallConfig;
 $disableModules = (new DisableModules(__DIR__.'/../../../../'))
     ->disableAll()
     ->enableMagento()
+    ->disableByPattern('Hyva')
     ->disableByPattern('SampleData')
     ->disableByPattern('Magento_TestModule')
     ->disableMagentoInventory()

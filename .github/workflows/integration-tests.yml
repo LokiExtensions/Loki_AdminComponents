@@ -131,6 +131,8 @@ jobs:
       - name: Run Magento 2 Integration Tests
         shell: bash
         run: |
+          cd /tmp/magento
+          bin/magento module:enable --all
           cd /tmp/magento/dev/tests/integration/
           cp -R "$GITHUB_WORKSPACE"/.github/workflows/integration-tests/* .
           if php ../../../vendor/bin/phpunit --atleast-version 10; then
