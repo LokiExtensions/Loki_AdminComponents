@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.9.0] - 16 November 2026
+### Fixed
+- Remove a grid filter from the state when its value is cleared
+- Render the multiselect form field type as a multiple select
+- Add the ID of the label target to textarea form fields
+- Show an error message when a grid inline edit is not allowed
+- Remove deprecated `ReflectionProperty::setAccessible()` call for PHP 8.5
+- Prevent double-click on inline edit label from toggling the editor twice
+- Bind filter button class to Alpine property instead of a CSS class string
+- Expect the ACL buttons resolver as last buttons resolver
+
+### Added
+- Add `save_acl_resource` and `delete_acl_resource` block arguments for form and grid actions
+
 ### Fixed
 - Remove a grid filter from the state when its value is cleared instead of keeping the previous value
 
