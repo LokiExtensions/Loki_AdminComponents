@@ -135,8 +135,13 @@ class CategoryTreeBuilder
      */
     private function buildTreeStructure(array $flatCategories): array
     {
+        $categoriesByParentId = [];
+        foreach ($flatCategories as $category) {
+            $categoriesByParentId[$category['parent_id']][] = $category;
+        }
+
         return $this->buildTreeRecursive(
-            $flatCategories,
+            $categoriesByParentId,
             Category::TREE_ROOT_ID,
             0,
             []
@@ -144,27 +149,23 @@ class CategoryTreeBuilder
     }
 
     /**
-     * @param array<int, array{id: int, label: string, is_active: bool, parent_id: int}> $flatCategories
+     * @param array<int, array<array{id: int, label: string, is_active: bool, parent_id: int}>> $categoriesByParentId
      * @param int[] $ancestorIds
      * @return CategoryTreeNode[]
      */
     private function buildTreeRecursive(
-        array $flatCategories,
+        array $categoriesByParentId,
         int $parentId,
         int $level,
         array $ancestorIds
     ): array {
         $nodes = [];
 
-        foreach ($flatCategories as $category) {
-            if ($category['parent_id'] !== $parentId) {
-                continue;
-            }
-
+        foreach ($categoriesByParentId[$parentId] ?? [] as $category) {
             $currentAncestorIds = $this->buildAncestorIds($ancestorIds, $parentId);
 
             $children = $this->buildTreeRecursive(
-                $flatCategories,
+                $categoriesByParentId,
                 $category['id'],
                 $level + 1,
                 $currentAncestorIds
