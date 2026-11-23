@@ -13,6 +13,7 @@ use Loki\AdminComponents\Ui\Button\ButtonsResolver;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\UrlFactory;
+use Magento\Framework\View\Element\AbstractBlock;
 use Loki\AdminComponents\Form\Field\FieldFactory;
 use Loki\AdminComponents\Grid\Cell\CellAction;
 use Loki\AdminComponents\Grid\Cell\CellActionFactory;
@@ -50,6 +51,17 @@ class GridViewModel extends ComponentViewModel
         protected MassActionFactory $massActionFactory,
         protected ButtonsResolver $buttonsResolver,
     ) {
+    }
+
+    public function setBlock(AbstractBlock $block): void
+    {
+        if ($this->block !== $block) {
+            $this->items = [];
+            $this->availableColumns = null;
+            $this->columns = null;
+        }
+
+        parent::setBlock($block);
     }
 
     public function getNamespace(): string
@@ -176,12 +188,13 @@ class GridViewModel extends ComponentViewModel
         if (empty($stateData['activeColumns'])) {
             $columnsData = [];
             foreach ($columns as $column) {
-                $columnsData[$column->getCode()] = ['visible' => 1];
-                $stateData['activeColumns'][] = $column->getCode();
+                $columnsData[$column->getCode()] = ['visible' => (int)$column->isVisible()];
             }
 
             $this->getState()->saveBookmarkData(['columns' => $columnsData]);
         }
+
+        $stateData['activeColumns'] = $this->getActiveColumns();
 
         return [
             ...parent::getJsData(),
@@ -321,6 +334,17 @@ class GridViewModel extends ComponentViewModel
         return array_filter($this->getColumns(), function(Column $column) {
             return $column->isVisible();
         });
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getActiveColumns(): array
+    {
+        return array_values(array_map(
+            fn (Column $column) => $column->getCode(),
+            $this->getVisibleColumns()
+        ));
     }
 
     public function getIndexUrl(): string

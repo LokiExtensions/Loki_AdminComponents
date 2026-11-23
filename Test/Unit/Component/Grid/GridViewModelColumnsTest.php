@@ -86,7 +86,7 @@ class GridViewModelColumnsTest extends TestCase
         $viewModel = $this->getViewModel(
             [new Column(['code' => 'name'])],
             [new Column(['code' => 'name', 'position' => 1])],
-            true
+            1
         );
 
         $columns = $viewModel->getColumns();
@@ -95,15 +95,75 @@ class GridViewModelColumnsTest extends TestCase
         $viewModel->getColumns();
     }
 
+    public function testUnpositionedBookmarkColumnsSortAfterRepositionedColumn(): void
+    {
+        $columns = $this->getViewModel(
+            [
+                new Column(['code' => 'name']),
+                new Column(['code' => 'email']),
+                new Column(['code' => 'status']),
+            ],
+            [
+                new Column(['code' => 'name', 'visible' => true]),
+                new Column(['code' => 'email', 'visible' => true]),
+                new Column(['code' => 'status', 'visible' => true, 'position' => 0]),
+            ]
+        )->getColumns();
+
+        $this->assertSame(['status', 'name', 'email'], array_map(fn (Column $column) => $column->getCode(), $columns));
+    }
+
+    public function testActiveColumnsMatchVisibleColumns(): void
+    {
+        $viewModel = $this->getViewModel(
+            [
+                new Column(['code' => 'name', 'visible' => true, 'position' => 1]),
+                new Column(['code' => 'email', 'visible' => true, 'position' => 2]),
+                new Column(['code' => 'status', 'visible' => false, 'position' => 3]),
+                new Column(['code' => 'created_at', 'visible' => true, 'position' => 4]),
+            ],
+            [
+                new Column(['code' => 'name']),
+                new Column(['code' => 'email', 'visible' => false]),
+                new Column(['code' => 'status', 'visible' => true]),
+            ]
+        );
+
+        $this->assertSame(['name', 'status', 'created_at'], $viewModel->getActiveColumns());
+        $this->assertSame(
+            $viewModel->getActiveColumns(),
+            array_values(array_map(fn (Column $column) => $column->getCode(), $viewModel->getVisibleColumns()))
+        );
+    }
+
+    public function testChangingBlockResetsColumnCache(): void
+    {
+        $viewModel = $this->getViewModel(
+            [new Column(['code' => 'name'])],
+            [new Column(['code' => 'name', 'position' => 1])],
+            2
+        );
+
+        $viewModel->getColumns();
+        $viewModel->setBlock($viewModel->getBlock());
+        $viewModel->getColumns();
+
+        $block = $this->createPartialMock(Template::class, []);
+        $block->setData('namespace', 'ns');
+        $viewModel->setBlock($block);
+        $viewModel->getColumns();
+        $viewModel->getColumns();
+    }
+
     private function getViewModel(
         array $providerColumns,
         array $bookmarkColumns,
-        bool $expectSingleLoad = false
+        ?int $expectedLoads = null
     ): GridViewModel {
         $provider = new \stdClass();
 
         $providerHandler = $this->createMock(ProviderHandlerInterface::class);
-        $providerHandler->expects($expectSingleLoad ? $this->once() : $this->any())
+        $providerHandler->expects($expectedLoads === null ? $this->any() : $this->exactly($expectedLoads))
             ->method('getColumns')
             ->with($provider)
             ->willReturn($providerColumns);
@@ -113,7 +173,7 @@ class GridViewModelColumnsTest extends TestCase
         $repository->method('getProvider')->willReturn($provider);
 
         $columnLoader = $this->createMock(ColumnLoader::class);
-        $columnLoader->expects($expectSingleLoad ? $this->once() : $this->any())
+        $columnLoader->expects($expectedLoads === null ? $this->any() : $this->exactly($expectedLoads))
             ->method('getColumnsFromNamespace')
             ->with('ns')
             ->willReturn($bookmarkColumns);

@@ -116,17 +116,18 @@ class ColumnLoader
     public function sortColumns(array $columns): array
     {
         usort($columns, function (Column $a, Column $b) {
-            if ($a->getPosition() === $b->getPosition()) {
-                return 0;
-            }
-
-            if ($a->getPosition() < $b->getPosition()) {
-                return -1;
-            }
-
-            return 1;
+            return $this->getSortPosition($a) <=> $this->getSortPosition($b);
         });
 
         return $columns;
+    }
+
+    private function getSortPosition(Column $column): int
+    {
+        if ($column->getData('position') === null) {
+            return PHP_INT_MAX;
+        }
+
+        return $column->getPosition();
     }
 }
