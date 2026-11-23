@@ -80,13 +80,22 @@ class ColumnLoader
                 continue;
             }
 
-            $visible = isset($columnData['visible']) ? (bool)$columnData['visible'] : false;
+            $data = ['code' => $columnName];
 
-            $columns[] = $this->columnFactory->create([
-                'code' => $columnName,
-                'visible' => $visible,
-                'position' => (isset($positions[$columnName])) ? $positions[$columnName] : 99,
-            ]);
+            if (isset($columnData['visible'])) {
+                $data['visible'] = (bool)$columnData['visible'];
+            }
+
+            if (isset($positions[$columnName])) {
+                $data['position'] = (int)$positions[$columnName];
+            }
+
+            $column = $this->columnFactory->create($data);
+            if (false === isset($data['visible'])) {
+                $column->unsetData('visible');
+            }
+
+            $columns[] = $column;
         }
 
         return $columns;
