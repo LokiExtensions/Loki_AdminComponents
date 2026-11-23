@@ -33,6 +33,10 @@ class GridViewModel extends ComponentViewModel
 {
     private array $items = [];
 
+    private ?array $availableColumns = null;
+
+    private ?array $columns = null;
+
     public function __construct(
         protected StateManager $stateManager,
         protected UrlFactory $urlFactory,
@@ -209,6 +213,18 @@ class GridViewModel extends ComponentViewModel
      */
     public function getAvailableColumns(): array
     {
+        if ($this->availableColumns === null) {
+            $this->availableColumns = $this->loadAvailableColumns();
+        }
+
+        return $this->availableColumns;
+    }
+
+    /**
+     * @return Column[]
+     */
+    private function loadAvailableColumns(): array
+    {
         $columnsFromNamespace = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
 
         $providerHandler = $this->getRepository()->getProviderHandler();
@@ -261,6 +277,18 @@ class GridViewModel extends ComponentViewModel
      * @return Column[]
      */
     public function getColumns(): array
+    {
+        if ($this->columns === null) {
+            $this->columns = $this->loadColumns();
+        }
+
+        return $this->columns;
+    }
+
+    /**
+     * @return Column[]
+     */
+    private function loadColumns(): array
     {
         $columns = $this->getAvailableColumns();
         $columnsFromBlock = $this->columnLoader->getColumnsFromBlock($this->block);
