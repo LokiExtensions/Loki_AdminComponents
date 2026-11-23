@@ -244,24 +244,37 @@ class State
         return $columns;
     }
 
-    public function setActiveColumns(array $columns): void
+    /**
+     * @param string[] $activeColumns
+     * @param string[] $allColumns
+     */
+    public function setActiveColumns(array $activeColumns, array $allColumns = []): void
     {
-        $bookmarkData = $this->getBookmarkData();
+        try {
+            $bookmarkData = $this->getBookmarkData();
+        } catch (NoSuchEntityException $e) {
+            $bookmarkData = [];
+        }
+
+        $bookmarkColumns = isset($bookmarkData['columns']) && is_array($bookmarkData['columns'])
+            ? $bookmarkData['columns']
+            : [];
+
+        $activeColumns = array_map('strval', $activeColumns);
+        $columnNames = array_merge(
+            array_map('strval', array_keys($bookmarkColumns)),
+            array_map('strval', !empty($allColumns) ? $allColumns : $activeColumns)
+        );
+
         $columnsData = [];
-
-        if (isset($bookmarkData['columns'])) {
-            foreach ($bookmarkData['columns'] as $columnName => $columnData) {
-                if (!is_array($columnData)) {
-                    $columnData = [];
-                }
-
-                $columnData['visible'] =  (int)in_array($columnName, $columns);
-                $columnsData[$columnName] = $columnData;
+        foreach (array_unique($columnNames) as $columnName) {
+            $columnData = $bookmarkColumns[$columnName] ?? [];
+            if (!is_array($columnData)) {
+                $columnData = [];
             }
-        } else {
-            foreach ($columns as $columnName => $columnData) {
-                $columnsData[$columnName] = ['visible' => true];
-            }
+
+            $columnData['visible'] = (int)in_array($columnName, $activeColumns, true);
+            $columnsData[$columnName] = $columnData;
         }
 
         $this->saveBookmarkData(['columns' => $columnsData]);

@@ -23,7 +23,13 @@ class ActiveColumnsAction implements ActionInterface
             return;
         }
 
+        $allColumns = [];
+        $viewModel = $gridRepository->getComponent()->getViewModel();
+        if ($viewModel instanceof GridViewModel) {
+            $allColumns = $viewModel->getAvailableColumnCodes();
+        }
+
         $state = $this->stateManager->get($gridRepository->getNamespace());
-        $state->setActiveColumns($value['activeColumns']);
+        $state->setActiveColumns($value['activeColumns'], $allColumns);
     }
 }

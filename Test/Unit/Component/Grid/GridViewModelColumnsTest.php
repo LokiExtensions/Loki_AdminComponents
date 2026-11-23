@@ -155,11 +155,28 @@ class GridViewModelColumnsTest extends TestCase
         $viewModel->getColumns();
     }
 
+    public function testAvailableColumnCodesSkipBookmarkAndResetCache(): void
+    {
+        $viewModel = $this->getViewModel(
+            [new Column(['code' => 'name']), new Column(['code' => 'email'])],
+            [new Column(['code' => 'name', 'visible' => false])],
+            3,
+            2
+        );
+
+        $viewModel->getColumns();
+        $this->assertSame(['name', 'email'], $viewModel->getAvailableColumnCodes());
+        $viewModel->getColumns();
+        $viewModel->getColumns();
+    }
+
     private function getViewModel(
         array $providerColumns,
         array $bookmarkColumns,
-        ?int $expectedLoads = null
+        ?int $expectedLoads = null,
+        ?int $expectedBookmarkLoads = null
     ): GridViewModel {
+        $expectedBookmarkLoads = $expectedBookmarkLoads ?? $expectedLoads;
         $provider = new \stdClass();
 
         $providerHandler = $this->createMock(ProviderHandlerInterface::class);
@@ -173,7 +190,9 @@ class GridViewModelColumnsTest extends TestCase
         $repository->method('getProvider')->willReturn($provider);
 
         $columnLoader = $this->createMock(ColumnLoader::class);
-        $columnLoader->expects($expectedLoads === null ? $this->any() : $this->exactly($expectedLoads))
+        $columnLoader->expects(
+            $expectedBookmarkLoads === null ? $this->any() : $this->exactly($expectedBookmarkLoads)
+        )
             ->method('getColumnsFromNamespace')
             ->with('ns')
             ->willReturn($bookmarkColumns);

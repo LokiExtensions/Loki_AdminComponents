@@ -56,9 +56,7 @@ class GridViewModel extends ComponentViewModel
     public function setBlock(AbstractBlock $block): void
     {
         if ($this->block !== $block) {
-            $this->items = [];
-            $this->availableColumns = null;
-            $this->columns = null;
+            $this->resetCache();
         }
 
         parent::setBlock($block);
@@ -240,12 +238,35 @@ class GridViewModel extends ComponentViewModel
     {
         $columnsFromNamespace = $this->columnLoader->getColumnsFromNamespace($this->getNamespace());
 
+        return $this->mergeColumnsFromNamespace($this->loadBaseColumns(), $columnsFromNamespace);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAvailableColumnCodes(): array
+    {
+        $codes = array_values(array_map(
+            fn (Column $column) => $column->getCode(),
+            $this->loadBaseColumns()
+        ));
+
+        $this->resetCache();
+
+        return $codes;
+    }
+
+    /**
+     * @return Column[]
+     */
+    private function loadBaseColumns(): array
+    {
         $providerHandler = $this->getRepository()->getProviderHandler();
         $provider = $this->getRepository()->getProvider();
         $columns = $providerHandler->getColumns($provider);
 
         if (!empty($columns)) {
-            return $this->mergeColumnsFromNamespace($columns, $columnsFromNamespace);
+            return $columns;
         }
 
         $items = $this->getItems();
@@ -258,13 +279,19 @@ class GridViewModel extends ComponentViewModel
             return [];
         }
 
-        $itemData = $item->getData();
         $columns = [];
-        foreach (array_keys($itemData) as $columnName) {
-            $columns[$columnName] = $this->columnLoader->createColumn($columnName);
+        foreach (array_keys($item->getData()) as $columnName) {
+            $columns[$columnName] = $this->columnLoader->createColumn((string)$columnName);
         }
 
-        return $this->mergeColumnsFromNamespace($columns, $columnsFromNamespace);
+        return $columns;
+    }
+
+    private function resetCache(): void
+    {
+        $this->items = [];
+        $this->availableColumns = null;
+        $this->columns = null;
     }
 
     /**
