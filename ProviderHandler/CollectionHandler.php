@@ -121,7 +121,9 @@ class CollectionHandler implements ProviderHandlerInterface
         /** @var AbstractModel $newItem */
         $resourceModel = $this->getResourceModel($provider);
         $newItem = $this->createItem($provider, null);
-        $newItem->setData($item->getData());
+        $data = $item->getData();
+        unset($data[$resourceModel->getIdFieldName()]);
+        $newItem->setData($data);
         $resourceModel->save($newItem);
     }
 
