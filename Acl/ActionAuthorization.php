@@ -39,6 +39,11 @@ class ActionAuthorization
         }
 
         $aclResource = $block->getData($argumentName);
+        if (is_string($aclResource) && $aclResource !== '') {
+            return $aclResource;
+        }
+
+        $aclResource = $block->getData('acl_resource');
 
         return is_string($aclResource) ? $aclResource : '';
     }

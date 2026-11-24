@@ -43,6 +43,30 @@ class ActionAuthorizationTest extends TestCase
         $this->assertTrue($authorization->isAllowed($block, 'save'));
     }
 
+    public function testWriteActionsFallBackToBlockAclResource(): void
+    {
+        $authorization = $this->getAuthorization(['Vendor_Module::view' => false]);
+        $block = $this->getBlock(['acl_resource' => 'Vendor_Module::view']);
+
+        foreach (['save', 'duplicate', 'inline_edit', 'delete'] as $action) {
+            $this->assertFalse($authorization->isAllowed($block, $action), $action);
+        }
+
+        $this->assertTrue($authorization->isAllowed($block, 'search'));
+    }
+
+    public function testActionSpecificAclResourceWinsOverBlockAclResource(): void
+    {
+        $authorization = $this->getAuthorization(['Vendor_Module::view' => true, 'Vendor_Module::delete' => false]);
+        $block = $this->getBlock([
+            'acl_resource' => 'Vendor_Module::view',
+            'delete_acl_resource' => 'Vendor_Module::delete',
+        ]);
+
+        $this->assertFalse($authorization->isAllowed($block, 'delete'));
+        $this->assertTrue($authorization->isAllowed($block, 'save'));
+    }
+
     public function testButtonsFollowTheirAction(): void
     {
         $authorization = $this->getAuthorization(['Vendor_Module::delete' => false]);
