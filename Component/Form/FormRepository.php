@@ -7,6 +7,7 @@ use Loki\AdminComponents\Acl\ActionAuthorization;
 use Loki\AdminComponents\Exception\FormActionException;
 use Loki\AdminComponents\Exception\NoProviderException;
 use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
+use Loki\AdminComponents\Util\RedirectUrlValidator;
 use Loki\Components\Exception\RedirectException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\DataObject;
@@ -34,6 +35,7 @@ class FormRepository extends ComponentRepository
         private ActionListing $actionListing,
         private ActionAuthorization $actionAuthorization,
         private MessageManagerInterface $messageManager,
+        private RedirectUrlValidator $redirectUrlValidator,
     ) {
     }
 
@@ -131,7 +133,7 @@ class FormRepository extends ComponentRepository
             return;
         }
 
-        if (isset($value['redirect'])) {
+        if (isset($value['redirect']) && $this->redirectUrlValidator->isValid($value['redirect'])) {
             throw (new RedirectException)->setUrl($value['redirect']);
         }
     }

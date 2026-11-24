@@ -7,6 +7,8 @@ use Loki\AdminComponents\Component\Form\FormRepository;
 use Loki\AdminComponents\Form\Action\ActionInterface;
 use Loki\AdminComponents\Form\Action\ActionListing;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerListing;
+use Loki\AdminComponents\Util\RedirectUrlValidator;
+use Loki\Components\Exception\RedirectException;
 use Loki\Components\Component\ComponentInterface;
 use Loki\Components\Component\ComponentViewModelInterface;
 use Magento\Framework\App\RequestInterface;
@@ -42,10 +44,43 @@ class FormRepositoryAclTest extends TestCase
         $repository->saveValue(['actions' => ['delete'], 'item' => ['id' => 1]]);
     }
 
-    private function getRepository(array $actions, bool $isAllowed, ManagerInterface $messageManager): FormRepository
+    public function testValidRedirectIsThrown(): void
     {
+        $repository = $this->getRepository(
+            ['save' => $this->createStub(ActionInterface::class)],
+            true,
+            $this->createStub(ManagerInterface::class),
+            true
+        );
+
+        $this->expectException(RedirectException::class);
+        $repository->saveValue(['actions' => ['save'], 'redirect' => 'https://admin.example.com/admin/']);
+    }
+
+    public function testInvalidRedirectIsIgnored(): void
+    {
+        $repository = $this->getRepository(
+            ['save' => $this->createStub(ActionInterface::class)],
+            true,
+            $this->createStub(ManagerInterface::class),
+            false
+        );
+
+        $repository->saveValue(['actions' => ['save'], 'redirect' => 'https://evil.example/']);
+        $this->addToAssertionCount(1);
+    }
+
+    private function getRepository(
+        array $actions,
+        bool $isAllowed,
+        ManagerInterface $messageManager,
+        bool $isValidRedirect = true
+    ): FormRepository {
         $authorization = $this->createStub(AuthorizationInterface::class);
         $authorization->method('isAllowed')->willReturn($isAllowed);
+
+        $redirectUrlValidator = $this->createStub(RedirectUrlValidator::class);
+        $redirectUrlValidator->method('isValid')->willReturn($isValidRedirect);
 
         $repository = new FormRepository(
             $this->createStub(RequestInterface::class),
@@ -53,7 +88,8 @@ class FormRepositoryAclTest extends TestCase
             $this->createStub(ObjectManagerInterface::class),
             new ActionListing($actions),
             new ActionAuthorization($authorization),
-            $messageManager
+            $messageManager,
+            $redirectUrlValidator
         );
 
         $block = $this->createPartialMock(Template::class, []);
