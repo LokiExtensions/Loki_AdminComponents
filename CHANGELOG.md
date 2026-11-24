@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.9.1] - 24 November 2026
+### Fixed
+- Restrict inline edit to inline-editable columns
+- Allow only known grid columns as sort field
+- Allow hiding grid columns that are missing from the bookmark
+- Sort unpositioned grid columns last and sync column picker with rendered columns
+- Cover bookmark column merging and memoization
+- Only apply bookmark visibility and position when present
+- Memoize grid columns in GridViewModel
+- Cover category tree caching, deep nesting and real categories
+- Index categories by parent when building the category tree (#22)
 ### Fixed
 - Build the category selection tree in linear time on a cache miss
 
