@@ -17,12 +17,11 @@ class Security implements FilterInterface
             return $value;
         }
 
-        $value = (string)$value;
+        $value = htmlspecialchars_decode((string)$value);
         if ($this->allowStripTags($value, $scope)) {
             $value = strip_tags($value);
         }
 
-        $value = htmlspecialchars_decode($value);
         return $value;
     }
 
