@@ -139,7 +139,7 @@ $state = $viewModel->getState();
                                             <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
                                         </a>
                                         <?php elseif ($cellAction->hasUrl()): ?>
-                                        <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>">
+                                        <a href="<?= $escaper->escapeUrl($cellAction->getUrl()) ?>">
                                             <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
                                         </a>
                                         <?php endif; ?>
