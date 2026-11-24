@@ -10,6 +10,7 @@ use Loki\AdminComponents\Grid\State\FilterState;
 use Loki\AdminComponents\Provider\ButtonsProviderInterface;
 use Loki\AdminComponents\Ui\Button\ButtonInterface;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\UrlFactory;
@@ -50,6 +51,7 @@ class GridViewModel extends ComponentViewModel
         protected FilterFactory $filterFactory,
         protected MassActionFactory $massActionFactory,
         protected ButtonsResolver $buttonsResolver,
+        protected AuthorizationInterface $authorization,
     ) {
     }
 
@@ -445,6 +447,10 @@ class GridViewModel extends ComponentViewModel
             }
 
             if (is_array($massAction)) {
+                if (false === $this->isActionAllowed($massAction)) {
+                    continue;
+                }
+
                 $massActions[$massActionId] = $this->massActionFactory->create(
                     $massAction['label'],
                     $massAction['url'],
@@ -593,6 +599,10 @@ class GridViewModel extends ComponentViewModel
         $actionsFromBlock = (array)$this->getBlock()->getRowActions();
         if (!empty($actionsFromBlock)) {
             foreach ($actionsFromBlock as $action) {
+                if (false === $this->isActionAllowed((array)$action)) {
+                    continue;
+                }
+
                 $actions[] = $this->cellActionFactory->createFromData([
                     'id' => $item->getId(),
                     ...$action,
@@ -601,6 +611,16 @@ class GridViewModel extends ComponentViewModel
         }
 
         return $actions;
+    }
+
+    private function isActionAllowed(array $action): bool
+    {
+        $aclResource = $action['acl_resource'] ?? '';
+        if (!is_string($aclResource) || $aclResource === '') {
+            return true;
+        }
+
+        return $this->authorization->isAllowed($aclResource);
     }
 
     private function getSearchableFieldsFromResourceModel(): array

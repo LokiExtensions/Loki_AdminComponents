@@ -19,6 +19,7 @@ use Loki\AdminComponents\Ui\Button\ButtonFactory;
 use Loki\AdminComponents\Ui\Button\ButtonsResolver;
 use Loki\Components\Component\ComponentInterface;
 use Loki\Components\Util\CamelCaseConvertor;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\View\Element\Template;
 use PHPUnit\Framework\TestCase;
@@ -217,6 +218,7 @@ class GridViewModelColumnsTest extends TestCase
             $this->createStub(FilterFactory::class),
             $this->createStub(MassActionFactory::class),
             $this->createStub(ButtonsResolver::class),
+            $this->createStub(AuthorizationInterface::class),
         );
 
         $block = $this->createPartialMock(Template::class, []);
