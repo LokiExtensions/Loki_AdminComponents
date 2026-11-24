@@ -9,7 +9,19 @@ class CellAction
         private ?string $url = null,
         private ?string $jsMethod = null,
         private ?string $alpineMethod = null,
+        private bool $post = false,
+        private string $confirm = '',
     ) {
+    }
+
+    public function isPost(): bool
+    {
+        return $this->post;
+    }
+
+    public function getConfirm(): string
+    {
+        return $this->confirm;
     }
 
     public function getLabel(): string

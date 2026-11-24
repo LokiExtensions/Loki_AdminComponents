@@ -101,6 +101,20 @@ Buttons of actions that the current admin user is not allowed to perform (like *
 <argument name="delete_acl_resource" xsi:type="string">Vendor_Module::items_delete</argument>
 ```
 
+Items of `mass_actions` and `row_actions` can have an `acl_resource` too, so that they are hidden for admin users without that permission. Row actions that change data should not be plain links: with `post` set to `true`, the row action submits a POST request with the form key, after an optional `confirm` message.
+
+```xml
+<argument name="row_actions" xsi:type="array">
+    <item name="delete" xsi:type="array">
+        <item name="label" xsi:type="string" translate="true">Delete</item>
+        <item name="url" xsi:type="string">vendor_module/items/delete</item>
+        <item name="post" xsi:type="boolean">true</item>
+        <item name="confirm" xsi:type="string" translate="true">Are you sure you want to delete this item?</item>
+        <item name="acl_resource" xsi:type="string">Vendor_Module::items_delete</item>
+    </item>
+</argument>
+```
+
 ## Examples
 As a demo, you could opt to install the following examples:
 

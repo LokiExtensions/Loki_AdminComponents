@@ -27,6 +27,30 @@ use Magento\Framework\View\Element\Template;
 
             this.$refs.massActionForm.action = this.$el.getAttribute('data-url');
             this.$refs.massActionForm.submit();
+        },
+        postAction() {
+            const url = this.$el.getAttribute('data-url');
+            if (!url) {
+                return;
+            }
+
+            const confirmMessage = this.$el.getAttribute('data-confirm');
+            if (confirmMessage && !window.confirm(confirmMessage)) {
+                return;
+            }
+
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = url;
+
+            const formKey = document.createElement('input');
+            formKey.type = 'hidden';
+            formKey.name = 'form_key';
+            formKey.value = window.FORM_KEY || '';
+            form.appendChild(formKey);
+
+            document.body.appendChild(form);
+            form.submit();
         }
     }
 </script>

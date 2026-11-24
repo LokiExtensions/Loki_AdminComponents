@@ -35,7 +35,14 @@ class CellActionFactory
             $alpineMethod = $data['alpineMethod'];
         }
 
-        return $this->create($data['label'], $url, $jsMethod, $alpineMethod);
+        return $this->create(
+            (string)$data['label'],
+            $url,
+            $jsMethod,
+            $alpineMethod,
+            (bool)($data['post'] ?? false),
+            (string)($data['confirm'] ?? '')
+        );
     }
 
     public function create(
@@ -43,12 +50,16 @@ class CellActionFactory
         ?string $url = null,
         ?string $jsMethod = null,
         ?string $alpineMethod = null,
+        bool $post = false,
+        string $confirm = '',
     ): CellAction {
         return $this->objectManager->create(CellAction::class, [
             'label'        => $label,
             'url'          => $url,
             'jsMethod'     => $jsMethod,
             'alpineMethod' => $alpineMethod,
+            'post'         => $post,
+            'confirm'      => $confirm,
         ]);
     }
 }

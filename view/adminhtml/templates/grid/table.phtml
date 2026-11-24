@@ -130,7 +130,15 @@ $state = $viewModel->getState();
                             <ul>
                                 <?php foreach ($cellActions as $cellAction): ?>
                                     <li>
-                                        <?php if ($cellAction->hasUrl()): ?>
+                                        <?php if ($cellAction->hasUrl() && $cellAction->isPost()): ?>
+                                        <a
+                                            href="#"
+                                            data-url="<?= $escaper->escapeHtmlAttr($cellAction->getUrl()) ?>"
+                                            data-confirm="<?= $escaper->escapeHtmlAttr($cellAction->getConfirm()) ?>"
+                                            @click.prevent="postAction">
+                                            <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
+                                        </a>
+                                        <?php elseif ($cellAction->hasUrl()): ?>
                                         <a href="<?= /* @noEscape */ $cellAction->getUrl() ?>">
                                             <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
                                         </a>
