@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.2] - 24 November 2026
+### Fixed
+- Escape POST row action URL with escapeUrl
+- Hide row and mass actions without permission via acl_resource
+- Only save declared, non-view form fields
+- Only follow loki_redirect_url and form redirects to own hosts
+- Bump template version annotations to 0.9.1
+
+### Added
+- Allow row actions to POST with form key and confirmation
+
 ## [0.9.1] - 24 November 2026
 ### Fixed
 - Restrict inline edit to inline-editable columns
