@@ -2,7 +2,9 @@
 
 namespace Loki\AdminComponents\Form\Action;
 
+use Loki\AdminComponents\Component\Form\FormViewModel;
 use Loki\AdminComponents\Exception\FormValidationException;
+use Loki\AdminComponents\Form\Field\FieldType\View;
 use Loki\AdminComponents\Form\Item\ItemConvertorInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Message\Manager;
@@ -24,8 +26,10 @@ class SaveAction implements ActionInterface
         $providerHandler = $formRepository->getProviderHandler();
 
         $item = $formRepository->getItemFromData($value);
-        foreach ($value['item'] as $propertyKey => $propertyValue) {
-            if ($propertyKey === $primaryKey) {
+        $editableProperties = $this->getEditableProperties($formRepository);
+        foreach ((array)($value['item'] ?? []) as $propertyKey => $propertyValue) {
+            $propertyKey = (string)$propertyKey;
+            if ($propertyKey === $primaryKey || !in_array($propertyKey, $editableProperties, true)) {
                 continue;
             }
 
@@ -57,6 +61,30 @@ class SaveAction implements ActionInterface
 
         $providerHandler->saveItem($provider, $item);
         $this->messageManager->addSuccessMessage('Item saved');
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getEditableProperties(FormRepository $formRepository): array
+    {
+        $viewModel = $formRepository->getComponent()->getViewModel();
+        if (false === $viewModel instanceof FormViewModel) {
+            return [];
+        }
+
+        $editableProperties = [];
+        foreach ($viewModel->getFieldsets() as $fieldset) {
+            foreach ($fieldset->getFields() as $field) {
+                if ($field->getData('field_type') instanceof View) {
+                    continue;
+                }
+
+                $editableProperties[] = $field->getCode();
+            }
+        }
+
+        return $editableProperties;
     }
 
     private function setItemPropertyValue(DataObject $item, $propertyName, $propertyValue): void
