@@ -6,6 +6,7 @@ use Exception;
 use Loki\AdminComponents\Acl\ActionAuthorization;
 use Loki\AdminComponents\Exception\FormActionException;
 use Loki\AdminComponents\Exception\NoProviderException;
+use Loki\AdminComponents\Form\Item\ItemDeleteValidatorInterface;
 use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Loki\AdminComponents\Util\RedirectUrlValidator;
 use Loki\Components\Exception\RedirectException;
@@ -156,6 +157,22 @@ class FormRepository extends ComponentRepository
         }
 
         return $itemValidators;
+    }
+
+    /**
+     * @return ItemDeleteValidatorInterface[]
+     */
+    public function getItemDeleteValidators(): array
+    {
+        $itemDeleteValidatorsFromBlock = $this->getBlock()->getItemDeleteValidators();
+        if (empty($itemDeleteValidatorsFromBlock) || !is_array($itemDeleteValidatorsFromBlock)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            $itemDeleteValidatorsFromBlock,
+            fn ($itemDeleteValidator) => $itemDeleteValidator instanceof ItemDeleteValidatorInterface
+        ));
     }
 
     public function getItemFromData(array $data): DataObject
