@@ -133,7 +133,7 @@ $state = $viewModel->getState();
                                         <?php if ($cellAction->hasUrl() && $cellAction->isPost()): ?>
                                         <a
                                             href="#"
-                                            data-url="<?= $escaper->escapeHtmlAttr($cellAction->getUrl()) ?>"
+                                            data-url="<?= $escaper->escapeUrl($cellAction->getUrl()) ?>"
                                             data-confirm="<?= $escaper->escapeHtmlAttr($cellAction->getConfirm()) ?>"
                                             @click.prevent="postAction">
                                             <?= $escaper->escapeHtml($cellAction->getLabel()) ?>
