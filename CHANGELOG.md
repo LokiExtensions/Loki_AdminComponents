@@ -7,15 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.9.2] - 24 November 2026
-### Fixed
-- Escape POST row action URL with escapeUrl
-- Hide row and mass actions without permission via acl_resource
-- Only save declared, non-view form fields
-- Only follow loki_redirect_url and form redirects to own hosts
-- Bump template version annotations to 0.9.1
-
 ### Added
-- Allow row actions to POST with form key and confirmation
+- Row actions can now be sent as a POST request with a form key and an optional confirmation prompt
+- New `item_delete_validators` option to block the deletion of items from a form
+
+### Fixed
+- Entity select controller was reachable without admin authentication and ACL check
+- Mass action and row action URLs were not properly escaped
+- HTML entities could slip past the tag stripping of the Security filter
+- Duplicating items skipped validation and copied the primary key of the original
+- Write actions without their own ACL resource were not checked against the block's ACL resource
+- Row and mass actions were shown to admin users lacking the permission for them
+- Saving a form applied any posted field, including undeclared and view-only fields
+- Redirects via loki_redirect_url and form redirects could point to external hosts
 
 ## [0.9.1] - 24 November 2026
 ### Fixed
