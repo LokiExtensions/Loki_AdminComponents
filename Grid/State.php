@@ -72,7 +72,12 @@ class State
 
     public function getSortBy(): string
     {
-        return (string)$this->get('sort_by');
+        $sortBy = (string)$this->get('sort_by');
+        if (!preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)?$/D', $sortBy)) {
+            return '';
+        }
+
+        return $sortBy;
     }
 
     public function setSortBy(string $sortBy): void
