@@ -70,7 +70,7 @@ use Magento\Framework\View\Element\Template;
             getAjaxUrl() {
                 let ajaxUrl = this.ajaxUrl;
                 if (this.search) {
-                    ajaxUrl += '&search=' + this.search;
+                    ajaxUrl += '&search=' + encodeURIComponent(this.search);
                 }
 
                 return ajaxUrl;

@@ -175,11 +175,3 @@ $fieldId = $field->getDomId();
     }
 </style>
 
-<script>
-    window.addEventListener("message", (event) => {
-        if (event.data.type === "lokiAdminOnSelectEntity") {
-            console.log("Signal received:", event.data.data);
-        }
-    });
-</script>
-
