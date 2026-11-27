@@ -22,4 +22,7 @@ if (is_object($value)) {
     $value = 'object';
 }
 ?>
-<?= /* @noEscape */ $value ?>
+<?= $escaper->escapeHtml(
+    (string)$value,
+    ['a', 'b', 'br', 'code', 'em', 'i', 'li', 'ol', 'p', 'small', 'span', 'strong', 'u', 'ul']
+) ?>
