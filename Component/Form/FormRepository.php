@@ -48,12 +48,7 @@ class FormRepository extends ComponentRepository
 
     public function getItem(): ?DataObject
     {
-        $idParam = (string)$this->getComponent()->getViewModel()->getBlock()->getIdParam();
-        if (empty($idParam)) {
-            $idParam = 'id';
-        }
-
-        $id = (int)$this->request->getParam($idParam);
+        $id = $this->getRequestedId();
         if ($id) {
             try {
                 return $this->getProviderHandler()->getItem($this->getProvider(), $id);
@@ -81,6 +76,16 @@ class FormRepository extends ComponentRepository
         }
 
         return $item;
+    }
+
+    private function getRequestedId(): int
+    {
+        $idParam = (string)$this->getComponent()->getViewModel()->getBlock()->getIdParam();
+        if (empty($idParam)) {
+            $idParam = 'id';
+        }
+
+        return (int)$this->request->getParam($idParam);
     }
 
     private function getDefaultValueFromDataType(string $dataType): mixed
@@ -182,6 +187,12 @@ class FormRepository extends ComponentRepository
         }
 
         $id = (int)$data['item'][$this->getPrimaryKey()];
+        $requestedId = $this->getRequestedId();
+        if ($requestedId > 0 && $id !== $requestedId) {
+            $this->messageManager->addErrorMessage(__('The submitted item does not match the item being edited.'));
+            throw new FormActionException('Item ID mismatch');
+        }
+
         if (!empty($id)) {
             return $this->getProviderHandler()->getItem($this->getProvider(), $id);
         }
