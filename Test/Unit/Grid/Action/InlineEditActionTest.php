@@ -8,7 +8,10 @@ use Loki\AdminComponents\Grid\Action\InlineEditAction;
 use Loki\AdminComponents\Grid\Column\Column;
 use Loki\AdminComponents\ProviderHandler\ProviderHandlerInterface;
 use Loki\Components\Component\Component;
+use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\View\Element\Template;
 use PHPUnit\Framework\TestCase;
 
 class InlineEditActionTest extends TestCase
@@ -77,6 +80,23 @@ class InlineEditActionTest extends TestCase
         $this->execute($providerHandler, ['identifier' => 4, 'property' => 'name']);
     }
 
+    public function testInvalidItemIsNotSaved(): void
+    {
+        $item = new DataObject(['id' => 4, 'name' => 'old']);
+        $validator = $this->createStub(ItemValidatorInterface::class);
+        $validator->method('validate')->willReturn(['Name is invalid']);
+
+        $messageManager = $this->createMock(ManagerInterface::class);
+        $messageManager->expects($this->once())->method('addErrorMessage')->with('Name is invalid');
+
+        $this->execute(
+            $this->getProviderHandler($item, false),
+            ['identifier' => 4, 'property' => 'name', 'value' => 'new'],
+            itemValidators: [$validator],
+            messageManager: $messageManager
+        );
+    }
+
     private function getProviderHandler(DataObject $item, bool $expectSave): ProviderHandlerInterface
     {
         $providerHandler = $this->createMock(ProviderHandlerInterface::class);
@@ -90,8 +110,13 @@ class InlineEditActionTest extends TestCase
         ProviderHandlerInterface $providerHandler,
         array $inlineEdit,
         array $templates = ['name' => 'inline', 'entity_model' => 'default'],
-        bool $allowActions = true
+        bool $allowActions = true,
+        array $itemValidators = [],
+        ?ManagerInterface $messageManager = null
     ): void {
+        $block = $this->createPartialMock(Template::class, []);
+        $block->setData('item_validators', $itemValidators);
+
         $columns = [];
         foreach ($templates as $code => $template) {
             $columns[$code] = new Column(['code' => $code, 'cell_template' => $template]);
@@ -99,6 +124,7 @@ class InlineEditActionTest extends TestCase
 
         $viewModel = $this->createMock(GridViewModel::class);
         $viewModel->method('allowActions')->willReturn($allowActions);
+        $viewModel->method('getBlock')->willReturn($block);
         $viewModel->method('getColumns')->willReturn($columns);
         $viewModel->method('getCellTemplate')->willReturnCallback(
             fn (DataObject $item, Column $column) => $column->getCellTemplate() === 'inline'
@@ -115,6 +141,6 @@ class InlineEditActionTest extends TestCase
         $repository->method('getProviderHandler')->willReturn($providerHandler);
         $repository->method('getProvider')->willReturn(new \stdClass());
 
-        (new InlineEditAction())->execute($repository, ['inline_edit' => $inlineEdit]);
+        (new InlineEditAction($messageManager ?? $this->createStub(ManagerInterface::class)))->execute($repository, ['inline_edit' => $inlineEdit]);
     }
 }

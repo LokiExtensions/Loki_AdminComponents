@@ -4,11 +4,18 @@ namespace Loki\AdminComponents\Grid\Action;
 
 use Loki\AdminComponents\Component\Grid\GridRepository;
 use Loki\AdminComponents\Component\Grid\GridViewModel;
+use Loki\AdminComponents\Form\Item\ItemValidatorInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 
 class InlineEditAction implements ActionInterface
 {
     public const INLINE_EDIT_TEMPLATE = 'Loki_AdminComponents::grid/cell/inline_edit.phtml';
+
+    public function __construct(
+        private readonly MessageManagerInterface $messageManager
+    ) {
+    }
 
     public function execute(GridRepository $gridRepository, array $value): void
     {
@@ -59,7 +66,32 @@ class InlineEditAction implements ActionInterface
 
         $item->setData($propertyName, $propertyValue);
 
+        if (false === $this->isValid($viewModel, $item)) {
+            return;
+        }
+
         $providerHandler->saveItem($provider, $item);
+    }
+
+    private function isValid(GridViewModel $viewModel, DataObject $item): bool
+    {
+        $errorMessages = [];
+        foreach ((array)$viewModel->getBlock()->getData('item_validators') as $itemValidator) {
+            if (false === $itemValidator instanceof ItemValidatorInterface) {
+                continue;
+            }
+
+            $validationResult = $itemValidator->validate($item);
+            if ($validationResult !== true) {
+                $errorMessages = array_merge($errorMessages, (array)$validationResult);
+            }
+        }
+
+        foreach ($errorMessages as $errorMessage) {
+            $this->messageManager->addErrorMessage((string)$errorMessage);
+        }
+
+        return empty($errorMessages);
     }
 
     private function isInlineEditable(GridViewModel $viewModel, DataObject $item, string $propertyName): bool
