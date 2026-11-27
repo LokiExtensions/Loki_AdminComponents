@@ -8,24 +8,29 @@ use Loki\AdminComponents\Form\Field\Field;
 use Loki\Components\Component\ComponentInterface;
 use Loki\Components\Filter\FilterInterface;
 use Loki\Components\Filter\FilterScope;
+use Loki\Components\Filter\Security as CoreSecurity;
 
 class Security implements FilterInterface
 {
+    public function __construct(
+        private readonly CoreSecurity $coreSecurity
+    ) {
+    }
+
     public function filter(mixed $value, FilterScope $scope): mixed
     {
-       if (is_object($value)) {
+        if (is_object($value) || is_array($value)) {
             return $value;
         }
 
-        $value = htmlspecialchars_decode((string)$value);
-        if ($this->allowStripTags($value, $scope)) {
-            $value = strip_tags($value);
+        if (false === $this->allowStripTags($scope)) {
+            return str_replace("\0", '', (string)$value);
         }
 
-        return $value;
+        return $this->coreSecurity->filter($value, $scope);
     }
 
-    private function allowStripTags(string $value, FilterScope $scope): bool
+    private function allowStripTags(FilterScope $scope): bool
     {
         $component = $scope->getComponent();
         if (false === $component instanceof ComponentInterface) {

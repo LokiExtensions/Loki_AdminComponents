@@ -99,6 +99,8 @@ The `save` action only writes fields that are visible and not hidden (and not of
 
 Only the form fields and the primary key of an item are sent to the browser. Add other properties via the block argument `additional_item_data` (an array of property names).
 
+Submitted values are cleaned by the `security` filter of Loki Components. Fields with `allow_html` set to `true` (and fields of type `editor`) are saved as raw HTML: escape or purify their values when outputting them.
+
 Inline editing is opt-in per column, by setting the cell template of that column to `Loki_AdminComponents::grid/cell/inline_edit.phtml` (for instance via the `cell_templates` block argument).
 
 Buttons of actions that the current admin user is not allowed to perform (like **Delete**) are hidden. Mass actions and cell actions point to your own controllers, so protect those via their `ADMIN_RESOURCE`.
