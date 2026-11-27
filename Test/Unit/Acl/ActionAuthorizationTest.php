@@ -10,12 +10,22 @@ use PHPUnit\Framework\TestCase;
 
 class ActionAuthorizationTest extends TestCase
 {
-    public function testActionWithoutAclResourceIsAllowed(): void
+    public function testWriteActionWithoutAclResourceIsDenied(): void
     {
         $authorization = $this->getAuthorization([]);
 
-        $this->assertTrue($authorization->isAllowed($this->getBlock([]), 'save'));
-        $this->assertTrue($authorization->isAllowed($this->getBlock([]), 'delete'));
+        foreach (['save', 'duplicate', 'inline_edit', 'delete'] as $action) {
+            $this->assertFalse($authorization->isAllowed($this->getBlock([]), $action), $action);
+        }
+    }
+
+    public function testReadActionWithoutAclResourceIsAllowed(): void
+    {
+        $authorization = $this->getAuthorization([]);
+
+        foreach (['search', 'sort', 'filter', 'page'] as $action) {
+            $this->assertTrue($authorization->isAllowed($this->getBlock([]), $action), $action);
+        }
     }
 
     public function testSaveActionsUseSaveAclResource(): void
@@ -27,7 +37,7 @@ class ActionAuthorizationTest extends TestCase
             $this->assertFalse($authorization->isAllowed($block, $action), $action);
         }
 
-        $this->assertTrue($authorization->isAllowed($block, 'delete'));
+        $this->assertFalse($authorization->isAllowed($block, 'delete'));
         $this->assertTrue($authorization->isAllowed($block, 'search'));
     }
 
@@ -70,7 +80,10 @@ class ActionAuthorizationTest extends TestCase
     public function testButtonsFollowTheirAction(): void
     {
         $authorization = $this->getAuthorization(['Vendor_Module::delete' => false]);
-        $block = $this->getBlock(['delete_acl_resource' => 'Vendor_Module::delete']);
+        $block = $this->getBlock([
+            'save_acl_resource' => 'Vendor_Module::save',
+            'delete_acl_resource' => 'Vendor_Module::delete',
+        ]);
 
         $this->assertFalse($authorization->isButtonAllowed($block, $this->getButton('delete')));
         $this->assertTrue($authorization->isButtonAllowed($block, $this->getButton('saveAndClose')));

@@ -93,6 +93,7 @@ class FormRepositoryAclTest extends TestCase
         );
 
         $block = $this->createPartialMock(Template::class, []);
+        $block->setData('save_acl_resource', 'Vendor_Module::save');
         $block->setData('delete_acl_resource', 'Vendor_Module::delete');
 
         $viewModel = $this->createStub(ComponentViewModelInterface::class);

@@ -52,7 +52,7 @@ class ActionAuthorization
     {
         $aclResource = $this->getAclResource($block, $action);
         if ($aclResource === '') {
-            return true;
+            return false === array_key_exists($action, self::ACTION_ARGUMENTS);
         }
 
         return $this->authorization->isAllowed($aclResource);

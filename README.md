@@ -93,6 +93,10 @@ Every AJAX request of a grid or form requires an admin login. Use the following 
 - `save_acl_resource`: Required for the form actions `save` and `duplicate` and for inline editing in a grid;
 - `delete_acl_resource`: Required for the form action `delete`;
 
+Write actions (`save`, `duplicate`, `delete` and inline editing) are denied when neither the action-specific resource nor `acl_resource` is set. 
+
+Inline editing is opt-in per column, by setting the cell template of that column to `Loki_AdminComponents::grid/cell/inline_edit.phtml` (for instance via the `cell_templates` block argument).
+
 Buttons of actions that the current admin user is not allowed to perform (like **Delete**) are hidden. Mass actions and cell actions point to your own controllers, so protect those via their `ADMIN_RESOURCE`.
 
 ```xml

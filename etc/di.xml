@@ -74,7 +74,6 @@
                 <item name="status" xsi:type="string">Loki_AdminComponents::grid/cell/status.phtml</item>
                 <item name="type_id" xsi:type="string">Loki_AdminComponents::grid/cell/product_type.phtml</item>
                 <item name="attribute_set_id" xsi:type="string">Loki_AdminComponents::grid/cell/attribute_set_id.phtml</item>
-                <item name="name" xsi:type="string">Loki_AdminComponents::grid/cell/inline_edit.phtml</item>
             </argument>
         </arguments>
     </type>
