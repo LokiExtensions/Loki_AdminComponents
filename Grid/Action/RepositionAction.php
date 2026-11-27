@@ -6,6 +6,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Ui\Api\BookmarkRepositoryInterface;
 use Loki\AdminComponents\Component\Grid\GridRepository;
+use Loki\AdminComponents\Component\Grid\GridViewModel;
 use Loki\AdminComponents\Grid\BookmarkLoader;
 
 class RepositionAction implements ActionInterface
@@ -19,7 +20,18 @@ class RepositionAction implements ActionInterface
 
     public function execute(GridRepository $gridRepository, array $value): void
     {
-        if (empty($value['reposition'])) {
+        if (empty($value['reposition']) || !is_array($value['reposition'])) {
+            return;
+        }
+
+        $propertyName = $value['reposition']['property'] ?? null;
+        $propertyPosition = $value['reposition']['position'] ?? null;
+        if (!is_string($propertyName) || !is_numeric($propertyPosition) || (int)$propertyPosition < 0) {
+            return;
+        }
+
+        $propertyPosition = (int)$propertyPosition;
+        if (false === $this->isAvailableColumn($gridRepository, $propertyName)) {
             return;
         }
 
@@ -34,12 +46,10 @@ class RepositionAction implements ActionInterface
             return;
         }
 
-        $propertyName = $value['reposition']['property'];
-        $propertyPosition = $value['reposition']['position'];
-
+        $positions = [];
         $bookmarkData = $bookmark->getConfig();
         if (isset($bookmarkData['views']['default']['data']['positions'])) {
-            $positions = $bookmarkData['views']['default']['data']['positions'];
+            $positions = (array)$bookmarkData['views']['default']['data']['positions'];
 
             $increaseCurrentPosition = false;
             foreach ($positions as $columnName => $position) {
@@ -62,5 +72,15 @@ class RepositionAction implements ActionInterface
 
         $bookmark->setConfig($this->serializer->serialize($bookmarkData));
         $this->bookmarkRepository->save($bookmark);
+    }
+
+    private function isAvailableColumn(GridRepository $gridRepository, string $propertyName): bool
+    {
+        $viewModel = $gridRepository->getComponent()->getViewModel();
+        if (false === $viewModel instanceof GridViewModel) {
+            return false;
+        }
+
+        return in_array($propertyName, $viewModel->getAvailableColumnCodes(), true);
     }
 }
