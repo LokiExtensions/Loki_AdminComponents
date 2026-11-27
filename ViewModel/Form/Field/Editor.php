@@ -50,7 +50,10 @@ class Editor implements ArgumentInterface
 
     public function getPluginsAsJson(): string
     {
-        return json_encode(array_values($this->getPlugins()));
+        return (string)json_encode(
+            array_values($this->getPlugins()),
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+        );
     }
 
     public function getContentStyle(): string

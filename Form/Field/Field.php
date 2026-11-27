@@ -104,7 +104,12 @@ class Field extends DataObject
             $fieldAttributes['type'] = 'hidden';
         }
 
-        return $fieldAttributes;
+        return array_filter(
+            $fieldAttributes,
+            fn ($attributeName) => is_string($attributeName)
+                && preg_match('/^[a-zA-Z_:@][a-zA-Z0-9_:@.\-]*$/D', $attributeName),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     public function getLabelAttributes(): array

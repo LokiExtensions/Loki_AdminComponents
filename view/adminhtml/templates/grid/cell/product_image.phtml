@@ -20,14 +20,14 @@ $item = $block->getItem();
 ?>
 <span class="<?= $escaper->escapeHtml($css('thumbnail-container', '@todo')) ?>" x-data="LokiModal">
     <span class="<?= $escaper->escapeHtml($css('thumbnail-wrapper', '@todo')) ?>">
-        <img @click.prevent="toggleModal" class="<?= $escaper->escapeHtml($css('admin__control-thumbnail', '@todo')) ?>" src="<?= /* @noEscape */ $productImage->getThumbnailUrl($item) ?>"
+        <img @click.prevent="toggleModal" class="<?= $escaper->escapeHtml($css('admin__control-thumbnail', '@todo')) ?>" src="<?= $escaper->escapeUrl($productImage->getThumbnailUrl($item)) ?>"
              loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
     </span>
 
     <dialog x-ref="modal" @click.prevent="toggleModal">
     <span class="">
         <h2><?= $escaper->escapeHtml($item->getName()) ?></h2>
-        <img src="<?= /* @noEscape */ $productImage->getImageUrl($item) ?>" loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
+        <img src="<?= $escaper->escapeUrl($productImage->getImageUrl($item)) ?>" loading="lazy" alt="<?= $escaper->escapeHtml($item->getName()) ?>"/>
     </span>
     </dialog>
 </span>

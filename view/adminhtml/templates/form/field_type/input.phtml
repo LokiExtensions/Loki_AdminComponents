@@ -35,7 +35,7 @@ $fieldId = $field->getDomId();
         <?php if ($attributeValue === null): ?>
             <?= /* @noEscape */ $attributeName ?>
         <?php else: ?>
-            <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+            <?= /* @noEscape */ $attributeName ?>="<?= $escaper->escapeHtmlAttr((string)$attributeValue) ?>"
         <?php endif; ?>
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"

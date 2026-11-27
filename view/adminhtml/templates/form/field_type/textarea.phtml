@@ -25,7 +25,7 @@ $fieldId = $field->getDomId();
     name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     data-name="<?= $escaper->escapeHtml($field->getCode()) ?>"
     <?php foreach ($fieldAttributes as $attributeName => $attributeValue) : ?>
-        <?= /* @noEscape */ $attributeName ?>="<?= /* @noEscape */ $attributeValue ?>"
+        <?= /* @noEscape */ $attributeName ?>="<?= $escaper->escapeHtmlAttr((string)$attributeValue) ?>"
     <?php endforeach; ?>
     :value="<?= $escaper->escapeHtml($field->getScope()) ?>.<?= $escaper->escapeHtml($field->getCode()) ?>"
     @change="<?= $escaper->escapeHtml($field->getAlpineSetter()) ?>"
