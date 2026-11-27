@@ -8,6 +8,7 @@ use Loki\AdminComponents\Util\AbstractEntityColumnLoader;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
+use Magento\Framework\DB\Helper as DbHelper;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\ObjectManagerInterface;
@@ -18,7 +19,8 @@ class CollectionHandler implements ProviderHandlerInterface
 {
     public function __construct(
         private ObjectManagerInterface $objectManager,
-        private AbstractEntityColumnLoader $abstractEntityColumnLoader
+        private AbstractEntityColumnLoader $abstractEntityColumnLoader,
+        private DbHelper $dbHelper,
     ) {
     }
 
@@ -76,7 +78,7 @@ class CollectionHandler implements ProviderHandlerInterface
             $searchConditions = [];
             foreach ($gridState->getSearchableFields() as $searchableField) {
                 $searchFields[] = $searchableField;
-                $searchConditions[] = ['like' => '%'.$search.'%'];
+                $searchConditions[] = ['like' => $this->dbHelper->escapeLikeValue($search, ['position' => 'any'])];
             }
 
             $provider->addFieldToFilter($searchFields, $searchConditions);

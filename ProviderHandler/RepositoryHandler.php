@@ -17,6 +17,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\Manager as MessageManager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb as AbstractResourceModel;
 use Magento\Framework\DataObject;
+use Magento\Framework\DB\Helper as DbHelper;
 use Magento\Framework\ObjectManagerInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -32,7 +33,8 @@ class RepositoryHandler implements ProviderHandlerInterface
         private SearchCriteriaBuilder $searchCriteriaBuilder,
         private SortOrderFactory $sortOrderFactory,
         private ObjectManagerInterface $objectManager,
-        private MessageManager $messageManager
+        private MessageManager $messageManager,
+        private DbHelper $dbHelper,
     ) {
     }
 
@@ -193,7 +195,7 @@ class RepositoryHandler implements ProviderHandlerInterface
 
         if ($conditionType === 'like') {
             return $this->filterBuilder
-                ->setValue('%'.$value.'%')
+                ->setValue($this->dbHelper->escapeLikeValue((string)$value, ['position' => 'any']))
                 ->create();
         }
 
@@ -219,7 +221,7 @@ class RepositoryHandler implements ProviderHandlerInterface
         foreach ($gridState->getSearchableFields() as $searchableField) {
             $filter = $this->filterFactory->create();
             $filter->setField($searchableField);
-            $filter->setValue('%'.$search.'%');
+            $filter->setValue($this->dbHelper->escapeLikeValue($search, ['position' => 'any']));
             $filter->setConditionType('like');
             $filters[] = $filter;
         }
