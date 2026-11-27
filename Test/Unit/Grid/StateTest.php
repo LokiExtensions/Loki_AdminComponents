@@ -95,6 +95,36 @@ class StateTest extends TestCase
         $this->getState($bookmarkLoader)->setActiveColumns(['name'], ['name', 'email']);
     }
 
+    public function testLimitIsClampedToMaximum(): void
+    {
+        $session = $this->createStub(Session::class);
+        $session->method('getData')->willReturn(100000000);
+
+        $state = new State(
+            $session,
+            $this->createStub(FilterStateFactory::class),
+            $this->createStub(BookmarkLoader::class),
+            'ns',
+            20,
+            500
+        );
+
+        $this->assertSame(500, $state->getLimit());
+    }
+
+    public function testSetLimitIsClampedToMaximum(): void
+    {
+        $session = $this->createStub(Session::class);
+
+        $bookmarkLoader = $this->createMock(BookmarkLoader::class);
+        $bookmarkLoader->method('getBookmark')->willThrowException(new NoSuchEntityException());
+        $bookmarkLoader->expects($this->once())->method('createBookmark')
+            ->with('ns', ['paging' => ['pageSize' => 1000]]);
+
+        $state = new State($session, $this->createStub(FilterStateFactory::class), $bookmarkLoader, 'ns');
+        $state->setLimit(100000000);
+    }
+
     private function assertSavedColumns(
         array $bookmarkData,
         array $activeColumns,

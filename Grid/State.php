@@ -19,6 +19,7 @@ class State
         private readonly BookmarkLoader $bookmarkLoader,
         private readonly string $namespace,
         private readonly int $defaultLimit = 20,
+        private readonly int $maximumLimit = 1000,
     ) {
     }
 
@@ -61,11 +62,12 @@ class State
             $limit = $this->defaultLimit;
         }
 
-        return $limit;
+        return min($limit, $this->maximumLimit);
     }
 
     public function setLimit(int $limit): void
     {
+        $limit = min(max($limit, 1), $this->maximumLimit);
         $this->save('limit', $limit);
         $this->saveBookmarkData(['paging' => ['pageSize' => $limit]]);
     }
