@@ -91,7 +91,10 @@ class EntitySelect implements ArgumentInterface
 
     public function getJsonData(): string
     {
-        return json_encode($this->getJsData());
+        return (string)json_encode(
+            $this->getJsData(),
+            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES
+        );
     }
 
     private function getNamespace(): string
