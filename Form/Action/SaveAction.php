@@ -4,6 +4,7 @@ namespace Loki\AdminComponents\Form\Action;
 
 use Loki\AdminComponents\Component\Form\FormViewModel;
 use Loki\AdminComponents\Exception\FormValidationException;
+use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\View;
 use Loki\AdminComponents\Form\Item\ItemConvertorInterface;
 use Magento\Framework\DataObject;
@@ -76,7 +77,7 @@ class SaveAction implements ActionInterface
         $editableProperties = [];
         foreach ($viewModel->getFieldsets() as $fieldset) {
             foreach ($fieldset->getFields() as $field) {
-                if ($field->getData('field_type') instanceof View) {
+                if (false === $this->isEditable($field)) {
                     continue;
                 }
 
@@ -85,6 +86,20 @@ class SaveAction implements ActionInterface
         }
 
         return $editableProperties;
+    }
+
+    private function isEditable(Field $field): bool
+    {
+        if ($field->getData('field_type') instanceof View) {
+            return false;
+        }
+
+        $editable = $field->getData('editable');
+        if (is_bool($editable)) {
+            return $editable;
+        }
+
+        return $field->isVisible() && false === $field->isHidden();
     }
 
     private function setItemPropertyValue(DataObject $item, $propertyName, $propertyValue): void

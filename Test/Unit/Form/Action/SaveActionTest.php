@@ -44,12 +44,39 @@ class SaveActionTest extends TestCase
         );
     }
 
-    private function getFormRepository(DataObject $item, ProviderHandlerInterface $providerHandler): FormRepository
+    public function testInvisibleHiddenAndNonEditableFieldsAreNotSaved(): void
     {
+        $item = new DataObject(['class_id' => 3, 'class_name' => 'Old', 'secret' => 'a', 'hidden' => 'b', 'locked' => 'c', 'opted_in' => 'd']);
+
+        $providerHandler = $this->createMock(ProviderHandlerInterface::class);
+        $providerHandler->expects($this->once())->method('saveItem');
+
+        $saveAction = new SaveAction($this->createStub(Manager::class), new CamelCaseConvertor());
+        $saveAction->execute($this->getFormRepository($item, $providerHandler, [
+            new Field(null, ['code' => 'secret', 'visible' => false, 'field_type' => $this->createStub(Input::class)]),
+            new Field(null, ['code' => 'hidden', 'hidden' => true, 'field_type' => $this->createStub(Input::class)]),
+            new Field(null, ['code' => 'locked', 'editable' => false, 'field_type' => $this->createStub(Input::class)]),
+            new Field(null, ['code' => 'opted_in', 'hidden' => true, 'editable' => true, 'field_type' => $this->createStub(Input::class)]),
+        ]), [
+            'item' => ['class_name' => 'New', 'secret' => 'x', 'hidden' => 'y', 'locked' => 'z', 'opted_in' => 'w'],
+        ]);
+
+        $this->assertSame(
+            ['class_id' => 3, 'class_name' => 'New', 'secret' => 'a', 'hidden' => 'b', 'locked' => 'c', 'opted_in' => 'w'],
+            $item->getData()
+        );
+    }
+
+    private function getFormRepository(
+        DataObject $item,
+        ProviderHandlerInterface $providerHandler,
+        array $extraFields = []
+    ): FormRepository {
         $fieldset = new Fieldset('base', '', [
             new Field(null, ['code' => 'class_id', 'field_type' => $this->createStub(View::class)]),
             new Field(null, ['code' => 'class_name', 'field_type' => $this->createStub(Input::class)]),
             new Field(null, ['code' => 'class_type', 'field_type' => $this->createStub(View::class)]),
+            ...$extraFields,
         ]);
 
         $viewModel = $this->createStub(FormViewModel::class);
