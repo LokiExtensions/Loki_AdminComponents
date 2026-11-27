@@ -5,6 +5,7 @@ namespace Loki\AdminComponents\Plugin;
 
 use Loki\AdminComponents\Util\RedirectUrlValidator;
 use Magento\Framework\App\FrontController;
+use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Redirect as ResultRedirect;
 
@@ -19,6 +20,14 @@ class RedirectLokiUrlsPlugin
     public function afterDispatch(FrontController $subject, $result)
     {
         if (false === $result instanceof ResultRedirect) {
+            return $result;
+        }
+
+        if (false === $this->request instanceof HttpRequest || false === $this->request->isPost()) {
+            return $result;
+        }
+
+        if (empty($this->request->getParam('namespace'))) {
             return $result;
         }
 

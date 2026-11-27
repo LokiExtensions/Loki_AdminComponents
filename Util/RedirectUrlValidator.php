@@ -3,13 +3,11 @@
 namespace Loki\AdminComponents\Util;
 
 use Magento\Backend\Model\UrlInterface as BackendUrlInterface;
-use Magento\Framework\Url\HostChecker;
 
 class RedirectUrlValidator
 {
     public function __construct(
         private readonly BackendUrlInterface $backendUrl,
-        private readonly HostChecker $hostChecker,
     ) {
     }
 
@@ -38,10 +36,7 @@ class RedirectUrlValidator
         }
 
         $backendHost = (string)parse_url($this->backendUrl->getBaseUrl(), PHP_URL_HOST);
-        if ($backendHost !== '' && strtolower($urlParts['host']) === strtolower($backendHost)) {
-            return true;
-        }
 
-        return $this->hostChecker->isOwnOrigin($url);
+        return $backendHost !== '' && strtolower($urlParts['host']) === strtolower($backendHost);
     }
 }

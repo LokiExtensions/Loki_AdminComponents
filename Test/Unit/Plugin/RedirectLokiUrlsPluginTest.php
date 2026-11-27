@@ -5,7 +5,7 @@ namespace Loki\AdminComponents\Test\Unit\Plugin;
 use Loki\AdminComponents\Plugin\RedirectLokiUrlsPlugin;
 use Loki\AdminComponents\Util\RedirectUrlValidator;
 use Magento\Framework\App\FrontController;
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\Controller\Result\Redirect;
 use PHPUnit\Framework\TestCase;
 
@@ -29,6 +29,24 @@ class RedirectLokiUrlsPluginTest extends TestCase
             ->afterDispatch($this->createStub(FrontController::class), $result);
     }
 
+    public function testGetRequestIsIgnored(): void
+    {
+        $result = $this->createMock(Redirect::class);
+        $result->expects($this->never())->method('setUrl');
+
+        $this->getPlugin('https://admin.example.com/admin/', true, false)
+            ->afterDispatch($this->createStub(FrontController::class), $result);
+    }
+
+    public function testRequestWithoutNamespaceIsIgnored(): void
+    {
+        $result = $this->createMock(Redirect::class);
+        $result->expects($this->never())->method('setUrl');
+
+        $this->getPlugin('https://admin.example.com/admin/', true, true, '')
+            ->afterDispatch($this->createStub(FrontController::class), $result);
+    }
+
     public function testNonRedirectResultIsReturnedAsIs(): void
     {
         $result = new \stdClass();
@@ -37,10 +55,18 @@ class RedirectLokiUrlsPluginTest extends TestCase
         $this->assertSame($result, $plugin->afterDispatch($this->createStub(FrontController::class), $result));
     }
 
-    private function getPlugin(string $redirectUrl, bool $isValid): RedirectLokiUrlsPlugin
-    {
-        $request = $this->createStub(RequestInterface::class);
-        $request->method('getParam')->willReturnMap([['loki_redirect_url', null, $redirectUrl]]);
+    private function getPlugin(
+        string $redirectUrl,
+        bool $isValid,
+        bool $isPost = true,
+        string $namespace = 'product_listing'
+    ): RedirectLokiUrlsPlugin {
+        $request = $this->createStub(HttpRequest::class);
+        $request->method('isPost')->willReturn($isPost);
+        $request->method('getParam')->willReturnMap([
+            ['loki_redirect_url', null, $redirectUrl],
+            ['namespace', null, $namespace],
+        ]);
 
         $redirectUrlValidator = $this->createStub(RedirectUrlValidator::class);
         $redirectUrlValidator->method('isValid')->willReturn($isValid);
