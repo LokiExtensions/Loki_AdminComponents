@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
 
+use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use Yireo\CspUtilities\ViewModel\CspMarker;
 
 /** @version 0.9.2 */
 /** @var Escaper $escaper */
 /** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var CspMarker $cspMarker */
+$cspMarker = $viewModelFactory->get(CspMarker::class);
 ?>
 <div
     class="<?= $escaper->escapeHtml($css('admin__action-multiselect-search-wrap', '@todo')) ?>"
@@ -68,7 +73,7 @@ use Magento\Framework\View\Element\Template;
     </div>
 </template>
 
-<script>
+<script <?= /* @noEscape */ $cspMarker->getAttribute() ?>>
     'use strict';
 
     function CategoriesSelectionSearch() {

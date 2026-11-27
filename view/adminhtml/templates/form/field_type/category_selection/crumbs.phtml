@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
 
+use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use Yireo\CspUtilities\ViewModel\CspMarker;
 
 /** @version 0.9.2 */
 /** @var Escaper $escaper */
 /** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var CspMarker $cspMarker */
+$cspMarker = $viewModelFactory->get(CspMarker::class);
 ?>
 <style>
     .admin__action-multiselect-crumb + .admin__action-multiselect-crumb {
@@ -31,7 +36,7 @@ use Magento\Framework\View\Element\Template;
         </button>
     </span>
 </template>
-<script>
+<script <?= /* @noEscape */ $cspMarker->getAttribute() ?>>
     'use strict';
 
     function CategorySelectionCrumb() {

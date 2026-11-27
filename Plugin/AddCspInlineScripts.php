@@ -7,20 +7,44 @@ use Yireo\CspUtilities\Util\ReplaceInlineScripts;
 
 class AddCspInlineScripts
 {
-    private readonly ReplaceInlineScripts $replaceInlineScripts;
+    private const TRUSTED_TEMPLATE_PATH = 'script/';
 
+    /**
+     * @param ReplaceInlineScripts $replaceInlineScripts
+     * @param string[] $trustedTemplates
+     */
     public function __construct(
-        ReplaceInlineScripts $replaceInlineScripts
+        private readonly ReplaceInlineScripts $replaceInlineScripts,
+        private readonly array $trustedTemplates = []
     ) {
-        $this->replaceInlineScripts = $replaceInlineScripts;
     }
 
     public function afterToHtml(Template $block, $html): string
     {
+        $html = (string)$html;
         if (false === str_starts_with((string)$block->getNameInLayout(), 'loki')) {
-            return (string)$html;
+            return $html;
         }
 
-        return $this->replaceInlineScripts->replace((string)$html);
+        if ($this->isTrustedTemplate((string)$block->getTemplate())) {
+            return $this->replaceInlineScripts->replace($html);
+        }
+
+        return $this->replaceInlineScripts->replaceMarked($html);
+    }
+
+    private function isTrustedTemplate(string $template): bool
+    {
+        if (in_array($template, $this->trustedTemplates, true)) {
+            return true;
+        }
+
+        $templateParts = explode('::', $template, 2);
+        if (count($templateParts) !== 2 || !str_starts_with($templateParts[0], 'Loki')) {
+            return false;
+        }
+
+        return str_starts_with($templateParts[1], self::TRUSTED_TEMPLATE_PATH)
+            && !str_contains($templateParts[1], '..');
     }
 }

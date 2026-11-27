@@ -8,6 +8,14 @@
         <plugin name="Loki_AdminComponents::addCspInlineScripts" type="Loki\AdminComponents\Plugin\AddCspInlineScripts"/>
     </type>
 
+    <type name="Loki\AdminComponents\Plugin\AddCspInlineScripts">
+        <arguments>
+            <argument name="trustedTemplates" xsi:type="array">
+                <item name="form_key_loader" xsi:type="string">Loki_Components::form_key_loader.phtml</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Loki\Components\Filter\FilterRegistry">
         <arguments>
             <argument name="filters" xsi:type="array">

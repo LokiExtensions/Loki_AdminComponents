@@ -2,20 +2,25 @@
 
 use Loki\AdminComponents\Form\Field\Field;
 use Loki\AdminComponents\Form\Field\FieldType\CategorySelection;
+use Loki\Components\Factory\ViewModelFactory;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use Yireo\CspUtilities\ViewModel\CspMarker;
 
 /** @version 0.9.2 */
 /** @var Escaper $escaper */
 /** @var Template $block */
+/** @var ViewModelFactory $viewModelFactory */
+/** @var CspMarker $cspMarker */
 /** @var Field $field */
 /** @var CategorySelection $fieldType */
 
 $field = $block->getData('field');
 $fieldType = $field->getFieldType();
 $maxTreeLevel = $fieldType->getMaxCategoryLevel($fieldType->getCategoryTree());
+$cspMarker = $viewModelFactory->get(CspMarker::class);
 ?>
-<script>
+<script <?= /* @noEscape */ $cspMarker->getAttribute() ?>>
     'use strict';
 
     const CategorySelectionSearch = {
