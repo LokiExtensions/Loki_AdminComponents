@@ -166,10 +166,19 @@ class State
                 continue;
             }
 
+            $value = $filterData['value'];
+            if (is_scalar($value)) {
+                $value = (string)$value;
+            }
+
+            if (false === is_string($value) && false === is_array($value)) {
+                continue;
+            }
+
             $filters[$filterData['field']] = $this->filterStateFactory->create(
-                $filterData['field'],
-                $filterData['value'],
-                $filterData['condition_type'],
+                (string)$filterData['field'],
+                $value,
+                (string)$filterData['condition_type'],
             );
         }
 

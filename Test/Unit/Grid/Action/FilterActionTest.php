@@ -31,14 +31,54 @@ class FilterActionTest extends TestCase
         $this->execute($state, ['status' => '0']);
     }
 
-    private function execute(State $state, array $filters): void
+    public function testIntegerValueIsStoredAsString(): void
     {
+        $state = $this->createMock(State::class);
+        $state->expects($this->once())->method('setFilter')->with('status', '1', 'eq');
+
+        $this->execute($state, ['status' => 1]);
+    }
+
+    public function testArrayValueIsRejectedForScalarCondition(): void
+    {
+        $state = $this->createMock(State::class);
+        $state->expects($this->never())->method('setFilter');
+        $state->expects($this->never())->method('removeFilter');
+
+        $this->execute($state, ['status' => ['regexp' => '(a+)+$']]);
+    }
+
+    public function testFromToValueOnlyKeepsFromAndTo(): void
+    {
+        $state = $this->createMock(State::class);
+        $state->expects($this->once())->method('setFilter')
+            ->with('created_at', ['from' => '2026-01-01', 'to' => ''], 'from_to');
+
+        $this->execute($state, ['created_at' => ['from' => '2026-01-01', 'to' => ['x'], 'regexp' => 'a']], 'from_to');
+    }
+
+    public function testListValueRejectsNestedArrays(): void
+    {
+        $state = $this->createMock(State::class);
+        $state->expects($this->once())->method('setFilter')->with('status', ['1', '2'], 'in');
+
+        $this->execute($state, ['status' => [1, '2']], 'in');
+
+        $state = $this->createMock(State::class);
+        $state->expects($this->never())->method('setFilter');
+
+        $this->execute($state, ['status' => [['nin' => 1]]], 'in');
+    }
+
+    private function execute(State $state, array $filters, string $conditionType = 'eq'): void
+    {
+        $filterCode = (string)array_key_first($filters);
         $filter = $this->createMock(Filter::class);
         $filter->method('isEmpty')->willReturnCallback(fn(mixed $value): bool => $value === '');
-        $filter->method('getConditionType')->willReturn('eq');
+        $filter->method('getConditionType')->willReturn($conditionType);
 
         $viewModel = $this->createMock(GridViewModel::class);
-        $viewModel->method('getGridFilters')->willReturn(['status' => $filter]);
+        $viewModel->method('getGridFilters')->willReturn([$filterCode => $filter]);
 
         $component = $this->createMock(Component::class);
         $component->method('getViewModel')->willReturn($viewModel);
