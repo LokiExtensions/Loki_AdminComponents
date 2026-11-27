@@ -66,7 +66,24 @@ class FormViewModel extends ComponentViewModel
             return [];
         }
 
-        return $item->getData();
+        return array_intersect_key($item->getData(), array_flip($this->getItemDataKeys()));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getItemDataKeys(): array
+    {
+        $itemDataKeys = array_map('strval', array_keys($this->getFields()));
+        $itemDataKeys[] = $this->getRepository()->getPrimaryKey();
+
+        foreach ((array)$this->getBlock()->getAdditionalItemData() as $additionalItemDataKey) {
+            if (is_string($additionalItemDataKey) && $additionalItemDataKey !== '') {
+                $itemDataKeys[] = $additionalItemDataKey;
+            }
+        }
+
+        return array_values(array_unique($itemDataKeys));
     }
 
     public function getIndexUrl(): string

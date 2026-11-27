@@ -97,6 +97,8 @@ Write actions (`save`, `duplicate`, `delete` and inline editing) are denied when
 
 The `save` action only writes fields that are visible and not hidden (and not of type `view`). Set `editable` to `true` or `false` on a field to override this.
 
+Only the form fields and the primary key of an item are sent to the browser. Add other properties via the block argument `additional_item_data` (an array of property names).
+
 Inline editing is opt-in per column, by setting the cell template of that column to `Loki_AdminComponents::grid/cell/inline_edit.phtml` (for instance via the `cell_templates` block argument).
 
 Buttons of actions that the current admin user is not allowed to perform (like **Delete**) are hidden. Mass actions and cell actions point to your own controllers, so protect those via their `ADMIN_RESOURCE`.
